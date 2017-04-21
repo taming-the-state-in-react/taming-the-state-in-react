@@ -1,6 +1,6 @@
 # Local State Management in React
 
-The book chapter will guide you through state management in React without taking any external state management library into account. You will revisit state management in React with `this.setState()` and `this.state`. It enables you already to build large applications.
+The book chapter will guide you through state management in React without taking any external state management library into account. You will revisit state management in React with `this.setState()` and `this.state`. It enables you already to build large applications without complating and overengineering your application.
 
 By revisiting the topic, you will get to know how to use the local state in React. The chapters makes also sure that you understand the principle of controlled components to leverage the principle of a single source of truth. In addition, you will be taught about the overarching philosophy of the unidirectional data flow in the React ecosystem.
 

@@ -1,7 +1,7 @@
 {frontmatter}
 
-foreword/about-the-author.md
 foreword/introduction.md
+foreword/about-the-author.md
 foreword/requirements.md
 foreword/faq.md
 
