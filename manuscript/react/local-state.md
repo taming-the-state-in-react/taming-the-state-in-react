@@ -105,10 +105,10 @@ class Counter extends React.Component {
       <div>
         <p>{this.state.counter}</p>
         <button type="button" onClick={this.onIncrement}>
-          Increase
+          Increment
         </button>
         <button type="button" onClick={this.onDecrement}>
-          Decrease
+          Decrement
         </button>
       </div>
     );
@@ -145,10 +145,10 @@ function CounterPresenter(props) {
     <div>
       <p>{props.counter}</p>
       <button type="button" onClick={props.onIncrement}>
-        Increase
+        Increment
       </button>
       <button type="button" onClick={props.onDecrement}>
-        Decrease
+        Decrement
       </button>
     </div>
   );
@@ -194,7 +194,6 @@ class CounterContainer extends React.Component {
     />
   }
 }
-
 ~~~~~~~~
 
 It is not by accident that the suffixes in the naming of both `Counter` components is `Container` and `Presenter`. It is called the [container and presentational component pattern](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0). If you are not aware of it, you should definetly read about it. It is a widely used patetrn, where the container component deals with "How things work" and the presenter component deals with "How things look".
@@ -217,7 +216,7 @@ When you start to use React, it might be difficult to identifiy props and state.
 
 * Are the properties deriveable from local state or props? If yes, you don't need it as state, because you can derive it. If you would allocate extra state, the state has to be managed and can get out of sync when you miss to derive it at some point.
 
-## Form State in React
+## Form State
 
 A common use case in modern applications is to use HTML forms. For instance, you might need to retrieve user information like a name or credit card number or submit a search query to an external API. Forms are used everywhere in modern applications.
 
@@ -738,15 +737,175 @@ Sometimes you have to refactor components from a functional stateless component 
 
 ## Functional State
 
-In all of the last chapters I made a mistake when using `this.setState()`. In its first version, the `this.setState()` takes an object to update the state. The
+In all recent chapters, I made a mistake when using `this.setState()`. Let me first explain what's wrong about its usage and second tell you why I didn't correct it immediately.
 
+It is important to know that `this.setState()` is executed asynchronously. React batches all the state updates. It executes them after each other for performance optimization.
+
+In its first version, the `this.setState()` method takes an object to update the state. The merging of the object is shallow. For instance, when updating `authors` in a state object of `authors` and `articles`, the `articles` stay intact.
+
+The previos example have used this approach already.
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+this.setState({
+  ...
+});
+~~~~~~~~
+
+In its second version, the `this.setState()` method takes a function. The function has the previous state and props at its disposal in the function signature.
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+this.setState((prevState, props) => ({
+  ...
+}));
+~~~~~~~~
+
+What's the flaw in using `this.setState()` with an object? In several examples in the last chapters, the state was updated based on the previous state or props. But since `this.setState()` executes asynchronously, the state or props usedm when the method is finally executed, could be stale properties. It could lead to bugs in your local state management, because you would update the state with stale properties. When using the functional approach to update the state, the correct state and props are used when the function executes asynchronously.
 
 Why didn't I correct the mistake immediately?
 
-- from object to functional state
-- avoid stale state
-- defintion stale state
-- testable, pure, ...
+First, it makes sense to know about your options. Would I have corrected it immediatly, you wouldn't have interlaized the `this.setState()` approach with an object. You would always default to the functional approach. However, the fact that `this.setState()` executes asynchronously is important. You should not miss this learning and the delayed explaination of this fact made you probably more aware of it.
+
+After all you might wonder, when to use the object and when to use the function in `this.setState()`? The rules of thumb:
+
+* Always use `this.setState()` with a function when you depend on previous state or props.
+* Only use `this.setState()` with an object when you don't depend on previous properties.
+* In case you are unsure, default to use `this.setState()` with a function.
+
+What are the benefits of using the functional approach of updating the state? Let's revisit one of the recent examples.
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+import React from 'react';
+
+class CounterContainer extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      counter: 0
+    };
+  }
+
+  onIncrement = () => {
+    this.setState({
+      counter: this.state.counter + 1
+    });
+  }
+
+  onDecrement = () => {
+    this.setState({
+      counter: this.state.counter - 1
+    });
+  }
+
+  render() {
+    return <CounterPresenter
+      counter={this.state.counter}
+      onIncrement={this.onIncrement}
+      onDecrement={this.onDecrement}
+    />
+  }
+}
+~~~~~~~~
+
+To make the mistake clear again, executing the `onIncrement` callback multiple times in a row, could already lead to a bug. Because the increment (the decrement too) depends on the previous state, it would use stale state when the asynchronous update wasn't perfomed.
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+onIncrement() // previous state: { counter: 0 }
+onIncrement() // previous state: { counter: 0 }
+onIncrement() // previous state: { counter: 0 }
+// updated state: { counter: 1 }
+// instead of: { counter: 3 }
+~~~~~~~~
+
+This becomes more error prone when multiple `this.setState()` methods depend on the previous state and are implcitly connected to other sub states.
+
+Refactoring the example to use the functional approach would fix the bug.
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+import React from 'react';
+
+class CounterContainer extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      counter: 0
+    };
+  }
+
+  onIncrement = () => {
+    this.setState(prevState => ({
+      counter: prevState.counter + 1
+    }));
+  }
+
+  onDecrement = () => {
+    this.setState(prevState => ({
+      counter: prevState.counter - 1
+    }));
+  }
+
+  render() {
+    return <CounterPresenter
+      counter={this.state.counter}
+      onIncrement={this.onIncrement}
+      onDecrement={this.onDecrement}
+    />
+  }
+}
+~~~~~~~~
+
+The functional approach opens up two more benefits. First, the function that updates the state is pure. There are no side-effects. The function always will return the same output when given the same input. It makes it predicable and uses the benefits of functional programming. Second, since the function is pure, it can be tested easily in an unit test and independently from the component. It gives you the opportunity to test your local state updates. You only have to extract the function from the component.
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+import React from 'react';
+
+# leanpub-start-insert
+const incrementUpdate = prevState => ({
+  counter: prevState.counter + 1
+});
+
+const decrementUpdate = prevState => ({
+  counter: prevState.counter - 1
+});
+# leanpub-end-insert
+
+class CounterContainer extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      counter: 0
+    };
+  }
+
+# leanpub-start-insert
+  onIncrement = () => {
+    this.setState(incrementUpdate);
+  }
+
+  onDecrement = () => {
+    this.setState(decrementUpdate);
+  }
+# leanpub-end-insert
+
+  render() {
+    return <CounterPresenter
+      counter={this.state.counter}
+      onIncrement={this.onIncrement}
+      onDecrement={this.onDecrement}
+    />
+  }
+}
+~~~~~~~~
+
+Now you could export the pure functions to test them. After all, that's what makes the functional approach so powerful. It could lead to an shift of how we update local state. The default approach suggested by the official documentation is using `this.setState()` with an object. But in the near future the default could shift towards using the functional approach.
 
 ## Higher Order Components for Local State Management
 
