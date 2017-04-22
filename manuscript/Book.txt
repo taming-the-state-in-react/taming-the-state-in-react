@@ -4,11 +4,11 @@ foreword/introduction.md
 foreword/about-the-author.md
 foreword/requirements.md
 foreword/faq.md
+foreword/how-to-read-the-book.md
 
 {mainmatter}
 
 react/local-state.md
-react/local-state-sophisticated.md
 
 redux/...
 
