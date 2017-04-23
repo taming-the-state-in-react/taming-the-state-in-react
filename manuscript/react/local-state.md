@@ -713,13 +713,13 @@ function byQuery(query) {
   return function(item) {
     return !query ||
       item.name.toLowerCase().includes(query.toLowerCase());
-  }
+  };
 }
 
 function byArchived(archivedItems) {
   return function(item) {
     return !archivedItems.includes(item.id);
-  }
+  };
 }
 ~~~~~~~~
 
@@ -909,31 +909,290 @@ Now you could export the pure functions to test them. After all, that's what mak
 
 ## Higher Order Components for Local State Management
 
-- setState and this.state in a higher order component
-- read more how to learn HOCs (REF to blog TODO)
+Higher order components (HOCs) can be used for a handful of use cases. One use case would be to [enable an elegant way of conditional rendering](https://www.robinwieruch.de/gentle-introduction-higher-order-components/). But this book is about state management, so why not use it do manage the local state of a component?
 
-## Persistent Local State
+Let's revisit an adjusted example of the `Archive a List`-example.
 
-- without using a backend, people might wonder how to facilitate some kind of persistent state
-- when someone exits your application by closing the browser, but when coming back using the same state
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+import React from 'react';
 
-- is called **hydration and dehydration of the state**, you might hear that more often when using immutableJs, server side rendering
+class ArchiveableList extends React.Component {
+  constructor(props) {
+    super(props);
 
-- local storage, session storage
+    this.state = {
+      archivedItems: []
+    };
+  }
 
-## Local State as a Cache
+  onArchive = (id) => {
+    const { archivedItems } = this.state;
 
-- by key value map
+    this.setState({
+      archivedItems: [...archivedItems, id]
+    });
+  }
 
-# The Lie of Local State Management
+  render() {
+    const { list } = this.props;
+    const { archivedItems } = this.state;
+
+    const filteredList = list
+      .filter(byArchived(archivedItems));
+
+    return (
+      <ul>
+        {filteredList.map(item =>
+          <li key={item.id}>
+            <span>
+              {item.name}
+            </span>
+            <span>
+              <button
+                type="button"
+                onClick={() => onArchive(item.id)}
+              >
+                Archive
+              </button>
+            </span>
+          </li>
+        )}
+      </ul>
+    );
+  }
+}
+
+function byArchived(archivedItems) {
+  return function(item) {
+    return !archivedItems.includes(item.id);
+  };
+}
+~~~~~~~~
+
+The `ArchiveableList` has two purposes. On the one hand, it is a pure presenter that shows the items in a list. On the other hand, it is stateful container that keeps track of the archived items. Obviously you could split it up into representation and logic thus into presentational and container component. Another approach could be to transfer the logic, mainly the local state management, into a higher order component.
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+import React from 'react';
+
+function byArchived(archivedItems) {
+  return function(item) {
+    return !archivedItems.includes(item.id);
+  };
+}
+
+function withArchive(Component) {
+  class WithArchive extends React.Component {
+    constructor(props) {
+      super(props);
+
+      this.state = {
+        archivedItems: []
+      };
+    }
+
+    onArchive = (id) => {
+      const { archivedItems } = this.state;
+
+      this.setState({
+        archivedItems: [...archivedItems, id]
+      });
+    }
+
+    render() {
+      const { list } = this.props;
+      const { archivedItems } = this.state;
+
+      const filteredList = list
+        .filter(byArchived(archivedItems));
+
+      return <Component
+        list={filteredList}
+        onArchive={this.onArchive}
+      />
+    }
+  }
+
+  return WithArchive;
+}
+
+function List({ list, onArchive }) {
+  return (
+    <ul>
+      {list.map(item =>
+        <li key={item.id}>
+          <span>
+            {item.name}
+          </span>
+          <span>
+            <button
+              type="button"
+              onClick={() => onArchive(item.id)}
+            >
+              Archive
+            </button>
+          </span>
+        </li>
+      )}
+    </ul>
+  );
+}
+~~~~~~~~
+
+Now you can compose a list facilitating component with the functionality to archive items in a list.
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+import React from 'react';
+
+function byArchived(archivedItems) {
+  ...
+}
+
+function withArchive(Component) {
+  ...
+}
+
+function List({ list, onArchive }) {
+  ...
+}
+
+const ListWithArchive = withArchive(List);
+
+function App({ list }) {
+  return <ListWithArchive list={list} />
+}
+~~~~~~~~
+
+# Persistence in State
+
+You might wonder how to persist the local state? The question applies for local state management, but in the following also for sophisticated state management.
+
+Obviously you would need a backend with a database to store the state. Extracting the state from your application is called **dehydrating state**. Now, every time your application bootstraps, you would retrieve the state from the backend that keeps it in a database. Once the state arrives asynchronously in your request, you would **rehydrate state** into your application.
+
+While the dehydration of the state could happen any time your application is running, the rehydration would take place when your components mount. The best place to do it would be the `componentDidMount()` lifecycle method. Take for example the `ArchiveableList` component. It could retrieve all the already archived ids of items in the when mounting and rehydrating it to the local state.
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+import React from 'react';
+
+class ArchiveableList extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      archivedItems: []
+    };
+  }
+
+  onArchive = (id) => {
+    ...
+  }
+
+  componentDidMount() {
+    fetch('path/to/archived/items')
+      .then(response => response.json())
+      .then(archivedItems => this.setState(rehydrateArchivedItems(archivedItems)));
+  }
+
+  render() {
+    ...
+  }
+}
+
+function rehydrateArchivedItems(archivedItems) {
+  return function(prevState) {
+    return {
+      archivedItems: [
+        ...prevState.archivedItems,
+        ...archivedItems
+      ]
+    };
+  };
+}
+~~~~~~~~
+
+Now, every time the component initializes, the persistent archived items will get rehydrated into the application state.
+
+The dehydration could happen anytime, but to avoid inconstencies, in the example of archived items, the dehydration would take place when an item gets archived. It is an usual request to the backend to save the item as being archived.
+
+The rehydration and dehydration of state are most often unconcious steps in modern applications. It is common sense to retrieve all the necessary data from the backend when your application bootstraps and to update the data when something has changed. But you can keep the rehydration and dehydration of state in mind to keep your application state in sync with your backend data as single source of truth.
+
+Is there a more lightweight solution compared to a backend application? You could use the native browser API. To be more specific, most of the modern browser have a storage functionality to persist data. It is the lightwight version of a database in the browser. Obviously, it is only visible to the user of the browser and cannot be distributed to other users.
+
+Modern browsers have access to the [local storage](https://developer.mozilla.org/en/docs/Web/API/Window/localStorage) and [session storage](https://developer.mozilla.org/en/docs/Web/API/Window/sessionStorage). Both work the same, but there is one difference in their functionalities. While the local storage keeps the data even when the browser is closed, the session storage expires once the browser closes.
+
+Both storages work by using key value pairs.
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+// Save data to localStorage
+localStorage.setItem('key', 'value');
+
+// Get saved data from localStorage
+var data = localStorage.getItem('key');
+
+// Remove saved data from localStorage
+localStorage.removeItem('key');
+
+// Remove all saved data from localStorage
+localStorage.clear();
+~~~~~~~~
+
+You can substitute the `localStorage` with the `sessionStorage`. In the end, you can apply them the same way as you did in the previous `ArchiveableList` component that used the backend request to retrieve the data. Only that the `ArchiveableList` component would uss the storage instead of the backend.
+
+# Caching in State
+
+Same as the strategy for keeping a persistent state, the caching applies as well for sophisticated state management. But the following will demonstrate it by using local state management.
+
+Imagine your application has an interface to search for popular stories on a news platform. The news platform has an open API that you can use to retrieve those popular stories. Your own application only has a search field and a list of popular stories once they have been searched.
+
+Next imagine that you make you first request to search about "React". You are not satisfied with the search result, because you wanted to be more specific, and search again for "Redux". Still, no satisfying search result. The search result for "Redux" is still visible in your application. Now you want to head back to search for "React" stories again. Your application makes a third request to retrieve the "React" stories. But you know that you already searched for it before. That's where caching comes into play. The third request could be avoided when the application would have cached the search results.
+
+Such a fluctuant cache solution is not difficult to implement with a local state. Bear in mind that it would work out with a sophisticated state too. When searching for the stories, you already have an unique identifier which you can use as a key in an object to store the search result. The unique identifier is your search term. It would be either "React" or "Redux" when considereing the previous example. The value corresponending to the key would be the search result. In the example it would be the popular stories. After all, your cache object in the local state would look similar to this:
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+this.state = {
+  ...
+  searchCache: {
+    react: [...],
+    redux: [...],
+  }
+}
+~~~~~~~~
+
+Every time your application performs a search request, the key value pair in the cache object in your local state would be filled. Before you make a new request, the cache would be checked if the search term is already available as a key. If the key is available, the request would be surpressed and the cache result would be used instead. If the key is not available, a request would be made. After the request succeeded, the search term would be saved as key and the search result would be saved as value for the key in the local state.
+
+The book doesn't give you an in-depth implementation of the cache solution. If you did read [the Road to learn React](https://www.robinwieruch.de/the-road-to-learn-react/), you will already know how to implement such a cache. In one of its lessons, the book uses a cache in a more elaborated way to cache paginated search results efficiently.
+
+# The Lies of Local State Management
 
 State management is a controversial topic. You will find a ton of discussion and opinions around it. You will find it as reoccuring topic not only in React, but also in other solutions for modern applications. The book is my attempt to give you consistency for these opinions and enable you to learn state management step by step.
 
-The following statement is already controversial: The local state in React is sufficient for most of your application. You will not need a sophisticated state managament solutions like Redux or MobX.
+The following statement is controversial: *The local state in React is sufficient for most of your application. You will not need a sophisticated state managament solutions like Redux or MobX.*
 
-The next statement might be controversial too: Once you use a sophisitcated state management
+Personally I agree with the statement. You can build quite large applications with local state only. You should be aware of best practices and patterns to scale it, but it is doable. You can spare a lot of application complextity by using local state only. Once your application scales, you might want to apply sophisticaed state management.
+
+The next statement might be controversial too: *Once you have a sophisitcated state management in place, you shouldn't use local state anymore.*
+
+Personally I disagree with the statement. Not every state should live in a sophisticated state management. There are use cases where local state is applicable in large applications. Especially when considering entity state and view state: The view state can most often live in a local state, because it is not shared widely across the application. But the entity state can live in a sophisticated state, because it is shared across multiple components. It might need to be accessible and modifyable by multiple components across your application.
+
+Last but not least, another controversial statement: *You don't need local state, learn Redux instead when you learn React.*
+
+Personally I strongly disagree with the statement. If you want to develop applications with React, you should certainly be aware of local state in React. You should have build applications with it before you start to learn sophisticated state management solutions like Redux. You need to run into local state management problems before you get the help of sophisticated state management solutions.
+
+These were only three controversial statemanemts. But there are way more opinions around the topic. In the end, you should make your own experiences to get to know what makes sense for you.
 
 # The Flaw of Local State Management
 
-- so what's the problem about local state management you might wonder
-- it doesnt scale at some point
+In order to come to a conclusion of local state management there is one open question: What's the problem with local state management? Developers wonder why they need sophisticated state management in order to tame their state. In other scenarios people never wonder about it, because they learned sophistiacted state management from the beginnign without using local state. That might be not the best approahc in the first place, because you have to experience a problem before you use a solution for it. You can't skip the problem and use the solution right away.
+
+So what's the problem in local state management? It doesn't scale in large applications. It doesn't scale implementation wise, but it might doesn't scale in a team of developers too.
+
+Implementaiton wise it doesn't scale because too many components across your application share state. They need to access the state, need to modify it or need to remove it. In a small applications these components are not far away from each other. You can apply best practices like lifting state up and down to keep the state management clean. At some point components are too far away from each other. The state needs to be lifted up the component tree all the way up. Still, child components could be multiple levels below the stateful component. The state would creep through all components in between even though these component don't need access to it. It becomes a state soup.
+
+Local state can become unmaintanable. It is already difficult for one person to keep the places in mind where local state is used in the component tree. When a team of developers implements one application, it becomes even more difficult to keep track of it. Usually it is not neccessary to keep track about the local state. In a perfect world, everyone would lift state up and down to keep it clean. In the real world, code doesn't get refactored as often as it should be. The state creeps through all component even though they don't need it.
+
+One could argue that the difficult maintainablity applies for sophisticaed state as well. That's true, there are pitfalls again that people need to avoid to keep the state management maintainable. But at least the state management is gathered at one place to maintain it. It doesn't get too mixed up with the view layer. There are only bridges that connect the view with the state.
