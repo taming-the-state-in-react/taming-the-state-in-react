@@ -1,38 +1,42 @@
 # Local State Management in React
 
-This chapter will guide you through state management in React without taking any external state management library into account. You will revisit state management in React with `this.setState()` and `this.state`. It enables you already to build large applications without complating and overengineering it.
+This chapter will guide you through state management in React without taking any external state management library into account. You will revisit state management in React with only `this.setState()` and `this.state`. It enables you already to build large applications without complicating and overengineering it. Not every application needs sophisticated state management in the first place.
 
-In the beginning the book tries to come up with defintions to build up on a common vocabulary for state management. It shoulw help you to follow the book more easily when reading it without leaving space for confusion.
+In the beginning, the book gives you defintions to build up on a common vocabulary for state management. It should help you to follow the book effortless when reading it without leaving space for confusion.
 
-By revisiting the topic of local statement in React, you will get to know how to use the local state in React. The chapter makes also sure that you understand the controlled components to leverage the principle of a single source of truth. In addition, you will be taught about the overarching philosophy of the unidirectional data flow in the React ecosystem.
+By revisiting the topic of local state management in React, you will get to know how to use the local state in a React application. The chapter guides you through important topics when dealing with state in React: controlled components, unidirectional data flow and asynchronous state. It will teach you all these neccessary topics before diving into state managament with an external library.
 
-After revisiting the local state, you will get to know best practices and patterns to scale your state management. Even though you are not dependent on an external state management solution, you can make use of those practices to scale your local state management by using `this.setState()` and `this.state` only.
+After revisiting the local state, you will get to know best practices and patterns to scale your state management. Even though you are not dependent into external state management solutions yet, you can use these to scale local state management or state management with external stata management solutions.
 
-At the end of the chapter, you will get to know the limits of local state management in React. The chapter revisits topics that you might already know from other React learning ressources. It gives you an introduction to the local state by revisiting the usage, the best practices and patterns, and concludes in the scaling problem of
+At the end of the chapter, you will get to know the limits of local state management in React. The topic itself is highly discussed in the community as you will learn in one of the final lessons of this chapter. The chapter concludes in the problem of local state managenement to give you a motivation to dive into one of the external state management solutions.
 
 # Defitnions in State Management
 
-In the beginning, I want to give you introductory defintions to state in modern applications. With these definitions at your hands, I want to avoid that you get confused while reading the book.
+In the beginning, I want to give you defintions to state managament in modern applications. With these definitions at your disposal, I want to avoid that you get confused while reading the book. They should clearly seperate the different domains.
 
 ## State
 
-State is a broad word in modern applications. When speaking about application state, it could be anything that needs to live and be modified in the browser. It could be data that was retrieved from a backend application or a view state in the application, for instance, when toggling a popup to show additional information.
+State is a broad word in modern web applications. When speaking about application state, it could be anything that needs to live and be modified in the browser. It could be data that was retrieved from a backend application or a view state in the application, for instance, when toggling a popup to show additional information.
 
-Sometimes I will refer to the former one as **entity state** and to the latter one as **view state**.
+Sometimes I will refer to the former one as **entity state** and to the latter one as **view state**. Entitiy state is data retrieved from the backend. It could be a list of authors or the user object describing the logged in user. View state on the other hand doesn't need to be stored in the backend. It is used when you open up a modal or navigate through your application.
 
-When speaking about managing the state, meaning initializing, modifying and deleting state, it will be coined under the umbrella term of state management. Yet state management is a much broader topic. While the mentioned actions are low-level operations, almost implementation details, the architecture, best practices and patterns around state management stay abstract. **State management** invoves all these different topics.
+When speaking about managing the state, meaning initializing, modifying and deleting state, it will be coined under the umbrella term of state management. Yet state management is a much broader topic. While the mentioned actions are low-level operations, almost implementation details, the architecture, best practices and patterns around state management stay abstract. **State management** invoves all these topics to keep your application state consistent.
 
 ## The Size of State
 
 State can be an atomic object or one global object. When speaking about the view state that only determines if a popup is open or closed, it is an **atomic state object**. When the whole application state can be derived from on object, which includes all the atomic state objects, it is called a **global state object**.
 
-For instance, in games most often the whole application state, the global state object, is called a game object. You can derive the whole state for your game from it. It can be the position of your character in a role play game but also your inevntory of items of your character. Imagine that you only need to lead the application itself and use one global state object to derive everything you need for your application. In a later chapter, you will get to know how this can help for server-side rendering. (TODO check if you really do it!)
+For instance, in games most often the whole application state, the global state object, is called a game object. You can derive the whole state for your game from it. It can be the position of your character in a role play game but also your inevntory of items of your character. Yet it can be the positions of your enemies approaching your character. Imagine that you only need to load the application itself and use one global state object to derive everything you need for your application. Later on you will learn about it as dehydration and rehydration of state. In a later chapter, you will get to know how this can help for server-side rendering. (TODO check if you really do it!)
 
-The state can be differentiated into **local state** and **sophisticated state**. The management of this state is called **local state management** and **sophisticated state management**.
+The state itself can be differentiated into **local state** and **sophisticated state**. The management of this state is called **local state management** and **sophisticated state management**.
 
 ## Local State
 
-The naming local state is widely accepted in the web development community. Sometimes it can be referenced as internal component state.
+The naming local state is widely accepted in the web development community.
+
+Other terms are:
+
+* internal component state
 
 Local state is bound to components. It is not stored somewhere else like in sophisticated state management. You will learn about the sophisticated state later. In React the local state is embraced by using `this.state` and `this.setState()`. But it can have a different implementation and usage in other SPA solutions.
 
