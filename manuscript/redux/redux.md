@@ -31,6 +31,7 @@
 
 ## Command vs. Event Pattern
 
+- single vs multiple reducers
 - to close to command should be evaluated as local state
 
 ## State Keys
@@ -85,4 +86,11 @@
 
 - sevrer side rendering
 - sockets
+
+## A Practical App
+
+- show off normalizr
+- show off routing (? maybe too much)
+- show off command (only one reducer cares, but refactor it to local state) vs event (multiple reducers care) pattern
+
 
