@@ -93,4 +93,3 @@
 - show off routing (? maybe too much)
 - show off command (only one reducer cares, but refactor it to local state) vs event (multiple reducers care) pattern
 
-
