@@ -18,17 +18,23 @@ In the beginning, I want to give you defintions to state managament in modern ap
 
 State is a broad word in modern web applications. When speaking about application state, it could be anything that needs to live and be modified in the browser. It could be data that was retrieved from a backend application or a view state in the application, for instance, when toggling a popup to show additional information.
 
-Sometimes I will refer to the former one as **entity state** and to the latter one as **view state**. Entitiy state is data retrieved from the backend. It could be a list of authors or the user object describing the logged in user. View state on the other hand doesn't need to be stored in the backend. It is used when you open up a modal or navigate through your application.
+Sometimes I will refer to the former one as **entity state** and to the latter one as **view state**. Entitiy state is data retrieved from the backend. It could be a list of authors or the user object describing the user that is currently logged in to the application. View state, on the other hand, doesn't need to be stored in the backend. It is used when you open up a modal or navigate through your application.
 
 When speaking about managing the state, meaning initializing, modifying and deleting state, it will be coined under the umbrella term of state management. Yet state management is a much broader topic. While the mentioned actions are low-level operations, almost implementation details, the architecture, best practices and patterns around state management stay abstract. **State management** invoves all these topics to keep your application state consistent.
 
 ## The Size of State
 
-State can be an atomic object or one global object. When speaking about the view state that only determines if a popup is open or closed, it is an **atomic state object**. When the whole application state can be derived from on object, which includes all the atomic state objects, it is called a **global state object**.
+State can be an atomic object or one large aggregated object. When speaking about the view state that only determines if a popup is open or closed, it is an **atomic state object**. When the whole application state can be derived from on aggregated object, which includes all the atomic state objects, it is called a **global state object**. A global state object most often implies that it is accessible from everyone.
 
-For instance, in games most often the whole application state, the global state object, is called a game object. You can derive the whole state for your game from it. It can be the position of your character in a role play game but also your inevntory of items of your character. Yet it can be the positions of your enemies approaching your character. Imagine that you only need to load the application itself and use one global state object to derive everything you need for your application. Later on you will learn about it as dehydration and rehydration of state. In a later chapter, you will get to know how this can help for server-side rendering. (TODO check if you really do it!)
+For instance, in games most often the whole application state, the global state object, is called a game object. You can derive the whole state for your game from it. It can be the position of your character in a role play game but also your inevntory of items of your character. In addition it could be the positions of your enemies approaching your character. Imagine that you only need to load the application itself and use one global state object to derive everything you need for your application. Later on, you will learn about it as dehydration and rehydration of state. In adition, you will get to know how this can help for server-side rendering. (TODO check if you really do it!)
 
 The state itself can be differentiated into **local state** and **sophisticated state**. The management of this state is called **local state management** and **sophisticated state management**.
+
+## Changing the State
+
+- state is never final
+- it can be changed, modified, altered, manipulated
+- the change happens in mutable or immutable ways, functional or non functional approaches
 
 ## Local State
 
@@ -38,19 +44,30 @@ Other terms are:
 
 * internal component state
 
-Local state is bound to components. It is not stored somewhere else like in sophisticated state management. You will learn about the sophisticated state later. In React the local state is embraced by using `this.state` and `this.setState()`. But it can have a different implementation and usage in other SPA solutions.
+Local state is bound to components. It lives in the view layer. It is not stored somewhere else. That's why it is called local state.
+
+In React the local state is embraced by using `this.state` and `this.setState()`. But it can have a different implementation and usage in other SPA solutions. The book explains and showcases the local state in React before diving into sophisticated state management.
 
 ## Sophisticated State
 
-I cannot say that it is widely agreed on to call it sophisticated state in the web development dommunity. However, at some point you need a term to distinguish it from local state. That's why I often refer to it as sophisticated state. In other resources you might find it reffered as external state, because it lives outside of the local component.
+I cannot say that it is widely agreed on to call it sophisticated state in the web development community. However, at some point you need a term to distinguish it from local state. That's why I often refer to it as sophisticated state. In other resources you might find it reffered as **external state**, because it lives outside of the local component or outside of the view layer.
 
-- as mentioned, it the topic of sophisticated state management with Redux and MobX will come up in later chapters of the book
-- sophistacted state management needs to be applied at some point to scale your application
-- otherwise you will loose control over your state, because it grows through each component
+Sophistaicated state is most often outsourced to libraries that are indepnendent to the view layer. But most often they provide a connection to access and alter them from the view layer. When using only local state in a scaling application, you will allocate too much state along your components in the view layer. However, at some point you want to separate these concerns. That's were sophistatced state comes into play.
+
+Two libraries that are known for handling sophistated state are known as Redux and MobX. Both libraries will be explained, discussed and showcased in this book.
+
+## Visibility of State
+
+- local only bound to the component instance and child components in the view layer
+- sophistaticated state is most often globally accesible
+
+- because of that the responsibilites are coarse grained clear: view state belongs into the local state and entitity state belongs into the global state obect
 
 # Local State in React
 
-How does local state look like in a React component?
+The book uses React as view layer to showcase examples. The following part focuses on the local state before the book dives into sophistaicated state with Redux and MobX.
+
+So, how does local state look like in a React component?
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -75,9 +92,9 @@ class Counter extends React.Component {
 }
 ~~~~~~~~
 
-The example shows a `Counter` component that has a `counter` property in the state object. It is initiliazed with the value 0 when the component gets instantiated. The `counter` property from the local state object is used in the render method of the component to show the current value.
+The example shows a `Counter` component that has a `counter` property in the state object. It is initiliazed with a value of 0 when the component gets instantiated by its constructor. In addition, the `counter` property from the local state object is used in the render method of the component to display the current value.
 
-There is no state manipulation in place yet. You are never allowed to alter the state directly: `this.state.counter = newValue`. You have to use the React component API to change to state explicitly by using: `this.setState()`.
+There is no state manipulation in place yet. Before you start to manipulate your state, you should know that you are never allowed to alter the state directly: `this.state.counter = newValue`. Instead, you have to use the React component API to change the state explicitly by using: `this.setState()`.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -122,23 +139,23 @@ class Counter extends React.Component {
 
 Now the button `onClick` handler should invoke the class methods to alter the state by either incrementing or decrementing the counter value.
 
-The update functionality with `this.setState()` is performing a shallow merge of objects. What does it mean? Imagine you would have the following state.
+The update functionality with `this.setState()` is performing a **shallow merge** of objects. What does a shallow merge mean? Imagine you would have the following state.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
 this.state = {
   authors: [...],
-  articles: [...]
+  articles: [...],
 };
 ~~~~~~~~
 
-When updating the state only partly, for instance the authors by doing `this.setState({ authors: [{ name: 'Robin', id: '1' }] })`, the articles are left intact. It only updates the `authors` without touching the `articles`.
+When updating the state only partly, for instance the authors by doing `this.setState({ authors: [{ name: 'Robin', id: '1' }] })`, the articles are left intact. It only updates the `authors` without touching the `articles`. That's a shallow merge.
 
 ## Stateful and Stateless Components
 
 Local state can only be used in React ES6 class components. The component becomes a **stateful component** when state is used. Otherwise it can be called **stateless component**.
 
-On the other hand, **functional stateless components** have no state, because, like the name implies, they are only functions and thus are stateless. In a statless component state can only be passed as props from a parent component. In addition, callbacks could be passed to alter the state in the parent component.
+On the other hand, **functional stateless components** have no state, because, like the name implies, they are only functions and thus are stateless. In a statless component state can only be passed as props from a parent component. In addition, callback functions could be passed to alter the state in the parent component.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -159,11 +176,11 @@ function CounterPresenter(props) {
 }
 ~~~~~~~~
 
-Now a value from state above would be presented in a functional stateless component. However, the functional stateless component is not aware if the passed props are state, props or some other derived value from above. The origin of the props doesn't need to be in the parent component at all, it could be somewhere higher up the component tree.
+Now a property from the parent state would be presented in a functional stateless component. However, the functional stateless component is not aware whether the passed properties are state, props or some other derived properties. The origin of the props doesn't need to be in the parent component after all, it could be somewhere higher up the component tree. The parent component would only pass or manipulate the properties along the way.
 
-After all, the callback functions in the stateless component would make it possible to alter the state somewhere above. Once the state was manipulated somewhere above, the new state flows down into the child component as props again. The new value would be displayed correctly.
+After all, the callback functions in the stateless component would make it possible to alter the state somewhere above in one of the parent components. Once the state got manipulated, the new state flows down into the child component as props again. The new value would be displayed correctly, because the render method of the child component runs again with the new props.
 
-That's one simple example how local state from one component can traverse down the component tree. To make the example with the functional stateless component complete, let's quickly show how a potential parent component would look like. It is obviously a React ES6 class component, because it has to manage the local state.
+That's one simple example how local state from one component can traverse down the component tree. To make the example with the functional stateless component complete, let's quickly show how a potential parent component that has state would look like. It is a React ES6 class component, because it has to manage the local state.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -201,6 +218,8 @@ class CounterContainer extends React.Component {
 ~~~~~~~~
 
 It is not by accident that the suffixes in the naming of both `Counter` components is `Container` and `Presenter`. It is called the [container and presentational component pattern](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0). If you are not aware of it, you should definetly read about it. It is a widely used patetrn, where the container component deals with "How things work" and the presenter component deals with "How things look".
+
+- TODO dive depper into container and presenter pattern?
 
 ## Props vs. State
 
@@ -1073,7 +1092,7 @@ function App({ list }) {
 
 You might wonder how to persist the local state? The question applies for local state management, but in the following also for sophisticated state management.
 
-Obviously you would need a backend with a database to store the state. Extracting the state from your application is called **dehydrating state**. Now, every time your application bootstraps, you would retrieve the state from the backend that keeps it in a database. Once the state arrives asynchronously in your request, you would **rehydrate state** into your application.
+You would need a backend with a database to store the state. Extracting the state from your application is called **dehydrating state**. Now, every time your application bootstraps, you would retrieve the state from the backend that keeps it in a database. Once the state arrives asynchronously in your request, you would **rehydrate state** into your application.
 
 While the dehydration of the state could happen any time your application is running, the rehydration would take place when your components mount. The best place to do it would be the `componentDidMount()` lifecycle method. Take for example the `ArchiveableList` component. It could retrieve all the already archived ids of items in the when mounting and rehydrating it to the local state.
 
@@ -1170,6 +1189,14 @@ this.state = {
 Every time your application performs a search request, the key value pair in the cache object in your local state would be filled. Before you make a new request, the cache would be checked if the search term is already available as a key. If the key is available, the request would be surpressed and the cache result would be used instead. If the key is not available, a request would be made. After the request succeeded, the search term would be saved as key and the search result would be saved as value for the key in the local state.
 
 The book doesn't give you an in-depth implementation of the cache solution. If you did read [the Road to learn React](https://www.robinwieruch.de/the-road-to-learn-react/), you will already know how to implement such a cache. In one of its lessons, the book uses a cache in a more elaborated way to cache paginated search results efficiently.
+
+# Hands On: Snake with Local State
+
+- snake sample application
+
+# Hands On: Snake with Higher Order Components
+
+- after finish, add extension which uses higher order functions
 
 # The Lies of Local State Management
 
