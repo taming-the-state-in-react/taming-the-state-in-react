@@ -8,3 +8,6 @@
 
 - hands on chapters that build up on each other, (can be found as video course, if you have bought the big package)
 - please make notes while you read the book to give me feedback afterward about the good and the bad parts. I am highly interested ti improve the book continously
+
+- explain roten pfaden durch bucg
+- React is foundation, but could be exchange by other libraries, frameworks

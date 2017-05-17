@@ -9,9 +9,13 @@
 
 - TODO introduction: http://blog.isquaredsoftware.com/presentations/2017-02-react-redux-intro/#/58 or check if it deals with react-redux
 
+- http://blog.isquaredsoftware.com/2017/05/idiomatic-redux-tao-of-redux-part-1/
+
 ## Redux from Scratch
 
 - read up several articles that already made this
+- https://news.ycombinator.com/item?id=14273549
+- https://zapier.com/engineering/how-to-build-redux/
 
 ## Basics in Redux
 
@@ -98,6 +102,7 @@
 ## Asynchronous Redux
 
 - so far only synchronrous actions
+- https://decembersoft.com/posts/what-is-the-right-way-to-do-asynchronous-operations-in-redux/
 
 ### Redux Thunk
 
@@ -107,6 +112,10 @@
 ### Redux Saga
 
 - mature applications
+
+### Redux Observable
+
+- comparison to Saga http://stackoverflow.com/questions/40021344/why-use-redux-observable-over-redux-saga
 
 ### Redux Cycle
 
