@@ -9,7 +9,7 @@
 
 ## Redux from Scratch
 
-- read up several articles
+- read up several articles that already made this
 
 ## Basics in Redux
 
@@ -28,6 +28,10 @@
 
 - dispatch
 - listen
+
+# Hands On: Redux Standalone
+
+- little hands on implemention
 
 ## Redux in React
 

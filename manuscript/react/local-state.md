@@ -153,7 +153,7 @@ When updating the state only partly, for instance the authors by doing `this.set
 
 ## Stateful and Stateless Components
 
-Local state can only be used in React ES6 class components. The component becomes a **stateful component** when state is used. Otherwise it can be called **stateless component**.
+Local state can only be used in React ES6 class components. The component becomes a **stateful component** when state is used. Otherwise it can be called **stateless component** even though it is a class component.
 
 On the other hand, **functional stateless components** have no state, because, like the name implies, they are only functions and thus are stateless. In a statless component state can only be passed as props from a parent component. In addition, callback functions could be passed to alter the state in the parent component.
 
@@ -217,7 +217,7 @@ class CounterContainer extends React.Component {
 }
 ~~~~~~~~
 
-It is not by accident that the suffixes in the naming of both `Counter` components is `Container` and `Presenter`. It is called the [container and presentational component pattern](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0). If you are not aware of it, you should definetly read about it. It is a widely used patetrn, where the container component deals with "How things work" and the presenter component deals with "How things look".
+It is not by accident that the suffixes in the naming of both `Counter` components are `Container` and `Presenter`. It is called the [container and presentational component pattern](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0). If you are not aware of it, you should definetly read about it. It is a widely used patetrn, where the container component deals with "How things work" and the presenter component deals with "How things look". In this case, the container component cares about the state while the presenter component only displays the counter value and provides click handler yet without knowing that these click handlers manipulate the state.
 
 - TODO dive depper into container and presenter pattern?
 
@@ -377,13 +377,33 @@ Now the value comes from the local state as single source of truth. It cannot ge
 
 In the previous example, you experienced a typically unidirectional data flow. The flux pattern, the underlying architecture for several sophisticated state management solutions, coined the term **unidirectional data flow**. You will get to know more about the flux pattern in a later chapter (TODO later chapter good english? do I really mention the flux pattern again? TODO). But the unidirectional data flow is embraced by local state in React too.
 
-State in React flows only in one direction. State gets updated by using `this.setState()` and is displayed in the render method by accessing `this.state`. Then again it can be updated via `this.setState()`.
+State in React flows only in one direction. State gets updated by using `this.setState()` and is displayed due to the render method by accessing `this.state`. Then again, it can be updated via `this.setState()`.
 
 The prvious example, where we embraced controlled components, shows the loop of the unidirectional data flow. The input field triggers the `onChange` handler when the input changes. The handler alters the local state. The changed local state triggers an update lifecylce of the component. The update lifecylce runs the render method again. The render method makes use of the updated state. The state flows back to the input field to make it a controlled component. The loop is closed. A new loop can be triggered by typing something in the input field.
 
-The unidirectional data flow makes state management predictable and maintainable. The best practice spread to other libraries and single page application frameworks too. In the previous generation of SPAs most often other mechanics were used.
+The unidirectional data flow makes state management predictable and maintainable. The best practice already spread to other state libraries, view layer libraries and single page application frameworks.
 
-For instance, in Angular 1.x you had to use two-way data binding in a Model-View-Controller (MVC) architecture. That means, once you changed the value in the view, let's say in an input field by typing something, the value got changed in the controller too. But it worked vice versa too. Once you changed the value in the controller programmatically, the view, to be more specific the inptu field, changed. In a growing application the state became less predictable and maintainable by using two-way data binding.
+In the previous generation of SPAs most often other mechanics were used.
+
+For instance, in Angular 1.x you had to use two-way data binding in a Model-View-Controller (MVC) architecture. That means, once you changed the value in the view, let's say in an input field by typing something, the value got changed in the controller. But it worked vice versa too. Once you changed the value in the controller programmatically, the view, to be more specific the inptu field, displayed the new value.
+
+You might wonder: What's the problem with this approach? Why is everybody using unidirectional instead of bidirectional data flow now?
+
+# Unidirectional vs. Bidirectional Data Flow
+
+React embraces unidirectional data flow. In the past, frameworks like Angular 1 embraced bidirectional data flow. It was the two-way data binding. But they failed in this particular area. Especially, in my opinion, this one flaw led a lot of people switch to React. But at this point I don't want to get too opinionated.
+
+The three advantages in unidirectional data flow over bidirectional data flow are prediciablity, maintainability and performance.
+
+**Predicability**: In a scaling application state management needs to stay predicatle. When you alter your state, it should be clear which components care about it. It should be also clear who alters the state in the first place. In an unidirectional data flow one stakeholder alters the state, the state gets stored, and the state flows down from the stateful component to all child components that are interested in the state.
+
+**Maintainability:** When collaborating in a team on a scaling application, it is a requirement that the state management is predicatblte. Only with a predictable state it stays maintainable. Otherwise, when people can't reason about the state, they introduce unefficient state handling.
+
+But maintainability doesn't come without any cost in an unidirectinal data floe. Even though the state is predictable, it needs to be refactor wisely. You will read later on more about these refactroings, for instance **Lifting State**.
+
+**Performance:** In an unidirectional data flow the state flows down the component tree. All components that depend on the state have the chance to re-render. Contrary in an bidirectional data flow, it is not always clear who has to update. The state flows in too many directions. The model layer depends on the view layer and the view layer depends on the model layer. It's a vice versa dependency.
+
+Angular learned from its mistakes when it embraced two-way binding and uses unidirectional data flow in its second version, Angular 2, now. React follows the principle of unidirectional data flow in its local state management, but also the state managagement libraries Redux and MobX follow this pronciple. That's why they play nicely with React.
 
 # Local State in React: Advanced
 

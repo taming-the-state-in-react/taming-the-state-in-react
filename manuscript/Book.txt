@@ -10,9 +10,9 @@ foreword/how-to-read-the-book.md
 
 react/local-state.md
 
-redux/...
+redux/redux.md
 
-mobx/...
+mobx/mobx.md
 
 best-practices/when-to-use-local-external-state.md
 best-practices/when-to-use-mobx-redux.md
