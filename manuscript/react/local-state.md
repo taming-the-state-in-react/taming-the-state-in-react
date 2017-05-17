@@ -10,6 +10,25 @@ After revisiting the local state, you will get to know best practices and patter
 
 At the end of the chapter, you will get to know the limits of local state management in React. The topic itself is highly discussed in the community as you will learn in one of the final lessons of this chapter. The chapter concludes in the problem of local state managenement to give you a motivation to dive into one of the external state management solutions.
 
+# General Definitions
+
+The chapter gives you general defintions that are used in the book.
+
+## Pure Functions
+
+- TODO
+
+## Side-Effects
+
+- TODO
+
+## Immuatbiltiy
+
+- defintion
+
+- the antagonist of immutablity is mutability
+-
+
 # Defitnions in State Management
 
 In the beginning, I want to give you defintions to state managament in modern applications. With these definitions at your disposal, I want to avoid that you get confused while reading the book. They should clearly seperate the different domains.
@@ -34,7 +53,7 @@ The state itself can be differentiated into **local state** and **sophisticated 
 
 - state is never final
 - it can be changed, modified, altered, manipulated
-- the change happens in mutable or immutable ways, functional or non functional approaches
+- the change happens in mutable or immutable ways, more general it could be divided into functional or non functional approaches
 
 ## Local State
 
@@ -391,17 +410,17 @@ You might wonder: What's the problem with this approach? Why is everybody using 
 
 # Unidirectional vs. Bidirectional Data Flow
 
-React embraces unidirectional data flow. In the past, frameworks like Angular 1 embraced bidirectional data flow. It was the two-way data binding. But they failed in this particular area. Especially, in my opinion, this one flaw led a lot of people switch to React. But at this point I don't want to get too opinionated.
+React embraces unidirectional data flow. In the past, frameworks like Angular 1 embraced bidirectional data flow. It was known as two-way data binding. It was one of the reasons that made Angular popular in the first place. But it failed in this particular area too. Especially, in my opinion, this one flaw led a lot of people switch to React. But at this point I don't want to get too opinionated. Why did the bidirectional data flow fail? Why is everyone adopting the unidirection data flow?
 
 The three advantages in unidirectional data flow over bidirectional data flow are prediciablity, maintainability and performance.
 
-**Predicability**: In a scaling application state management needs to stay predicatle. When you alter your state, it should be clear which components care about it. It should be also clear who alters the state in the first place. In an unidirectional data flow one stakeholder alters the state, the state gets stored, and the state flows down from the stateful component to all child components that are interested in the state.
+**Predicability**: In a scaling application state management needs to stay predicatle. When you alter your state, it should be clear which components care about it. It should be also clear who alters the state in the first place. In an unidirectional data flow one stakeholder alters the state, the state gets stored, and the state flows down from one place, for instance a stateful component, to all child components that are interested in the state.
 
-**Maintainability:** When collaborating in a team on a scaling application, it is a requirement that the state management is predicatblte. Only with a predictable state it stays maintainable. Otherwise, when people can't reason about the state, they introduce unefficient state handling.
+**Maintainability:** When collaborating in a team on a scaling application, it is a requirement that the state management is predicatblte. Humans are not capable to keep track of bidirectional data flow. It is a limitation by nature. That's why the state management can only stay predictable state when it stays maintainable. Otherwise, when people can't reason about the state, they introduce unefficient state handling.
 
 But maintainability doesn't come without any cost in an unidirectinal data floe. Even though the state is predictable, it needs to be refactor wisely. You will read later on more about these refactroings, for instance **Lifting State**.
 
-**Performance:** In an unidirectional data flow the state flows down the component tree. All components that depend on the state have the chance to re-render. Contrary in an bidirectional data flow, it is not always clear who has to update. The state flows in too many directions. The model layer depends on the view layer and the view layer depends on the model layer. It's a vice versa dependency.
+**Performance:** In an unidirectional data flow the state flows down the component tree. All components that depend on the state have the chance to re-render. Contrary in an bidirectional data flow, it is not always clear who has to update. The state flows in too many directions. The model layer depends on the view layer and the view layer depends on the model layer. It's a vice versa dependency that leads to performance issues.
 
 Angular learned from its mistakes when it embraced two-way binding and uses unidirectional data flow in its second version, Angular 2, now. React follows the principle of unidirectional data flow in its local state management, but also the state managagement libraries Redux and MobX follow this pronciple. That's why they play nicely with React.
 
@@ -780,6 +799,8 @@ Sometimes you have to refactor components from a functional stateless component 
 
 ## Functional State
 
+- TODO http://stackoverflow.com/questions/43428456/do-i-need-to-use-setstatefunction-overload-in-this-case/43440790#43440790
+
 In all recent chapters, I made a mistake when using `this.setState()`. Let me first explain what's wrong about its usage and second tell you why I didn't correct it immediately.
 
 It is important to know that `this.setState()` is executed asynchronously. React batches all the state updates. It executes them after each other for performance optimization.
@@ -951,6 +972,8 @@ class CounterContainer extends React.Component {
 Now you could export the pure functions to test them. After all, that's what makes the functional approach so powerful. It could lead to an shift of how we update local state. The default approach suggested by the official documentation is using `this.setState()` with an object. But in the near future the default could shift towards using the functional approach.
 
 ## Higher Order Components for Local State Management
+
+- TODO read for local state with HOC: https://medium.com/airbnb-engineering/rearchitecting-airbnbs-frontend-5e213efc24d2
 
 Higher order components (HOCs) can be used for a handful of use cases. One use case would be to [enable an elegant way of conditional rendering](https://www.robinwieruch.de/gentle-introduction-higher-order-components/). But this book is about state management, so why not use it do manage the local state of a component?
 

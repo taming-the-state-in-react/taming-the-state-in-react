@@ -7,6 +7,8 @@
 - time travelling as problem to solve
 - Dan Abramov
 
+- TODO introduction: http://blog.isquaredsoftware.com/presentations/2017-02-react-redux-intro/#/58 or check if it deals with react-redux
+
 ## Redux from Scratch
 
 - read up several articles that already made this
@@ -43,7 +45,19 @@
 
 - mix up presenter and container
 
-## Do I need ImmutableJs?
+## How to achieve Immutability?
+
+- ES6!
+
+- other libraties immutableJs, moba?
+- https://medium.com/@fastphrase/should-i-use-immutablejs-with-redux-58f88d6fd81e
+- two ways: beginner and large scaling applications can use helper libs
+- my recommendation is to stay to ES6 only
+- problems like: you would run into state hydrations: rehydrating and dehydrating
+
+## Nested Reducer
+
+- TODO
 
 ## Selectors
 
@@ -53,6 +67,7 @@
 ## Normalized State
 
 - normalizr
+- https://www.reddit.com/r/reactjs/comments/5tnk9e/react_redux_how_to_use_normalized_state/
 
 ## Command vs. Event Pattern
 
@@ -124,5 +139,11 @@
 # Hands On: Todo App with Redux
 
 - show off routing (? maybe too much)
+
+# Redux Forms
+
+- naive usage 1 chapter without library
+- library 2 chapter
+- under the hood 3 chapter, you can do your own HOC libraries that connect to the Redux store!
 
 

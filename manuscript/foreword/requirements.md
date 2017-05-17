@@ -4,7 +4,9 @@ What previous knowledge do you need to bring? First of all, you should be famili
 
 The book uses React as library to teach modern state management. React is a perfect use case to demonstrate and learn state managament. Because React is only a view layer, it is up to us to choose how to deal with the state in our application. That makes the solution of state management exchangeable. After all, you should know how to write an application with only React.
 
-If you are not familiar with React or need to have a refresher on the topic, I can recommend you to read the precedent book: The Road to learn React. It is pay what you want. It should enable everyone to learn React. But you can decide to pay if you can afford it.
+After all, it's not neccessary to be a React developer in order to learn about state management. If you are developing with another SPA framework or view layer library, all these things about state managament taught in this book are still applicable.
+
+Still, if you are not familiar with React or need to have a refresher on the topic, I can recommend you to read the precedent book: The Road to learn React. It is pay what you want. It should enable everyone to learn React. But you can decide to pay if you can afford it.
 
 The book the Road to learn React [supports education in the developing world](https://www.robinwieruch.de/giving-back-by-learning-react/). People with lacking education have no access to open source in the first place. They have to be educated in the English language to get access to it. Even though the book is pay what you want, it supports projects to educate children occasionally.
 
