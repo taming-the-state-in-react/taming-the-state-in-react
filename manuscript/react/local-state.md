@@ -26,6 +26,7 @@ The chapter gives you general defintions that are used in the book.
 
 - defintion
 
+- **immutable data structures**
 - the antagonist of immutablity is mutability
 -
 
