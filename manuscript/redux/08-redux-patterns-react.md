@@ -15,6 +15,7 @@
 
 ## View vs. Entity State
 
+- pick up exampel of login modal which is view state
 - difference between both and how to store it
 - planning state
 

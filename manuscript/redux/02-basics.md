@@ -78,7 +78,7 @@ Imagine your Todo application would have a second action that toggles a Todo to 
 ~~~~~~~~
 {
   type: 'TOGGLE_TODO',
-  todoId: '0',
+  todo: { id: '0' },
 }
 ~~~~~~~~
 
@@ -323,7 +323,7 @@ Now, whenever you dispatch an action, after the state was updated, the store sub
 unsubscribe();
 ~~~~~~~~
 
-The finished application can be found [in this JS Bin](https://jsbin.com/kopohur/7/edit?html,js,console).
+A finished application can be found [in this JS Bin](https://jsbin.com/kopohur/7/edit?html,js,console).
 
 Before you continue to read, you should experiment with the project. What you see in the project is plain JavaScript ES6 with a Redux store. You can come up with more actions and deal with them in your reducer. The application should make you aware that Redux is only a state container. The state can be altered by using actions. The reducer takes care of the action. It uses the action and the old state to create a new state in the Redux store.
 

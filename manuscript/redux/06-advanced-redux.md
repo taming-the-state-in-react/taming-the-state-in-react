@@ -9,6 +9,8 @@
 - my recommendation is to stay to ES6 only
 - problems like: you would run into state hydrations: rehydrating and dehydrating
 
+- add reference list pf examples
+
 ## Selectors
 
 - plain selectors
