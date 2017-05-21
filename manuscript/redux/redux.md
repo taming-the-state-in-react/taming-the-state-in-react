@@ -51,9 +51,11 @@ The abstract picture should be imagineable now. The state doesn't live in the Vi
 
 The View, in this case, would be React, but Redux could be used with any other library or standalone. After all, it is only a state management container.
 
-### Action
+### Action(s)
 
-An action in Redux is a JavaScript object. It has a type and a named payload. The type is often reffered as **action type**. While the type is a string literal, the payload can be everything. It can range from string or number to a complex object. Imagine the following action that is used in an application that manages Todos:
+An action in Redux is a JavaScript object. It has a type and an optional payload. The type is often reffered as **action type**. While the type is a string literal, the payload can be anything.
+
+In the beginning, the playground to get to know Redux will be a Todo application. For instance, the following action in this application can be used to add a new todo item:
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -63,26 +65,26 @@ An action in Redux is a JavaScript object. It has a type and a named payload. Th
 }
 ~~~~~~~~
 
-Executing an action is called **dispatch** in Redux. You can dispatch an action to alter the state in the Redux store. You only dispatch when you want to change the state. The dispatch of an action can be triggered in your View layer. It could be as simple as a click on a button.
+Executing an action is called **to dispatch** in Redux. You can dispatch an action to alter the state in the Redux store. You only dispatch when you want to change the state. The dispatch of an action can be triggered in your View layer. It could be as simple as a click on a button.
 
 In addition, the payload in a Redux action is not mandatory. You can define actions that have only an action type. That subject will be revisited later in the book.
 
 Once an action is dispatched, it will come by all reducers in Redux.
 
-### Reducer
+### Reducer(s)
 
-A reducer is the next part in the chain. The View dispatches an action and the action object, with action type and payload, will pass through all reducers.
+A reducer is the next part in the chain of the unidirectional data flow. The View dispatches an action and the action object, with action type and optional payload, will pass through all reducers.
 
-What's a reducer? A reducer is a pure function. It takes an input and always produces the same output when the input stays the same. It has no side-effects.
+What's a reducer? A reducer is a pure function. It produces always the same output when the input stays the same. It has no side-effects thus it is only an input/output operation. You might want to revisit all these definitions from functional programming that were explained in a previous chapter.
 
-A reducer has two inputs: state and action. The state is the whole state object from the Redux store. The action is the dispatched action with a type and a payload. The reducer reduces the previous state and incoming action to a new state.
+A reducer has two inputs: state and action. The state is always the whole state object from the Redux store. The action is the dispatched action with a type and an optional payload. The reducer reduces - that explains the naming - the previous state (old state) and incoming action to a new state.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
 (state, action) => newState
 ~~~~~~~~
 
-Apart from the functional programming principle that a reducer is a pure function without side-effects, it also embraces immutable data structures. It always returns a `newState` object without modifying the incoming `state` object. Thus the following, where the state is a list of todos, is not allowed:
+Apart from the functional programming principle that a reducer is a pure function without side-effects, it also embraces immutable data structures. It always returns a `newState` object without mutating the incoming `state` object. Thus the following, where the state is a list of todos, is not allowed:
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -96,17 +98,17 @@ It would mutate the previous state instead of returning a new state object. The 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
 function reducer(state, action) {
-  return Object.assign({}, state, action.todo);
+  return state.concat(action.todo);
 }
 ~~~~~~~~
 
-By using the spread operator, the state, thus the list of todos, is spreaded into a new array. In addition, the newly added todo from the action is appended. The data structure stays immutable.
+By using the [JavaScript built-in concat functionality](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/concat), the state, thus the list of todos, is concated to another item. The other item is the newly added todo from the action. You might wonder if this embraces immutabilty now. Yes it does, because `concat` always returns a new array without mutating the old array. The data structure stays immutable. You will learn later more about how to keep your data structures immutable. (TODO check reference)
 
-But what about the action type? Right now only the payload is used to produce a new state.
+**But what about the action type?** Right now, only the payload is used to produce a new state but the action type is ignored.
 
-When an action object arrives at the reducers, the action type should be evaulated. Only when a reducer cares about the action type, it will produce a new state. Otherwise it simply returns the previous state. In JavaScript a switch case can help to branch into different action types. Redux makes use of it.
+When an action object arrives at the reducers, the action type can be evaulated. Only when a reducer cares about the action type, it will produce a new state. Otherwise it simply returns the previous state. In JavaScript a switch case can help to evaluate different action types or to return the previous state on default. Redux makes use of it and calls it: **splitting reducers**.
 
-Imagine your Todo app would have a second action that toggles a Todo to completed or incomplete.
+Imagine your Todo application would have a second action that toggles a Todo to either completed or incomplete.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -116,69 +118,94 @@ Imagine your Todo app would have a second action that toggles a Todo to complete
 }
 ~~~~~~~~
 
-The reducer would have to act on two actions now: `ADD_TODO` and 'TOGGLE_TODO'. By using a switch case statement, it would look like the following:
+The reducer would have to act on two actions now: `ADD_TODO` and 'TOGGLE_TODO'. By using a switch case statement, you can branch into different function cases. If there is not such a case, you default to return the unchanged state.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
 function reducer(state, action) {
   switch(action.type) {
     case 'ADD_TODO' : {
-      return Object.assign({}, state, action.todo);
+      // do something and return new state
     }
     case 'TOGGLE_TODO' : {
-      // map over all todos
-      // change only the matching todo to the toggled completed state
-      // return remaining todos without changes
-      const todos = state.map(todo =>
+      // do something and return new state
+    }
+    default : return state;
+  }
+}
+~~~~~~~~
+
+The book already discussed the `ADD_TODO` action type and its functionality. It simply concats a new todo item to the previous list of todo items. But what about the `TOGGLE_TODO` functionality?
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+function reducer(state, action) {
+  switch(action.type) {
+    case 'ADD_TODO' : {
+# leanpub-start-insert
+      return state.concat(action.todo);
+# leanpub-end-insert
+    }
+    case 'TOGGLE_TODO' : {
+# leanpub-start-insert
+      const newState = state.map(todo =>
         todo.id === action.todo.id
           ? Object.assign({}, todo, { completed: !todo.completed })
           : todo
       );
 
-      return Object.assign({}, todos, action.todo);
+      return newState.concat(action.todo);
+# leanpub-end-insert
     }
     default : return state;
   }
 }
 ~~~~~~~~
 
-The JavaScript map functionality always returns a new array. It doesn't mutate the previous state and thus the state stays immutable.
+In the example, the built-in JavaScript functionality map is used to map over the state, the list of todos, to either return the intact todo or return the toggled todo. The toggled todo is identified by its `id`.
 
-Notice that Redux so far only uses plain JavaScript. There is no hidden magic. In order to keep it tidy, most often the different switch case branches get extracted as pure functions.
+The [JavaScript built-in functionality map](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/map) always returns a new array. It doesn't mutate the previous state and thus the state of todos stays immutable.
+
+But isn't the toggled todo mutated? No, because `Object.assign()` returns a new object without mutating the old object. `Object.assign()` merges all given objects from the former to the latter into each other. If a former object shares the same property than a latter object, the property of the latter object will be used. Thus the `completed` property of the updated todo item will be the negated state of the old todo item.
+
+Notice that Redux only uses plain JavaScript. There is no hidden magic. However, the reducer has grown in size that makes it less maintainable. In order to keep reducers tidy, most often the different switch case branches are extracted as pure functions.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
 function reducer(state, action) {
   switch(action.type) {
     case 'ADD_TODO' : {
+# leanpub-start-insert
       return applyAddTodo(state, action);
+# leanpub-end-insert
     }
     case 'TOGGLE_TODO' : {
+# leanpub-start-insert
       return applyToggleTodo(state, action);
+# leanpub-end-insert
     }
     default : return state;
   }
 }
 
+# leanpub-start-insert
 function applyAddTodo(state, action) {
-  return Object.assign({}, state, action.todo);
+  return state.concat(action.todo);
 }
 
 function applyToggleTodo(state, action) {
-  // map over all todos
-  // change only the matching todo to the toggled completed state
-  // return remaining todos without changes
-  const todos = state.map(todo =>
+  const newState = state.map(todo =>
     todo.id === action.todo.id
       ? Object.assign({}, todo, { completed: !todo.completed })
       : todo
   );
 
-  return Object.assign({}, todos, action.todo);
+  return newState.concat(action.todo);
 }
+# leanpub-end-insert
 ~~~~~~~~
 
-## Store
+### Store
 
 - reducers are registered in a store
 - dispatch
@@ -187,11 +214,12 @@ function applyToggleTodo(state, action) {
 What about the inital state in my application?
 
 - store initial
-- reducer initial
 
-# Hands On: Redux Standalone
+## Hands On: Redux Standalone
 
+- plunker sandbox
 - little hands on implemention
+- there are more things to know about actions and reducers, in the following chapter you will get to know about these, don't hesitate to update your Redux Standalone application to experience the changes for real
 
 ## Fine Grained Actions
 
@@ -291,6 +319,15 @@ In idiomatic Redux actions should always try to stay on an abstracter level rath
 ## Fine Grained Reducers
 
 - more to know
+
+### Initial State
+
+- similiar to initial state of store
+- all reducers run a first time without any data, you can fill it with initial data
+
+### Nested Data Structures
+
+- ref to normalizr
 
 ### Combined Reducer
 
