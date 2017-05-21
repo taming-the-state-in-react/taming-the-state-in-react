@@ -55,7 +55,7 @@ The View, in this case, would be React, but Redux could be used with any other l
 
 An action in Redux is a JavaScript object. It has a type and an optional payload. The type is often reffered as **action type**. While the type is a string literal, the payload can be anything.
 
-In the beginning, the playground to get to know Redux will be a Todo application. For instance, the following action in this application can be used to add a new todo item:
+In the beginning, your playground to get to know Redux will be a Todo application. For instance, the following action in this application can be used to add a new todo item:
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -84,7 +84,7 @@ A reducer has two inputs: state and action. The state is always the whole state 
 (state, action) => newState
 ~~~~~~~~
 
-Apart from the functional programming principle that a reducer is a pure function without side-effects, it also embraces immutable data structures. It always returns a `newState` object without mutating the incoming `state` object. Thus the following, where the state is a list of todos, is not allowed:
+Apart from the functional programming principle that a reducer is a pure function without side-effects, it also embraces immutable data structures. It always returns a `newState` object without mutating the incoming `state` object. Thus the following, where the state of the Todo application is a list of todos, is not allowed:
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -148,13 +148,9 @@ function reducer(state, action) {
     }
     case 'TOGGLE_TODO' : {
 # leanpub-start-insert
-      const newState = state.map(todo =>
-        todo.id === action.todo.id
-          ? Object.assign({}, todo, { completed: !todo.completed })
-          : todo
-      );
-
-      return newState.concat(action.todo);
+    todo.id === action.todo.id
+      ? Object.assign({}, todo, { completed: !todo.completed })
+      : todo
 # leanpub-end-insert
     }
     default : return state;
@@ -164,11 +160,13 @@ function reducer(state, action) {
 
 In the example, the built-in JavaScript functionality map is used to map over the state, the list of todos, to either return the intact todo or return the toggled todo. The toggled todo is identified by its `id`.
 
-The [JavaScript built-in functionality map](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/map) always returns a new array. It doesn't mutate the previous state and thus the state of todos stays immutable.
+The [JavaScript built-in functionality map](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/map) always returns a new array. It doesn't mutate the previous state and thus the state of todos stays immutable and can be returned as new state.
 
 But isn't the toggled todo mutated? No, because `Object.assign()` returns a new object without mutating the old object. `Object.assign()` merges all given objects from the former to the latter into each other. If a former object shares the same property than a latter object, the property of the latter object will be used. Thus the `completed` property of the updated todo item will be the negated state of the old todo item.
 
-Notice that Redux only uses plain JavaScript. There is no hidden magic. However, the reducer has grown in size that makes it less maintainable. In order to keep reducers tidy, most often the different switch case branches are extracted as pure functions.
+Notice that these functionalities, actions and reducer, are plain JavaScript. There is no function from the Redux library involved by now. There is no hidden library magic. It is plain JavaScript with functional programming.
+
+One last basic step about the reducer: It has grown in size that makes it less maintainable. In order to keep reducers tidy, most often the different switch case branches are extracted as pure functions.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -198,28 +196,174 @@ function applyToggleTodo(state, action) {
     todo.id === action.todo.id
       ? Object.assign({}, todo, { completed: !todo.completed })
       : todo
-  );
-
-  return newState.concat(action.todo);
 }
 # leanpub-end-insert
 ~~~~~~~~
 
+The Todo application has two actions and one reducer by now. One last part in the Redux setup is missing: the Store.
+
 ### Store
 
-- reducers are registered in a store
-- dispatch
-- listen
+So far, the Todo application has a way to trigger state updates (actions) and a way to reduce the old state and action to a new state (reducer). But no one is responsible to glue these parts together.
 
-What about the inital state in my application?
+* Who delegates the actions to the reducer?
+* Who triggers actions?
+* And finally: Where do I get the update state to glue it to my View?
 
-- store initial
+It is the Redux store. The store holds one global state object. There are no multiple stores and no multiple states. The Redux store is the first library dependency you encounter when using Redux.
+
+In JavaScript ES6 you can use the import statemaent to get the functionality to create the `store` object.
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+import { createStore } from 'redux';
+~~~~~~~~
+
+Now you can use it to create a store singleton instance. The `createStore` function takes one mandatory argument: a reducer. You already defined a reducer in the Reducer chapter which adds and completes todo items.
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+const store = createStore(reducer);
+~~~~~~~~
+
+In addition, the `createStore` takes a second optional argument: the initial state. In the case of the Todo application the reducer operated on a list of todos as state. The list of todo items should be initialized as empty array or prefilled array with todos. If it wouldn't be initialiazed, the reducer would fail because it would operate on `undefined`.
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+const store = createStore(reducer, []);
+~~~~~~~~
+
+In another chapter the book will showcase another way to initialize state. Therefore you would use the reducer instead of the store.
+
+Now you have a store instance that knows about the reducer. The Redux setup is done.
+
+However, now you want to interact with the store. You want to dispatch actions, get the state from the store and listen to upates of the state in the store.
+
+How to dispatch an action?
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+store.dispatch({
+  type: 'ADD_TODO',
+  todo: { id: '0', name: 'learn redux', completed: false },
+});
+~~~~~~~~
+
+How to get the global state from the store?
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+store.getState();
+~~~~~~~~
+
+How to subscribe (and unsubscribe) to the store in order to listen for updates?
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+const unsubscribe = store.subscribe(() =>
+  console.log(store.getState());
+);
+
+// don't forget to unsubscribe eventually
+unsubscribe();
+~~~~~~~~
+
+That's it. The Redux store has a slim API to access the state, update it and listen for updates.
 
 ## Hands On: Redux Standalone
 
-- plunker sandbox
-- little hands on implemention
-- there are more things to know about actions and reducers, in the following chapter you will get to know about these, don't hesitate to update your Redux Standalone application to experience the changes for real
+You know about all the basics in Redux now. A view dispatches an action on the store, the action passes all reducers and gets reduced by reducers that care about it. The store saves the new state object. Finally a listener updates the view with the new state.
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+View -> Action -> Reducer(s) -> Store -> View
+~~~~~~~~
+
+Let's apply these learnings on a JavaScript playground. You can either use your an own project where you have JavaScript, JavaScript ES6 features enabled and Redux at your disposal. Or you can open up the following JS Bin: [Redux Playground](https://jsbin.com/zukogaj/2/edit?html,js,console).
+
+Let's apply together the learnings about actions, reducers and the store from the last chapter. First, you can define your reducer that deals with adding and toggling todo items.
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+function reducer(state, action) {
+  switch(action.type) {
+    case 'ADD_TODO' : {
+      return applyAddTodo(state, action);
+    }
+    case 'TOGGLE_TODO' : {
+      return applyToggleTodo(state, action);
+    }
+    default : return state;
+  }
+}
+
+function applyAddTodo(state, action) {
+  return state.concat(action.todo);
+}
+
+function applyToggleTodo(state, action) {
+  return state.map(todo =>
+    todo.id === action.todo.id
+      ? Object.assign({}, todo, { completed: !todo.completed })
+      : todo
+  );
+}
+~~~~~~~~
+
+Second, you can initialize the Redux store that uses the reducer and an initial state. In the JS Bin you have Redux available as global variable.
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+const store = Redux.createStore(reducer, []);
+~~~~~~~~
+
+If you are in your own project, you can import the `createStore`:
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+import { createStore } from 'redux';
+
+const store = createStore(reducer, []);
+~~~~~~~~
+
+Third, you can dispatch your first action on the store.
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+store.dispatch({
+  type: 'ADD_TODO',
+  todo: { id: '0', name: 'learn redux', completed: false },
+});
+~~~~~~~~
+
+That's it. You have set up all parts of Redux and interacted with it by using an action. You can retrieve the state by getting it from the store.
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+console.log(store.getState());
+~~~~~~~~
+
+But rather than outputting it manually, you can subscribe a callback function to the store to output the latest state.
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+const unsubscribe = store.subscribe(() => {
+  console.log(store.getState());
+});
+~~~~~~~~
+
+Now, whenever you dispatch an action, after the state was updated, the store subscription should become active. Don't forget to unsubscribe eventually.
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+unsubscribe();
+~~~~~~~~
+
+The finished application can be found [in this JS Bin](https://jsbin.com/kopohur/7/edit?html,js,console).
+
+Before you continue to read, you should experiment with the project. What you see in the project is plain JavaScript ES6 with a Redux store. You can come up with more actions and deal with them in your reducer. The application should make you aware that Redux is only a state container. The state can be altered by using actions. The reducer takes care of the action. It uses the action and the old state to create a new state in the Redux store.
+
+Later in the book will show you how to connect the Redux store to your React view layer. But before doing so, let's dive a bit deeper into actions and reducers.
 
 ## Fine Grained Actions
 
@@ -265,6 +409,7 @@ That's why it is sufficient to define a minimum payload in the action.
 - that's were you can use so called action creators
 - they only return the action object
 - substututed in action creator, but it is not mandatory to use them!
+- how does it look in store dispatch
 
 ### Thoughtfully planned Actions
 
@@ -327,14 +472,20 @@ In idiomatic Redux actions should always try to stay on an abstracter level rath
 
 ### Nested Data Structures
 
-- ref to normalizr
+- state obejct not only todos but todos one property
+- state instead of todo
+
+**Nested data structures** are fine, but you want to avoid **deep nested data structures**. Another chapter will showcase this later on by using a neat helper library with the name normalizr.
 
 ### Combined Reducer
 
 - so far you have learned that there are multiple reducers, but all the previous examples used only one reducer (TODO check if this is still true)
 -the reducer can care about multiple actions though, but how to use multiple reducers?
 
+- not only one reducer, but multuple reducers that are used in the store
 - combine helper
+
+- when to grow reducer by splitting and when to use multple reducers
 
 ### Nested Reducers
 
@@ -344,6 +495,7 @@ In idiomatic Redux actions should always try to stay on an abstracter level rath
 
 ### Action to Reducer like 1:N
 
+- showcase one action that is captured by multiple reducers
 - that will be explained in greater detail in the Command and Event patterns in Redux
 
 ## Hands On: Redux Standalone Advanced
