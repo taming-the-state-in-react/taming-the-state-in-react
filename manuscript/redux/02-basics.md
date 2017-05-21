@@ -190,7 +190,7 @@ Now you can use it to create a store singleton instance. The `createStore` funct
 const store = createStore(reducer);
 ~~~~~~~~
 
-In addition, the `createStore` takes a second optional argument: the initial state. In the case of the Todo application the reducer operated on a list of todos as state. The list of todo items should be initialized as empty array or prefilled array with todos. If it wouldn't be initialiazed, the reducer would fail because it would operate on `undefined`.
+In addition, the `createStore` takes a second optional argument: the initial state. In the case of the Todo application the reducer operated on a list of todos as state. The list of todo items should be initialized as empty array or prefilled array with todos. If it wouldn't be initialiazed, the reducer would fail because it would operate on a default empty object.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~

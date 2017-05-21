@@ -1,9 +1,10 @@
 ## Advanced Reducers
 
-- more to know
+Apart from the advanced topics about actions, there is more to know about reducers too. Again not everything is mandatory, but you should at least know about the following things.
 
 ### Initial State
 
+- check http://redux.js.org/docs/recipes/reducers/InitializingState.html
 - similiar to initial state of store
 - all reducers run a first time without any data, you can fill it with initial data
 

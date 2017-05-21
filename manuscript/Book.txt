@@ -8,11 +8,31 @@ foreword/how-to-read-the-book.md
 
 {mainmatter}
 
-react/local-state.md
+react/01-introduction.md
+react/02-definitions.md
+react/03-definitions-state.md
+react/04-local-state-react.md
+react/05-local-state-react-advanced.md
+react/06-persistent-state.md
+react/07-hands-on-snake.md
+react/08-why-no-local-state.md
 
-redux/redux.md
+redux/01-introduction.md
+redux/02-basics.md
+redux/03-A-advanced-actions.md
+redux/03-B-advanced-reducers.md
+redux/04-redux-from-scratch.md
+redux/05-redux-in-react.md
+redux/06-advanced-redux.md
+redux/07-redux-patterns.md
+redux/08-redux-patterns-react.md
+redux/09-redux-architecture.md
+redux/10-redux-async.md
+redux/11-misc.md
 
 mobx/mobx.md
+
+outline/outline.md
 
 {backmatter}
 

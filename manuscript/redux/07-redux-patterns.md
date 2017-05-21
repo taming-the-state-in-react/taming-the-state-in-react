@@ -2,6 +2,12 @@
 
 - actions etc.
 
+## Using ES6
+
+- action crrators
+- reducers
+- etc.
+
 ## Command vs. Event Pattern
 
 - single vs multiple reducers
