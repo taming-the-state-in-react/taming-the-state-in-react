@@ -2,6 +2,7 @@
 
 - how to
 - clear state?
+http://redux.js.org/docs/advanced/UsageWithReactRouter.html
 
 ## Typed Redux
 

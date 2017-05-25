@@ -70,7 +70,7 @@ By using the [JavaScript built-in concat functionality](https://developer.mozill
 
 **But what about the action type?** Right now, only the payload is used to produce a new state but the action type is ignored.
 
-When an action object arrives at the reducers, the action type can be evaulated. Only when a reducer cares about the action type, it will produce a new state. Otherwise it simply returns the previous state. In JavaScript a switch case can help to evaluate different action types or to return the previous state on default. Redux makes use of it and calls it: **splitting reducers**.
+When an action object arrives at the reducers, the action type can be evaulated. Only when a reducer cares about the action type, it will produce a new state. Otherwise it simply returns the previous state. In JavaScript a switch case can help to evaluate different action types or to return the previous state on default.
 
 Imagine your Todo application would have a second action that toggles a Todo to either completed or incomplete.
 

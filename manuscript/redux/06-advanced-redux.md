@@ -2,6 +2,7 @@
 
 - so far Object.assign
 - ES6!
+http://redux.js.org/docs/recipes/UsingObjectSpreadOperator.html
 
 - other libraties immutableJs, moba?
 - https://medium.com/@fastphrase/should-i-use-immutablejs-with-redux-58f88d6fd81e
