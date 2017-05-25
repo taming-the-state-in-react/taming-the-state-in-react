@@ -36,4 +36,7 @@ outline/outline.md
 
 {backmatter}
 
-finalword.md
+end/learning-paths.md
+end/keep-learning.md
+end/acknowledgements.md
+end/thanks.md

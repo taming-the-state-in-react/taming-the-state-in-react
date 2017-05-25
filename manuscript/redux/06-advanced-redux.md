@@ -1,3 +1,5 @@
+## connect: mergeProps and options
+
 ## Middleware
 
 ## Immutable State

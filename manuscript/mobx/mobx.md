@@ -14,9 +14,16 @@
 
 - ref Michel Post
 
-# Container and Presenter Pattern still Valid
+# Container and Presenter Pattern
 
+- still valid
 - TODO
+
+# Redux to MobX, MobX to Redux
+
+- refacotr
+- only bridge changes with container
+- no normalization anymore
 
 # MobX in Scaling Applications
 
