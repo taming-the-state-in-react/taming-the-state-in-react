@@ -1,4 +1,6 @@
-## How to achieve Immutability?
+## Middleware
+
+## Immutable State
 
 - so far Object.assign
 - ES6!
@@ -11,8 +13,6 @@ http://redux.js.org/docs/recipes/UsingObjectSpreadOperator.html
 - problems like: you would run into state hydrations: rehydrating and dehydrating
 
 - add reference list pf examples
-
-## Middleware
 
 ## Selectors
 
