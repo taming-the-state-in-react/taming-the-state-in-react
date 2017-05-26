@@ -135,7 +135,7 @@ Even though the previous approach is pragmatic and shows a simplified version of
 
 Fortunately there exists a library that takes care about these things and gives you a bridge from the Redux to the React world.
 
-## react-redux
+## Connecting the State, but Sophisticated
 
 A library called [react-redux](https://github.com/reactjs/react-redux) gives you two things in order to wire up Redux with React.
 
@@ -241,7 +241,7 @@ function mapDispatchToProps(dispatch) {
 
 That's it. In `mapStateToProps()` only a substate is returned. In `mapDispatchToProps()` only a higher order function that encapsulates the dispatching of an action is returned. The child components are unaware of any state or actions. They are only receiving props. You can find the final version in [this JS Bin](https://jsbin.com/kopohur/22/edit?html,js,console,output). I would advice you to compare it again with the naive version that wires React and Redux together. It is not that different from it.
 
-## Managing and Showing State from Everywhere
+## Connecting State Everywhere
 
 There is one last clue to understand the basics of wiring React and Redux together. In the previous example you only used one connected component that is located at the root of your component tree. But you can use connected components everywhere.
 

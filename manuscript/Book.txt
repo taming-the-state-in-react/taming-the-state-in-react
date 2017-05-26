@@ -28,7 +28,6 @@
 04-redux-advanced/01-redux-patterns.md
 04-redux-advanced/02-redux-patterns-react.md
 04-redux-advanced/03-redux-architecture.md
-04-redux-advanced/04-redux-async.md
 04-redux-advanced/05-misc.md
 
 05-redux-from-scratch/00-redux-from-scratch.md

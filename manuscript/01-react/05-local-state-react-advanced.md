@@ -1,4 +1,4 @@
-## Local State in React: Advanced
+## Advanced Local State in React
 
 Now you know all the basics about local state management in React. However, you will notice that there are more patterns and best practices out there. The following chapter gives you insights into these topics.
 

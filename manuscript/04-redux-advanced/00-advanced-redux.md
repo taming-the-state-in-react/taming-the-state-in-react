@@ -1,8 +1,9 @@
-# Redux and Redux with React, but Advanced
+# Redux, but Advanced
 
-## connect: mergeProps and options
+## Middleware in Redux
 
-## Middleware
+- log
+- async actions later
 
 ## Immutable State
 
@@ -18,12 +19,34 @@ http://redux.js.org/docs/recipes/UsingObjectSpreadOperator.html
 
 - add reference list pf examples
 
+## Normalized State
+
+- normalizr
+- https://www.reddit.com/r/reactjs/comments/5tnk9e/react_redux_how_to_use_normalized_state/
+
 ## Selectors
 
 - plain selectors
 - reselect with memoize
 
-## Normalized State
+## Asynchronous Actions
 
-- normalizr
-- https://www.reddit.com/r/reactjs/comments/5tnk9e/react_redux_how_to_use_normalized_state/
+- so far only synchronrous actions
+- https://decembersoft.com/posts/what-is-the-right-way-to-do-asynchronous-operations-in-redux/
+
+### Redux Thunk
+
+- basic applications
+- principle of fat thunks
+
+### Redux Saga
+
+- mature applications
+
+### Redux Observable
+
+- comparison to Saga http://stackoverflow.com/questions/40021344/why-use-redux-observable-over-redux-saga
+
+### Redux Cycle
+
+- valid alternative for reactive programming

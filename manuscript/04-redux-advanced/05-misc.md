@@ -1,6 +1,8 @@
 # Redux Misc
 
-## Redux Devtools
+## Revisited: connect
+
+- its not only redux, but react-redux
 
 ## Redux Forms
 
@@ -12,6 +14,7 @@
 
 - how to
 - clear state?
+- react-router everyone is using
 http://redux.js.org/docs/advanced/UsageWithReactRouter.html
 https://www.reddit.com/r/reactjs/comments/6d82li/is_it_advisable_to_integrate_reactrouter_with/
 
@@ -24,6 +27,8 @@ https://www.reddit.com/r/reactjs/comments/6d82li/is_it_advisable_to_integrate_re
 
 - sevrer side rendering
 - sockets
+
+## Redux Devtools
 
 # Hands On: Snake with Redux
 
