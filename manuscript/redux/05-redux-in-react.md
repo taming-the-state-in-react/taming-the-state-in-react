@@ -153,11 +153,11 @@ ReactDOM.render(
 );
 ~~~~~~~~
 
-After you have done this, every child component in the whole component tree has an implicit access to the store. Thus every component is able to dispatch actions and to listen to updates in order to re-render. How does this work without passing the store as property to each child component? It uses the React context API. You can read more about it in the [official React documentation](https://facebook.github.io/react/docs/context.html), but just to quote the documentation for now:
+After you have done this, every child component in the whole component tree has an implicit access to the store. Thus every component is able to dispatch actions and to listen to updates in order to re-render. But not every component has to. How does this work without passing the store as property to each child component? It uses the React context API. You can read more about it in the [official React documentation](https://facebook.github.io/react/docs/context.html), but just to quote the documentation for now:
 
 *"In some cases, you want to pass data through the component tree without having to pass the props down manually at every level. You can do this directly in React with the powerful "context" API."*
 
-That was part one to use Redux in React. Second, you can use a higher component with the name `connect` from the `react-redux` library. It makes the store functionalities dispatch and the state from the store itself available to the input component.
+That was part one to use Redux in React. Second, you can use a higher component that is called `connect` from the react-redux library. It makes the Redux store functionality dispatch and the state from the store itself available to the enhanced component.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -179,21 +179,67 @@ connect([mapStateToProps], [mapDispatchToProps], [mergeProps], [options])(...);
 
 Usually you will only use two of them: `mapStateToProps` and `mapDispatchToProps`. You will learn about the other two arguments, `mergeProps`and `options`, later in this book.
 
-**mapStateToProps(state, [props]) => derivedProps:** It is a function that can be passed to the connect HOC. If it is passed, the input component of the connect HOC will subscribe to updates from the Redux store. Thus it means that every time the store subscription notices an update, the `mapStateToProps()` function will run. The `mapStateToProps()` function itself has two arguments in its function signature: the global state object and optionally the props from the parent component. The function returns an object that is derived from the global state and from the optional props from the parent component. The returned object will be merged into the props that come as input in the `ConnectedComponent` component when it is used.
+**mapStateToProps(state, [props]) => derivedProps:** It is a function that can be passed to the connect HOC. If it is passed, the input component of the connect HOC will subscribe to updates from the Redux store. Thus it means that every time the store subscription notices an update, the `mapStateToProps()` function will run. The `mapStateToProps()` function itself has two arguments in its function signature: the global state object and optionally the props from the parent component. The function returns an object that is derived from the global state and optionally from the props from the parent component. The returned object will be merged into the remaining props that come as input in the `ConnectedComponent` component when it is used.
 
 **mapDispatchToProps(dispatch, [props]):** It is a function (or object) that can be passed to the connect HOC. Whereas `mapStateToProps()` gives access to the global state, `mapDispatchToProps()` gives access to the dispatch method. It makes it possible to dispatch actions but passes down only plain functions that wire up the dispatching in a higher order function. After all, it makes it possible to pass functions down to the input component of the connect HOC to alter the state. You can use optionally the incoming props to wrap those into the dispatched action.
 
-That is a lot of knowledge to digest. Both functions, `mapStateToProps()` and `mapDispatchToProps()`, can be intimidating in the beginning. In addition, they are used in a foreign higher order component. However, they only give you access to the state and to the dispatch method of the store. You will see in the following examples that they don't need to be intimidating at all.
+That is a lot of knowledge to digest. Both functions, `mapStateToProps()` and `mapDispatchToProps()`, can be intimidating in the beginning. In addition, they are used in a foreign higher order component. However, they only give you access to the state and to the dispatch method of the store.
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+View -> (mapDispatchToProps) -> Action -> Reducer(s) -> Store -> (mapStateToProps) -> View
+~~~~~~~~
+
+You will see in the following examples that these functions don't need to be intimidating at all.
 
 # Hands On: Sophisticated Todo with React and Redux
 
-Now you will use react-redux to wire up React with Redux. Let's open up again the Redux Playground. The [JS Bin project from the last chapter](https://jsbin.com/kopohur/15/edit?html,js,console,output) got updates to import all necessary libraries: redux, react, react-dom and react-redux.
+Now you will use react-redux to wire up React with Redux. Let's open up again the Redux Playground. The [JS Bin project from the last chapter](https://jsbin.com/kopohur/20/edit?html,js,console,output) got updates to import all necessary libraries: redux, react, react-dom and react-redux.
 
-https://jsbin.com/kopohur/17/edit?html,js,console,output
+Instead of wrapping the React root component into the `render()` function and subscribing it to the `store.subscribe()` method, you will use the plain React root component again but use the Provider component by react-redux.
 
-- JS Bin: react with todo app
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+ReactDOM.render(
+  <ReactRedux.Provider store={store}>
+    <TodoApp />
+  </ReactRedux.Provider>,
+  document.getElementById('root')
+);
+~~~~~~~~
 
-- react-redux
+It uses the plain `TodoApp` component. The component still expects the `todos` and `onToggleTodo` as props. But it hasn't these props. Let's use the `connect` higher order component to expose these to the `TodoApp` component. The `TodoApp` component will become a `ConnectedTodoApp` component.
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+const ConnectedTodoApp = ReactRedux.connect(mapStateToProps, mapDispatchToProps)(TodoApp);
+
+ReactDOM.render(
+  <ReactRedux.Provider store={store}>
+    <ConnectedTodoApp />
+  </ReactRedux.Provider>,
+  document.getElementById('root')
+);
+~~~~~~~~
+
+Now, only the connections, `mapStateToProps` and `mapDispatchToProps` are missing. They are quite similar to the naive React with Redux version.
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+function mapStateToProps(state) {
+  return {
+    todos: state.todos,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+     onToggleTodo: id => dispatch(doToggleTodo(id)),
+  };
+}
+~~~~~~~~
+
+That's it. In `mapStateToProps()` only a substate is returned. In `mapDispatchToProps()` only a higher order function that encapsulates the dispatching of an action is returned. The child components are unaware of any state or actions. They are only receiving props. You can find the final version in [this JS Bin](https://jsbin.com/kopohur/22/edit?html,js,console,output). I would advice you to compare it again with the naive version that wires React and Redux together. It is not that different from it.
 
 ### Managing State from Everywhere
 
