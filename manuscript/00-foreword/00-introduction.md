@@ -1,0 +1,18 @@
+# Foreword
+
+## Introduction
+
+State management in applications got a popular topic in the past years. Single page applications (SPAs) - that are only delivered once from a backend - have to establish state management in the frontend. They have to keep the page consistent without making any more requests to the backend. It already starts when you want to open a popup in your application or retrieve data from your backend. Someone has to be aware of this state. But who is it? Who is it that manages the state?
+
+jQuery was a popluar library before the first SPA solutions like Angular, Ember and Backbone appeared. State management itself wasn't a huge problem in jQuery in the beginning, because the library was most often only used for selective DOM manipulations. You could add animations to your HTML, add or remove DOM nodes or change the style of your HTML dynamically.
+
+Eventually the jQuery code, and in general the portion of JavaScript code compared to HTML and CSS grew, and people wrote more sophisticated frontend applications. Most of the time it ended up in a mess of jQuery code where not only state management was a problem, but also general best practices like clean code were missing. There was no solution for the general architecture of these kind of frontend applications and people stuggled to keep it maintainable.
+
+After a while, SPA solutions like Angular, Ember and Backbone got popular to give these sophisticaed frontend applications a proper framework. The term single page application was coined. Even though these solutions established best practices, patterns and architectures for the first generation of SPAs, state management was still a reoccuring issue. Every framework tried to apply solutions for it. Most of the people came up with there own best practices and libraries, but it was never consistent and sophisticated. There was one major flaw with these SPA solutions: They were frameworks and no libraries. They tried to solve too many issues at once.
+
+The second generation of SPA solutions, among them libraries like React and Vue, focused only on smaller parts of the application. They focused on the view layer. It was up to the engineer to decide on other libraries as solutions for certain problems. [That's what made React such a powerful library in the first place](https://www.robinwieruch.de/reasons-why-i-moved-from-angular-to-react/), because everyone could decide to extend the application with libraries that solve specific yet small problems.
+
+Now a ton of articles and libraries try to solve the issue of state management. It is difficult to find a consistent source of truth to learn state management in modern applications. Even though solutions like React have their own state management implementation, there are more external solutions to establish sophisitcated state management. Still it lacks one guide to navigate through all these different solutions. Most of the guides miss the point of teaching the problem first. In addition, instead of showing the minimal approach, they try to fix the problem of state management by using overengineered approaches. If you want to learn something, you have to do it step by step. Trying to solve each atomic problem after the next one. That's my attempt with the Road to learn Redux. It doesn't teach only Redux, but modern state managament in general.
+
+- these are the heroes of the book: local state, Redux and MobX (TODO)
+- the book wouldn't have been possible to write without the great innovators behind the technologies: dan, Michel, React, Redux other guy  (TODO)

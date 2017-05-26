@@ -1,42 +1,48 @@
 {frontmatter}
 
-foreword/introduction.md
-foreword/about-the-author.md
-foreword/requirements.md
-foreword/faq.md
-foreword/how-to-read-the-book.md
+00-foreword/00-introduction.md
+00-foreword/01-about-the-author.md
+00-foreword/02-requirements.md
+00-foreword/03-faq.md
+00-foreword/04-how-to-read-the-book.md
 
 {mainmatter}
 
-react/01-introduction.md
-react/02-definitions.md
-react/03-definitions-state.md
-react/04-local-state-react.md
-react/05-local-state-react-advanced.md
-react/06-persistent-state.md
-react/07-hands-on-snake.md
-react/08-why-no-local-state.md
+01-react/01-introduction.md
+01-react/02-definitions.md
+01-react/03-definitions-state.md
+01-react/04-local-state-react.md
+01-react/05-local-state-react-advanced.md
+01-react/06-persistent-state.md
+01-react/07-hands-on-snake.md
+01-react/08-why-no-local-state.md
 
-redux/01-introduction.md
-redux/02-basics.md
-redux/03-A-advanced-actions.md
-redux/03-B-advanced-reducers.md
-redux/04-redux-from-scratch.md
-redux/05-redux-in-react.md
-redux/06-advanced-redux.md
-redux/07-redux-patterns.md
-redux/08-redux-patterns-react.md
-redux/09-redux-architecture.md
-redux/10-redux-async.md
-redux/11-misc.md
+02-redux/01-introduction.md
+02-redux/02-basics.md
+02-redux/03-A-advanced-actions.md
+02-redux/03-B-advanced-reducers.md
 
-mobx/mobx.md
+03-redux-react/00-redux-in-react.md
 
-outline/outline.md
+04-redux-advanced/00-advanced-redux.md
+04-redux-advanced/01-redux-patterns.md
+04-redux-advanced/02-redux-patterns-react.md
+04-redux-advanced/03-redux-architecture.md
+04-redux-advanced/04-redux-async.md
+04-redux-advanced/05-misc.md
+
+05-redux-from-scratch/00-redux-from-scratch.md
+
+06-mobx/mobx.md
+
+07-outline-technologies/00-learning-paths.md
+07-outline-technologies/01-graphql-relay-modern.md
+07-outline-technologies/02-apollo.md
+07-outline-technologies/03-point-free-state.md
 
 {backmatter}
 
-end/learning-paths.md
-end/keep-learning.md
-end/acknowledgements.md
-end/thanks.md
+08-end/00-learning-paths.md
+08-end/01-keep-learning.md
+08-end/02-acknowledgements.md
+08-end/03-thanks.md
