@@ -10,6 +10,10 @@
 - used like two.way data bdingin
 - useStrict should be best practice
 
+# How does it work?
+
+- https://egghead.io/courses/manage-complex-state-in-react-apps-with-mobx
+
 # MobX for Local State
 
 - ref Michel Post
