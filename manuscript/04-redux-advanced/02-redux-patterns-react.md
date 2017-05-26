@@ -1,3 +1,5 @@
+# Redux Patterns in React
+
 ## Redux vs. Local State
 
 - is local state obsolete? No!

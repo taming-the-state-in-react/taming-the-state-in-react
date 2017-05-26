@@ -1,4 +1,4 @@
-## Persistence in State
+### Persistence in State
 
 You might wonder how to persist the local state? The question applies for local state management, but in the following also for sophisticated state management.
 
@@ -75,7 +75,7 @@ localStorage.clear();
 
 You can substitute the `localStorage` with the `sessionStorage`. In the end, you can apply them the same way as you did in the previous `ArchiveableList` component that used the backend request to retrieve the data. Only that the `ArchiveableList` component would uss the storage instead of the backend.
 
-# Caching in State
+### Caching in State
 
 Same as the strategy for keeping a persistent state, the caching applies as well for sophisticated state management. But the following will demonstrate it by using local state management.
 

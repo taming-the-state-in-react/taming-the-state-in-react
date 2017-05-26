@@ -1,21 +1,21 @@
-## Asynchronous Redux
+# Asynchronous Redux
 
 - so far only synchronrous actions
 - https://decembersoft.com/posts/what-is-the-right-way-to-do-asynchronous-operations-in-redux/
 
-### Redux Thunk
+## Redux Thunk
 
 - basic applications
 - principle of fat thunks
 
-### Redux Saga
+## Redux Saga
 
 - mature applications
 
-### Redux Observable
+## Redux Observable
 
 - comparison to Saga http://stackoverflow.com/questions/40021344/why-use-redux-observable-over-redux-saga
 
-### Redux Cycle
+## Redux Cycle
 
 - valid alternative for reactive programming

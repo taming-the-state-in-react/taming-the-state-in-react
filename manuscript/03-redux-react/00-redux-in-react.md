@@ -192,7 +192,7 @@ View -> (mapDispatchToProps) -> Action -> Reducer(s) -> Store -> (mapStateToProp
 
 You will see in the following examples that these functions don't need to be intimidating at all.
 
-# Hands On: Sophisticated Todo with React and Redux
+## Hands On: Sophisticated Todo with React and Redux
 
 Now you will use react-redux to wire up React with Redux. Let's open up again the Redux Playground. The [JS Bin project from the last chapter](https://jsbin.com/kopohur/20/edit?html,js,console,output) got updates to import all necessary libraries: redux, react, react-dom and react-redux.
 

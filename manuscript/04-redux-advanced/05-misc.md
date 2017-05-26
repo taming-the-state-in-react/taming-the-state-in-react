@@ -1,4 +1,12 @@
+# Redux Misc
+
 ## Redux Devtools
+
+## Redux Forms
+
+- naive usage 1 chapter without library
+- library 2 chapter
+- under the hood 3 chapter, you can do your own HOC libraries that connect to the Redux store!
 
 ## Routing with Redux
 
@@ -29,11 +37,5 @@ https://www.reddit.com/r/reactjs/comments/6d82li/is_it_advisable_to_integrate_re
 # Hands On: Todo App with Redux
 
 - show off routing (? maybe too much)
-
-# Redux Forms
-
-- naive usage 1 chapter without library
-- library 2 chapter
-- under the hood 3 chapter, you can do your own HOC libraries that connect to the Redux store!
 
 

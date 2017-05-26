@@ -1,3 +1,5 @@
+# Redux Patterns
+
 ## Naming Conventions
 
 - actions etc.
