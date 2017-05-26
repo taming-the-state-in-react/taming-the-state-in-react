@@ -241,17 +241,43 @@ function mapDispatchToProps(dispatch) {
 
 That's it. In `mapStateToProps()` only a substate is returned. In `mapDispatchToProps()` only a higher order function that encapsulates the dispatching of an action is returned. The child components are unaware of any state or actions. They are only receiving props. You can find the final version in [this JS Bin](https://jsbin.com/kopohur/22/edit?html,js,console,output). I would advice you to compare it again with the naive version that wires React and Redux together. It is not that different from it.
 
-### Managing State from Everywhere
+### Managing and Showing State from Everywhere
 
-- containers can be placed everywhere
-- container (or connected components) as gateways to state
+There is one last clue to understand the basics of wiring React and Redux together. In the previous example you only used one connected component that is located at the root of your component tree. But you can use connected components everywhere.
 
-### Showing State from Everywhere
+Now only your `TodoApp` component has access to the state and enables you to alter the state. But you can add more connected components in between. For instance, the `onToggleTodo()` function has to pass several component until it reaches its destination in the `TodoItem` component. Why not connecting the `TodoItem` component to make the functionality right next to it available rather than passing it down multiple components?
 
-- State -> View
-- presenters that only get callbacks to alter state
-- don't know that they are connected to local state or Redux store
-- showcase with presenter
+In the Todo application you could keep both `mapStateToProps()` and `mapDispatchToProps()`, but you would use `mapDispatchToProps()` somewhere else. While the `ConnectedTodoApp` component doesn't need it anymore, it would be used in a `ConnectedTodoItem` component.
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+const ConnectedTodoApp = ReactRedux.connect(mapStateToProps)(TodoApp);
+const ConnectedTodoItem = ReactRedux.connect(null, mapDispatchToProps)(TodoItem);
+~~~~~~~~
+
+Now you wouldn't need to pass the `onToggleTodo()` props through the `TodoApp` and `TodoList` component anymore.
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+function TodoApp({ todos }) {
+  return <TodoList todos={todos} />;
+}
+
+function TodoList({ todos }) {
+  return (
+    <div>
+      {todos.map(todo => <ConnectedTodoItem
+        key={todo.id}
+        todo={todo}
+      />)}
+    </div>
+  );
+}
+~~~~~~~~
+
+The final Todo application can be found in [this JS Bin](https://jsbin.com/kopohur/23/edit?html,js,console,output).
+
+As you can imagine by now, you can connect your state everywhere to your view layer. You can retrieve it with `mapStateToProps()` and alter it with `mapDispatchToProps()` from everywhere in your component tree. These components that add this intermediate glue between view and state are called connected components. They are a subset of the container components from the container and presenter pattern. The presenter components are still clueless and don't know if the props are derived from a Redux store, from local state or actions. They just use these props. (TODO check if this is explained in the basics)
 
 ### Hands On: Snake with React and Redux
 
