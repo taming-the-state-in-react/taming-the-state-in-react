@@ -174,7 +174,7 @@ So far, the Todo application has a way to trigger state updates (actions) and a 
 * Who triggers actions?
 * And finally: Where do I get the update state to glue it to my View?
 
-It is the Redux store. The store holds one global state object. There are no multiple stores and no multiple states. The Redux store is the first library dependency you encounter when using Redux.
+It is the Redux store. The store holds one global state object. There are no multiple stores and no multiple states. The store is a singleton in your application. In addition, it is the first library dependency you encounter when using Redux.
 
 In JavaScript ES6 you can use the import statemaent to get the functionality to create the `store` object.
 

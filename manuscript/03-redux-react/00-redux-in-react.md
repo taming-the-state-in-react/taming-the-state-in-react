@@ -281,4 +281,4 @@ As you can imagine by now, you can connect your state everywhere to your view la
 
 ## Hands On: Snake with React and Redux
 
-- create-react-app
+- create-react-app or Challenge?

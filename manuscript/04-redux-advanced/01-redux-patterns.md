@@ -1,16 +1,17 @@
 # Redux Patterns
 
-## Naming Conventions
-
-- actions etc.
-
-## Using ES6
+## Using JavaScript ES6
 
 - action crrators
 - reducers
 - etc.
 
-## Combined combined Reducers
+## Naming Conventions
+
+- like you would maybe name callback functions in your components with prefix onFoo
+- actions etc.
+
+## Nested Combined Reducers
 
 https://stackoverflow.com/questions/36786244/nested-redux-reducers
 
@@ -21,7 +22,6 @@ https://stackoverflow.com/questions/36786244/nested-redux-reducers
 - Action to Reducer like 1:N
 
 Last but not least, I want to give you clarification on the relationship between actions and reducers. You know that your application can have multiple actions and reducers. But how do they relate to each other?
-
 
 - showcase one action that is captured by multiple reducers
 - that will be explained in greater detail in the Command and Event patterns in Redux
@@ -34,4 +34,8 @@ Last but not least, I want to give you clarification on the relationship between
 
 - technical, feature
 - top level when event pattern, feature level when command pattern
-### Ducks?
+
+### Ducks
+
+- as long as action and reducer are coupled it makes sense
+- but they shouldn't be coupled. command pattern should be avoided and state keys are only useful for certian scenarios
