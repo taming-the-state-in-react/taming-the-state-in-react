@@ -30,17 +30,6 @@ https://www.reddit.com/r/reactjs/comments/6d82li/is_it_advisable_to_integrate_re
 
 ## Redux Devtools
 
-# Hands On: Snake with Redux
-
-- show off command (only one reducer cares, but refactor it to local state) vs event (multiple reducers care) pattern
-
-# Hands On: Hacker News with Redux
-
-- you have built one in plain React in the Road to learn React
-- show off normalizr
-
-# Hands On: Todo App with Redux
-
-- show off routing (? maybe too much)
+# Challenge: Hacker News with Redux beyond
 
 
