@@ -38,10 +38,6 @@
 
 - challenge?
 
-## Hands On: Hacker News App with MobX
-
-- challenge?
-
 ## Hands On: Todo App with MobX
 
-- challenge?
+## Challenge: Hacker News App with MobX

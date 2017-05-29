@@ -467,7 +467,7 @@ function mapDispatchToProps(dispatch) {
 const ConnectedTodoItem = connect(mapStateToProps, mapDispatchToProps)(TodoItem);
 ~~~~~~~~
 
-The TodoItem component itself would stay the same. It still gets the `todo` item and the `onToggleTodo` handler as arguments. In addition, you can see two more concepts that were explained earlier. First, the selector grows in complexity because it gets optional arguments to select derived properties fromt the state. Second, the `mapStateToProps()` function makes use of the incoming props from the `TodoList` component that uses the `ConnectedTodoItem` component.
+The `TodoItem` component itself would stay the same. It still gets the `todo` item and the `onToggleTodo` handler as arguments. In addition, you can see two more concepts that were explained earlier. First, the selector grows in complexity because it gets optional arguments to select derived properties fromt the state. Second, the `mapStateToProps()` function makes use of the incoming props from the `TodoList` component that uses the `ConnectedTodoItem` component.
 
 As you can see, the normlaized state requires to use more connected component. More components are responsible to select their needed derived properties. But in a growing application, following this pattern can make it easier to reason about it. You only pass properties that are really necessary to the component. In the last case, the `TodoList` component only cares about a list of references and the `TodoItem` component itself cares about the entitiy that is selected by using the reference passed down by the `TodoList` component.
 
@@ -512,7 +512,76 @@ In this scenario, the whole normalized data structure gets normalized in the sel
 
 - reselect with memoize
 
-### Hands On: Todo with Selectors
+### Hands On: Todo with Normalized Data and Selectors
+
+In the Todo application, you could refactor everything to use normalized data and selectors now. Let's open up again the Redux Playground. You can use the [JS Bin project from the Redux in React chapter](https://jsbin.com/kopohur/23/edit?html,js,console,output). It imports all necessary libraries.
+
+In the beginning, you would have to exchange the initial state to an already normalized initial state. The initial state would go in the `todosReducer` and not in the `createStore()` initialization.
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+# leanpub-start-insert
+const initialTodoState = {
+  entities: {
+    0: {
+      id: '0',
+      name: 'learn redux',
+    },
+    1: {
+      id: '1',
+      name: 'learn redux',
+    },
+  },
+  ids: ['0', '1'],
+};
+
+function todosReducer(state = initialTodoState, action) {
+# leanpub-end-insert
+  switch(action.type) {
+    case ADD_TODO : {
+      return applyAddTodo(state, action);
+    }
+    case TOGGLE_TODO : {
+      return applyToggleTodo(state, action);
+    }
+    default : return state;
+  }
+}
+~~~~~~~~
+
+Now you have to adapt the `apply` functions to handle your new data structure.
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+function applyAddTodo(state, action) {
+  const todo = Object.assign({}, action.todo, { completed: false });
+  const entities = Object.assign({}, state.entities, todo);
+  const ids = state.ids.concat(action.todo.id);
+  return Object.assign({}, state, ids, entities);
+}
+
+function applyToggleTodo(state, action) {
+  const todo = state.entities[action.todo.id];
+  const toggledTodo = Object.assign({}, todo, { completed: !todo.completed });
+  const entities = Object.assign({}, state.entities, toggledTodo);
+  return Object.assign({}, state, entities);
+}
+~~~~~~~~
+
+That's it. The last step is to adjust your `mapPropsToState()` functions that they can return the derived properties from the state. Afterwards you can use these in your components. First, let's do it for the `TodoList` component:
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+~~~~~~~~
+
+Second, you can do it for your `TodoItem` component:
+
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+~~~~~~~~
+
+Now try to refactor the Todo application on your own to use selectors instead of retrieving the properties direclty from the state. Otherwise you can use the following solution.
 
 - derived properties (visibility filter todos in React Redux example)
 
@@ -530,19 +599,11 @@ In this scenario, the whole normalized data structure gets normalized in the sel
 
 - mature applications
 
-### Redux Observable
+### Alternatives
 
-- comparison to Saga http://stackoverflow.com/questions/40021344/why-use-redux-observable-over-redux-saga
-
-### Redux Cycle
-
-- valid alternative for reactive programming
+- obsrvable: comparison to Saga http://stackoverflow.com/questions/40021344/why-use-redux-observable-over-redux-saga
+- redux cycle: valid alternative for reactive programming
 
 # Challenge: Snake with Redux
 
 - show off command (only one reducer cares, but refactor it to local state) vs event (multiple reducers care) pattern
-
-# Hands On: Hacker News with Redux
-
-- you have built one in plain React in the Road to learn React
-- show off normalizr

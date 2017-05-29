@@ -1,4 +1,4 @@
-# Redux from Scratch
+# Exercise: Redux from Scratch
 
 - challenged (exercise) that is not included in the challenges package
 - read up several articles that already made this

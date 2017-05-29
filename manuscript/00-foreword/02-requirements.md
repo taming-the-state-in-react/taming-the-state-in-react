@@ -30,3 +30,4 @@ When you read the Road to learn React, you should be familiar with the setup alr
 
 - TODO Git ref??
 - API? ref
+- npm guide as blog post?

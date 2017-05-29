@@ -14,6 +14,8 @@
 
 - money back guarantee
 
+- slack channel
+
 - only react? is applies everything in react, because react has a slim API for its own state management
 - but the learnings can be applied in angular, vue or react native too
 
