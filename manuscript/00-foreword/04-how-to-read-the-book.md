@@ -17,3 +17,6 @@
 - hands on will often apply in a JS bin. the JS bin is simple and doesn't handle all JavaScript features. it uses Babel that enabkes you to use JavaScript ES6 features, but features beyond that are missing
 
 - exercises can be done by yourself, as challenges as well, but there is no solution provided. only information how you could solve it
+
+
+- you should have your laptop

@@ -5,6 +5,7 @@
 - action crrators
 - reducers
 - etc.
+- thunks get easier to read
 
 ## Naming Conventions
 

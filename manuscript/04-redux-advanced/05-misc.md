@@ -25,7 +25,7 @@ https://www.reddit.com/r/reactjs/comments/6d82li/is_it_advisable_to_integrate_re
 
 ## Fullstack Redux
 
-- sevrer side rendering
+- sevrer side rendering, store is not a singleton there! thats why it is good to never pass around the store directly, you dont do it in connected components and do not do it in asynchronours action creators.
 - sockets
 
 ## Redux Devtools
