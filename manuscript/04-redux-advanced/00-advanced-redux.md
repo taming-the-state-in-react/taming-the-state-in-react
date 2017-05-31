@@ -679,6 +679,9 @@ The pattern from above suffices for simple Redux applications that need a delaye
 
 ### Redux Thunk
 
+- TODO https://www.reddit.com/r/reactjs/comments/6e0vgt/is_my_understanding_of_reduxthunk_correct/?st=1Z141Z3&sh=255adc41
+- TODO https://medium.com/@talkol/redux-thunks-dispatching-other-thunks-discussion-and-best-practices-dd6c2b695ecf
+
 The previous question led Dan Abramov, the creator of Redux, think about a general pattern to the problem of asynchronours actions. He came up with the library called [redux-thunk](https://github.com/gaearon/redux-thunk) to legitimize the concept. Synchronours and asynchronours action creators should be dispatched in a similar way from a Redux store. It is used as middleware in your Redux store.
 
 {title="Code Playground",lang="javascript"}
@@ -744,15 +747,32 @@ function showNotificationWithDelay(text) {
 store.dispatch(showNotificationWithDelay('Todo created.'));
 ~~~~~~~~
 
-It is similar to the solution without Redux Thunk. However, this time you don't have to pass around the dispatch method and instead have access to it in the returned thunk function. Now, when using it in a React component, the component still only executes a callback function. The connected component then dispatches a action, regardless of the action being synchroinsly or asynchrounsly, in the `mapDispatchToProps()` function.
+It is similar to the solution without Redux Thunk. However, this time you don't have to pass around the dispatch method and instead have access to it in the returned thunk function. Now, when using it in a React component, the component still only executes a callback function that it receives via its props. The connected component then dispatches a action, regardless of the action being synchroinsly or asynchrounsly, in the `mapDispatchToProps()` function.
 
-- https://decembersoft.com/posts/what-is-the-right-way-to-do-asynchronous-operations-in-redux/
+That are the basics of Redux Thunk. There are a few more things that are good to know about it:
+
+* **getState():** A thunk function gives you as second argument the `getState()` method of the Redux store: `function (dispatch, getState)`. However, you should generally avoid it. It's best practice to pass all necessary state to the action creator instead of retrieving it in the thunk.
+* **Promises:** Thunks work great in combination with promises. You can return a promise from your thunk and use it, for instance, to wait for its completion: `store.dispatch(showNotificationWithDelay('Todo created.')).then(...)`.
+* **Recursive Thunks:** The dispatch method in a thunk can again be used to dispatch an asynchronours action. Thus you can apply the thunk pattern recursively.
+
+- TODO https://decembersoft.com/posts/what-is-the-right-way-to-do-asynchronous-operations-in-redux/
 
 ### Redux Saga
 
+The whole concept around asynchronours actions led to a handful of libraries that solve this issue. Redux Thunk was only the first one introduced by Dan Abramov. However, he agrees that there are use cases where Redux Thunk doesn't solve the problem. Redux Thunk should be used when there are asynchronours actions. But when there are more complex scenarios around it, there are advanced solutions for asynchronours actions. This chapter shows you one of these solutions, Redux Saga, which is one of the most popular asynchrnours actions libraries for Redux.
+
+- dealing with side-effects, so far not spoken about
+- like side threats that only deal with side-effects
+- you can control these with redux actions and dispatch new actions in them
+- has access to full state too, similiar to Redux Thunk
+
+- builds up on JavaScript ES6 Generators
+- more about generators: https://redux-saga.js.org/docs/ExternalResources.html
+- code looks synchronous, similar to async await, but with a few more need features that can be used in Redux Saga
+
 - mature applications
 
-### Alternatives
+### More Alternatives
 
 - obsrvable: comparison to Saga http://stackoverflow.com/questions/40021344/why-use-redux-observable-over-redux-saga
 - redux cycle: valid alternative for reactive programming

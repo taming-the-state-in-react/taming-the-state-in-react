@@ -18,6 +18,10 @@
 http://redux.js.org/docs/advanced/UsageWithReactRouter.html
 https://www.reddit.com/r/reactjs/comments/6d82li/is_it_advisable_to_integrate_reactrouter_with/
 
+## Testing
+
+- no advanced topic itself, but I didn't want to overwhelm you yet with another topic about Redux in the beginning, but tests are important
+
 ## Typed Redux
 
 - flow
@@ -30,8 +34,8 @@ https://www.reddit.com/r/reactjs/comments/6d82li/is_it_advisable_to_integrate_re
 
 ## Redux Devtools
 
-# Hands On: Hacker News with Redux
-
 # Challenge: Hacker News with Redux beyond
+
+ - extended with router (dismissed), typed, redux form (search field), using es6, folder organization
 
 

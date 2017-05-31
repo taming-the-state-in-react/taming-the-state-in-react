@@ -12,3 +12,5 @@
 - what are the domain slices
 - view state (maybe local state), entitiy state
 - normalization
+
+## Hands On: Hacker News with Redux

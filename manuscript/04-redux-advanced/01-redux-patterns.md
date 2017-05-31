@@ -18,6 +18,8 @@ https://stackoverflow.com/questions/36786244/nested-redux-reducers
 
 ## Command vs. Event Pattern
 
+- https://hackernoon.com/dispatch-redux-actions-as-events-not-commands-4de8a92b1ea5
+
 - single vs multiple reducers
 - to close to command should be evaluated as local state
 - Action to Reducer like 1:N

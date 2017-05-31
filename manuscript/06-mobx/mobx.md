@@ -31,6 +31,7 @@
 
 ## MobX in Scaling Applications
 
+- https://t.co/0imjjYENUo?ssr=true
 - ref as outline mobx-state-tree
 - ref Michel video youtube
 
