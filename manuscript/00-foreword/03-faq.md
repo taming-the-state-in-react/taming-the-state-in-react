@@ -16,7 +16,7 @@
 
 - Note: make it free for every minority's for diversity. Only an email to apply, I will not do any background checks and believe you! (FAQ)
 
-- slack channel
+- slack channel!
 
 - only react? is applies everything in react, because react has a slim API for its own state management
 - but the learnings can be applied in angular, vue or react native too
