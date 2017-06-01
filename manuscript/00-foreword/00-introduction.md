@@ -15,3 +15,4 @@ Now a ton of articles and libraries try to solve the issue of state management. 
 - these are the heroes of the book: local state, Redux and MobX (TODO)
 - the book wouldn't have been possible to write without the great innovators behind the technologies: dan, Michel, React, Redux other guy  (TODO)
 - Take spa chapter from this article to explain why state management in spa https://t.co/d7C9OmGsUq?ssr=true
+- book goes beyond the documenation and shows experiences from real world use cases ina scaling app using Redux

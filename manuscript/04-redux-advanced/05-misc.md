@@ -4,6 +4,10 @@
 
 - its not only redux, but react-redux
 
+## handleActions, createActions
+
+- TODO
+
 ## Redux Forms
 
 - naive usage 1 chapter without library

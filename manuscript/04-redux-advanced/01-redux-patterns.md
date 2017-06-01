@@ -102,24 +102,86 @@ You can even go one step further and apply the subject as domain prefix.
 const todo/ADD = 'todo/ADD';
 ~~~~~~~~
 
-These are only my personal naming conventions for those types of functions and constants in Redux. You can come up with your own. But do yourself and your fellow developers a favor and reach an agreement first and then apply them consistently through your code base.
+These are only personal naming conventions for those types of functions and constants in Redux. You can come up with your own. But do yourself and your fellow developers a favor and reach an agreement first and then apply them consistently through your code base.
 
-## Nested Combined Reducers
+## The Relationship between Actions and Reducers
 
-https://stackoverflow.com/questions/36786244/nested-redux-reducers
+Actions and reducers are not strictly coupled. They only share an action type. A dispacthed action, for example with the action type `SOMETHING_ADD`, can be captured in multiple reducers that utilize `SOMETHING_ADD`. That's an important fact when implementing a scaling state management architecture in your application.
 
-## Command vs. Event Pattern
+When coming from an object-oriented programming background though, you might abuse actions/reducers as setters and selectors as getters. You will couple actions and reducers in a 1:1 relationship. It will call it the **command pattern** in Redux. It can be useful in some scenarios, as I will point out later, but in general it's not the philosophy of Redux.
 
-- https://hackernoon.com/dispatch-redux-actions-as-events-not-commands-4de8a92b1ea5
+Redux can be seen as event bus of your application. You can send events (actions) with a payload and an identifier (action type) into the bus and it will pass potential consumer (reducers). A part of these consumers is interested in the event. That's what I call the **event pattern** that Redux embraces.
 
-- single vs multiple reducers
-- to close to command should be evaluated as local state
-- Action to Reducer like 1:N
+You can say that the higher you place your actions on the spectrum of abstraction, the more reducers are interested in it. The action becomes an event. The lower you place your actions on the spectrum of abstraction, most often only one reducer can consume it. The action becomes a command. It is a concrete action rather than an abstract action. It is important to note though that you have to keep the balance between abstraction and concreteness. Too abstract actions can lead to a mess when too many reducers consume it. Too concrete actions might be only used by one reducer all the time. Most developers run into the latter scenario though. In Redux, obviously depending on your application, it should be a healthy mix of both.
 
-Last but not least, I want to give you clarification on the relationship between actions and reducers. You know that your application can have multiple actions and reducers. But how do they relate to each other?
+In the book you have encountered most of the time a relationship of 1:1 between action and reducer. Let's take an action that completes a todo as demonstration:
 
-- showcase one action that is captured by multiple reducers
-- that will be explained in greater detail in the Command and Event patterns in Redux
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+function doCompleteTodo(id) {
+  return {
+    type: COMPLETE_TODO,
+    todo: { id },
+  };
+}
+
+function todosReducer(state = [], action) {
+  switch(action.type) {
+    case COMPLETE_TODO : {
+      return applyCompleteTodo(state, action);
+    }
+    default : return state;
+  }
+}
+~~~~~~~~
+
+Now imagine that there should be a measuring of the progress of the Todo application user. The progress will always start at zero when the user opens the application. When a todo gets completed, the progress should increase by one. A potential easy solution could be counting all completed todo items. However, since there could be completed todo items already, and you want to measure the completed todo items in this session, the solution would not suffice. The solution could be a second reducer that counts the completed todos in this session.
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+function progressReducer(state = 0, action) {
+  switch(action.type) {
+    case COMPLETE_TODO : {
+      return state++;
+    }
+    default : return state;
+  }
+}
+~~~~~~~~
+
+The counter will increment when a todo got completed. Now you can easily measure the progress of the user. Suddenly, you have a 1:2 relationship between action and reducer. Nobody forces you not to couple action and reducer in a 1:1 relationship, but it always makes sense to be creative in this manner. What would happen otherwise? Regarding the progress measurement issue, you might would come up with a second action type and couple it to the previous reducer:
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+# leanpub-start-insert
+function doTrackProgress() {
+  return {
+    type: PROGRESS_TRACK,
+  };
+}
+# leanpub-end-insert
+
+function progressReducer(state = 0, action) {
+  switch(action.type) {
+# leanpub-start-insert
+    case PROGRESS_TRACK : {
+# leanpub-end-insert
+      return state++;
+    }
+    default : return state;
+  }
+}
+~~~~~~~~
+
+The action would be dispatched in paralell with the `COMPLETE_TODO` action.
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+dispatch(doCompleteTodo('0'));
+dispatch(doTrackProgress());
+~~~~~~~~
+
+But that would miss the point in Redux. You would want to come up with these commonalities to make your actions more abstract and be used by multiple reducers. My rule of thumb for this topic: Approach your actions as concrete actions with a 1:1 relationship to their reducers, but keep yourself always open to reuse them as more abstract actions in other reducers.
 
 ## State Keys
 
