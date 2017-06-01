@@ -1,4 +1,4 @@
-# Redux Patterns in React
+# Advanced Redux in React
 
 ## Redux vs. Local State
 
