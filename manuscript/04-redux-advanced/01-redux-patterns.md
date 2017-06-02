@@ -183,10 +183,6 @@ dispatch(doTrackProgress());
 
 But that would miss the point in Redux. You would want to come up with these commonalities to make your actions more abstract and be used by multiple reducers. My rule of thumb for this topic: Approach your actions as concrete actions with a 1:1 relationship to their reducers, but keep yourself always open to reuse them as more abstract actions in other reducers.
 
-## State Keys
-
-- makes more sense when command pattern
-
 ## Folder Organization
 
 - technical, feature
@@ -196,3 +192,112 @@ But that would miss the point in Redux. You would want to come up with these com
 
 - as long as action and reducer are coupled it makes sense
 - but they shouldn't be coupled. command pattern should be avoided and state keys are only useful for certian scenarios
+
+## Testing
+
+The book will not dive deeply into the topic of testing, but it shouldn't be unmentioned. Testing your code in programming is essential and should be seen as mandatory. You want to keep the quality of your code high and an assurance that everything works. However, testing your code can often be tedious. You have to setup, mock or spy things before you can finally start to test it. Or you you have to cover a ton of edge cases in your one huge code block. But I can give you comfort by saying that this is not the case when testing state management done with Redux. I will show you how you can easily test the necessary parts, keep your efforts low and stay lazy.
+
+Perhaps you have heard about the testing pyramid. There are end-to-end tests, integration tests and units tests. If you are not familiar with those, the book gives you a quick and basic overview. A unit test is used to test an isolated and small block of code. It can be a single function that is tested by an unit test. However, sometimes the units work well in isolation yet don't work in combination with other units. They need to be tested as a group as units. That's where integration tests can help out by covering whether units work well together. Last but not least, an end-to-end test is the simulation of a real user scenario. It could be an automated setup in a browser simulating the login flow of an user in a web application. While unit tests are fast and easy to write and to maintain, end-to-end tests are the opposite ot the this spectrum.
+
+How many tests do I need of each type? You want to have many unit tests to cover your isolated functions. After that you can have several integration tests to cover that the most important functions work in combination as expected. Last but not least, you might want to have only a few end-to-end tests to simulate critical scenarios in your web application. That's it for the general excursion in the world of testing. Now, how does it apply to state managament with Redux?
+
+Redux embraces the functional programming style. Your functions are pure and you don't have to worry about any side-effects. A function always returns the same output for the same input. Such functions are easy to test, because you only have to give them an input and expect the output because there is a no side-effect guarantee. That's the perfect fit for unut tests, isn't it? In conclusion, it makes stata management testing when build with Redux a pleasure.
+
+In Redux you have different groups of functions: action creators, reducers, selectors. For each of these groups, you can see a pattern for their input and output. These can be applied to a test pattern which can be used as blueprint for a unit test for each group of functions.
+
+Input Pattern:
+
+* action creators can have an optional input that becomes their optional payload
+* selectors can have an optional input that supports them to select the substate
+* reducers will always receive a previous state and action
+
+Output Pattern:
+
+* action creators will always return an object with a type and optional payload
+* selectors will always return a substate of the state
+* reducers will always return a new state
+
+Test Pattern:
+
+* when invoking an action creator, the correct return object should be expected
+* when invoking a selector, the correct substate should be expected
+* when invoking a reducer, the correct new state should be expected
+
+How does that apply in code? The book will show it in pseudo code, because it will not make any assumption about your testing libraries. Yet it should be sufficient to pick up these patterns for each group of functions (action creators, reducers, selectors) to apply them in your unit tests.
+
+*Action Creators:*
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+// whereas the payload is optional
+// whereas the payload can have a different structure than in the expected action
+const payload = { ... };
+
+const action = doSomething(payload);
+const expectedAction = {
+  type: 'DO_SOMETHING',
+  payload,
+};
+
+expect(action).to.equal(expectedAction);
+~~~~~~~~
+
+*Selectors:*
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+// whereas the payload is optional
+const state = { ... };
+const payload = { ... };
+
+const substate = getSomething(state, payload);
+const expectedSubstate = { ... };
+
+expect(substate).to.equal(expectedSubstate)
+~~~~~~~~
+
+*Reducer:*
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+const previousState = { ... };
+const action = {
+  type: 'DO_SOMETHING',
+  payload,
+};
+
+const newState = someReducer(previousState, action);
+const expectedNewState = { ... };
+
+expect(newState).to.equal(expectedNewState);
+~~~~~~~~
+
+These test patterns will always stay the same for their groups of functions. You only have to fill in the blanks. You can even give yourself an easier time and setup automated code snippets for your editor of choice. For instance, typing "rts" (abbr. for redux test selector) gives you the blueprint for a selector test. The other two snippets could be "rtr" (redux test reducer) and "rta" (redux test action). After that you only have to fill in the remaining things.
+
+These test patterns for state management that can be automated show you how simple testing becomes when you work with the clear constraints of a library like Redux. Everything behaves the same, it is predictable, and thus can be tested every time the in the same way. When setting up automated code snippets, you will save yourself a lot of time yet have a great test coverage for your whole state management. You can go even one step furhter and apply [test-driven development](https://en.wikipedia.org/wiki/Test-driven_development) (TDD) which basically means you test before you implement.
+
+There is another neat helper that can ensure that your state stays immutable. Because you never know if you accidentally mutate your state even though it is forbidden in Redux. I guess there are a handful of libraries around this topic, but I use [deep-freeze](https://github.com/substack/deep-freeze) in my tests to ensure that the state (and even actions) doesn't get mutated.
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+# leanpub-start-insert
+import deepFreeze from 'deep-freeze';
+# leanpub-end-insert
+
+const previousState = { ... };
+const action = {
+  type: 'DO_SOMETHING',
+  payload,
+};
+
+# leanpub-start-insert
+deepFreeze(previousState);
+# leanpub-end-insert
+
+const newState = someReducer(previousState, action);
+const expectedNewState = { ... };
+
+expect(newState).to.equal(expectedNewState);
+~~~~~~~~
+
+That's it for testing your different groups of functions when using Redux. It can be accomplished by using unit tests. You could apply integration tests too, for instance to test an action creator and reducer altogether. After all, you have a blueprint for testing these functions all the time at your hand and there is no excuse anymore to not test your code (at least the state management part).
