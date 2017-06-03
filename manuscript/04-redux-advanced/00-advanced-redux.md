@@ -512,7 +512,7 @@ In this scenario, the whole normalized data structure gets normalized in the sel
 
 - reselect with memoize
 
-### Hands On: Todo with Normalized Data and Selectors
+## Hands On: Todo with Normalized Data and Selectors
 
 In the Todo application, you could refactor everything to use normalized data and selectors now. Let's open up again the Redux Playground. You can use the [JS Bin project from the Redux in React chapter](https://jsbin.com/kopohur/23/edit?html,js,console,output). It imports all necessary libraries.
 
@@ -585,7 +585,7 @@ Now try to refactor the Todo application on your own to use selectors instead of
 
 - derived properties (visibility filter todos in React Redux example)
 
-# Challenge: Snake with Redux
+## Challenge: Snake with Redux
 
 - show off command (only one reducer cares, but refactor it to local state) vs event (multiple reducers care) pattern
 
@@ -772,8 +772,9 @@ The whole concept around asynchronours actions led to a handful of libraries tha
 
 - mature applications
 
-### More Alternatives
+### Alternatives
 
+- more alternatives
 - obsrvable: comparison to Saga http://stackoverflow.com/questions/40021344/why-use-redux-observable-over-redux-saga
 - redux cycle: valid alternative for reactive programming
 
@@ -781,6 +782,6 @@ The whole concept around asynchronours actions led to a handful of libraries tha
 
 - redux thunk
 
-## Challenge: Snake with Redux
+## Challenge: Snake with Redux and Async Actions
 
 - extract the timeout functionality into a simple delayed action first, but then use redux thunk and/or redux saga to accomplish it
