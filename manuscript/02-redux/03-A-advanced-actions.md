@@ -208,7 +208,7 @@ The properties would add up horizontally, but mask the one most important proper
 
 The refactoring ensures that type and payload are visible on first glance.
 
-## Hands On: Redux Standalone with advanced Actions
+### Hands On: Redux Standalone with advanced Actions
 
 Let's dip again into the Redux Playground with the acquired knowledge about actions. You can take again the [JS Bin project that you have done in the last chapter](https://jsbin.com/kopohur/7/edit?html,js,console). The project will be used to show the advanced actions. You can try it on your own. Otherwise the following part will guide you through the refactorings.
 

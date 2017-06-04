@@ -575,13 +575,32 @@ The application should work the same as before. The source code can be found in 
 npm install --save normalizr
 ~~~~~~~~
 
-Let's have a look at the inital state for the `todoReducer` that you have used in the Todo application:
+Let's have a look at the inital state for the `todoReducer`. You could make up your own initial state. For instance, what about completing all "Hands On" and "Challenge" chapters in this book?
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
 const todos = [
-  { id: '0', name: 'learn redux' },
-  { id: '1', name: 'learn mobx' },
+  { id: '0', name: 'Hands On: Snake with Local State' },
+  { id: '1', name: 'Challenge: Snake with Higher Order Components' },
+  { id: '2', name: 'Hands On: Redux Standalone with advanced Actions' },
+  { id: '3', name: 'Hands On: Redux Standalone with advanced Reducers' },
+  { id: '4', name: 'Hands On: Bootstrap App with Redux' },
+  { id: '5', name: 'Hands On: Naive Todo with React and Redux' },
+  { id: '6', name: 'Hands On: Sophisticated Todo with React and Redux' },
+  { id: '7', name: 'Hands On: Connecting State Everywhere' },
+  { id: '8', name: 'Challenge: Snake with React and Redux' },
+  { id: '9', name: 'Hands On: Todo with advanced Redux' },
+  { id: '10', name: 'Hands On: Todo with more Features' },
+  { id: '11', name: 'Challenge: Snake with Redux' },
+  { id: '12', name: 'Hands On: Todo with Notifications' },
+  { id: '13', name: 'Challenge: Snake with Redux and Async Actions' },
+  { id: '14', name: 'Hands On: Hacker News with Redux' },
+  { id: '15', name: 'Challenge: Hacker News with beyond Redux' },
+  { id: '16', name: 'Challenge: Hacker News with beyond Redux' },
+  { id: '17', name: 'Hands On: Snake with MobX' },
+  { id: '18', name: 'Hands On: Todo App with MobX' },
+  { id: '19', name: 'Challenge: Hacker News App with MobX' },
+  { id: '20', name: 'Challenge: Consuming a GrapQL API with Relay' },
 ];
 
 function todoReducer(state = todos, action) {
@@ -617,8 +636,7 @@ Second, you can use the schema to normalize your initial todos and use them as d
 // reducers
 
 const todos = [
-  { id: '0', name: 'learn redux' },
-  { id: '1', name: 'learn mobx' },
+  ...
 ];
 
 # leanpub-start-insert
@@ -1151,4 +1169,4 @@ The whole concept around asynchronours actions led to a handful of libraries tha
 
 ## Challenge: Snake with Redux and Async Actions
 
-- extract the timeout functionality into a simple delayed action first, but then use redux thunk and/or redux saga to accomplish it
+- extract the timeout functionality into a simple delayed action first, but then use redux saga to accomplish it

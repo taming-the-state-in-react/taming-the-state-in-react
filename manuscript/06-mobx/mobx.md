@@ -18,6 +18,10 @@
 
 - ref Michel Post
 
+## Hands On: Snake with MobX
+
+- take local state snake as begin
+
 ## Container and Presenter Pattern
 
 - still valid
@@ -35,10 +39,8 @@
 - ref as outline mobx-state-tree
 - ref Michel video youtube
 
-## Hands On: Snake with MobX
-
-- challenge?
-
 ## Hands On: Todo App with MobX
+
+- or leave it out, or challenge and leave out HN MobX
 
 ## Challenge: Hacker News App with MobX

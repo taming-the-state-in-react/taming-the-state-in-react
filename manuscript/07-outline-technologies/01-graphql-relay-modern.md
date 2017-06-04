@@ -6,7 +6,7 @@
 - GraphQL is an alternative to REST (say own opoinions why this might be no good idea)
 - Relay is a client for it, but other clients can be build on your own or as library (Apollo)
 
-## Hands On: Consuming a GrapQL API with Relay
+## Challenge: Consuming a GrapQL API with Relay
 
 - github API
 - relay modern with github application

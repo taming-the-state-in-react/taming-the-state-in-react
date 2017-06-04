@@ -309,7 +309,7 @@ You can use nested reducers to introduced clearer boundaries in substates. In ad
 
 While nested reducers can give you a better picture on your state, they can add more levels of complexity for your state. You should follow the practice of not nesting your state too deeply in the first place. Then you won't run too often into nested reducers.
 
-## Hands On: Redux Standalone Advanced Reducers
+### Hands On: Redux Standalone with advanced Reducers
 
 Let's dip again into the Redux Playground with the acquired knowledge about reducers. You can take again the [JS Bin project that you have done in the last chapter](https://jsbin.com/kopohur/8/edit?html,js,console). The project will be used to show the advanced reducers. You can try it on your own. Otherwise the following part will guide you through the refactorings.
 

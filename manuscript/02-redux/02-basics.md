@@ -234,7 +234,7 @@ unsubscribe();
 
 That's it. The Redux store has a slim API to access the state, update it and listen for updates.
 
-## Hands On: Redux Standalone
+### Hands On: Redux Standalone
 
 You know about all the basics in Redux now. A view dispatches an action on the store, the action passes all reducers and gets reduced by reducers that care about it. The store saves the new state object. Finally a listener updates the view with the new state.
 
