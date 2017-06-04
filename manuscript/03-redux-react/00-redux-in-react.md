@@ -23,24 +23,177 @@ View -> Action -> Reducer(s) -> Store -> View
 
 How can `dispatch()`, `subscribe()` and `getState()` be accessed in React? Basically the view layer has to be able to dispatch actions on the one end, while it has to listen to updates from the store, in order to update itself, on the other end. All three functionalities are accessible on the Redux store.
 
-## Hands On: Naive Todo with React and Redux
+## Hands On: Bootstrap React App with Redux
 
-The following will showcase a naive usage scenario of Redux in React. Let's open up again the Redux Playground. This time you will wire up React to the Redux store. The [JS Bin project from the last chapter](https://jsbin.com/kopohur/15/edit?html,js,console,output) got update to import all necessary libraries: redux, react and react-dom.
+I can recommend to use create-react-app to bootstrap your React application. But it is up to you. If you use create-react-app and never used it before, you have to install it from the command line:
 
-In the beginning, you want to have an initial state without the need to dispatch actions in order to create todos. You could initialize the state in the `createStore()` method or in the `todosReducer`.
+{title="Command Line",lang="text"}
+~~~~~~~~
+npm install -g create-react-app
+~~~~~~~~
+
+Now you can bootstrap your React application, navigate in it, and start it:
+
+{title="Command Line",lang="text"}
+~~~~~~~~
+create-react-app taming-the-state-todo-app
+cd taming-the-state-todo-app
+npm start
+~~~~~~~~
+
+If you haven't used create-react-app before, I recommend you to read up the basics in the [official documentation](https://github.com/facebookincubator/create-react-app). Your *src/* folder has several files. You will not use the *src/App.js* file in this application, but only the *src/index.js* file. Open up your editor and adjust your *src/index.js* file to the following.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
-const initialState = {
-  todos: [
-    { id: '0', name: 'learn redux' },
-    { id: '1', name: 'learn mobx' },
-  ]
-};
-const store = Redux.createStore(rootReducer, initialState);
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+
+function TodoApp() {
+  return <div>Todo App</div>;
+}
+
+ReactDOM.render(<TodoApp />, document.getElementById('root'));
 ~~~~~~~~
 
-Now you can build a component tree in React that deals with todos. It has an `TodoList` and a `TodoItem`. The `TodoItem` shows the name of the todo and has a functionality that is used in a button to complete the todo.
+Now when you start your application again with `npm start`, you should see the "Todo App" component. Before you continue to build a React application now, let's hook in all of the Redux code that you have written in the previous chapters. First, install Redux in your application.
+
+{title="Command Line",lang="text"}
+~~~~~~~~
+npm install --save redux
+~~~~~~~~
+
+Second, reuse the Redux code from the previous chapters in your *src/index.js* file. You start in the top to import the two Redux functionalities that you have used so far next to the imports that are already there:
+
+{title="Command Line",lang="text"}
+~~~~~~~~
+import React from 'react';
+import ReactDOM from 'react-dom';
+# leanpub-start-insert
+import { combineReducers, createStore } from 'redux';
+# leanpub-end-insert
+import './index.css';
+~~~~~~~~
+
+Now, in between of your imports and your React code, you introduce your Redux functionlities. First, the action types:
+
+{title="Command Line",lang="text"}
+~~~~~~~~
+// action types
+
+const TODO_ADD = 'TODO_ADD';
+const TODO_TOGGLE = 'TODO_TOGGLE';
+const FILTER_SET = 'FILTER_SET';
+~~~~~~~~
+
+Second, the reducers:
+
+{title="Command Line",lang="text"}
+~~~~~~~~
+// reducers
+
+const todos = [
+  { id: '0', name: 'learn redux' },
+  { id: '1', name: 'learn mobx' },
+];
+
+function todoReducer(state = todos, action) {
+  switch(action.type) {
+    case TODO_ADD : {
+      return applyAddTodo(state, action);
+    }
+    case TODO_TOGGLE : {
+      return applyToggleTodo(state, action);
+    }
+    default : return state;
+  }
+}
+
+function applyAddTodo(state, action) {
+  const todo = Object.assign({}, action.todo, { completed: false });
+  return state.concat(todo);
+}
+
+function applyToggleTodo(state, action) {
+  return state.map(todo =>
+    todo.id === action.todo.id
+      ? Object.assign({}, todo, { completed: !todo.completed })
+      : todo
+  );
+}
+
+function filterReducer(state = 'SHOW_ALL', action) {
+  switch(action.type) {
+    case FILTER_SET : {
+      return applySetFilter(state, action);
+    }
+    default : return state;
+  }
+}
+
+function applySetFilter(state, action) {
+  return action.filter;
+}
+~~~~~~~~
+
+Third, the action creators:
+
+{title="Command Line",lang="text"}
+~~~~~~~~
+// action creators
+
+function doAddTodo(id, name) {
+  return {
+    type: TODO_ADD,
+    todo: { id, name },
+  };
+}
+
+function doToggleTodo(id) {
+  return {
+    type: TODO_TOGGLE,
+    todo: { id },
+  };
+}
+
+function doSetFilter(filter) {
+  return {
+    type: FILTER_SET,
+    filter,
+  };
+}
+~~~~~~~~
+
+And last but not least, the creation of the store with the combined reducers:
+
+{title="Command Line",lang="text"}
+~~~~~~~~
+// store
+
+const rootReducer = combineReducers({
+  todoState: todoReducer,
+  filterState: filterReducer,
+});
+
+const store = createStore(rootReducer);
+~~~~~~~~
+
+After that, your React code follows that should be already in the same file.
+
+{title="Command Line",lang="text"}
+~~~~~~~~
+function TodoApp() {
+  return <div>Todo App</div>;
+}
+
+ReactDOM.render(<TodoApp />, document.getElementById('root'));
+~~~~~~~~
+
+The bootstrapping is done. You have a running React application and a Redux store. The next step is to wire both together.
+
+## Hands On: Naive Todo with React and Redux
+
+The following will showcase a naive usage scenario of Redux in React. So far, you have only a `TodoApp` component in React. However, you want to start a component tree that can display a list of todos and gives the user the possibility to toggle these todos. Apart from the `TodoApp` component, you will have a `TodoList` component and a `TodoItem` component. The `TodoItem` shows the name of the todo and has a functionality that is used in a button to complete the todo.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -85,16 +238,16 @@ Notice that none of these components is aware of Redux. They simply display todo
 ~~~~~~~~
 ReactDOM.render(
   <TodoApp
-    todos={store.getState().todos}
+    todos={store.getState().todoState}
     onToggleTodo={id => store.dispatch(doToggleTodo(id))}
   />,
   document.getElementById('root')
 );
 ~~~~~~~~
 
-The store does two things: it makes state accessible and exposes functionalities to alter the state. The `todos` props are passed down to the `TodoApp` by retrieving them from the `store`. In addition, a `onToggleTodo` property is passed down that is a function. This function is a higher order function that wraps the dispatching of an action that is created by its action creator. The `TodoApp` component is completly unaware of the `todos` being retrieved from the Redux store or of the `onToggleTodo()` being a dispatched action on the Redux store. These passed properties are simple props for the `TodoApp`.
+The store does two things: it makes state accessible and exposes functionalities to alter the state. The `todos` props are passed down to the `TodoApp` by retrieving them from the `store`. In addition, a `onToggleTodo` property is passed down that is a function. This function is a higher order function that wraps the dispatching of an action that is created by its action creator. The `TodoApp` component is completly unaware of the `todos` being retrieved from the Redux store or of the `onToggleTodo()` being a dispatched action on the Redux store. These passed properties are simple props for the `TodoApp`. You can start your application again with `npm start`. The todos should be displayed, but not updated yet.
 
-But what about the update mechanism? When an action is dispatched, someone needs to subscribe to the Redux store. In a naive approach you can do the following. First, wrap your React root into a function.
+What about the update mechanism? When an action is dispatched, someone needs to subscribe to the Redux store. In a naive approach you can do the following. First, wrap your React root into a function.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -103,7 +256,7 @@ function render() {
 # leanpub-end-insert
   ReactDOM.render(
     <TodoApp
-      todos={store.getState().todos}
+      todos={store.getState().todoState}
       onToggleTodo={id => store.dispatch(doToggleTodo(id))}
     />,
     document.getElementById('root')
@@ -117,13 +270,25 @@ Second, you can pass the function to the `subscribe()` method of the Redux store
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
+function render() {
+  ReactDOM.render(
+    <TodoApp
+      todos={store.getState().todoState}
+      onToggleTodo={id => store.dispatch(doToggleTodo(id))}
+    />,
+    document.getElementById('root')
+  );
+}
+
+# leanpub-start-insert
 store.subscribe(render);
 render();
+# leanpub-end-insert
 ~~~~~~~~
 
-The final Todo application can be found in [this JS Bin](https://jsbin.com/kopohur/16/edit?html,js,console,output).
+The Todo application should display the todos and update the completed state once you toggle it. The final application of this approach can be found in a [GitHub repository](https://github.com/rwieruch/taming-the-state-todo-app/tree/1.0.1).
 
-The previous approach showcases how you can wire up your React component tree with the Redux store. The components don't need to be aware of the Redux store at all, but the root component is. In addition, everything is re-rendered when the global state in the Redux store updates.
+The approach showcased how you can wire up your React component tree with the Redux store. The components don't need to be aware of the Redux store at all, but the root component is. In addition, everything is re-rendered when the global state in the Redux store updates.
 
 Even though the previous approach is pragmatic and shows a simplified version of how to wire up all these things, it is naive. Why is that? In a real application you want to avoid the following practices:
 
@@ -194,41 +359,71 @@ You will see in the following examples that these functions don't need to be int
 
 ## Hands On: Sophisticated Todo with React and Redux
 
-Now you will use react-redux to wire up React with Redux. Let's open up again the Redux Playground. The [JS Bin project from the last chapter](https://jsbin.com/kopohur/20/edit?html,js,console,output) got updates to import all necessary libraries: redux, react, react-dom and react-redux.
+Now you will use react-redux to wire up React with Redux. Let's open up again your Todo Application in the editor. First, you have to install the new library:
 
-Instead of wrapping the React root component into the `render()` function and subscribing it to the `store.subscribe()` method, you will use the plain React root component again but use the Provider component by react-redux.
+{title="Command Line",lang="text"}
+~~~~~~~~
+npm install --save react-redux
+~~~~~~~~
+
+Second, instead of wrapping the React root component into the `render()` function and subscribing it to the `store.subscribe()` method, you will use the plain React root component again but use the Provider component by react-redux.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { combineReducers, createStore } from 'redux';
+# leanpub-start-insert
+import { Provider } from 'react-redux';
+# leanpub-end-insert
+import './index.css';
+
+...
+
+# leanpub-start-insert
 ReactDOM.render(
-  <ReactRedux.Provider store={store}>
+  <Provider store={store}>
     <TodoApp />
-  </ReactRedux.Provider>,
+  </Provider>,
   document.getElementById('root')
 );
+# leanpub-end-insert
 ~~~~~~~~
 
 It uses the plain `TodoApp` component. The component still expects the `todos` and `onToggleTodo` as props. But it hasn't these props. Let's use the `connect` higher order component to expose these to the `TodoApp` component. The `TodoApp` component will become a `ConnectedTodoApp` component.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
-const ConnectedTodoApp = ReactRedux.connect(mapStateToProps, mapDispatchToProps)(TodoApp);
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { combineReducers, createStore } from 'redux';
+# leanpub-start-insert
+import { Provider, connect } from 'react-redux';
+# leanpub-end-insert
+import './index.css';
+
+...
+
+# leanpub-start-insert
+const ConnectedTodoApp = connect(mapStateToProps, mapDispatchToProps)(TodoApp);
 
 ReactDOM.render(
-  <ReactRedux.Provider store={store}>
+  <Provider store={store}>
     <ConnectedTodoApp />
-  </ReactRedux.Provider>,
+  </Provider>,
   document.getElementById('root')
 );
+# leanpub-end-insert
 ~~~~~~~~
 
-Now, only the connections, `mapStateToProps` and `mapDispatchToProps` are missing. They are quite similar to the naive React with Redux version.
+Now, only the connections, `mapStateToProps()` and `mapDispatchToProps()` are missing. They are quite similar to the naive React with Redux version.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
+# leanpub-start-insert
 function mapStateToProps(state) {
   return {
-    todos: state.todos,
+    todos: state.todoState,
   };
 }
 
@@ -237,30 +432,47 @@ function mapDispatchToProps(dispatch) {
      onToggleTodo: id => dispatch(doToggleTodo(id)),
   };
 }
+# leanpub-end-insert
+
+const ConnectedTodoApp = connect(mapStateToProps, mapDispatchToProps)(TodoApp);
+
+...
 ~~~~~~~~
 
-That's it. In `mapStateToProps()` only a substate is returned. In `mapDispatchToProps()` only a higher order function that encapsulates the dispatching of an action is returned. The child components are unaware of any state or actions. They are only receiving props. You can find the final version in [this JS Bin](https://jsbin.com/kopohur/22/edit?html,js,console,output). I would advice you to compare it again with the naive version that wires React and Redux together. It is not that different from it.
+That's it. In `mapStateToProps()` only a substate is returned. In `mapDispatchToProps()` only a higher order function that encapsulates the dispatching of an action is returned. The child components are unaware of any state or actions. They are only receiving props. The final application of this approach can be found in a [GitHub repository](https://github.com/rwieruch/taming-the-state-todo-app/tree/2.0.0).. I would advice you to compare it again with the naive version that wires React and Redux together. It is not that different from it.
 
-## Connecting State Everywhere
+## Hands On: Connecting State Everywhere
 
 There is one last clue to understand the basics of wiring React and Redux together. In the previous example you only used one connected component that is located at the root of your component tree. But you can use connected components everywhere.
 
-Now only your `TodoApp` component has access to the state and enables you to alter the state. But you can add more connected components in between. For instance, the `onToggleTodo()` function has to pass several component until it reaches its destination in the `TodoItem` component. Why not connecting the `TodoItem` component to make the functionality right next to it available rather than passing it down multiple components?
+Only your `TodoApp` component has access to the state and enables you to alter the state. Instead of using your root component to connect to it to the store, you can add connected components in between. For instance, the `onToggleTodo()` function has to pass several component until it reaches its destination in the `TodoItem` component. Why not connecting the `TodoItem` component to make the functionality right next to it available rather than passing it down multiple components? The same applies for the `TodoList` component. It could be connected to retrieve the list of todos instead of getting it from the `TodoApp` component.
 
-In the Todo application you could keep both `mapStateToProps()` and `mapDispatchToProps()`, but you would use `mapDispatchToProps()` somewhere else. While the `ConnectedTodoApp` component doesn't need it anymore, it would be used in a `ConnectedTodoItem` component.
-
-{title="Code Playground",lang="javascript"}
-~~~~~~~~
-const ConnectedTodoApp = ReactRedux.connect(mapStateToProps)(TodoApp);
-const ConnectedTodoItem = ReactRedux.connect(null, mapDispatchToProps)(TodoItem);
-~~~~~~~~
-
-Now you wouldn't need to pass the `onToggleTodo()` props through the `TodoApp` and `TodoList` component anymore.
+In the Todo application you could keep both `mapStateToProps()` and `mapDispatchToProps()`, but you would use them somewhere else. While the `TodoApp` component doesn't need them anymore, they would be used in a `ConnectedTodoItem` and `ConnectedTodoList` component.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
-function TodoApp({ todos }) {
-  return <TodoList todos={todos} />;
+# leanpub-start-insert
+const ConnectedTodoList = connect(mapStateToProps)(TodoList);
+const ConnectedTodoItem = connect(null, mapDispatchToProps)(TodoItem);
+# leanpub-end-insert
+
+ReactDOM.render(
+  <Provider store={store}>
+# leanpub-start-insert
+    <TodoApp />
+# leanpub-end-insert
+  </Provider>,
+  document.getElementById('root')
+);
+~~~~~~~~
+
+Now you wouldn't need to pass the `onToggleTodo()` props through the `TodoApp` component and `TodoList` component anymore. The same applies for the `todos` that don't need to get passed through the `TodoApp` component.
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+# leanpub-start-insert
+function TodoApp() {
+  return <ConnectedTodoList />;
 }
 
 function TodoList({ todos }) {
@@ -273,9 +485,10 @@ function TodoList({ todos }) {
     </div>
   );
 }
+# leanpub-end-insert
 ~~~~~~~~
 
-The final Todo application can be found in [this JS Bin](https://jsbin.com/kopohur/23/edit?html,js,console,output).
+The final Todo application can be found in [the GitHub repository](https://github.com/rwieruch/taming-the-state-todo-app/tree/3.0.0).
 
 As you can imagine by now, you can connect your state everywhere to your view layer. You can retrieve it with `mapStateToProps()` and alter it with `mapDispatchToProps()` from everywhere in your component tree. These components that add this intermediate glue between view and state are called connected components. They are a subset of the container components from the container and presenter pattern. The presenter components are still clueless and don't know if the props are derived from a Redux store, from local state or actions. They just use these props. (TODO check if this is explained in the basics)
 
