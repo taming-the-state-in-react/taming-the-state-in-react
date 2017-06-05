@@ -187,6 +187,7 @@ But that would miss the point in Redux. You would want to come up with these com
 
 - technical, feature
 - top level when event pattern, feature level when command pattern
+- Hands On: make a technical or feature separation in the Todo app, but don't write it up here, simply GitHub too release with folders organized
 
 ### Ducks
 

@@ -168,7 +168,7 @@ That are the basics of Redux Thunk. There are a few more things that are good to
 
 ## Redux Saga
 
-The whole concept around asynchronours actions led to a handful of libraries that solve this issue. Redux Thunk was only the first one introduced by Dan Abramov. However, he agrees that there are use cases where Redux Thunk doesn't solve the problem. Redux Thunk should be used when there are asynchronours actions. But when there are more complex scenarios around it, there are advanced solutions for asynchronours actions. This chapter shows you one of these solutions, Redux Saga, which is one of the most popular asynchrnours actions libraries for Redux.
+The whole concept around asynchronours actions led to a handful of libraries which solve this issue. Redux Thunk was only the first one introduced by Dan Abramov. However, he agrees that there are use cases where Redux Thunk doesn't solve the problem. Redux Thunk should be used when there are asynchronours actions. But when there are more complex scenarios around it, there are advanced solutions for asynchronours actions. This chapter shows you one of these solutions, Redux Saga, which is one of the most popular asynchrnours actions libraries for Redux.
 
 - dealing with side-effects, so far not spoken about
 - like side threats that only deal with side-effects
