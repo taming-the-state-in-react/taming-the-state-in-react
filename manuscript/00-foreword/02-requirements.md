@@ -28,6 +28,6 @@ npm --version
 
 When you read the Road to learn React, you should be familiar with the setup already. The book gives you also a short introduction into the npm ecosystem on the command line.
 
-- TODO Git ref??
+- TODO Git ref?? knowledge about github in general, because source code gets referenced through them
 - API? ref
 - npm guide as blog post?

@@ -1067,7 +1067,7 @@ The pattern from above suffices for simple Redux applications that need a delaye
 - TODO https://www.reddit.com/r/reactjs/comments/6e0vgt/is_my_understanding_of_reduxthunk_correct/?st=1Z141Z3&sh=255adc41
 - TODO https://medium.com/@talkol/redux-thunks-dispatching-other-thunks-discussion-and-best-practices-dd6c2b695ecf
 
-The previous question led Dan Abramov, the creator of Redux, think about a general pattern to the problem of asynchronours actions. He came up with the library called [redux-thunk](https://github.com/gaearon/redux-thunk) to legitimize the concept. Synchronours and asynchronours action creators should be dispatched in a similar way from a Redux store. It is used as middleware in your Redux store.
+The previous question led Dan Abramov, the creator of Redux, thinking about a general pattern to the problem of asynchronours actions. He came up with the library called [redux-thunk](https://github.com/gaearon/redux-thunk) to legitimize the concept. Synchronours and asynchronours action creators should be dispatched in a similar way from a Redux store. It is used as middleware in your Redux store.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -1163,10 +1163,214 @@ The whole concept around asynchronours actions led to a handful of libraries tha
 - obsrvable: comparison to Saga http://stackoverflow.com/questions/40021344/why-use-redux-observable-over-redux-saga
 - redux cycle: valid alternative for reactive programming
 
-## Hands On: Todo with Notifications
+### Hands On: Todo with Notifications
 
-- redux thunk
+After learning about asynchronous actions, the Todo application could make use of notifications, couldn't it? The first part of this hands on chapter is a great repition on using everything you have learned before asynchronrsous actions. First, you have to implement a notification reducer that evaluates actions that should generate a notification.
 
-## Challenge: Snake with Redux and Async Actions
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+function notificationReducer(state = {}, action) {
+  switch(action.type) {
+    case TODO_ADD : {
+      return applySetNotifyAboutAddTodo(state, action);
+    }
+    default : return state;
+  }
+}
+
+function applySetNotifyAboutAddTodo(state, action) {
+  const { name, id } = action.todo;
+  return { ...state, [id]: 'Todo Created: ' + name  };
+}
+~~~~~~~~
+
+You don't need to create a new action type. Instead you can reuse the action you already have to add todos. When a todo gets created, the notification reducer will store a new notification about the created todo item. Second, you have to include the reducer in your combined reducer to make it accessible to the Redux store.
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+const rootReducer = combineReducers({
+  todoState: todoReducer,
+  filterState: filterReducer,
+# leanpub-start-insert
+  notificationState: notificationReducer,
+# leanpub-end-insert
+});
+~~~~~~~~
+
+The Redux part is done. It is only a reducer and including it in the Redux store. The action gets reused. Third, you have to implement a React component that displays all of your notifications.
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+function Notifications({ notifications }) {
+  return (
+    <div>
+      {notifications.map(note => <div key={note}>{note}</div>)}
+    </div>
+  );
+}
+~~~~~~~~
+
+Fourth, you can include the connected version of the `Notifications` component in your `TodoApp` component.
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+function TodoApp() {
+  return (
+    <div>
+      <ConnectedFilter />
+      <ConnectedTodoCreate />
+      <ConnectedTodoList />
+# leanpub-start-insert
+      <ConnectedNotifications />
+# leanpub-end-insert
+    </div>
+  );
+}
+~~~~~~~~
+
+Last but not least, you have to wire up React and Redux in the connected `ConnectedNotifications` component.
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+function mapStateToPropsNotifications(state, props) {
+  return {
+     notifications: getNotifications(state),
+  };
+}
+
+const ConnectedNotifications = connect(mapStateToPropsNotifications)(Notifications);
+~~~~~~~~
+
+The only thing left is to implement the missing selector `getNotifications()`. Since the notifications in the Redux store as saved as an object, you have to use a helper function to convert it into an array. It is good to extract the helper function earlier on, because you might need such functionalities more often and shouldn't couple it to the domain of notifications.
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+function getNotifications(state) {
+  return getArrayOfObject(state.notificationState);
+}
+
+function getArrayOfObject(object) {
+  return Object.keys(object).map(key => object[key]);
+}
+~~~~~~~~
+
+The first part of the "Hands On" chapter is done. You should see a notification in your Todo application once you create a todo item. The second part will implement a `NOTIFICATION_HIDE` action and use it in the `notificationReducer` to remove the notification from the state. First, you have to introduce the action type:
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+const NOTIFICATION_HIDE = 'NOTIFICATION_HIDE';
+~~~~~~~~
+
+Second, you can implement an action creator that uses the action type. It will hide (remove) the notification by id, because they are stored by id:
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+function doHideNotification(id) {
+  return {
+    type: NOTIFICATION_HIDE,
+    id
+  };
+}
+~~~~~~~~
+
+Third, you can capture it in the `notificationReducer`. The JavaScript destructuring functionality can be used to omit a property from an object. You can simply omit the notification and return the remaining object.
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+function notificationReducer(state = {}, action) {
+  switch(action.type) {
+    case TODO_ADD : {
+      return applySetNotifyAboutAddTodo(state, action);
+    }
+# leanpub-start-insert
+    case NOTIFICATION_HIDE : {
+      return applyRemoveNotification(state, action);
+    }
+# leanpub-end-insert
+    default : return state;
+  }
+}
+
+# leanpub-start-insert
+function applyRemoveNotification(state, action) {
+  const {
+    [action.id]: notificationToRemove,
+    ...restNotifications,
+  } = state;
+  return restNotifications;
+}
+# leanpub-end-insert
+~~~~~~~~
+
+That was the second part of the "Hands On" chapter that introduced the hiding notification functionality. The third and last part of the "Hands On" chapter will introduce asynchronous actions to hide a notification after a couple of seconds. As mentioned earlier, you wouldn't need a library to solve this problem. You could simply built on the JavaScript timeout functionality. But for the sake of learning about asynchronous actions, you will use Redux Thunk. It's up to you to exchange it with another asynchronours actions library afterward for the sake of learning about the alternatives.
+
+First, you have to install the [redux-thunk](https://github.com/gaearon/redux-thunk) on the command line:
+
+{title="Command Line",lang="text"}
+~~~~~~~~
+npm install --save redux-thunk
+~~~~~~~~
+
+Second, you can import it in your code:
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { applyMiddleware, combineReducers, createStore } from 'redux';
+import { Provider, connect } from 'react-redux';
+import { createLogger } from 'redux-logger';
+# leanpub-start-insert
+import thunk from 'redux-thunk';
+# leanpub-end-insert
+import { schema, normalize } from 'normalizr';
+import uuid from 'uuid/v4';
+import './index.css';
+~~~~~~~~
+
+And third, use it in your Redux store middleware:
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+const store = createStore(
+  rootReducer,
+  undefined,
+# leanpub-start-insert
+  applyMiddleware(thunk, logger)
+# leanpub-end-insert
+);
+~~~~~~~~
+
+The application should still work. When using Redux Thunk, you can dispatch action objects as before. However, now you can dispatch thunks (functions) too. Rather than dispatching an action object that only creates a todo item, you can dispatch a thunk function that creates a todo item and hides the notification about the creation after a couple of seconds. You have two plain actions creators, `doAddTodo()` and `doHideNotification()`, already in place. You only have to reuse it in your thunk function.
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+function doAddTodoWithNotification(id, name) {
+  return function (dispatch) {
+    dispatch(doAddTodo(id, name));
+
+    setTimeout(function () {
+      dispatch(doHideNotification(id));
+    }, 5000);
+  }
+}
+~~~~~~~~
+
+In the last step, you have to use the `doAddTodoWithNotification()` rather than the `doAddTodo()` action creator when connecting Redux and React in your `TodoCreate` component.
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+function mapDispatchToPropsCreate(dispatch) {
+  return {
+# leanpub-start-insert
+    onAddTodo: name => dispatch(doAddTodoWithNotification(uuid(), name)),
+# leanpub-end-insert
+  };
+}
+~~~~~~~~
+
+That's it. You notifications should work and hide after five seconds. Basically you have built the foundation for a notifiaction system in your Todo application. You can use it for other actions too. The project can be found in the [GitHub repository](https://github.com/rwieruch/taming-the-state-todo-app/tree/9.0.0).
+
+### Challenge: Snake with Redux and Async Actions
 
 - extract the timeout functionality into a simple delayed action first, but then use redux saga to accomplish it
