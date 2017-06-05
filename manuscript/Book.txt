@@ -24,7 +24,8 @@
 
 03-redux-react/00-redux-in-react.md
 
-04-redux-advanced/00-advanced-redux.md
+04-redux-advanced/00a-redux-state.md
+04-redux-advanced/00b-redux-async-actions.md
 04-redux-advanced/01-redux-patterns.md
 04-redux-advanced/02-redux-patterns-react.md
 04-redux-advanced/03-redux-architecture.md
