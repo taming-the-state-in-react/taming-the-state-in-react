@@ -1,32 +1,19 @@
 ## Acknowledgements
 
-- Dan Abramov
-- for Redux (with co author!!!!)
-- now for create react app that makes developing React apps so much simpler
-- driving a great community
-- giving oppoturnities for people like me, the book wouldn't have happened when Dan wouldn't support my doings
+Foremost I want to acknowledge the work of the people who provide us with the solutions to build modern applications nowadays. The true heroes are the people behind the tools we use every day in software development. And these solutions are mostly built in the free time of these people. Just give yourself one minute and think about all the libraries you use in your own applications.
 
-- Mark Erikson
-- great community management
-- working relentlessly on official Redux document
-- writing a lot about Redux on his own blog
-- managing a huge list with tips: TODO link
-- helping others all the time on Twitter, Reddit, etc.
+I want to thank [Dan Abramov](https://twitter.com/dan_abramov) and [Andrew Clark](https://twitter.com/acdlite) for open sourcing Redux. A whole community gathered behind this library and I must confess that it's a great community. In addition, I'd like to thank [Michel Weststrate](https://twitter.com/mweststrate) for providing an alternative. It keeps the whole ecosystem in balance when there are more than one solution. These solutions can learn from each other or provide different approaches to one problem. But it always helps to think out of the box and solve a problem from a different perspective.
 
-- Michel mobx
+Again, I want to thank Dan Abramov for guiding a whole generation of JavaScript developers. You work on solutions, such as create-react-app, that make a developer's life easier. You work cloesely with the community, listening to their pains and provide solutions for those problems. Moreover you encourage people to contribute in the ecosystem. Each day there are more contributors for [react](https://github.com/facebook/react), [create-react-app](https://github.com/facebookincubator/create-react-app) and [redux](https://github.com/reactjs/redux). You give people a platform to share their knowledge. For instance, that's how you encouraged me to write about my experiences working with React and Redux. Without you sharing the content people are writing, often it never reaches a broader audience. You drive people to come up with things that other people could use to solve their problems. The book wouldn't have happened without Dan sharing my content over the last year.
 
-- Vjeux
-- inspiring talk on React EUrope 2016 that gave me a push to do more blogging and teaching
+I want to thank [Mark Erikson](https://twitter.com/acemarke) for his perpetual desire to help others in the world of React and Redux. He is the keeper of the great lists ((react-redux-links)[https://github.com/markerikson/react-redux-links]) and ((redux-ecosystem-links)[https://github.com/markerikson/redux-ecosystem-links]) that you definetly need to check out. There is no day where I will not see a helpful comment of Mark on Reddit or Twitter about React or Redux. In addition, he is one of the many contributors in open source who shape the libraries to become a great place for newcomers.
 
-- Elm Guy
-- for giving so much inspiritation
+I want to thank [Christopher Chedeau](https://twitter.com/Vjeux) for his talk at [React Europe 2016](https://www.youtube.com/watch?v=nRF0OVQL9Nw) about being successful in open source. It had a lasting impact on me and was at the time when I published my first blog post. Thank you for your work with the community.
 
-- for my peeps at Small Improvements, great mentors, high level developong, APPLY! (ref link)
-- Per Fragemann giving the opportunity in the first place to work at SI, great CEO who sees opportunities in people, greeat take aways in sustainability and in our often ruthless world, gives opportunity to grow own business!
+I want to thank my people at Small Improvements who are great mentors and always a true source of inspiration. They supported me to make the leap educating others about the things I do in my daily work. If you ever wanted to work at a company with a working culture, you should definetly consider [Small Improvements](https://www.small-improvements.com/). I will always remember a coworker saying: *"It doesn't feel like work. Every day it is like coming to a place to work with friends on a great project."*
 
-- that sounds offocial now, but in the end I want to thank my girlfriend who is supportive all the time when I need another hour to tweak my blog, to write another article or to implement another application
+I want to thank Per Fragemann, CEO of Small Improvements, for the chance to work at Small Improvements. He sees opportunities in people, belives in a sustainable company culture, and gives people the opportunities to grow. His values taught me a lot.
 
-- sorry if I forgot someone
-- for a great React community that is supportoritve, innovative and welcomign to everyone
-- one of my goals is to broaden the diversity in the community (ref LINK TODO)
-- so share the course above all with people that are from a minoritiy group, they write me to get it for free
+In the end, I want to thank my girlfriend Liesa for always being supportive. Writing a book can be an enduring battle. There were several weekends, mornings and evenings where I just sat down to write this book. She prevented me from getting into burnout and managed a lot in my life. Now, after the book is written, I hope we can have a few more relaxed weekends again.
+
+Last but not least, I want to thank the React community. It's an highly creative and innovative yet friendly place that makes it possible for everyone to build effortless applications. The community is supportive and welcoming to everyone. It provides every newcomer with useful resources to get started. I hope I can contribute to this community by writing about these things. One of my objective is to broaden the diverstity among developers by providing free learning material to minorities. Reach out to me, if you are from an underrepresented groupd, to get a free copy of this book.
