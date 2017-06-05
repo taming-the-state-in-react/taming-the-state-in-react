@@ -1,8 +1,11 @@
-# Redux Misc
+# Beyond Redux
+
+- state keys, gateway components ,  ... (LINK them)
 
 ## Revisited: connect
 
 - its not only redux, but react-redux
+https://github.com/reactjs/react-redux/blob/master/docs/api.md#connectmapstatetoprops-mapdispatchtoprops-mergeprops-options
 
 ## handleActions, createActions
 

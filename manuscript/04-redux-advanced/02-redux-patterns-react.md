@@ -1,4 +1,4 @@
-# Advanced Redux in React
+# (React in) Redux FAQ
 
 ## Redux vs. Local State
 
@@ -18,7 +18,3 @@
 - planning state
 
 !!! NOTE: maybe move into Redux chapter
-
-## Gateway Components
-
-- mix up presenter and container

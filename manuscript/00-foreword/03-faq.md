@@ -1,24 +1,19 @@
 ## FAQ
 
-- how to get updates? twitter announcements and email list announments and then it will be updated on the course platform to redownload
+**How to get updates?** I have two channels where I share updates about my products and content. Either you can [subscribe to updates by email](https://www.getrevue.co/profile/rwieruch) or [follow me on Twitter](https://twitter.com/rwieruch). Regardless of which channel (Subscription or Twitter) you prefer, my objective is to only share qualitative content. You will never receive any spam.
 
-- how to support? visit my about page to see ways to support me, in general i would be very grateful if you would spread good word when you enjoyed reading the book
+**Why is the book not for free?** I share content often for free ([blog](https://www.robinwieruch.de/), [ebook](https://www.robinwieruch.de/the-road-to-learn-react/)). That's the content where I think people need access to regardless of their (monetary) limitations. On the other side, teaching is one of my professions that I pursue. At some point, I hope to generate income with the education that I provide to do it full time. After all, I invest a lot of time to ship quality education material that is kept updated to your best interest.
 
-- why is it so expensive? I do this full time, it has to pay part of my bills. But you can expect quality content. If not, you can get a refund!
+**What should I do when I cannot affort to pay for the book?** If you cannot afford the book but want to learn about the topic, you can write me a message on Twitter. I will hand out a copy for you. In addition, I want support any cause to improve the diversity in our programming culture. If you belong to a minority or are in an organization that helps supports diversity in our culture, please reach out to me to get free copies of the book.
 
-- FAQ: get money back guarantee
+**How to support the project?** If you believe in the content that I create, you can [support me](https://www.robinwieruch.de/about/). Moreover I would be grateful when you would spread the word about this book after you have read it and enjoyed reading it.
 
-- how to improve?
+**Is there a money back guarantee?** Yes, there is 100% money back if you don't think it's a good fit.
 
-- different reading formats?
+**Can I help to improve the content?** Yes, I would love to hear your feedback on [Twitter](https://twitter.com/rwieruch). These can be improvements technical wise yet also about the written word. I am no native speaker. In the next iteration of the book, if the book generated income, I will give it to a proofreader and editor to improve it.
 
-- why is the book full of mistakes? robin is no native speaker. but once the book was released and there was revenue to pay for proofreader and editors, the book will have its first overhaul to improve the langugae
+**How can I get help while reading the book?** The book has a [Slack Channel](https://join.slack.com/taming-the-state/shared_invite/MTkzNDMzNDQzMzUwLTE0OTY2NTYxNjctNzU1YjA2NDcyYg) for people who are reading the book. You can join the channel to get help or to help others. After all, helping others can improve your learnings too. When there is no one out to help you, you can reach me on [Twitter](https://twitter.com/rwieruch).
 
-- Note: make it free for every minority's for diversity. Only an email to apply, I will not do any background checks and believe you! (FAQ)
+**Why does it use React to teach about state?** State management is often used in a modern application nowadays. These applications are built with solutions like React, Angular and Vue. In order to teach about state management, it makes sense to apply it in real world use cases. I picked React because it has only a slim API and a good learning curve. It is only your view layer with local state management. You can learn it in one of my other books: [the Road to learn React](https://www.robinwieruch.de/the-road-to-learn-react/). However, you don't necessarly need to apply your learnings about state management in React. You can apply these learnings for your Angular, Vue or React Native application.
 
-- slack channel!
-
-- only react? is applies everything in react, because react has a slim API for its own state management
-- but the learnings can be applied in angular, vue or react native too
-
-- the goal: helping you to learn ..., helping diversities by donations and making the book accessible for free, ref blog post
+**What's your motivation behind the book?** I want to teach about this topic in a cosistent way. You often find material online that doesn't receive any updates or only teaches a small part of a topic. When you learn something new, people struggle to find consistent and up to date resources to learn from. I want to give you this consistent and up to date learning experience. In addition, I hope I can support minorities with my projects by giving them the content for free or by [having other impact](https://www.robinwieruch.de/giving-back-by-learning-react/) .Last but not least, I would lie if you wouldn't say that I hope to generate any income with it. In the recent time, I found myself fulfilled when teaching others about programming. It's a meaningful activity for me that I prefer over any other 9 to 5 job. That's why I hope to go more in this direction in the future. But I only can with your support.
