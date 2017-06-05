@@ -315,15 +315,16 @@ There exists yet another benefit when normalizing your state. It is about denorm
 
 ## Selectors
 
-In advanced Redux there is another concept to know about it. While normalizing state is about how to store your state, selecting state is about how to retrieve your state. This part in Redux is called selectors. They are pure functions that return derived properties from your state. It can be that they only return a substate of your global state or that they already preprocess your state to return derived properties.
+In Redux there is the concept of selectors to retrieve derived properties from your state. A selector is a function that takes the state as argument and returns a substate or derived properties of it. It can be that they only return a substate of your global state or that they already preprocess your state to return derived properties. The function can take optional arguments to support the selection of the derived properties.
 
 ### Plain Selectors
 
-Selectors usually follow a similar syntax. The mandatory argument of a selector is the state from where it has to select from. There can be other argument that are in a supportive role for the selector to select or derive the correct properties.
+Selectors follow usually the same syntax. The mandatory argument of a selector is the state from where it has to select from. There can be optional arguments that are in a supportive role to select the substate or the derived properties.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
 (state) => derived properties
+(state, arg) => derived properties
 ~~~~~~~~
 
 Selectors are not mandatory. When thinking about all the parts in Redux, only the action(s), the reducer(s) and the Redux store are a binding requirement. Similar to action creators, selectors can be used to achieve an improved developer experience in a Redux architecture. How does a selector look like? It is a plain function, as mentioned, that could live anywhere. However, you would use it, when using Redux in React, in your `mapStateToProps()` function.
@@ -364,7 +365,7 @@ Why is that an advantage? There are several benefits. A selector can be reused. 
 
 ### Denormalize State in Selectors
 
-In the last chapter, about normalizing your state, there was one benefit left unexplained. It is about selecting normalized state. Personally I would argue a normalized state structure makes it much more convenient to select state from it. When we recall the normalized state structure, it looked something like the following:
+In the last chapter, about normalizing your state, there was one benefit left unexplained. It is about selecting normalized state. Personally I would argue a normalized state structure makes it much more convenient to select a substate from it. When we recall the normalized state structure, it looked something like the following:
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -374,7 +375,7 @@ In the last chapter, about normalizing your state, there was one benefit left un
 }
 ~~~~~~~~
 
-It would look similar to this when you would apply it to the todos in the Todo application:
+For instance, in a real work application it would look like the following:
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -430,7 +431,7 @@ function mapStateToProps(state) {
 const ConnectedTodoList = connect(mapStateToProps)(TodoList);
 ~~~~~~~~
 
-Now the `ConnectedTodoItem` component, that already passes the `onToggleTodo` handler via the `mapDispatchToProps()` function to its plain `TodoItem` component, would retrieve the todo entity matching to the incoming `todoId` property.
+Now the `ConnectedTodoItem` component, that already passes the `onToggleTodo()` handler via the `mapDispatchToProps()` function to its plain `TodoItem` component, would select the todo entity matching to the incoming `todoId` property.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -453,7 +454,7 @@ function mapDispatchToProps(dispatch) {
 const ConnectedTodoItem = connect(mapStateToProps, mapDispatchToProps)(TodoItem);
 ~~~~~~~~
 
-The `TodoItem` component itself would stay the same. It still gets the `todo` item and the `onToggleTodo` handler as arguments. In addition, you can see two more concepts that were explained earlier. First, the selector grows in complexity because it gets optional arguments to select derived properties fromt the state. Second, the `mapStateToProps()` function makes use of the incoming props from the `TodoList` component that uses the `ConnectedTodoItem` component.
+The `TodoItem` component itself would stay the same. It still gets the `todo` item and the `onToggleTodo()` handler as arguments. In addition, you can see two more concepts that were explained earlier. First, the selector grows in complexity because it gets optional arguments to select derived properties fromt the state. Second, the `mapStateToProps()` function makes use of the incoming props from the `TodoList` component that uses the `ConnectedTodoItem` component.
 
 As you can see, the normlaized state requires to use more connected component. More components are responsible to select their needed derived properties. But in a growing application, following this pattern can make it easier to reason about it. You only pass properties that are really necessary to the component. In the last case, the `TodoList` component only cares about a list of references and the `TodoItem` component itself cares about the entitiy that is selected by using the reference passed down by the `TodoList` component.
 
@@ -496,7 +497,22 @@ In this scenario, the whole normalized data structure gets normalized in the sel
 
 ### Reselect
 
-- TODO reselect with memoize
+When using selectors in a scaling application, you should consider a library called [reselect](https://github.com/reactjs/reselect) that provides you with advanced selectors. Basically it uses the same concept of plain selectors as you have learned before. But it comes with two improvements.
+
+A plain selector has one constraint:
+
+* *"Selectors can compute derived data, allowing Redux to store the minimal possible state."*
+
+There are two more constraints when using selectors from the reselect library:
+
+* *"Selectors are efficient. A selector is not recomputed unless one of its arguments change."*
+* *"Selectors are composable. They can be used as input to other selectors."*
+
+Selectors are pure functions without any side-effects. The output doesn't change when the input stays the same. Therefore, when a function is called twice and its arguments didn't change, it returns the same output. This proposition is used in reselect's selectors. It is called memoization. A selector doesn't need to compute everything again when its input didn't change. It will simply return the same output. In a scaling application this can have a performance impacts.
+
+Another benefit, when using reselect, is the ability to compose selectors. It supports the case of implementing reusable selectors that only solve one problem. Afterward they can be composed in a functional programming style.
+
+The book will not dive deeper into reselect. Perhaps I will eleborate this chapter more in the future. However, when learning Redux it is good to know about these advanced selectors, but you are fine by using plain selectors in the beginning. If you cannot stay put, you can read up the example usages in the [official GitHub repository](https://github.com/reactjs/reselect) and apply in your projects while reading the book.
 
 ## Hands On: Todo with Advanced Redux
 
@@ -972,4 +988,4 @@ Since your state is normalized, your have to map through all your `ids` to get a
 
 ## Challenge: Snake with Redux
 
-- show off command (only one reducer cares, but refactor it to local state) vs event (multiple reducers care) pattern
+- TODO show off command (only one reducer cares, but refactor it to local state) vs event (multiple reducers care) pattern

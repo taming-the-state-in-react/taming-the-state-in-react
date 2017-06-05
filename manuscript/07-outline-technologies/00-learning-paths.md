@@ -1,4 +1,4 @@
-# Outline
+# Technology Outline
 
 - React local state
 - Redux or MobX, preferences, use cases

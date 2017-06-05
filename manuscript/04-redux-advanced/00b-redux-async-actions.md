@@ -397,4 +397,4 @@ That's it. You notifications should work and hide after five seconds. Basically 
 
 ## Challenge: Snake with Redux and Async Actions
 
-- extract the timeout functionality into a simple delayed action first, but then use redux saga to accomplish it
+- TODO extract the timeout functionality into a simple delayed action first, but then use redux saga to accomplish it
