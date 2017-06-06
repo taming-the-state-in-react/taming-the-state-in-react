@@ -185,9 +185,103 @@ But that would miss the point in Redux. You would want to come up with these com
 
 ## Folder Organization
 
-- technical, feature
-- top level when event pattern, feature level when command pattern
-- Hands On: make a technical or feature separation in the Todo app, but don't write it up here, simply GitHub too release with folders organized
+Eventually your Redux application grows and you cannot manage everything - reducers, action creators, selectors, store and view - in one file. You will have to split up the files. Fortunately JavaScript ES6 brings [import](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Statements/import) and [export](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Statements/export) statements to distribute functionalities in files. If you are not familiar with these, you should read about them.
+
+In this chapter, I want to show you two approaches to organize your folder and files in a Redux application. The first approach, the **technical folder organization**, is used in smaller applications. Once your application scales and more than one team in your organization is working on the project, you can consider the **feature folder organization**. In addition, you will learn in this chapter about best practices for your file and folder structure.
+
+### Technical Folder Organization
+
+The technical separation of concerns is used in smaller applications. Basically, in my opinion, there are two requirements to use this approach:
+
+* the application is managed by only one person or one team thus has less conflict potential when working on the same code base
+* the application is small from a lines of code perspectice and *can* be managed by one person or one team
+
+In conclusion, it depends on the size of the team and the size of the code base. Now, how to separate the files? They get separated by their technical aspects:
+
+{title="Folder Organization",lang="text"}
+~~~~~~~~
+-app
+--reducers
+--actions creators
+--selectors
+--store
+--constants
+--components
+~~~~~~~~
+
+The reducers, action creators, selectors and store should be clear. In these folders you have all the different aspects of Redux. In the components folder you have your view layer. When using React, that would be the place where you will find your React components. In the constants folder you can have any constants, but also the action types of Redux. These can be imported in the action creators and reducers. An elaborated folder/file organization split by technical aspects might look like the following:
+
+{title="Folder Organization",lang="text"}
+~~~~~~~~
+-app
+--reducers
+---todoReducer.js
+---filterReducer.js
+---notificationReducer.js
+--actions creators
+---filters.js
+---todos.js
+---notifications.js
+--selectors
+---filters.js
+---todos.js
+---notifications.js
+--store
+---store.js
+--constants
+---actionTypes.js
+--components
+---TodoList.js
+---TodoItem.js
+---Filter.js
+---Notifications.js
+~~~~~~~~
+
+What are the advantages and disadvantages of this approach? The most important advantage is that reducers and action creators are not coupled. They are loosely arranged in their folders. It embraces the notion of Redux to capture any action in any reducer. Reducers and action creators are not in a 1:1 relationship. In addition, all Redux functionalities are reachable from a top level. None of these functionalities are hidden in a lower level and thus less accessible. This approach embraces the event pattern. A disadvantage of this approach, hence the two requirements, is that it doesn't scale well. Each technical folder will grow endlessly. There are no constraints except for the separation by type. It can become messy after you have introduced tons of reducers, action creators and selectors.
+
+### Feature Folder Organization
+
+The second approach, the separation by feature, is most often used in scaling applications. You have a greater flexibility how you group the features, because you can always split up bigger features to smaller ones and thus keep the folders lightweight.
+
+{title="Folder Organization",lang="text"}
+~~~~~~~~
+-app
+--todo
+--filter
+--notification
+--store
+~~~~~~~~
+
+An elaborated folder/file organization might look like the following:
+
+{title="Folder Organization",lang="text"}
+~~~~~~~~
+-app
+--todo
+---TodoList.js
+---TodoItem.js
+---reducer.js
+---actionCreators.js
+---selectors.js
+--filter
+---Filter.js
+---reducer.js
+---actionCreators.js
+---selectors.js
+--notification
+---Notifications.js
+---reducer.js
+---actionCreators.js
+---selectors.js
+--store
+---store.js
+~~~~~~~~
+
+This approach, separating by features, is way more opinionated than the previous approach. It gives you more freedom to arrange your folders and files. When using this approach, there are more ways to accomplish it. You don't necessairly have to follow the example above.
+
+What are the advantages and disadvanatges of this approach? It has the same advantages and disadvantages as the technical folder organization but negated. Instead of making action creators and reducers accessible on a top level, they are hidden in a feature folder. In a scaling application with multiple teams, other teams will most likely not reuse your action creators and reducers but implement their own. Another disadvantage is that is groups action creators and reducers in a 1:1 relationship which goes against the overarching idea of Redux. You embrace a command pattern instead of an event pattern. The advantage on the other side, and that's why most teams in a scaling application are using this approach, is that it scales well. Teams can work on separate feature folders and don't run into conflicts. Still they can follow, when using a middleware library like redux-logger, the overarching state management flow.
+
+Even though the feature folder organization bears a lot of pitfalls by embracing the command pattern, it is often used in scaling applications with multiple teams. Therefore I can give only one advice: Make your action creators, reducers and selectors accessible to everyone, by doumentation, word of mouth or another variation of folder/file organization, that they can be reused.
 
 ### Ducks
 

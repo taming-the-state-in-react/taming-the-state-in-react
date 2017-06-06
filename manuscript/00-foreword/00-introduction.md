@@ -1,6 +1,6 @@
 # Foreword
 
-State management in applications got a popular topic in the past years. Single page applications (SPAs) - that are only delivered once from a backend - have to establish state management in the frontend. They have to keep the page consistent without making any more requests to the backend. It already starts when you want to open a popup in your application or retrieve data from your backend. Someone has to be aware of this state. But who is it? Who is it that manages the state?
+State management in applications got a popular topic in the recent years. Single page applications (SPAs) - that are only delivered once from a web server - have to establish state management in the frontend to keep it interactive. They have to keep the state consistent without making any more requests to the backend. It already starts when you want to open a popup in your application or retrieve data from your backend. Someone has to be aware of this state. But who manages the state?
 
 jQuery was a popluar library before the first SPA solutions like Angular, Ember and Backbone appeared. State management itself wasn't a huge problem in jQuery in the beginning, because the library was most often only used for selective DOM manipulations. You could add animations to your HTML, add or remove DOM nodes or change the style of your HTML dynamically.
 
