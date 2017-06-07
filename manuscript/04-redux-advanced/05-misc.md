@@ -1,6 +1,7 @@
-# Beyond Redux
+# Redux Ecosystem
 
 - state keys, gateway components ,  ... (LINK them)
+- line mark erikson repository
 
 ## Revisited: connect
 
