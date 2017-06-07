@@ -281,12 +281,44 @@ This approach, separating by features, is way more opinionated than the previous
 
 What are the advantages and disadvanatges of this approach? It has the same advantages and disadvantages as the technical folder organization but negated. Instead of making action creators and reducers accessible on a top level, they are hidden in a feature folder. In a scaling application with multiple teams, other teams will most likely not reuse your action creators and reducers but implement their own. Another disadvantage is that is groups action creators and reducers in a 1:1 relationship which goes against the overarching idea of Redux. You embrace a command pattern instead of an event pattern. The advantage on the other side, and that's why most teams in a scaling application are using this approach, is that it scales well. Teams can work on separate feature folders and don't run into conflicts. Still they can follow, when using a middleware library like redux-logger, the overarching state management flow.
 
-Even though the feature folder organization bears a lot of pitfalls by embracing the command pattern, it is often used in scaling applications with multiple teams. Therefore I can give only one advice: Make your action creators, reducers and selectors accessible to everyone, by doumentation, word of mouth or another variation of folder/file organization, that they can be reused.
+Even though the feature folder organization bears a lot of pitfalls by embracing the command pattern, it is often used in scaling applications with several development teams. Therefore I can give one advice: Make your action creators, reducers and selectors accessible to everyone so that they can be reused. It can happen by doumentation, word of mouth or another variation of folder/file organization.
 
 ### Ducks
 
-- as long as action and reducer are coupled it makes sense
-- but they shouldn't be coupled. command pattern should be avoided and state keys are only useful for certian scenarios
+There exists another concept called ducks in Redux. It relates to the organization of action creators, action types and reducers as touples. The ducks concept bundles these tuples into self contained modules. Often these modules end up being only one file. The official ducks pattern has a bunch of guidelines which you can read up in the [GitHub repository](https://github.com/erikras/ducks-modular-redux). However, you wouldn't need to apply all of these. For instance, in the Todo application a duck file for the filter domain might look like the following:
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+const FILTER_SET = 'FILTER_SET';
+
+function filterReducer(state = 'SHOW_ALL', action) {
+  switch(action.type) {
+    case FILTER_SET : {
+      return applySetFilter(state, action);
+    }
+    default : return state;
+  }
+}
+
+function applySetFilter(state, action) {
+  return action.filter;
+}
+
+function doSetFilter(filter) {
+  return {
+    type: FILTER_SET,
+    filter,
+  };
+}
+
+export default filterReducer;
+
+export {
+  doSetFilter,
+};
+~~~~~~~~
+
+The drawbacks of the ducks concept are similar to the feature folder approach. You couple actions and reducers hence no one will embrace to capture actions in multiple reducers. As long as action and reducer are coupled, the ducks concept makes sense. Otherwise it shouldn't be applied too often. Instead you should embrace the idea of Redux to keep your reducers and action creators accessible on a top level.
 
 ## Testing
 
