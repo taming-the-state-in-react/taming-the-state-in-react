@@ -166,27 +166,6 @@ That are the basics of Redux Thunk. There are a few more things that are good to
 
 - TODO https://decembersoft.com/posts/what-is-the-right-way-to-do-asynchronous-operations-in-redux/
 
-## Redux Saga
-
-The whole concept around asynchronours actions led to a handful of libraries which solve this issue. Redux Thunk was only the first one introduced by Dan Abramov. However, he agrees that there are use cases where Redux Thunk doesn't solve the problem. Redux Thunk should be used when there are asynchronours actions. But when there are more complex scenarios around it, there are advanced solutions for asynchronours actions. This chapter shows you one of these solutions, Redux Saga, which is one of the most popular asynchrnours actions libraries for Redux.
-
-- dealing with side-effects, so far not spoken about
-- like side threats that only deal with side-effects
-- you can control these with redux actions and dispatch new actions in them
-- has access to full state too, similiar to Redux Thunk
-
-- builds up on JavaScript ES6 Generators
-- more about generators: https://redux-saga.js.org/docs/ExternalResources.html
-- code looks synchronous, similar to async await, but with a few more need features that can be used in Redux Saga
-
-- mature applications
-
-## Alternatives
-
-- more alternatives
-- obsrvable: comparison to Saga http://stackoverflow.com/questions/40021344/why-use-redux-observable-over-redux-saga
-- redux cycle: valid alternative for reactive programming
-
 ## Hands On: Todo with Notifications
 
 After learning about asynchronous actions, the Todo application could make use of notifications, couldn't it? The first part of this hands on chapter is a great repition on using everything you have learned before asynchronrsous actions. First, you have to implement a notification reducer that evaluates actions that should generate a notification.
@@ -339,17 +318,11 @@ Second, you can import it in your code:
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { applyMiddleware, combineReducers, createStore } from 'redux';
-import { Provider, connect } from 'react-redux';
-import { createLogger } from 'redux-logger';
+...
 # leanpub-start-insert
 import thunk from 'redux-thunk';
 # leanpub-end-insert
-import { schema, normalize } from 'normalizr';
-import uuid from 'uuid/v4';
-import './index.css';
+...
 ~~~~~~~~
 
 And third, use it in your Redux store middleware:
@@ -393,8 +366,115 @@ function mapDispatchToPropsCreate(dispatch) {
 }
 ~~~~~~~~
 
-That's it. You notifications should work and hide after five seconds. Basically you have built the foundation for a notifiaction system in your Todo application. You can use it for other actions too. The project can be found in the [GitHub repository](https://github.com/rwieruch/taming-the-state-todo-app/tree/9.0.0).
+That's it. Your notifications should work and hide after five seconds. Basically you have built the foundation for a notifiaction system in your Todo application. You can use it for other actions too. The project can be found in the [GitHub repository](https://github.com/rwieruch/taming-the-state-todo-app/tree/9.0.0).
+
+## Asynchornous Actions Alternatives
+
+The whole concept around asynchronours actions led to a handful of libraries which solve this particular issue. Redux Thunk was only the first one introduced by Dan Abramov. However, he agrees that there are use cases where Redux Thunk doesn't solve the problem in an efficient way. Redux Thunk can be used when you encounter the first time an use case for asynchronours actions. But when there are more complex scenarios involved, you can use advanced solutions beyond Redux Thunk.
+
+All of these solutions address the problem as side-effects in Redux. Asynchronours actions are used to deal with those side effects. They are most often used when performing impure operations: fetching data from an API, delaying an execution or accessing the browser cache. All these operations are asynchronous and impure, hence are solved with asynchronous actions. In an application, that uses the functional programming paradigm, you want to have all these impure operations on the edge of your application. You don't want to have these close to your core application.
+
+This chapter briefly shows the alternatives that you could use instead of Redux Thunk. Among all the different alternatives, I only want to introduce you to the most popular and innovative ones.
+
+### Redux Saga
+
+[Redux Saga](https://github.com/redux-saga/redux-saga) is the most popular asynchronous actions library for Redux. *"The mental model is that a saga is like a separate thread in your application that's solely responsible for side effects."* Basically it outsources the impure operations into separate threads. These threads can be started, paused or cancelled with plain Redux actions from your core application. Thereby threads in Redux Saga make it simple to keep your side-effects away from your core application. However, threads can dispatch actions and have access to the state though.
+
+Redux Saga uses as underlying technology [JavaScript ES6 Generators](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Generator). The code reads like synchronous code. You avoid to have callbacks. The advantage over Redux Thunk is that your actions stay pure and thus can test them well.
+
+- obsrvable: comparison to Saga http://stackoverflow.com/questions/40021344/why-use-redux-observable-over-redux-saga
+- redux cycles: valid alternative for reactive programming
+
+In conclusion, as you can see, all these libraries, Redux Saga, Redux Observable and Redux Cycles, make use of different techniques in JavaScript. You can give them a shot to try generators or observables. The whole ecosystem around asynchronous actions is a great playground to try new things in JavaScript.
+
+## Hands On: Todo with Redux Saga
+
+- you have used Redux Thunk to dispatch asynchronous actions to add a todo item with a notification whereas the notifaction hides after a couple of seconds
+- let's use Redux Saga: uninstall redux-thunk and install redux-saga
+
+{title="Command Line",lang="text"}
+~~~~~~~~
+npm uninstall --save redux-thunk
+npm install --save redux-saga
+~~~~~~~~
+
+- add an action type, refactor the action
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+const TODO_ADD_WITH_NOTIFICATION = 'TODO_ADD_WITH_NOTIFICATION';
+
+...
+
+function doAddTodoWithNotification(id, name) {
+  return {
+    type: TODO_ADD_WITH_NOTIFICATION,
+    todo: { id, name },
+  };
+}
+~~~~~~~~
+
+- introduce a saga, watch is a thread, handle deals with the incoming things from a thread
+
+// sagas
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+function* watchAddTodoWithNotification() {
+  yield takeEvery(TODO_ADD_WITH_NOTIFICATION, handleAddTodoWithNotification);
+}
+
+function* handleAddTodoWithNotification(action) {
+  const { todo } = action;
+  const { id, name } = todo;
+  yield put(doAddTodo(id, name));
+  yield delay(5000);
+  yield put(doHideNotification(id));
+}
+~~~~~~~~
+
+- exchange the middleware in the store
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+const rootReducer = combineReducers({
+  todoState: todoReducer,
+  filterState: filterReducer,
+  notificationState: notificationReducer,
+});
+
+const logger = createLogger();
+# leanpub-start-insert
+const saga = createSagaMiddleware();
+# leanpub-end-insert
+
+const store = createStore(
+  rootReducer,
+  undefined,
+# leanpub-start-insert
+  applyMiddleware(saga, logger)
+# leanpub-end-insert
+);
+
+# leanpub-start-insert
+saga.run(watchAddTodoWithNotification);
+# leanpub-end-insert
+~~~~~~~~
+
+- import all the necessary things from redux saga
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+...
+# leanpub-start-insert
+import createSagaMiddleware, { delay } from 'redux-saga';
+import { put, takeEvery } from 'redux-saga/effects';
+# leanpub-end-insert
+...
+~~~~~~~~
+
+- final: https://github.com/rwieruch/taming-the-state-todo-app/tree/10.0.0
 
 ## Challenge: Snake with Redux and Async Actions
 
-- TODO extract the timeout functionality into a simple delayed action first, but then use redux saga to accomplish it
+- TODO extract the timeout functionality into a simple delayed action first, then redux thunk, but then use redux saga to accomplish it
