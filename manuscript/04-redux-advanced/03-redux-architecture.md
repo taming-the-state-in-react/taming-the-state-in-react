@@ -50,7 +50,7 @@ Around these practical usages, you have learned several supporting techniques. T
 
 Coupling actions and reducers is fine, but always think twice when adding another action type. For instance, perhaps a action type could be reused in another reducer. When reusing action types, you avoid to end up with fat thunks when using Redux thunk. Instead of dispatching several actions, your thunk could dispatch only one abstract action that is reused in more than one reducer.
 
-You have learned that you can plan your state management ahead. There are use cases where local state makes more sense than sophisticated state. Both can be used and should be used in a scaling application. By combining local state to the native local storage of the browser, you can give the user of your application an improved UX. In addition, you can plan the state ahead too. Think about view state and entitiy state and where it should live in your application. You can give your reducers differenct domains as their ownership such as todoReducer, filterReducer and notificationReducer. However, once you have planned your state management and state, don't stick to it. When slaing your application, always revisit those things to apply refactorings. That will help you to keep your state manageable, maintainable and predictable in the long run.
+You have learned that you can plan your state management ahead. There are use cases where local state makes more sense than sophisticated state. Both can be used and should be used in a scaling application. By combining local state to the native local storage of the browser, you can give the user of your application an improved UX. In addition, you can plan the state ahead too. Think about view state and entitiy state and where it should live in your application. You can give your reducers differenct domains as their ownership such as `todoReducer`, filterReducer and notificationReducer. However, once you have planned your state management and state, don't stick to it. When slaing your application, always revisit those things to apply refactorings. That will help you to keep your state manageable, maintainable and predictable in the long run.
 
 ## Hands On: Hacker News with Redux
 
@@ -82,7 +82,7 @@ rm logo.svg App.js App.test.js App.css
 
 {title="Command Line: src/",lang="text"}
 ~~~~~~~~
-mkdir constants reducers actions components store
+mkdir constants reducers actions selectors components store
 ~~~~~~~~
 
 - your folder structure should be similiar to the following:
@@ -94,6 +94,7 @@ mkdir constants reducers actions components store
 --components/
 --constants/
 --reducers/
+--selectors/
 --store/
 --index.css
 --index.js
@@ -113,7 +114,6 @@ touch index.js App.js Stories.js Story.js
 ~~~~~~~~
 -src/
 --actions/
----index.js
 --components/
 ---App.js
 ---App.css
@@ -122,18 +122,15 @@ touch index.js App.js Stories.js Story.js
 ---Story.js
 ---Story.css
 --constants/
----index.js
 ---actionTypes.js
 --reducers/
 ---index.js
+--selectors/
 --store/
 ---index.js
----store.js
 --index.css
 --index.js
 ~~~~~~~~
-
-- the *index.js* files are used as entry point in each folder, that's a personal opionated constraint that I am used to do in order to keep the folders encapsulated as modules, only the *index.js* gives access to the folder
 
 - now you have your foundation of folders and files for your React and Redux application, except for the specific component files that you already have, everything else can be used as a blueprint for any application using React and Redux
 
@@ -434,7 +431,7 @@ const COLUMNS = {
     label: 'Points',
     width: '10%',
   },
-  dismiss: {
+  archive: {
     width: '10%',
   },
 };
@@ -445,7 +442,7 @@ class Stories extends Component {
 }
 ~~~~~~~~
 
-- the last column with the 'dismiss' property name is not used yet
+- the last column with the 'archive' property name is not used yet
 - second, you can pass this object to your `Story` component
 
 {title="src/components/Stories.js",lang="javascript"}
@@ -501,7 +498,7 @@ class Story extends Component {
         <span style={{ width: columns.points.width }}>
           {points}
         </span>
-        <span style={{ width: columns.dismiss.width }}>
+        <span style={{ width: columns.archive.width }}>
         </span>
 # leanpub-end-insert
       </div>
@@ -590,14 +587,29 @@ const StoriesHeader = ({ columns }) =>
 
 - the rendering of the sample stories is done and is representable to none designers
 
-### Part 4: Dismiss a Story
+### Part 4: Archive a Story
 
-- in this part you add your first functionality: dismissing a story
+- in this part you add your first functionality: archiving a story
 - therefore you will introduce Redux to your application
 - it would be possible in plain React too, but since it is a Redux application, you will use its functionalities rather than the plain React state management
 
 - first, the functionality can be passed down to the `Story` component from above
 - in the beginning it can be an empty function, later on it will get wired up to Redux
+
+{title="src/index.js",lang="javascript"}
+~~~~~~~~
+...
+
+ReactDOM.render(
+# leanpub-start-insert
+  <App stories={stories} onArchive={() => {}} />,
+# leanpub-end-insert
+  document.getElementById('root')
+);
+~~~~~~~~
+
+- second, you can pass it through your `App` and `Stories` component
+- you might already notice that this could be a potential refactor later on, because the function gets passed from the root component through a few components only to reach the leaf component
 
 {title="src/components/App.js",lang="javascript"}
 ~~~~~~~~
@@ -608,7 +620,7 @@ class App extends Component {
         <Stories
           stories={this.props.stories}
 # leanpub-start-insert
-          onDismiss={() => {}}
+          onArchive={this.props.onArchive}
 # leanpub-end-insert
         />
       </div>
@@ -617,8 +629,6 @@ class App extends Component {
 }
 ~~~~~~~~
 
-- second, you can pass it through your `Stories` component, you might already notice that this could be a potential refactor later on, because the function gets passed from the root component through a few components only to reach the leaf component
-
 {title="src/components/Stories.js",lang="javascript"}
 ~~~~~~~~
 class Stories extends Component {
@@ -626,7 +636,7 @@ class Stories extends Component {
     const {
       stories,
 # leanpub-start-insert
-      onDismiss,
+      onArchive,
 # leanpub-end-insert
     } = this.props;
 
@@ -640,7 +650,7 @@ class Stories extends Component {
             story={story}
             columns={COLUMNS}
 # leanpub-start-insert
-            onDismiss={onDismiss}
+            onArchive={onArchive}
 # leanpub-end-insert
           />
         )}
@@ -660,7 +670,7 @@ class Story extends Component {
       story,
       columns,
 # leanpub-start-insert
-      onDismiss,
+      onArchive,
 # leanpub-end-insert
     } = this.props;
 
@@ -678,14 +688,14 @@ class Story extends Component {
     return (
       <div className="story">
         ...
-        <span style={{ width: columns.dismiss.width }}>
+        <span style={{ width: columns.archive.width }}>
 # leanpub-start-insert
           <button
             type="button"
             className="button-inline"
-            onClick={() => onDismiss(objectID)}
+            onClick={() => onArchive(objectID)}
           >
-            Dismiss
+            Archive
           </button>
 # leanpub-end-insert
         </span>
@@ -706,10 +716,10 @@ class Story extends Component {
     return (
       <div className="story">
         ...
-        <span style={{ width: columns.dismiss.width }}>
+        <span style={{ width: columns.archive.width }}>
 # leanpub-start-insert
-          <ButtonInline onClick={() => onDismiss(objectID)}>
-            Dismiss
+          <ButtonInline onClick={() => onArchive(objectID)}>
+            Archive
           </ButtonInline>
 # leanpub-end-insert
         </span>
@@ -772,19 +782,584 @@ const Button = ({
 
 ### Part 5: Introduce Redux
 
-- this part will introduce Redux to manage the state of the (sample) stories, the first action will be the dismissing of a story from the list
-- but let's approach this step by step
+- this part will introduce Redux to manage the state of the (sample) stories instead of passing it directly into your component tree
+- let's approach this step by step
+- first, you have to install Redux on the command line.
 
 {title="Command Line",lang="text"}
 ~~~~~~~~
 npm install --save redux
 ~~~~~~~~
 
-- action creator
-- reducer
-- store
-- naive wire up
+- second, in the root entry point of React, you can import the Redux store, the store is not yet defined
+- instead of using the sample stories, you use the stories that are stored in the Redux store
+- assuming the store saves only a list of stories as state, you can simply get the root state of the store and assume that it is the list of stories
 
-### Part 6: Wire Up React with Redux
+{title="src/index.js",lang="javascript"}
+~~~~~~~~
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './components/App';
+# leanpub-start-insert
+import store from './store';
+# leanpub-end-insert
+import './index.css';
 
-- sophistaicated wire up
+ReactDOM.render(
+# leanpub-start-insert
+  <App stories={store.getState()} />,
+# leanpub-end-insert
+  document.getElementById('root')
+);
+~~~~~~~~
+
+- third, you have to create your Redux store instance, it already takes a reducer that is not implemented yet, you will implement it in the next step
+
+{title="src/store/index.js",lang="javascript"}
+~~~~~~~~
+import { createStore } from 'redux';
+import storyReducer from '../reducers/story';
+
+const store = createStore(
+  storyReducer
+);
+
+export default store;
+~~~~~~~~
+
+- fourth, in your *src/reducers/* folder you can create your first reducer: `storyReducer`
+- as initial state it can have the sample stories
+
+{title="src/reducers/story.js",lang="javascript"}
+~~~~~~~~
+const INITIAL_STATE = [
+  {
+    title: 'React',
+    url: 'https://facebook.github.io/react/',
+    author: 'Jordan Walke',
+    num_comments: 3,
+    points: 4,
+    objectID: 0,
+  }, {
+    title: 'Redux',
+    url: 'https://github.com/reactjs/redux',
+    author: 'Dan Abramov, Andrew Clark',
+    num_comments: 2,
+    points: 5,
+    objectID: 1,
+  },
+];
+
+function storyReducer(state = INITIAL_STATE, action) {
+  switch(action.type) {
+    default : return state;
+  }
+}
+
+export default storyReducer;
+~~~~~~~~
+
+- your application should work when you start it
+- it is using the Redux store to retrieve the initial state from the `storyReducer`, because it is the only reducer by now in your application
+- there are no actions yet and no action is captured in the reducer yet
+- even though there was no action dispatched yet, you can see that the Redux store runs through all its defined reducers to initialize its initial state in the store
+
+### Part 7: Two Reducers
+
+- you have used the Redux store to save an initial state of sample stories and to retrieve this state for your component tree
+- but there is no state manipulation happening yet
+- in this part and the next part you are going to implement the archive function
+- when approaching this functionality, the simplest thing to do would be to remove the archived story from the list of stories in the `storyReducer`
+- but let's approach this from a different angle to have a greater impact in the long run
+- it could still be useful to have all stories in the end, but have a way to distinguish between them: stories and archived stories
+- following this way, you would be able in the future to have a second component that shows the archived stories
+
+- thus the `storyReducer` will stay as it is for now
+- but you will have to introduce a second reducer, a `archiveReducer`, that keeps a list of references to the archived stories
+
+{title="src/reducers/archive.js",lang="javascript"}
+~~~~~~~~
+const INITIAL_STATE = [];
+
+function archiveReducer(state = INITIAL_STATE, action) {
+  switch(action.type) {
+    default : return state;
+  }
+}
+
+export default archiveReducer;
+~~~~~~~~
+
+- you will implement the action to dismiss a story in a second
+- but the Redux store in its instantation needs to get both reducers now, it has to get the combined reducer
+- let's pretend that the store can import the combined reducer from the entry file, the *reducers/index.js* without worrying about the combining of the reducers
+
+{title="src/store/index.js",lang="javascript"}
+~~~~~~~~
+import { createStore } from 'redux';
+# leanpub-start-insert
+import rootReducer from '../reducers';
+# leanpub-end-insert
+
+const store = createStore(
+# leanpub-start-insert
+  rootReducer
+# leanpub-end-insert
+);
+
+export default store;
+~~~~~~~~
+
+- now you can combine both reducers
+
+{title="src/reducers/index.js",lang="javascript"}
+~~~~~~~~
+import { combineReducers } from 'redux';
+import storyReducer from './story';
+import archiveReducer from './archive';
+
+const rootReducer = combineReducers({
+  storyState: storyReducer,
+  archiveState: archiveReducer,
+});
+
+export default rootReducer;
+~~~~~~~~
+
+- since your state is sliced up into two substates now, you have to adjust how you retrieve the stories from your store with the intermediate `storyState`
+- this is a crucial steo, because it shows how a combined reducer slices up your state into substates
+
+{title="src/index.js",lang="javascript"}
+~~~~~~~~
+ReactDOM.render(
+  <App
+# leanpub-start-insert
+    stories={store.getState().storyState}
+# leanpub-end-insert
+    onArchive={() => {}}
+  />,
+  document.getElementById('root')
+);
+~~~~~~~~
+
+- the application should show up the same as before when you start it
+- finally in the next part you will dispatch your first action to dismiss a story
+
+### Part 8: First Action
+
+- the archive action needs to be captured in the `archiveReducer`, it simply stores all archived stories by their id in a list
+
+{title="src/reducers/archive.js",lang="javascript"}
+~~~~~~~~
+# leanpub-start-insert
+import { STORY_ARCHIVE } from '../constants/actionTypes';
+# leanpub-end-insert
+
+const INITIAL_STATE = [];
+
+# leanpub-start-insert
+const applyArchiveStory = (state, action) =>
+  [ ...state, action.id ];
+# leanpub-end-insert
+
+function archiveReducer(state = INITIAL_STATE, action) {
+  switch(action.type) {
+# leanpub-start-insert
+    case STORY_ARCHIVE : {
+      return applyArchiveStory(state, action);
+    }
+# leanpub-end-insert
+    default : return state;
+  }
+}
+
+export default archiveReducer;
+~~~~~~~~
+
+- it uses a constant action type from a different file
+- it is already defined in another file to be reused when dispatching the action
+
+{title="src/constants/actionTypes.js",lang="javascript"}
+~~~~~~~~
+export const STORY_ARCHIVE = 'STORY_ARCHIVE';
+~~~~~~~~
+
+- last but not least, you can dispatch the action in your root component
+
+{title="src/reducers/archive.js",lang="javascript"}
+~~~~~~~~
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './components/App';
+import store from './store';
+# leanpub-start-insert
+import { STORY_ARCHIVE } from './constants/actionTypes';
+# leanpub-end-insert
+import './index.css';
+
+ReactDOM.render(
+  <App
+    stories={store.getState().storyState}
+# leanpub-start-insert
+    onArchive={id => store.dispatch({ type: STORY_ARCHIVE, id })}
+# leanpub-end-insert
+  />,
+  document.getElementById('root')
+);
+~~~~~~~~
+
+- you dispatch the action directly without an action creator
+- when you start your application, it shoudl still work, but nothing happens when archiving a story
+- the archived stories are not used yet in the component tree
+
+### Part 9: First Selector
+
+- you can use both substates, `storyState` and `archiveState` to compute the not lsit of stories that are not dismissed
+- the deriving of those properties can happen in a selector
+
+- create your first selector that only returns the part of the stories that is not archived
+
+{title="src/selectors/story.js",lang="javascript"}
+~~~~~~~~
+const isNotArchived = archivedIds => story =>
+  archivedIds.indexOf(story.objectID) === -1;
+
+const getReadableStories = ({ storyState, archiveState }) =>
+  storyState.filter(isNotArchived(archiveState));
+
+export {
+  getReadableStories,
+};
+~~~~~~~~
+
+- the selector makes heaviliy use of JavaScript ES6 arrow functions, JavaScript ES6 destructuring and a higher order function: isNotArchived()`
+- don't feel intimidated by it, it is only a way to express these functions more concise in a functional programmign style
+- in plain JavaScript ES5 it would look like the following:
+
+{title="src/selectors/story.js",lang="javascript"}
+~~~~~~~~
+function isNotArchived(archivedIds) {
+  return function (story) {
+    return archivedIds.indexOf(story.objectID) === -1;
+  };
+}
+
+function getReadableStories({ storyState, archiveState }) {
+  return storyState.filter(isNotArchived(archiveState));
+}
+
+export {
+  getReadableStories,
+};
+~~~~~~~~
+
+- now you can use the selector instead of retrieving all stories from the store directly
+
+{title="src/index.js",lang="javascript"}
+~~~~~~~~
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './components/App';
+import store from './store';
+# leanpub-start-insert
+import { getReadableStories } from './selectors/story';
+# leanpub-end-insert
+import { STORY_ARCHIVE } from './constants/actionTypes';
+import './index.css';
+
+ReactDOM.render(
+  <App
+# leanpub-start-insert
+    stories={getReadableStories(store.getState())}
+# leanpub-end-insert
+    onArchive={id => store.dispatch({ type: STORY_ARCHIVE, id })}
+  />,
+  document.getElementById('root')
+);
+~~~~~~~~
+
+- still, nothing happens when you archive a story
+
+### Part 11: Re-render on Store Update
+
+- when an action dispatches, the state in the Redux store gets updated
+- however, the component tree in React doesn't update
+- no one subscribed to the Redux store yet
+- in the first attempt, you will wire up Redux and React naively and re-render the whole component tree on each update
+
+{title="src/index.js",lang="javascript"}
+~~~~~~~~
+...
+
+# leanpub-start-insert
+function render() {
+# leanpub-end-insert
+  ReactDOM.render(
+    <App
+      stories={getReadableStories(store.getState())}
+      onArchive={id => store.dispatch({ type: STORY_ARCHIVE, id })}
+    />,
+    document.getElementById('root')
+  );
+# leanpub-start-insert
+}
+# leanpub-end-insert
+
+# leanpub-start-insert
+store.subscribe(render);
+render();
+# leanpub-end-insert
+~~~~~~~~
+
+- now the components will re-render once you archive a story
+- congratulations, you dispatched your first action, selected derived properties from the state and updated your component tree by subscribing it to the Redux store
+
+### Part 12: First Middleware
+
+- often you don't notice when an action is dispatched
+- therefore you can use the [redux-logger](https://github.com/evgenyrodionov/redux-logger) middleware in your Redux store to `console.log()` every action, previous state and next state automarically to your developers console when dispatching an action
+- first, install the neat middleware library
+
+{title="Command Line",lang="text"}
+~~~~~~~~
+npm install --save redux-logger
+~~~~~~~~
+
+- now, use it as middleware in your Redux store initialization
+
+{title="src/store.js",lang="javascript"}
+~~~~~~~~
+# leanpub-start-insert
+import { createStore, applyMiddleware } from 'redux';
+import { createLogger } from 'redux-logger';
+# leanpub-end-insert
+import rootReducer from '../reducers';
+
+# leanpub-start-insert
+const logger = createLogger();
+# leanpub-end-insert
+
+const store = createStore(
+  rootReducer,
+# leanpub-start-insert
+  undefined,
+  applyMiddleware(logger)
+# leanpub-end-insert
+);
+
+export default store;
+~~~~~~~~
+
+- every time you dispatch an action now, for instance when archiving a story, you will see the logging in the developer console in your browser
+
+### Part 13: First Action Creator
+
+- you dispatch already an action without using an action creator
+- action creators are not mandatory, but they keep your Redux architecture organized
+- the action that gets directly dispatched can be refactored as action creator
+- first, you can define the action that takes an story id to archive a story in a new file
+
+{title="src/actions/archive.js",lang="javascript"}
+~~~~~~~~
+import { STORY_ARCHIVE } from '../constants/actionTypes';
+
+const doArchiveStory = id => ({
+  type: STORY_ARCHIVE,
+  id,
+});
+
+export {
+  doArchiveStory,
+};
+~~~~~~~~
+
+- second, you can use it in your root component
+- instead of dispatchign the action object directly, you can create an action object by using its action creator
+
+{title="src/actions/archive.js",lang="javascript"}
+~~~~~~~~
+...
+import { doArchiveStory } from './actions/archive';
+
+function render() {
+  ReactDOM.render(
+    <App
+      stories={getReadableStories(store.getState())}
+# leanpub-start-insert
+      onArchive={id => store.dispatch(doArchiveStory(id))}
+# leanpub-end-insert
+    />,
+    document.getElementById('root')
+  );
+}
+
+...
+~~~~~~~~
+
+- the application should work as before
+
+### Part 14: Connect React with Redux
+
+- the component tree already re-renders when you dispatch an action
+- but you want to wire up component indepdently with the Redux store without using the Redux store directly
+- moreover you don't want to re-render the whole component tree, but only the components where the state or props have changed
+- first, install the library that can be used to connect both worlds
+
+{title="Command Line",lang="text"}
+~~~~~~~~
+npm install --save react-redux
+~~~~~~~~
+
+- use the `Provider` component, that makes the Redux store available to all component below, in your root component
+
+{title="src/index.js",lang="javascript"}
+~~~~~~~~
+import React from 'react';
+import ReactDOM from 'react-dom';
+# leanpub-start-insert
+import { Provider } from 'react-redux';
+# leanpub-end-insert
+import App from './components/App';
+import store from './store';
+import './index.css';
+
+# leanpub-start-insert
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('root')
+);
+# leanpub-end-insert
+~~~~~~~~
+
+- notice that the render method isn't re-render anymore, no one subscribes to the Redux store and the `App` component isn't receiving any props
+- instead the `App` is only rendering component and doesn't pass any props anymore
+
+{title="src/components/App.js",lang="javascript"}
+~~~~~~~~
+import React, { Component } from 'react';
+import './App.css';
+
+import Stories from './Stories';
+
+class App extends Component {
+  render() {
+    return (
+      <div className="app">
+# leanpub-start-insert
+        <Stories />
+# leanpub-end-insert
+      </div>
+    );
+  }
+}
+
+export default App;
+~~~~~~~~
+
+- but who gives the props to the `Stories` component?
+- this component needs to know at least about the list of stories, because it has to map over it
+- the solution is to upgrade the `Stories` component to a connected component
+- instead of only default exporting the plain `Stories` component:
+
+{title="src/components/Stories.js",lang="javascript"}
+~~~~~~~~
+...
+
+export default Stories;
+~~~~~~~~
+
+- you can export the connected component that has access to the store
+
+{title="src/components/Stories.js",lang="javascript"}
+~~~~~~~~
+# leanpub-start-insert
+import { connect } from 'react-redux';
+import { doArchiveStory } from '../actions/archive';
+import { getReadableStories } from '../selectors/story';
+# leanpub-end-insert
+
+...
+
+# leanpub-start-insert
+const mapStateToProps = state => ({
+  stories: getReadableStories(state),
+});
+
+const mapDispatchToProps = dispatch => ({
+  onArchive: id => dispatch(doArchiveStory(id)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Stories);
+# leanpub-end-insert
+~~~~~~~~
+
+- the `Stories` component is a connected component now and is the only component that has access to the Redux store
+
+### Part 15: Lift Redux Access
+
+- you can give more components access to the Redux store by transforming a component to a connected component
+- the archive functionality is connected in the `Stories` component, but it is only used in the `Story` component
+- you can remove this functionality from the `Stories`component and don't pass the `onArchive()` function anymore to the `Story` component
+
+{title="src/components/Stories.js",lang="javascript"}
+~~~~~~~~
+...
+
+class Stories extends Component {
+  render() {
+    const { stories } = this.props;
+
+    return (
+      <div className="stories">
+        <StoriesHeader columns={COLUMNS} />
+
+        {(stories || []).map(story =>
+          <Story
+            key={story.objectID}
+            story={story}
+            columns={COLUMNS}
+          />
+        )}
+      </div>
+    );
+  }
+}
+
+...
+
+const mapStateToProps = state => ({
+  stories: getReadableStories(state),
+});
+
+export default connect(
+  mapStateToProps
+)(Stories);
+~~~~~~~~
+
+- instead you can connect the `Story` component
+
+{title="src/components/Story.js",lang="javascript"}
+~~~~~~~~
+# leanpub-start-insert
+import { connect } from 'react-redux';
+import { doArchiveStory } from '../actions/archive';
+# leanpub-end-insert
+
+...
+
+# leanpub-start-insert
+const mapDispatchToProps = dispatch => ({
+  onArchive: id => dispatch(doArchiveStory(id)),
+});
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(Story);
+# leanpub-end-insert
+~~~~~~~~
