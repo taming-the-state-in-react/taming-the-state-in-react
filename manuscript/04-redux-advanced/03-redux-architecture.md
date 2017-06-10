@@ -194,20 +194,15 @@ ReactDOM.render(<App stories={stories} />, document.getElementById('root'));
 
 {title="src/components/App.js",lang="javascript"}
 ~~~~~~~~
-import React, { Component } from 'react';
+import React from 'react';
 import './App.css';
 
 import Stories from './Stories';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="app">
-        <Stories stories={this.props.stories} />
-      </div>
-    );
-  }
-}
+const App = ({ stories }) =>
+  <div className="app">
+    <Stories stories={stories} />
+  </div>
 
 export default App;
 ~~~~~~~~
@@ -216,27 +211,20 @@ export default App;
 
 {title="src/components/Stories.js",lang="javascript"}
 ~~~~~~~~
-import React, { Component } from 'react';
+import React from 'react';
 import './Stories.css';
 
 import Story from './Story';
 
-class Stories extends Component {
-  const { stories } = this.props;
-
-  render() {
-    return (
-      <div className="stories">
-        {(stories || []).map(story =>
-          <Story
-            key={story.objectID}
-            story={story}
-          />
-        )}
-      </div>
-    );
-  }
-}
+const Stories = ({ stories }) =>
+  <div className="stories">
+    {(stories || []).map(story =>
+      <Story
+        key={story.objectID}
+        story={story}
+      />
+    )}
+  </div>
 
 export default Stories;
 ~~~~~~~~
@@ -245,34 +233,28 @@ export default Stories;
 
 {title="src/components/Story.js",lang="javascript"}
 ~~~~~~~~
-import React, { Component } from 'react';
+import React from 'react';
 import './Story.css';
 
-class Story extends Component {
-  render() {
-    const {
-      story,
-    } = this.props;
+const Story = ({ story }) => {
+  const {
+    title,
+    url,
+    author,
+    num_comments,
+    points,
+  } = story;
 
-    const {
-      title,
-      url,
-      author,
-      num_comments,
-      points,
-    } = story;
-
-    return (
-      <div className="story">
-        <span>
-          <a href={url}>{title}</a>
-        </span>
-        <span>{author}</span>
-        <span>{num_comments}</span>
-        <span>{points}</span>
-      </div>
-    );
-  }
+  return (
+    <div className="story">
+      <span>
+        <a href={url}>{title}</a>
+      </span>
+      <span>{author}</span>
+      <span>{num_comments}</span>
+      <span>{points}</span>
+    </div>
+  );
 }
 
 export default Story;
@@ -413,7 +395,7 @@ button:hover {
 
 {title="src/components/Stories.js",lang="javascript"}
 ~~~~~~~~
-import React, { Component } from 'react';
+import React from 'react';
 import './Stories.css';
 
 import Story from './Story';
@@ -442,9 +424,8 @@ const COLUMNS = {
 };
 # leanpub-end-insert
 
-class Stories extends Component {
+const Stories = ({ stories }) =>
   ...
-}
 ~~~~~~~~
 
 - the last column with the 'archive' property name is not used yet
@@ -452,63 +433,50 @@ class Stories extends Component {
 
 {title="src/components/Stories.js",lang="javascript"}
 ~~~~~~~~
-class Stories extends Component {
-  render() {
-    const { stories } = this.props;
-
-    return (
-      <div className="stories">
-        {(stories || []).map(story =>
-          <Story
-            key={story.objectID}
-            story={story}
+const Stories = ({ stories }) =>
+  <div className="stories">
+    {(stories || []).map(story =>
+      <Story
+        key={story.objectID}
+        story={story}
 # leanpub-start-insert
-            columns={COLUMNS}
+        columns={COLUMNS}
 # leanpub-end-insert
-          />
-        )}
-      </div>
-    );
-  }
-}
+      />
+    )}
+  </div>
 ~~~~~~~~
 
 - the story component can use it to style each entry
 
 {title="src/components/Story.js",lang="javascript"}
 ~~~~~~~~
-class Story extends Component {
-  render() {
-    const {
-      story,
 # leanpub-start-insert
-      columns,
+const Story = ({ story, columns }) => {
 # leanpub-end-insert
-    } = this.props;
 
-    ...
+  ...
 
-    return (
-      <div className="story">
+  return (
+    <div className="story">
 # leanpub-start-insert
-        <span style={{ width: columns.title.width }}>
-          <a href={url}>{title}</a>
-        </span>
-        <span style={{ width: columns.author.width }}>
-          {author}
-        </span>
-        <span style={{ width: columns.comments.width }}>
-          {num_comments}
-        </span>
-        <span style={{ width: columns.points.width }}>
-          {points}
-        </span>
-        <span style={{ width: columns.archive.width }}>
-        </span>
+      <span style={{ width: columns.title.width }}>
+        <a href={url}>{title}</a>
+      </span>
+      <span style={{ width: columns.author.width }}>
+        {author}
+      </span>
+      <span style={{ width: columns.comments.width }}>
+        {num_comments}
+      </span>
+      <span style={{ width: columns.points.width }}>
+        {points}
+      </span>
+      <span style={{ width: columns.archive.width }}>
+      </span>
 # leanpub-end-insert
-      </div>
-    );
-  }
+    </div>
+  );
 }
 ~~~~~~~~
 
@@ -517,63 +485,49 @@ class Story extends Component {
 
 {title="src/components/Stories.js",lang="javascript"}
 ~~~~~~~~
-class Stories extends Component {
-  render() {
-    const { stories } = this.props;
-
-    return (
-      <div className="stories">
+const Stories = ({ stories }) =>
+  <div className="stories">
 # leanpub-start-insert
-        <div className="stories-header">
-          {Object.keys(COLUMNS).map(key =>
-            <span
-              key={key}
-              style={{ width: COLUMNS[key].width }}
-            >
-              {COLUMNS[key].label}
-            </span>
-          )}
-        </div>
+    <div className="stories-header">
+      {Object.keys(COLUMNS).map(key =>
+        <span
+          key={key}
+          style={{ width: COLUMNS[key].width }}
+        >
+          {COLUMNS[key].label}
+        </span>
+      )}
+    </div>
 # leanpub-end-insert
 
-        {(stories || []).map(story =>
-          <Story
-            key={story.objectID}
-            story={story}
-            columns={COLUMNS}
-          />
-        )}
-      </div>
-    );
-  }
-}
+    {(stories || []).map(story =>
+      <Story
+        key={story.objectID}
+        story={story}
+        columns={COLUMNS}
+      />
+    )}
+  </div>
 ~~~~~~~~
 
 - before you start your application, you can extract the header columns as own component
 
 {title="src/components/Stories.js",lang="javascript"}
 ~~~~~~~~
-class Stories extends Component {
-  render() {
-    const { stories } = this.props;
-
-    return (
-      <div className="stories">
+const Stories = ({ stories }) =>
+  <div className="stories">
 # leanpub-start-insert
-        <StoriesHeader columns={COLUMNS} />
+    <StoriesHeader columns={COLUMNS} />
 # leanpub-end-insert
 
-        {(stories || []).map(story =>
-          <Story
-            key={story.objectID}
-            story={story}
-            columns={COLUMNS}
-          />
-        )}
-      </div>
-    );
-  }
-}
+    {(stories || []).map(story =>
+      <Story
+        key={story.objectID}
+        story={story}
+        columns={COLUMNS}
+      />
+    )}
+  </div>
 
 # leanpub-start-insert
 const StoriesHeader = ({ columns }) =>
@@ -618,95 +572,73 @@ ReactDOM.render(
 
 {title="src/components/App.js",lang="javascript"}
 ~~~~~~~~
-class App extends Component {
-  render() {
-    return (
-      <div className="app">
-        <Stories
-          stories={this.props.stories}
+const App = ({ stories, onArchive }) =>
+  <div className="app">
+    <Stories
+      stories={stories}
 # leanpub-start-insert
-          onArchive={this.props.onArchive}
+      onArchive={onArchive}
 # leanpub-end-insert
-        />
-      </div>
-    );
-  }
-}
+    />
+  </div>
 ~~~~~~~~
 
 {title="src/components/Stories.js",lang="javascript"}
 ~~~~~~~~
-class Stories extends Component {
-  render() {
-    const {
-      stories,
 # leanpub-start-insert
-      onArchive,
+const Stories = ({ stories, onArchive }) =>
 # leanpub-end-insert
-    } = this.props;
+  <div className="stories">
+    <StoriesHeader columns={COLUMNS} />
 
-    return (
-      <div className="stories">
-        <StoriesHeader columns={COLUMNS} />
-
-        {(stories || []).map(story =>
-          <Story
-            key={story.objectID}
-            story={story}
-            columns={COLUMNS}
+    {(stories || []).map(story =>
+      <Story
+        key={story.objectID}
+        story={story}
+        columns={COLUMNS}
 # leanpub-start-insert
-            onArchive={onArchive}
+        onArchive={onArchive}
 # leanpub-end-insert
-          />
-        )}
-      </div>
-    );
-  }
-}
+      />
+    )}
+  </div>
 ~~~~~~~~
 
 - third, you can use it in your `Story` component in a button
 
 {title="src/components/Story.js",lang="javascript"}
 ~~~~~~~~
-class Story extends Component {
-  render() {
-    const {
-      story,
-      columns,
 # leanpub-start-insert
-      onArchive,
+const Story = ({ story, columns, onArchive }) => {
 # leanpub-end-insert
-    } = this.props;
 
-    const {
-      title,
-      url,
-      author,
-      num_comments,
-      points,
+  const {
+    title,
+    url,
+    author,
+    num_comments,
+    points,
 # leanpub-start-insert
-      objectID,
+    objectID,
 # leanpub-end-insert
-    } = story;
+  } = story;
 
-    return (
-      <div className="story">
-        ...
-        <span style={{ width: columns.archive.width }}>
+  return (
+    <div className="story">
+      ...
+      <span style={{ width: columns.archive.width }}>
 # leanpub-start-insert
-          <button
-            type="button"
-            className="button-inline"
-            onClick={() => onArchive(objectID)}
-          >
-            Archive
-          </button>
+        <button
+          type="button"
+          className="button-inline"
+          onClick={() => onArchive(objectID)}
+        >
+          Archive
+        </button>
 # leanpub-end-insert
-        </span>
-      </div>
-    );
-  }
+      </span>
+    </div>
+  );
 }
 ~~~~~~~~
 
@@ -714,23 +646,21 @@ class Story extends Component {
 
 {title="src/components/Story.js",lang="javascript"}
 ~~~~~~~~
-class Story extends Component {
-  render() {
-    ...
+const Story = ({ story, columns, onArchive }) => {
+  ...
 
-    return (
-      <div className="story">
-        ...
-        <span style={{ width: columns.archive.width }}>
+  return (
+    <div className="story">
+      ...
+      <span style={{ width: columns.archive.width }}>
 # leanpub-start-insert
-          <ButtonInline onClick={() => onArchive(objectID)}>
-            Archive
-          </ButtonInline>
+        <ButtonInline onClick={() => onArchive(objectID)}>
+          Archive
+        </ButtonInline>
 # leanpub-end-insert
-        </span>
-      </div>
-    );
-  }
+      </span>
+    </div>
+  );
 }
 
 # leanpub-start-insert
@@ -753,6 +683,8 @@ const ButtonInline = ({
 
 {title="src/components/Story.js",lang="javascript"}
 ~~~~~~~~
+...
+
 const ButtonInline = ({
   onClick,
   type = 'button',
@@ -1243,22 +1175,17 @@ ReactDOM.render(
 
 {title="src/components/App.js",lang="javascript"}
 ~~~~~~~~
-import React, { Component } from 'react';
+import React from 'react';
 import './App.css';
 
 import Stories from './Stories';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="app">
+const App = () =>
+  <div className="app">
 # leanpub-start-insert
-        <Stories />
+    <Stories />
 # leanpub-end-insert
-      </div>
-    );
-  }
-}
+  </div>
 
 export default App;
 ~~~~~~~~
@@ -1315,25 +1242,20 @@ export default connect(
 ~~~~~~~~
 ...
 
-class Stories extends Component {
-  render() {
-    const { stories } = this.props;
+# leanpub-start-insert
+const Stories = ({ stories }) =>
+# leanpub-end-insert
+  <div className="stories">
+    <StoriesHeader columns={COLUMNS} />
 
-    return (
-      <div className="stories">
-        <StoriesHeader columns={COLUMNS} />
-
-        {(stories || []).map(story =>
-          <Story
-            key={story.objectID}
-            story={story}
-            columns={COLUMNS}
-          />
-        )}
-      </div>
-    );
-  }
-}
+    {(stories || []).map(story =>
+      <Story
+        key={story.objectID}
+        story={story}
+        columns={COLUMNS}
+      />
+    )}
+  </div>
 
 ...
 
@@ -1525,7 +1447,7 @@ export default storyReducer;
 
 {title="src/reducers/story.js",lang="javascript"}
 ~~~~~~~~
-import React, { Component } from 'react';
+import React from 'react';
 import './App.css';
 
 import Stories from './Stories';
@@ -1533,20 +1455,15 @@ import Stories from './Stories';
 import SearchStories from './SearchStories';
 # leanpub-end-insert
 
-class App extends Component {
-  render() {
-    return (
-      <div className="app">
+const App = () =>
+  <div className="app">
 # leanpub-start-insert
-        <div className="interactions">
-          <SearchStories />
-        </div>
+    <div className="interactions">
+      <SearchStories />
+    </div>
 # leanpub-end-insert
-        <Stories />
-      </div>
-    );
-  }
-}
+    <Stories />
+  </div>
 
 export default App;
 ~~~~~~~~
@@ -1557,7 +1474,7 @@ export default App;
 {title="src/components/SearchStories.js",lang="javascript"}
 ~~~~~~~~
 import React, { Component } from 'react';
-import { Button } from './Buttons';
+import Button from './Buttons';
 
 const applyQueryState = query => () => ({
   query
@@ -1623,7 +1540,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { doFetchStories } from '../actions/story';
 # leanpub-end-insert
-import { Button } from './Buttons';
+import Button from './Buttons';
 
 ...
 

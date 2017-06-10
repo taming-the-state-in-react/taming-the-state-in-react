@@ -4,11 +4,11 @@
 
 **Why is the book not for free?** I share content often for free ([blog](https://www.robinwieruch.de/), [ebook](https://www.robinwieruch.de/the-road-to-learn-react/)). That's the content where I think people need access to regardless of their (monetary) limitations. On the other side, teaching is one of my professions that I pursue. At some point, I hope to generate income with the education that I provide to do it full time. After all, I invest a lot of time to ship quality education material that is kept updated to your best interest.
 
-**What should I do when I cannot affort to pay for the book?** If you cannot afford the book but want to learn about the topic, you can write me a message on Twitter. I will hand out a copy for you. In addition, I want support any cause to improve the diversity in our programming culture. If you belong to a minority or are in an organization that helps supports diversity in our culture, please reach out to me to get free copies of the book.
+**What should I do when I cannot afford to pay for the book?** If you cannot afford the book but want to learn about the topic, you can write me a message on Twitter. I will hand out a copy for you. In addition, I want support any cause to improve the diversity in our programming culture. If you belong to a minority or are in an organization that helps supports diversity in our culture, please reach out to me to get free copies of the book.
 
 **How to support the project?** If you believe in the content that I create, you can [support me](https://www.robinwieruch.de/about/). Moreover I would be grateful when you would spread the word about this book after you have read it and enjoyed reading it.
 
-**Is there a money back guarantee?** Yes, there is 100% money back if you don't think it's a good fit.
+**Is there a money back guarantee?** Yes, there is 100% money back if you don't think it's a good fit. Please reach out to me via email: wrobin@gmx.net
 
 **Can I help to improve the content?** Yes, I would love to hear your feedback on [Twitter](https://twitter.com/rwieruch). These can be improvements technical wise yet also about the written word. I am no native speaker. In the next iteration of the book, if the book generated income, I will give it to a proofreader and editor to improve it.
 
