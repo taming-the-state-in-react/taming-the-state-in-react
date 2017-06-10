@@ -437,6 +437,11 @@ function* handleAddTodoWithNotification(action) {
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
+...
+# leanpub-start-insert
+import createSagaMiddleware from 'redux-saga';
+# leanpub-end-insert
+
 const rootReducer = combineReducers({
   todoState: todoReducer,
   filterState: filterReducer,

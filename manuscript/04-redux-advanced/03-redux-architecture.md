@@ -1,4 +1,4 @@
-## Redux State as Architecture
+# Redux State as Architecture
 
 The book taught you the practical usage of Redux. You have learned about the main parts in the Redux state management architecture: actions, reducers and the store.
 
@@ -52,7 +52,7 @@ Coupling actions and reducers is fine, but always think twice when adding anothe
 
 You have learned that you can plan your state management ahead. There are use cases where local state makes more sense than sophisticated state. Both can be used and should be used in a scaling application. By combining local state to the native local storage of the browser, you can give the user of your application an improved UX. In addition, you can plan the state ahead too. Think about view state and entitiy state and where it should live in your application. You can give your reducers differenct domains as their ownership such as `todoReducer`, filterReducer and notificationReducer. However, once you have planned your state management and state, don't stick to it. When slaing your application, always revisit those things to apply refactorings. That will help you to keep your state manageable, maintainable and predictable in the long run.
 
-## Hands On: Hacker News with Redux
+# Hands On: Hacker News with Redux
 
 {title="Command Line",lang="text"}
 ~~~~~~~~
@@ -67,7 +67,7 @@ cd react-redux-hackernews
 npm start
 ~~~~~~~~
 
-### Part 1: Project Organization
+## Part 1: Project Organization
 
 - part 1: preparing the app folder structure
 - move into the *src/* folder and delete the boilerplate files
@@ -82,7 +82,7 @@ rm logo.svg App.js App.test.js App.css
 
 {title="Command Line: src/",lang="text"}
 ~~~~~~~~
-mkdir constants reducers actions selectors components store
+mkdir constants reducers actions selectors sagas components store
 ~~~~~~~~
 
 - your folder structure should be similiar to the following:
@@ -91,9 +91,11 @@ mkdir constants reducers actions selectors components store
 ~~~~~~~~
 -src/
 --actions/
+--api/
 --components/
 --constants/
 --reducers/
+--sagas/
 --selectors/
 --store/
 --index.css
@@ -114,6 +116,7 @@ touch index.js App.js Stories.js Story.js
 ~~~~~~~~
 -src/
 --actions/
+--api/
 --components/
 ---App.js
 ---App.css
@@ -125,6 +128,8 @@ touch index.js App.js Stories.js Story.js
 ---actionTypes.js
 --reducers/
 ---index.js
+---sagas/
+----index.js
 --selectors/
 --store/
 ---index.js
@@ -134,7 +139,7 @@ touch index.js App.js Stories.js Story.js
 
 - now you have your foundation of folders and files for your React and Redux application, except for the specific component files that you already have, everything else can be used as a blueprint for any application using React and Redux
 
-### Part 2: Project Organization
+## Part 2: Plain React Components
 
 - part 2: build react component architecture that only receives all the necessary props from above, props can already have callback functions to do something, unawre of doing it in the state or somewhere else
 
@@ -276,7 +281,7 @@ export default Story;
 - now you can start your application again with `npm start`
 - you should see both sample stories displayed in plain React
 
-### Part 3: Styling
+## Part 3: Apply Styling
 
 - the application looks a bit dull, therefore we will quickly drop in styling
 - first, the application needs some general style that can be defined in the root style file
@@ -587,7 +592,7 @@ const StoriesHeader = ({ columns }) =>
 
 - the rendering of the sample stories is done and is representable to none designers
 
-### Part 4: Archive a Story
+## Part 4: Archive a Story
 
 - in this part you add your first functionality: archiving a story
 - therefore you will introduce Redux to your application
@@ -780,7 +785,7 @@ const Button = ({
 
 - now, when you start your application, the button is there, but it doesn't work because it only receives an no-op (empty function) as property
 
-### Part 5: Introduce Redux
+## Part 5: Introduce Redux: Store + First Reducer
 
 - this part will introduce Redux to manage the state of the (sample) stories instead of passing it directly into your component tree
 - let's approach this step by step
@@ -864,7 +869,7 @@ export default storyReducer;
 - there are no actions yet and no action is captured in the reducer yet
 - even though there was no action dispatched yet, you can see that the Redux store runs through all its defined reducers to initialize its initial state in the store
 
-### Part 7: Two Reducers
+## Part 7: Two Reducers
 
 - you have used the Redux store to save an initial state of sample stories and to retrieve this state for your component tree
 - but there is no state manipulation happening yet
@@ -945,7 +950,7 @@ ReactDOM.render(
 - the application should show up the same as before when you start it
 - finally in the next part you will dispatch your first action to dismiss a story
 
-### Part 8: First Action
+## Part 8: First Action
 
 - the archive action needs to be captured in the `archiveReducer`, it simply stores all archived stories by their id in a list
 
@@ -1012,7 +1017,7 @@ ReactDOM.render(
 - when you start your application, it shoudl still work, but nothing happens when archiving a story
 - the archived stories are not used yet in the component tree
 
-### Part 9: First Selector
+## Part 9: First Selector
 
 - you can use both substates, `storyState` and `archiveState` to compute the not lsit of stories that are not dismissed
 - the deriving of those properties can happen in a selector
@@ -1080,7 +1085,7 @@ ReactDOM.render(
 
 - still, nothing happens when you archive a story
 
-### Part 11: Re-render on Store Update
+## Part 11: Re-render View
 
 - when an action dispatches, the state in the Redux store gets updated
 - however, the component tree in React doesn't update
@@ -1114,7 +1119,7 @@ render();
 - now the components will re-render once you archive a story
 - congratulations, you dispatched your first action, selected derived properties from the state and updated your component tree by subscribing it to the Redux store
 
-### Part 12: First Middleware
+## Part 12: First Middleware
 
 - often you don't notice when an action is dispatched
 - therefore you can use the [redux-logger](https://github.com/evgenyrodionov/redux-logger) middleware in your Redux store to `console.log()` every action, previous state and next state automarically to your developers console when dispatching an action
@@ -1152,7 +1157,7 @@ export default store;
 
 - every time you dispatch an action now, for instance when archiving a story, you will see the logging in the developer console in your browser
 
-### Part 13: First Action Creator
+## Part 13: First Action Creator
 
 - you dispatch already an action without using an action creator
 - action creators are not mandatory, but they keep your Redux architecture organized
@@ -1198,7 +1203,7 @@ function render() {
 
 - the application should work as before
 
-### Part 14: Connect React with Redux
+## Part 14: Connect React with Redux
 
 - the component tree already re-renders when you dispatch an action
 - but you want to wire up component indepdently with the Redux store without using the Redux store directly
@@ -1300,7 +1305,7 @@ export default connect(
 
 - the `Stories` component is a connected component now and is the only component that has access to the Redux store
 
-### Part 15: Lift Redux Access
+## Part 15: Lift Connected Components
 
 - you can give more components access to the Redux store by transforming a component to a connected component
 - the archive functionality is connected in the `Stories` component, but it is only used in the `Story` component
@@ -1363,3 +1368,319 @@ export default connect(
 )(Story);
 # leanpub-end-insert
 ~~~~~~~~
+
+## Part 16: Interacting with an API
+
+- writing applications with sample data is dull
+- it can be more exciting by interacting with a real API - the [Hacker News API](https://hn.algolia.com/api)
+- even though, as you know, you can have asynchronous actions without another library, this application will introduce Redux saga as asynchrnours action library
+
+{title="Command Line",lang="text"}
+~~~~~~~~
+npm install --save redux-saga
+~~~~~~~~
+
+- first, introduce a root saga, it can be similar seen to the combined root reducer, in the end the Redux store expects one reducer or one saga for its saga middleware
+
+{title="src/sagas/index.js",lang="javascript"}
+~~~~~~~~
+import { takeEvery } from 'redux-saga/effects';
+import { STORIES_FETCH } from '../constants/actionTypes';
+import { handleFetchStories } from './story';
+
+function *watchAll() {
+  yield [
+    takeEvery(STORIES_FETCH, handleFetchStories),
+  ]
+}
+
+export default watchAll;
+~~~~~~~~
+
+- second, the root saga can be used in the Redux store middleware when initializing the saga middleware
+
+{title="src/sagas/index.js",lang="javascript"}
+~~~~~~~~
+import { createStore, applyMiddleware } from 'redux';
+import { createLogger } from 'redux-logger';
+# leanpub-start-insert
+import createSagaMiddleware from 'redux-saga';
+# leanpub-end-insert
+import rootReducer from '../reducers';
+# leanpub-start-insert
+import rootSaga from '../sagas';
+# leanpub-end-insert
+
+const logger = createLogger();
+# leanpub-start-insert
+const saga = createSagaMiddleware();
+# leanpub-end-insert
+
+const store = createStore(
+  rootReducer,
+  undefined,
+# leanpub-start-insert
+  applyMiddleware(saga, logger)
+# leanpub-end-insert
+);
+
+# leanpub-start-insert
+saga.run(rootSaga);
+# leanpub-end-insert
+
+export default store;
+~~~~~~~~
+
+- third, introduce the new action type in your constants that triggers the saga, but already introduce a second action type that will later on, when the request succeeds, add the stories in your `storyReducer`
+
+{title="src/constants/actionTypes.js",lang="javascript"}
+~~~~~~~~
+export const STORY_ARCHIVE = 'STORY_ARCHIVE';
+# leanpub-start-insert
+export const STORIES_FETCH = 'STORIES_FETCH';
+export const STORIES_ADD = 'STORIES_ADD';
+# leanpub-end-insert
+~~~~~~~~
+
+- and fourth implement the story saga that encapsulates the API request
+
+{title="src/sagas/story.js",lang="javascript"}
+~~~~~~~~
+import { call, put } from 'redux-saga/effects';
+import { doAddStories } from '../actions/story';
+
+const HN_BASE_URL = 'http://hn.algolia.com/api/v1/search?query=';
+
+const fetchStories = query =>
+  fetch(HN_BASE_URL + query)
+    .then(response => response.json());
+
+function* handleFetchStories(action) {
+  const { query } = action;
+  const result = yield call(fetchStories, query);
+  yield put(doAddStories(result.hits));
+}
+
+export {
+  handleFetchStories,
+};
+~~~~~~~~
+
+- fourth, you need to define both actions creators: the first one that triggers the side-effect to fetch stories by a search term and the second one to add the fetched stories to your store
+
+{title="src/actions/story.js",lang="javascript"}
+~~~~~~~~
+import {
+  STORIES_ADD,
+  STORIES_FETCH,
+} from '../constants/actionTypes';
+
+const doAddStories = stories => ({
+  type: STORIES_ADD,
+  stories,
+});
+
+const doFetchStories = query => ({
+  type: STORIES_FETCH,
+  query,
+});
+
+export {
+  doAddStories,
+  doFetchStories,
+};
+~~~~~~~~
+
+- the second action needs to be intercepted in your `storyReducer` to store the stories, don't forget to remove the sample stories
+
+{title="src/reducers/story.js",lang="javascript"}
+~~~~~~~~
+# leanpub-start-insert
+import { STORIES_ADD } from '../constants/actionTypes';
+
+const INITIAL_STATE = [];
+
+const applyAddStories = (state, action) =>
+  [ ...action.stories ];
+# leanpub-end-insert
+
+function storyReducer(state = INITIAL_STATE, action) {
+  switch(action.type) {
+# leanpub-start-insert
+    case STORIES_ADD : {
+      return applyAddStories(state, action);
+    }
+# leanpub-end-insert
+    default : return state;
+  }
+}
+
+export default storyReducer;
+~~~~~~~~
+
+- everything is setup from a Redux and Redux Saga perspective
+- now only one component from the view layer needs to trigger the `STORIES_FETCH` action that is intercepted in the saga, fetches the stories and stores them in the Redux store with the `STORIES_ADD` action
+
+- in your `App` component you can introduce the new `SearchStories` Component
+
+{title="src/reducers/story.js",lang="javascript"}
+~~~~~~~~
+import React, { Component } from 'react';
+import './App.css';
+
+import Stories from './Stories';
+# leanpub-start-insert
+import SearchStories from './SearchStories';
+# leanpub-end-insert
+
+class App extends Component {
+  render() {
+    return (
+      <div className="app">
+# leanpub-start-insert
+        <div className="interactions">
+          <SearchStories />
+        </div>
+# leanpub-end-insert
+        <Stories />
+      </div>
+    );
+  }
+}
+
+export default App;
+~~~~~~~~
+
+- the `SearchStories` component is a connected component, the next step is to implement that component
+- first, you start with a plain React component that has a form, input field and button
+
+{title="src/components/SearchStories.js",lang="javascript"}
+~~~~~~~~
+import React, { Component } from 'react';
+import { Button } from './Buttons';
+
+const applyQueryState = query => () => ({
+  query
+});
+
+class SearchStories extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      query: '',
+    };
+
+    this.onChange = this.onChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  onSubmit(event) {
+    const { query } = this.state;
+    if (query) {
+      // TODO: not defined yet
+      this.props.onFetchStories(query)
+
+      this.setState(applyQueryState(''));
+    }
+
+    event.preventDefault();
+  }
+
+  onChange(event) {
+    const { value } = event.target;
+    this.setState(applyQueryState(value));
+  }
+
+  render() {
+    return (
+      <form onSubmit={this.onSubmit}>
+        <input
+          type="text"
+          value={this.state.query}
+          onChange={this.onChange}
+        />
+        <Button type="submit">
+          Search
+        </Button>
+      </form>
+    );
+  }
+}
+
+export default SearchStories;
+~~~~~~~~
+
+- the component receives a function from the props
+- this function will be defined in the connected component to dispatch the action
+
+- second, you have to connect the component to make the dispatch functionality available
+
+{title="src/components/SearchStories.js",lang="javascript"}
+~~~~~~~~
+import React, { Component } from 'react';
+# leanpub-start-insert
+import { connect } from 'react-redux';
+import { doFetchStories } from '../actions/story';
+# leanpub-end-insert
+import { Button } from './Buttons';
+
+...
+
+# leanpub-start-insert
+const mapDispatchToProps = (dispatch) => ({
+  onFetchStories: query => dispatch(doFetchStories(query)),
+});
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(SearchStories);
+# leanpub-end-insert
+~~~~~~~~
+
+- the search should work now
+- a last refactoring step could be to separate saga and api
+
+{title="src/sagas/story.js",lang="javascript"}
+~~~~~~~~
+import { call, put } from 'redux-saga/effects';
+import { doAddStories } from '../actions/story';
+# leanpub-start-insert
+import { fetchStories } from '../api/story';
+# leanpub-end-insert
+
+function* handleFetchStories(action) {
+  const { query } = action;
+  const result = yield call(fetchStories, query);
+  yield put(doAddStories(result.hits));
+}
+
+export {
+  handleFetchStories,
+};
+~~~~~~~~
+
+{title="src/api/story.js",lang="javascript"}
+~~~~~~~~
+const HN_BASE_URL = 'http://hn.algolia.com/api/v1/search?query=';
+
+const fetchStories = query =>
+  fetch(HN_BASE_URL + query)
+    .then(response => response.json());
+
+export {
+  fetchStories,
+};
+~~~~~~~~
+
+## Final Words
+
+- features you could add
+- normalizing the state before it reaches the reducer with normalizr
+- introduce react router to have two routes: search and archived
+- paginated fetch
+- error handling
+- tests
+- archived in local storage
+- caching
