@@ -54,12 +54,16 @@ You have learned that you can plan your state management ahead. There are use ca
 
 # Hands On: Hacker News with Redux
 
+In this chapter, you will be guided to build your own Hacker News application with React and Redux. Hacker News is a platform to share news in and around the technology domain. It provides a [public API](https://hn.algolia.com/api) to interact with their data. Some of you might have read [the Road to learn React](https://www.robinwieruch.de/the-road-to-learn-react/) where you have build a Hacker News application as well. But that time it was only plain React. Now you can experience the differences when using Redux.
+
+You are going to start with create-react-app to bootstrap your project. You can read the [official documentation](https://github.com/facebookincubator/create-react-app) to read about how it works. You simply start by choosing a project name for your application.
+
 {title="Command Line",lang="text"}
 ~~~~~~~~
 create-react-app react-redux-hackernews
 ~~~~~~~~
 
-- navigate in your application folder, open your editor in it and optionally start the application
+After the project was created for your, you can navigate into the project folder, open your editor and start the application.
 
 {title="Command Line",lang="text"}
 ~~~~~~~~
@@ -67,10 +71,11 @@ cd react-redux-hackernews
 npm start
 ~~~~~~~~
 
+It should show the defaults that come with create-create-app.
+
 ## Part 1: Project Organization
 
-- part 1: preparing the app folder structure
-- move into the *src/* folder and delete the boilerplate files
+Before you familiarze yourself with the folder structure in this part, you will adapt it to your own needs. First, move into the *src/* folder and delete the boilerplate files that are not needed for the application.
 
 {title="Command Line: /",lang="text"}
 ~~~~~~~~
@@ -78,14 +83,14 @@ cd src
 rm logo.svg App.js App.test.js App.css
 ~~~~~~~~
 
-- from the *src/* folder create the folders for a organized folder structure by technical separation
+Even the `App` component gets deleted, because you'll organize it in folders instead of in the top level *src/* folder. Now, from the *src/* folder, create the folders for a organized folder structure by a technical separation.
 
 {title="Command Line: src/",lang="text"}
 ~~~~~~~~
 mkdir constants reducers actions selectors sagas components store
 ~~~~~~~~
 
-- your folder structure should be similiar to the following:
+Your folder structure should be similiar to the following:
 
 {title="Folder Structure",lang="text"}
 ~~~~~~~~
@@ -102,7 +107,7 @@ mkdir constants reducers actions selectors sagas components store
 --index.js
 ~~~~~~~~
 
-- navigate in the *component/* folder and create the following files for independent components
+Navigate in the *component/* folder and create the following files for your independent components.
 
 {title="Command Line: src/",lang="text"}
 ~~~~~~~~
@@ -110,7 +115,7 @@ cd components
 touch index.js App.js Stories.js Story.js
 ~~~~~~~~
 
-- continue this way and create the remaining files to end up with the following folder structure
+You can continue this way and create the remaining files to end up with the following folder structure.
 
 {title="Folder Structure",lang="text"}
 ~~~~~~~~
@@ -137,13 +142,13 @@ touch index.js App.js Stories.js Story.js
 --index.js
 ~~~~~~~~
 
-- now you have your foundation of folders and files for your React and Redux application, except for the specific component files that you already have, everything else can be used as a blueprint for any application using React and Redux
+Now you have your foundation of folders and files for your React and Redux application. Except for the specific component files that you already have, everything else can be used as a blueprint, your own boilerplate, for any application using React and Redux. But only if it is separated by technical concerns. In a growing application you might want to separate your folders by feature.
 
 ## Part 2: Plain React Components
 
-- part 2: build react component architecture that only receives all the necessary props from above, props can already have callback functions to do something, unawre of doing it in the state or somewhere else
+In this you will implement your plain React component architecture that only receives all necessary props from their parent components. These props can already have callback functions to do something. The point is that the props don't reveal that they are props themselves in the parent component, state from the local state or even Redux, or derived properties. The callback functions are plain functions too. Thus the components are not aware of using local state functions or Redux actions to alter the state.
 
-- in your entry point to React, where your root component gets rendered into the DOM, adjust the import of the `App` component
+In your entry point to React, where your root component gets rendered into the DOM, adjust the import of the `App` component by including the components folder in the path.
 
 {title="src/index.js",lang="javascript"}
 ~~~~~~~~
@@ -157,14 +162,11 @@ import './index.css';
 ReactDOM.render(<App />, document.getElementById('root'));
 ~~~~~~~~
 
-- in the next step, let's come up with sample data that can be used in the React components, the sample data gets defined and becomes the input of the `App` component, later this data will get fetched from the Hacker News API
+In the next step you can come up with sample data that can be used in the React components. The sample data becomes the input of the `App` component. At a later point in time this data will get fetched from the Hacker News API.
 
 {title="src/index.js",lang="javascript"}
 ~~~~~~~~
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './components';
-import './index.css';
+...
 
 # leanpub-start-insert
 const stories = [
@@ -189,8 +191,7 @@ ReactDOM.render(<App stories={stories} />, document.getElementById('root'));
 # leanpub-end-insert
 ~~~~~~~~
 
-- the three components, `App`, `Stories` and `Story`, are not defined yet, let's define them component by component,
-- first, the `App` receives the sample stories from above as props and its only responsiblity is to render the `Stories` component and to pass over the `stories` as props
+The three components, `App`, `Stories` and `Story`, are not defined yet but you have already created the files. Let's define them component by component. First, the `App` receives the sample stories from above as props and its only responsiblity is to render the `Stories` component and to pass over the `stories` as props.
 
 {title="src/components/App.js",lang="javascript"}
 ~~~~~~~~
@@ -207,7 +208,7 @@ const App = ({ stories }) =>
 export default App;
 ~~~~~~~~
 
-- second, the `Stories` component receives the `stories` as props and renders for each story a `Story` component
+Second, the `Stories` component receives the `stories` as props and renders for each story a `Story` component.
 
 {title="src/components/Stories.js",lang="javascript"}
 ~~~~~~~~
@@ -229,7 +230,7 @@ const Stories = ({ stories }) =>
 export default Stories;
 ~~~~~~~~
 
-- third, the `Story` component renders a few properties of the `story` object that comes in as props
+Third, the `Story` component renders a few properties of the `story` object that gets destructured from the props object.
 
 {title="src/components/Story.js",lang="javascript"}
 ~~~~~~~~
@@ -260,13 +261,11 @@ const Story = ({ story }) => {
 export default Story;
 ~~~~~~~~
 
-- now you can start your application again with `npm start`
-- you should see both sample stories displayed in plain React
+You can start your application again with `npm start` on the command line. Both sample stories should be displayed in plain React.
 
 ## Part 3: Apply Styling
 
-- the application looks a bit dull, therefore we will quickly drop in styling
-- first, the application needs some general style that can be defined in the root style file
+The application looks a bit dull without any styling. Therefore you can drop in styling some styling of your own or use the styling that's provided. First, the application needs some general style that can be defined in the root style file.
 
 {title="src/index.css",lang="css"}
 ~~~~~~~~
@@ -332,7 +331,7 @@ button:hover {
 }
 ~~~~~~~~
 
-- second, the `App` component gets style
+Second, the `App` component gets a few CSS classes:
 
 {title="src/components/App.css",lang="css"}
 ~~~~~~~~
@@ -345,7 +344,7 @@ button:hover {
 }
 ~~~~~~~~
 
-- third, the `Stories` component gets style
+Third, the `Stories` component gets some style:
 
 {title="src/components/Stories.css",lang="css"}
 ~~~~~~~~
@@ -368,7 +367,7 @@ button:hover {
 }
 ~~~~~~~~
 
-- and last but not least, the `Story` component gets style
+And last but not least, the `Story` component will be painted:
 
 {title="src/components/Story.css",lang="css"}
 ~~~~~~~~
@@ -389,9 +388,7 @@ button:hover {
 }
 ~~~~~~~~
 
-- when you start your application again, it seems more organized, but there is still something missing
-- the columns for each story should be aligned and perhaps there should be a heading for each column
-- first, you can define an object to describe the columns
+When you start your application again, it seems more organized. But there is still something missing for displaying the stories properly. The columns for each story should be aligned and perhaps there should be a heading for each column. First, you can define an object to describe the columns.
 
 {title="src/components/Stories.js",lang="javascript"}
 ~~~~~~~~
@@ -428,8 +425,7 @@ const Stories = ({ stories }) =>
   ...
 ~~~~~~~~
 
-- the last column with the 'archive' property name is not used yet
-- second, you can pass this object to your `Story` component
+The last column with the 'archive' property name is not used yet, but will be used in a later point in time. Second, you can pass this object to your `Story` component.
 
 {title="src/components/Stories.js",lang="javascript"}
 ~~~~~~~~
@@ -447,7 +443,7 @@ const Stories = ({ stories }) =>
   </div>
 ~~~~~~~~
 
-- the story component can use it to style each entry
+The `Story` component can use it to style each displaying property of the story.
 
 {title="src/components/Story.js",lang="javascript"}
 ~~~~~~~~
@@ -480,8 +476,7 @@ const Story = ({ story, columns }) => {
 }
 ~~~~~~~~
 
-- last but not least, you can use the `COLUMN` object to give your stories a header columns
-- rather than doing it manually as in the `Story` component, let's map the object dynamically to render it, since it is an object, you have to turn it into an array of the property names first, and then access the object by its mapped keys
+Last but not least, you can use the `COLUMNS` object to give your `Stories` component matching header columns. That's why the `COLUMNS` object got defined in the `Stories` component in the first place. Now, rather than doing it manually, as in the `Story` component, you will map the object dynamically to render the header columns. Since it is an object, you have to turn it into an array of the property names first, and then access the object by its mapped keys.
 
 {title="src/components/Stories.js",lang="javascript"}
 ~~~~~~~~
@@ -510,7 +505,7 @@ const Stories = ({ stories }) =>
   </div>
 ~~~~~~~~
 
-- before you start your application, you can extract the header columns as own component
+You can extract the header columns as its own `StoriesHeader` component to keep your component well arranged.
 
 {title="src/components/Stories.js",lang="javascript"}
 ~~~~~~~~
@@ -521,11 +516,7 @@ const Stories = ({ stories }) =>
 # leanpub-end-insert
 
     {(stories || []).map(story =>
-      <Story
-        key={story.objectID}
-        story={story}
-        columns={COLUMNS}
-      />
+      ...
     )}
   </div>
 
@@ -544,16 +535,13 @@ const StoriesHeader = ({ columns }) =>
 # leanpub-end-insert
 ~~~~~~~~
 
-- the rendering of the sample stories is done and is representable to none designers
+In this part you have painted your application and components with styling. The application should be in a representable state for none designers.
 
 ## Part 4: Archive a Story
 
-- in this part you add your first functionality: archiving a story
-- therefore you will introduce Redux to your application
-- it would be possible in plain React too, but since it is a Redux application, you will use its functionalities rather than the plain React state management
+Now you will add your first functionality: archiving a story. Therefore you will have to introduce Redux at some point to your application to manage the state of archived stories. I want to highly empahsize that it would work in plain React too. But for the sake of learning Redux, you will already use it at this point in time.
 
-- first, the functionality can be passed down to the `Story` component from above
-- in the beginning it can be an empty function, later on it will get wired up to Redux
+First, the archiving functionality can be passed down to the `Story` component from your React root component. In the beginning, it can be an empty function. The function will be replaced later.
 
 {title="src/index.js",lang="javascript"}
 ~~~~~~~~
@@ -567,8 +555,7 @@ ReactDOM.render(
 );
 ~~~~~~~~
 
-- second, you can pass it through your `App` and `Stories` component
-- you might already notice that this could be a potential refactor later on, because the function gets passed from the root component through a few components only to reach the leaf component
+Second, you can pass it through your `App` and `Stories` components. These components don't use the function but only pass it to the `Story` component. You might already notice that this could be a potential refactoring later on, because the function gets passed from the root component through a few components only to reach the leaf component.
 
 {title="src/components/App.js",lang="javascript"}
 ~~~~~~~~
@@ -604,7 +591,7 @@ const Stories = ({ stories, onArchive }) =>
   </div>
 ~~~~~~~~
 
-- third, you can use it in your `Story` component in a button
+Finally, you can use it in your `Story` component in a `onClick` handler of a button.
 
 {title="src/components/Story.js",lang="javascript"}
 ~~~~~~~~
@@ -642,7 +629,7 @@ const Story = ({ story, columns, onArchive }) => {
 }
 ~~~~~~~~
 
-- a great refactoring would be to extract the button as reusable component
+A refactoring that you could already do would be to extract the button as a reusable component.
 
 {title="src/components/Story.js",lang="javascript"}
 ~~~~~~~~
@@ -679,7 +666,7 @@ const ButtonInline = ({
 # leanpub-end-insert
 ~~~~~~~~
 
-- you can make it another more abstract Button component that doesn't share the inline style
+You can make even another more abstract `Button` component that doesn't share the `button-inline` CSS class.
 
 {title="src/components/Story.js",lang="javascript"}
 ~~~~~~~~
@@ -713,9 +700,7 @@ const Button = ({
   </button>
 ~~~~~~~~
 
-- both buttons should be extracted to a new file called *src/components/Buttons.js* but exported that at least the `ButtonInline` component can get reused in the `Story` component, that's up to you
-
-- now, when you start your application, the button is there, but it doesn't work because it only receives an no-op (empty function) as property
+Both button components should be extracted to a new file called *src/components/Buttons.js*, but exported so that at least the `ButtonInline` component can be reused in the `Story` component. Now, when you start your application again, the button to archive a story is there. But it doesn't work because it only receives a no-op (empty function) as property.
 
 ## Part 5: Introduce Redux: Store + First Reducer
 

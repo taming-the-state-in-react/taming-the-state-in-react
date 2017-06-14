@@ -428,3 +428,7 @@ expect(newState).to.equal(expectedNewState);
 ~~~~~~~~
 
 That's it for testing your different groups of functions when using Redux. It can be accomplished by using unit tests. You could apply integration tests too, for instance to test an action creator and reducer altogether. After all, you have a blueprint for testing these functions all the time at your hand and there is no excuse anymore to not test your code (at least the state management part).
+
+## Error Handling
+
+- TODO
