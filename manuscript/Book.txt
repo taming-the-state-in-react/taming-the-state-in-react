@@ -8,28 +8,28 @@
 
 {mainmatter}
 
-01-react/01-introduction.md
-01-react/02-definitions.md
-01-react/03-definitions-state.md
-01-react/04-local-state-react.md
-01-react/05-local-state-react-advanced.md
-01-react/06-persistent-state.md
-01-react/07-hands-on-snake.md
-01-react/08-why-no-local-state.md
+01-definitions/01-definitions.md
 
-02-redux/01-introduction.md
-02-redux/02-basics.md
-02-redux/03-A-advanced-actions.md
-02-redux/03-B-advanced-reducers.md
+02-react/01-introduction.md
+02-react/04-local-state-react.md
+02-react/05-local-state-react-advanced.md
+02-react/06-persistent-state.md
+02-react/07-hands-on-snake.md
+02-react/08-why-no-local-state.md
 
-03-redux-react/00-redux-in-react.md
+03-redux/01-introduction.md
+03-redux/02-basics.md
+03-redux/03-A-advanced-actions.md
+03-redux/03-B-advanced-reducers.md
 
-04-redux-advanced/00a-redux-state.md
-04-redux-advanced/00b-redux-async-actions.md
-04-redux-advanced/01-redux-patterns.md
-04-redux-advanced/02-redux-faq.md
-04-redux-advanced/03-redux-architecture.md
-04-redux-advanced/05-misc.md
+04-redux-react/00-redux-in-react.md
+
+05-redux-advanced/00a-redux-state.md
+05-redux-advanced/00b-redux-async-actions.md
+05-redux-advanced/01-redux-patterns.md
+05-redux-advanced/02-redux-faq.md
+05-redux-advanced/03-redux-architecture.md
+05-redux-advanced/05-misc.md
 
 06-mobx/mobx.md
 

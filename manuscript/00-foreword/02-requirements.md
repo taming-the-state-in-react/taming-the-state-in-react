@@ -1,22 +1,30 @@
 ## Requirements
 
-What previous knowledge do you need to bring? First of all, you should be familiar with the basics of web development. You should know how to use HTML, CSS and JavaScript.
+What are the requirements to read the book? First of all, you should be familiar with the basics of web development. You should know how to use HTML, CSS and JavaScript. Perhaps it makes sense to know the term [API](https://www.robinwieruch.de/what-is-an-api-javascript/) too, because you will use those in the book. But there is more that I want to give you on the way when reading this book.
 
-The book uses React as library to teach modern state management. React is a perfect use case to demonstrate and learn state managament. Because React is only a view layer, it is up to us to choose how to deal with the state in our application. That makes the solution of state management exchangeable. After all, you should know how to write an application with only React.
+### React
 
-After all, it's not neccessary to be a React developer in order to learn about state management. If you are developing with another SPA framework or view layer library, all these things about state managament taught in this book are still applicable.
+The book uses React as library to teach modern state management. It is a perfect choice for demonstrating and learning state managament in modern applications. Because React is only a view layer, it is up to you to decide how to deal with the state in your application. The state management layer is exchangeable.
 
-Still, if you are not familiar with React or need to have a refresher on the topic, I can recommend you to read the precedent book: The Road to learn React. It is pay what you want. It should enable everyone to learn React. But you can decide to pay if you can afford it.
+After all, it's not neccessary to be a React developer in order to learn about state management in modern applications. If you are developing with another SPA framework, such as Angular, or view layer library, such as Vue, all these things about state managament taught in this book can still be applied in your appliactions. The state management solutions are framework and library agnostic.
 
-The book the Road to learn React [supports education in the developing world](https://www.robinwieruch.de/giving-back-by-learning-react/). People with lacking education have no access to open source in the first place. They have to be educated in the English language to get access to it. Even though the book is pay what you want, it supports projects to educate children occasionally.
+Still, since the book uses React for the sake of teaching state management in a proper context, if you are not familiar with React or need to have a refresher on the topic, I can recommend you to read the precedent book: [The Road to learn React](https://www.robinwieruch.de/the-road-to-learn-react/). It is open source. It should enable everyone to learn React. However, you can decide to pay something to support the project.
 
-In addition, the Road to learn React teaches you to make the transition from JavaScript ES5 to JavaScript ES6. After reading the book you should have all the knowledge to read this book. It builds perfectly up on the React book.
+Even though the book is open source, people with lacking education have no access to open source in the first place. They have to be educated in the English language to be enabled to access it. The Road to learn React attempts [to support education in the developing world](https://www.robinwieruch.de/giving-back-by-learning-react/) on a occasionally basis, but it is a tough since the book itself is pay what you want.
 
-What about the development environment? You will need a running editor (IDE) and terminal (command line tool). You can [follow my setup guide](https://www.robinwieruch.de/developer-setup/). It is adjusted for Mac users, but you can substitute most of the tools for other operating system. There are a ton of articles out there that will show you to setup a web development environment if you want to follow another guide.
+In addition, the Road to learn React teaches you to make the transition from JavaScript ES5 to JavaScript ES6. After you have read the Road to learn React, you should have all the knowledge to read Taming the State. It builds perfectly up on the React book.
 
-Last but not least you will need an installation of [node and npm](https://nodejs.org/en/). Both are used to manage libraries you will need along the way to learn React. You will install external node packages via npm (node package manager). These node packages can be libraries or whole frameworks.
+### Editor and Terminal
 
-You can verify your versions of node and npm on the command line. If you don't get any output in the terminal, you need to install node and npm first. These are my versions:
+What about the development environment? You will need a running editor (IDE) and terminal (command line tool). You can [follow my setup guide](https://www.robinwieruch.de/developer-setup/). It is adjusted for Mac users, but you can substitute most of the tools for other operating system. There are a ton of articles out there that will show you to setup a web development environment in a more elaborated way.
+
+Optionally, you can use git and GitHub on your own, while conducting the exercises in the book, to keep your projects and the progress in repositories on GitHub. There exists a [little guide](https://www.robinwieruch.de/git-essential-commands/) on how to use these tools. But once again, it is not mandatory for the book and can be overwhelming when learning everything from scratch.
+
+### Node and NPM
+
+Last but not least, you will need an installation of [node and npm](https://nodejs.org/en/). Both are used to manage libraries you will need along the way. In this book, you will install external node packages via npm (node package manager). These node packages can be libraries or whole frameworks.
+
+You can verify your versions of node and npm on the command line. If you don't get any output in the terminal, you need to install node and npm first. These are only my versions during the time writing this book:
 
 {title="Command Line",lang="text"}
 ~~~~~~~~
@@ -27,7 +35,3 @@ npm --version
 ~~~~~~~~
 
 When you read the Road to learn React, you should be familiar with the setup already. The book gives you also a short introduction into the npm ecosystem on the command line.
-
-- TODO Git ref?? knowledge about github in general, because source code gets referenced through them
-- API? ref
-- npm guide as blog post?

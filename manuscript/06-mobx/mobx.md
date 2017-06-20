@@ -1,6 +1,10 @@
 # MobX
 
 - Michel
+https://medium.com/@tylerwclark/the-why-behind-mobx-3e8555b1d60b
+
+- learn: https://www.reddit.com/r/reactjs/comments/6ef36w/best_way_to_learn_mobx/
+- learn: https://blog.uncommon.is/a-simple-introduction-to-state-management-with-mobx-in-react-native-ed749aa2b5d7
 
 ## How does MobX compare to Redux?
 

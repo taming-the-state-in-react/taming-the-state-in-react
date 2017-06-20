@@ -388,7 +388,7 @@ And last but not least, the `Story` component will be painted:
 }
 ~~~~~~~~
 
-When you start your application again, it seems more organized. But there is still something missing for displaying the stories properly. The columns for each story should be aligned and perhaps there should be a heading for each column. First, you can define an object to describe the columns.
+When you start your application again, it seems more organized by its styling. But there is still something missing for displaying the stories properly. The columns for each story should be aligned and perhaps there should be a heading for each column. First, you can define an object to describe the columns.
 
 {title="src/components/Stories.js",lang="javascript"}
 ~~~~~~~~
@@ -704,18 +704,14 @@ Both button components should be extracted to a new file called *src/components/
 
 ## Part 5: Introduce Redux: Store + First Reducer
 
-- this part will introduce Redux to manage the state of the (sample) stories instead of passing it directly into your component tree
-- let's approach this step by step
-- first, you have to install Redux on the command line.
+This part will finally introduce Redux to manage the state of the (sample) stories instead of passing it directly into your component tree. Let's approach it step by step. First, you have to install Redux on the command line:
 
 {title="Command Line",lang="text"}
 ~~~~~~~~
 npm install --save redux
 ~~~~~~~~
 
-- second, in the root entry point of React, you can import the Redux store, the store is not yet defined
-- instead of using the sample stories, you use the stories that are stored in the Redux store
-- assuming the store saves only a list of stories as state, you can simply get the root state of the store and assume that it is the list of stories
+Second, in the root entry point of React, you can import the Redux store. The store is not defined yet. Instead of using the sample stories, you will use the stories that are stored in the Redux store. Taken that the store saves only a list of stories as state, you can simply get the root state of the store and assume that it is the list of stories.
 
 {title="src/index.js",lang="javascript"}
 ~~~~~~~~
@@ -735,7 +731,7 @@ ReactDOM.render(
 );
 ~~~~~~~~
 
-- third, you have to create your Redux store instance, it already takes a reducer that is not implemented yet, you will implement it in the next step
+Third, you have to create your Redux store instance in a separate file. It already takes a reducer that is not implemented yet. You will implement it in the next step.
 
 {title="src/store/index.js",lang="javascript"}
 ~~~~~~~~
@@ -749,8 +745,7 @@ const store = createStore(
 export default store;
 ~~~~~~~~
 
-- fourth, in your *src/reducers/* folder you can create your first reducer: `storyReducer`
-- as initial state it can have the sample stories
+Fourth, in your *src/reducers/* folder you can create your first reducer: `storyReducer`. It can have the sample stories as initial state .
 
 {title="src/reducers/story.js",lang="javascript"}
 ~~~~~~~~
@@ -781,23 +776,13 @@ function storyReducer(state = INITIAL_STATE, action) {
 export default storyReducer;
 ~~~~~~~~
 
-- your application should work when you start it
-- it is using the Redux store to retrieve the initial state from the `storyReducer`, because it is the only reducer by now in your application
-- there are no actions yet and no action is captured in the reducer yet
-- even though there was no action dispatched yet, you can see that the Redux store runs through all its defined reducers to initialize its initial state in the store
+Your application should work when you start it. It is using the Redux store to retrieve the initial state from the `storyReducer`, because it is the only reducer in your application. There are no actions yet and no action is captured in the reducer yet. Even though there was no action dispatched yet, you can see that the Redux store runs through all its defined reducers to initialize its initial state in the store. The state gets visible through the `Stories` and `Story` components, because it is passed down from the React root entry point.
 
 ## Part 7: Two Reducers
 
-- you have used the Redux store to save an initial state of sample stories and to retrieve this state for your component tree
-- but there is no state manipulation happening yet
-- in this part and the next part you are going to implement the archive function
-- when approaching this functionality, the simplest thing to do would be to remove the archived story from the list of stories in the `storyReducer`
-- but let's approach this from a different angle to have a greater impact in the long run
-- it could still be useful to have all stories in the end, but have a way to distinguish between them: stories and archived stories
-- following this way, you would be able in the future to have a second component that shows the archived stories
+You have used the Redux store to define an initial state of sample stories and to retrieve this state for your component tree. But there is no state manipulation happening yet. In this part and the next part you are going to implement the archive functionality. When approaching this functionality, the simplest thing to do would be to remove the archived story from the list of stories in the `storyReducer`. But let's approach this from a different angle to have a greater impact in the long run. It could still be useful to have all stories in the end, but have a way to distinguish between them: stories and archived stories. Following this way, you would be able in the future to have a second component that shows the archived stories next to the available stories.
 
-- thus the `storyReducer` will stay as it is for now
-- but you will have to introduce a second reducer, a `archiveReducer`, that keeps a list of references to the archived stories
+From an implementation point of view, the `storyReducer` will stay as it is for now. But you can introduce a second reducer, a `archiveReducer`, that keeps a list of references to the archived stories.
 
 {title="src/reducers/archive.js",lang="javascript"}
 ~~~~~~~~
@@ -812,9 +797,7 @@ function archiveReducer(state = INITIAL_STATE, action) {
 export default archiveReducer;
 ~~~~~~~~
 
-- you will implement the action to dismiss a story in a second
-- but the Redux store in its instantation needs to get both reducers now, it has to get the combined reducer
-- let's pretend that the store can import the combined reducer from the entry file, the *reducers/index.js* without worrying about the combining of the reducers
+You will implement the action to archive a story in a second. First, the Redux store in its instantation needs to get both reducers now. It has to get the combined reducer. Let's pretend that the store can import the combined reducer from the entry file, the *reducers/index.js*, without worrying about the combining of the reducers yet.
 
 {title="src/store/index.js",lang="javascript"}
 ~~~~~~~~
@@ -832,7 +815,7 @@ const store = createStore(
 export default store;
 ~~~~~~~~
 
-- now you can combine both reducers
+Next you can combine both reducers in the file that is used by the Redux store to import the `rootReducer`.
 
 {title="src/reducers/index.js",lang="javascript"}
 ~~~~~~~~
@@ -848,8 +831,7 @@ const rootReducer = combineReducers({
 export default rootReducer;
 ~~~~~~~~
 
-- since your state is sliced up into two substates now, you have to adjust how you retrieve the stories from your store with the intermediate `storyState`
-- this is a crucial steo, because it shows how a combined reducer slices up your state into substates
+Since your state is sliced up into two substates now, you have to adjust how you retrieve the stories from your store with the intermediate `storyState`. This is a crucial step, because it shows how a combined reducer slices up your state into substates.
 
 {title="src/index.js",lang="javascript"}
 ~~~~~~~~
@@ -864,12 +846,11 @@ ReactDOM.render(
 );
 ~~~~~~~~
 
-- the application should show up the same as before when you start it
-- finally in the next part you will dispatch your first action to dismiss a story
+The application should show up the same stories as before when you start it. However, there is still no state manipulation happening, because no actions are involved yet. Finally in the next part you will dispatch your first action to archive a story.
 
 ## Part 8: First Action
 
-- the archive action needs to be captured in the `archiveReducer`, it simply stores all archived stories by their id in a list
+In this part you will dispatch your first action to archive a story. The archive action needs to be captured in the new `archiveReducer`. It simply stores all archived stories by their id in a list. The initial state is an empty list, because no story is archived in the beginning.
 
 {title="src/reducers/archive.js",lang="javascript"}
 ~~~~~~~~
@@ -898,15 +879,14 @@ function archiveReducer(state = INITIAL_STATE, action) {
 export default archiveReducer;
 ~~~~~~~~
 
-- it uses a constant action type from a different file
-- it is already defined in another file to be reused when dispatching the action
+The action type is already outsourced in a different file. This way it can be reused when dispatching the action from the Redux store.
 
 {title="src/constants/actionTypes.js",lang="javascript"}
 ~~~~~~~~
 export const STORY_ARCHIVE = 'STORY_ARCHIVE';
 ~~~~~~~~
 
-- last but not least, you can dispatch the action in your root component
+Last but not least, you can import the action type and dispatch the whole action in your root component.
 
 {title="src/reducers/archive.js",lang="javascript"}
 ~~~~~~~~
@@ -930,16 +910,11 @@ ReactDOM.render(
 );
 ~~~~~~~~
 
-- you dispatch the action directly without an action creator
-- when you start your application, it shoudl still work, but nothing happens when archiving a story
-- the archived stories are not used yet in the component tree
+Now you dispatch the action directly without an action creator. When you start your application, it shoudl still work, but nothing happens when archiving a story. The archived stories are not yet evaluated in the component tree.
 
 ## Part 9: First Selector
 
-- you can use both substates, `storyState` and `archiveState` to compute the not lsit of stories that are not dismissed
-- the deriving of those properties can happen in a selector
-
-- create your first selector that only returns the part of the stories that is not archived
+You can use both substates, `storyState` and `archiveState` to derive the lsit of stories that are not archiveed. The deriving of those properties can happen in a selector. You can create your first selector that only returns the part of the stories that is not archived.
 
 {title="src/selectors/story.js",lang="javascript"}
 ~~~~~~~~
@@ -954,9 +929,7 @@ export {
 };
 ~~~~~~~~
 
-- the selector makes heaviliy use of JavaScript ES6 arrow functions, JavaScript ES6 destructuring and a higher order function: isNotArchived()`
-- don't feel intimidated by it, it is only a way to express these functions more concise in a functional programmign style
-- in plain JavaScript ES5 it would look like the following:
+The selector makes heaviliy use of JavaScript ES6 arrow functions, JavaScript ES6 destructuring and a higher order function: `isNotArchived()`. If you are not used to JavaScript ES6, don't feel intimidated by it. It is only a way to express these functions more concise in a functional programmign style. In plain JavaScript ES5 it would look like the following:
 
 {title="src/selectors/story.js",lang="javascript"}
 ~~~~~~~~
@@ -975,7 +948,7 @@ export {
 };
 ~~~~~~~~
 
-- now you can use the selector instead of retrieving all stories from the store directly
+Last but not least, you can use the selector to compute the not archived stories instead of retrieving the whole list of stories from the store directly.
 
 {title="src/index.js",lang="javascript"}
 ~~~~~~~~
@@ -1000,14 +973,11 @@ ReactDOM.render(
 );
 ~~~~~~~~
 
-- still, nothing happens when you archive a story
+When you start your application, nothing happens when you archive a story. There is no re-rendering of the view in place to update it.
 
 ## Part 11: Re-render View
 
-- when an action dispatches, the state in the Redux store gets updated
-- however, the component tree in React doesn't update
-- no one subscribed to the Redux store yet
-- in the first attempt, you will wire up Redux and React naively and re-render the whole component tree on each update
+In this part you will update the view layer to reflect the correct state that is used from the Redux store. When an action dispatches, the state in the Redux store gets updated. However, the component tree in React doesn't update, because no one subscribed to the Redux store yet. In the first attempt, you are going to wire up Redux and React naively and re-render the whole component tree on each update.
 
 {title="src/index.js",lang="javascript"}
 ~~~~~~~~
@@ -1033,21 +1003,18 @@ render();
 # leanpub-end-insert
 ~~~~~~~~
 
-- now the components will re-render once you archive a story
-- congratulations, you dispatched your first action, selected derived properties from the state and updated your component tree by subscribing it to the Redux store
+Now the components will re-render once you archive a story, because the state in the Redux store updates and the subscription will run to render again the whole component tree. Congratulations, you dispatched your first action, selected derived properties from the state and updated your component tree by subscribing it to the Redux store. That took longer as expected, didn't it? However, now most of the Redux and React infrastructure is in place to be more efficient when introducing new features.
 
 ## Part 12: First Middleware
 
-- often you don't notice when an action is dispatched
-- therefore you can use the [redux-logger](https://github.com/evgenyrodionov/redux-logger) middleware in your Redux store to `console.log()` every action, previous state and next state automarically to your developers console when dispatching an action
-- first, install the neat middleware library
+In this chapter you will introduce your first middleware to the Redux store. In a scaling application it becomes often a problem to track state updates. Often you don't notice when an action is dispatched, because too many actions get involved and a bunch of them might get triggered implictly. Therefore you can use the [redux-logger](https://github.com/evgenyrodionov/redux-logger) middleware in your Redux store to `console.log()` every action, the previous state and the next state, automarically to your developers console when dispatching an action. First, you have to install the neat middleware library.
 
 {title="Command Line",lang="text"}
 ~~~~~~~~
 npm install --save redux-logger
 ~~~~~~~~
 
-- now, use it as middleware in your Redux store initialization
+Second, you can use it as middleware in your Redux store initialization.
 
 {title="src/store.js",lang="javascript"}
 ~~~~~~~~
@@ -1072,14 +1039,11 @@ const store = createStore(
 export default store;
 ~~~~~~~~
 
-- every time you dispatch an action now, for instance when archiving a story, you will see the logging in the developer console in your browser
+That's it. Every time you dispatch an action now, for instance when archiving a story, you will see the logging in the developer console in your browser.
 
 ## Part 13: First Action Creator
 
-- you dispatch already an action without using an action creator
-- action creators are not mandatory, but they keep your Redux architecture organized
-- the action that gets directly dispatched can be refactored as action creator
-- first, you can define the action that takes an story id to archive a story in a new file
+The action you are dispatching is a plain action object. However, you might want to reuse it in a later point in time. Action creators are not mandatory, but they keep your Redux architecture organized. In order to stay organized, let's define the first action creator. First, you have to define the action creator that takes a story id, to identify the archiving story, in a new file.
 
 {title="src/actions/archive.js",lang="javascript"}
 ~~~~~~~~
@@ -1095,13 +1059,14 @@ export {
 };
 ~~~~~~~~
 
-- second, you can use it in your root component
-- instead of dispatchign the action object directly, you can create an action object by using its action creator
+Second, you can use it in your root component. Instead of dispatchign the action object directly, you can create an action by using its action creator.
 
 {title="src/actions/archive.js",lang="javascript"}
 ~~~~~~~~
 ...
+# leanpub-start-insert
 import { doArchiveStory } from './actions/archive';
+# leanpub-end-insert
 
 function render() {
   ReactDOM.render(
@@ -1118,21 +1083,18 @@ function render() {
 ...
 ~~~~~~~~
 
-- the application should work as before
+The application should operate as before.
 
 ## Part 14: Connect React with Redux
 
-- the component tree already re-renders when you dispatch an action
-- but you want to wire up component indepdently with the Redux store without using the Redux store directly
-- moreover you don't want to re-render the whole component tree, but only the components where the state or props have changed
-- first, install the library that can be used to connect both worlds
+In this part you will connect the React and Redux in a more sophisticated way. The component tree already re-renders when you dispatch an action. However, you might  want to wire up components indepdently with the Redux store without using the Redux store directly. In addition, you don't want to re-render the whole component tree, but only the components where the state or props have changed. Let's change this by using the react-redux library that connects both worlds.
 
 {title="Command Line",lang="text"}
 ~~~~~~~~
 npm install --save react-redux
 ~~~~~~~~
 
-- use the `Provider` component, that makes the Redux store available to all component below, in your root component
+You can use the `Provider` component, which makes the Redux store available to all components below, in your root component.
 
 {title="src/index.js",lang="javascript"}
 ~~~~~~~~
@@ -1155,8 +1117,7 @@ ReactDOM.render(
 # leanpub-end-insert
 ~~~~~~~~
 
-- notice that the render method isn't re-render anymore, no one subscribes to the Redux store and the `App` component isn't receiving any props
-- instead the `App` is only rendering component and doesn't pass any props anymore
+Notice that the render method isn't used in a Redux store subscription anymore. No one subscribes to the Redux store and the `App` component isn't receiving any props anymore. In addition, the `App` component is only rendering component and doesn't pass any props anymore.
 
 {title="src/components/App.js",lang="javascript"}
 ~~~~~~~~
@@ -1175,10 +1136,7 @@ const App = () =>
 export default App;
 ~~~~~~~~
 
-- but who gives the props to the `Stories` component?
-- this component needs to know at least about the list of stories, because it has to map over it
-- the solution is to upgrade the `Stories` component to a connected component
-- instead of only default exporting the plain `Stories` component:
+But who gives the props to the `Stories` component? This component is the first component that needs to know about the list of stories, because it has to display it. The solution is to upgrade the `Stories` component to a connected component. So, instead of only exporting the plain `Stories` component:
 
 {title="src/components/Stories.js",lang="javascript"}
 ~~~~~~~~
@@ -1187,7 +1145,7 @@ export default App;
 export default Stories;
 ~~~~~~~~
 
-- you can export the connected component that has access to the store
+You can export the connected component that has access to the store:
 
 {title="src/components/Stories.js",lang="javascript"}
 ~~~~~~~~
@@ -1215,7 +1173,7 @@ export default connect(
 # leanpub-end-insert
 ~~~~~~~~
 
-- the `Stories` component is a connected component now and is the only component that has access to the Redux store
+The `Stories` component is a connected component now and is the only component that has access to the Redux store. The application work again, but this time with a clever interaction between Redux and React.
 
 ## Part 15: Lift Connected Components
 

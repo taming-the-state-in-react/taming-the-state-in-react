@@ -38,6 +38,8 @@ https://www.reddit.com/r/reactjs/comments/6d82li/is_it_advisable_to_integrate_re
 
 ## Redux Devtools
 
+- http://blog.jakoblind.no/2017/06/15/how-to-become-a-more-productive-react-developer/
+
 ## Challenge: Hacker News with beyond Redux
 
  - extended with router (dismissed), typed, redux form (search field), using es6, folder organization

@@ -387,6 +387,8 @@ Redux Saga uses as underlying technology [JavaScript ES6 Generators](https://dev
 
 In conclusion, as you can see, all these libraries, Redux Saga, Redux Observable and Redux Cycles, make use of different techniques in JavaScript. You can give them a shot to try generators or observables. The whole ecosystem around asynchronous actions is a great playground to try new things in JavaScript.
 
+- TODO http://formidable.com/blog/2017/javascript-power-tools-redux-saga/
+
 ## Hands On: Todo with Redux Saga
 
 - you have used Redux Thunk to dispatch asynchronous actions to add a todo item with a notification whereas the notifaction hides after a couple of seconds
