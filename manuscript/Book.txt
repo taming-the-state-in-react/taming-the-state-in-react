@@ -8,7 +8,7 @@
 
 {mainmatter}
 
-01-definitions/01-definitions.md
+01-defintions/01-definitions.md
 
 02-react/01-introduction.md
 02-react/04-local-state-react.md
