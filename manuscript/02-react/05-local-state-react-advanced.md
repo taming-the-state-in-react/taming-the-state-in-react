@@ -513,7 +513,7 @@ Now, you could test the pure functions. After all you might wonder, when to use 
 * Only use `this.setState()` with an object when you don't depend on previous properties.
 * In case you are unsure, default to use `this.setState()` with a function.
 
-### Higher Order Components for Local State Management
+### Higher Order Components
 
 Higher order components (HOCs) can be used for a handful of use cases. One of these use case would be to [enable an elegant way of conditional rendering](https://www.robinwieruch.de/gentle-introduction-higher-order-components/). But this book is about state management, so why not use it do manage the local state of a component? Let's revisit an adjusted example of the "Archive in a List"-example.
 
