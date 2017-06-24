@@ -10,6 +10,10 @@ MobX doesn't follow an opinionated way of how to structure your state management
 
 The library uses heaviliy JavaScript decorators that are not widely adopted and supported yet. But they are not mandatory and you can avoid using them by using plain functions. You can find these plain functions in the [official documentation](https://mobx.js.org/). However, this book will showcase the usage of these decorators.
 
+- TODO you can use dev tools along the way: https://github.com/mobxjs/mobx-react-devtools
+- https://mobx.js.org/getting-started.html#demo dev tools in the end
+- https://mobx.js.org/best/devtools.html
+
 MobX is often used in applications that have a view layer such as React. Thus the state, similiar to Redux, needs to be connected to the view. It needs to be connected in a way that the state can be updated and the updated state flows back into the view.
 
 {title="Code Playground",lang="javascript"}
@@ -26,17 +30,17 @@ View -> Actions -> State -> (Computed Values) -> Reactions -> View
 
 It doesn't need to be necessarily the view layer, but when using MobX in an application with components, most likely the view will trigger a MobX action. It can be as simple as a `onClick` handler in a component. However, an action can also be triggered by a side-effect such as a scheduled event.
 
-The state in MobX isn't immutable, thus you can mutate the state directly. MobX actions can be used to update the state in MobX, but they are not mandatory. You are allowed to mutate the state directly.
+The state in MobX isn't immutable, thus you can mutate the state directly. MobX actions can be used to update the state, but they are not mandatory. You are allowed to mutate the state directly.
 
-In MobX you can make your state observable. Thus, when the state changes, the application can have MobX reactions to listen to the state changes. The part of your application that uses these reactions becomes reactive. For instance, a MobX reaction can be as simple as a view layer update.
+In MobX the state becomes observable. Thus, when the state changes, the application reacts to the changes by using reactions. The part of your application that uses these reactions becomes reactive. For instance, a MobX reaction can be as simple as a view layer update.
 
-In between of an observable MobX state and MobX reactions are computed values. These are not mandatory, but add another fine-grained layer into your state. Computed values are derived properties from the state or from other computed values. They are consumed by reactions too. When using computed values, you can keep the state itself in a simple structure yet derive more complex properties from it by computing them on reactions.
+In between of an observable MobX state and MobX reactions are computed values. These are not mandatory, but add another fine-grained layer into your state. Computed values are derived properties from the state or from other computed values. They are consumed by reactions too. When using computed values, you can keep the state itself in a simple structure yet derive more complex properties from it by computing them on reactions. Computed values evaluate either lazily or as reaction to state changes.
 
 These are basically all parts in MobX. The state can be mutated directly or by using a MobX action. Reactions listen on these state changes and consume the state or computed values. Both ends, actions and reactions, can simply be connected to a view layer such as React.
 
 ## Observable State
 
-The state in MobX can be everything from JavaScript primitives to complex objects over arrays to classes that encapsulate the state. The state is made `observable` by MobX. When the state changes, all the reactions, for instance the updating of the view layer, will run. Often state in MobX is managed in multiple states, called stores or states, and not only in one global state object.
+The state in MobX can be everything from JavaScript primitives to complex objects, arrays or references over to classes that encapsulate the state. Any of these propertoes can be made `observable` by MobX. When the state changes, all the reactions, for instance the updating of the view layer, will run. Often state in MobX is managed in multiple states, called stores or states, and not only in one global state object.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -187,9 +191,11 @@ class TodoStore {
 }
 ~~~~~~~~
 
-The computation happens reactively when the state changes. Thus, these computed values are at your disposal, apart from the state itself, for your view layer later on. You can experiment with it in the [MobX Playground](https://jsbin.com/didenujipi/3/edit?js,console).
+The computation happens reactively when a reaction asks for it and the state has changed. Thus, these computed values are at your disposal, apart from the state itself, for your view layer later on. In addition, they don't compute actively every time but rather only compute reactively when a reaction demands it. You can experiment with it in the [MobX Playground](https://jsbin.com/didenujipi/3/edit?js,console).
 
 # MobX in React
+
+- TODO https://github.com/mobxjs/mobx-react/blob/master/README.md
 
 The basics in MobX should be clear by now. The state in MobX is mutable and can be directly mutated, by actions or only by actions when using the strict mode. When scaling your state management in MobX, you would keep it in multiple yet manageable stores to keep it maintainable. These stores can expose actions and computed values, but most important make their properties observable.
 
@@ -485,6 +491,8 @@ class TodoList extends React.Component {
 
 Open up the application in the [MobX Playground](https://jsbin.com/sonate/6/edit?js,console,output). When you add a todo item, you will get the `console.log()` outputs for the `TodoList` component and only the newly created `TodoItem`. When you complete a todo item, you will only get the `console.log()` of the completing `TodoItem` component. The reactive component only update when their observable state changes. Everything else doesn't update, because the `observer` decorator implements under the hood the `shouldComponentUpdate()` lifecycle method by React to prevent the component from updating when nothing has changed.
 
+- TODO https://mobx.js.org/best/react-performance.html
+
 ## Inject Stores
 
 So far, the application passes down the store from the React entry point via props to its child components. However, the store(s) could be used directly in the components by importing them. They are only observable state. Since MobX is not opinionated about where to put state, the observable state, in this case stores, could live anywhere. But as mentioned, the book tries to give an opionated approach to achieve best practices.
@@ -590,12 +598,37 @@ class TodoList extends React.Component {
 
 Every component can access the observable state, that is passed to the `Provider` component, with the `inject` decorator. This way you keep a clear separation of state and view layer. You can access the project in the [MobX Playground](https://jsbin.com/sonate/7/edit?js,output) again.
 
-## Hands On: Snake with MobX
+# Advanced MobX
 
-- take local state snake as begin
+## Reactions
 
-## MobX in Scaling Applications
+- observer
+- autorun
+- when https://mobx.js.org/refguide/when.html
+- more fine-graned than autorn: https://mobx.js.org/refguide/reaction.html but not into detail here
 
+https://egghead.io/lessons/react-mobx-fundamentals-writing-your-own-reactions-using-when-and-autorun
+
+## Transactions
+
+- https://medium.com/@mweststrate/becoming-fully-reactive-an-in-depth-explanation-of-mobservable-55995262a254
+
+https://mobx.js.org/refguide/transaction.html
+
+## Asynchronous Actions
+
+- https://mobx.js.org/getting-started.html#demo
+- https://mobx.js.org/best/actions.html
+
+## Stores
+
+- only one way to manage state in mobx
+- https://mobx.js.org/best/store.html
+- domain stores (entity state), ui stores (view state)
+
+## State Architecture
+
+- make it opinionated your way!
 - defintely align on a state architecture:
 - how to manage local state
 - use strict?
@@ -606,7 +639,11 @@ Every component can access the observable state, that is passed to the `Provider
 - ref as outline mobx-state-tree
 - ref Michel video youtube
 
-## MobX and Redux Comparison
+## Redux Comparison
+
+ - it’s defining power comes from it’s reactive nature.
+ - It removes vulnerable manual subscriptions and replaces connects with more individual component observers.
+ - So while it creates more “smart” components, at scale it actually preforms better.
 
 - no normalization
 - ...
@@ -619,6 +656,10 @@ Every component can access the observable state, that is passed to the `Provider
 - refacotr
 - only bridge changes with container
 - no normalization anymore
+
+## Hands On: Snake with MobX
+
+- take local state snake as begin
 
 ## Hands On: Todo App with MobX
 
