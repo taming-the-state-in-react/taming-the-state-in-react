@@ -1,4 +1,4 @@
-# Redux Ecosystem
+# Redux Ecosystem Outline
 
 - state keys, gateway components ,  ... (LINK them)
 - line mark erikson repository

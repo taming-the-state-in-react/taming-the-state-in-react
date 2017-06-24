@@ -29,7 +29,7 @@
 05-redux-advanced/01-redux-patterns.md
 05-redux-advanced/02-redux-faq.md
 05-redux-advanced/03-redux-architecture.md
-05-redux-advanced/05-misc.md
+05-redux-advanced/05-redux-outline.md
 
 06-mobx/mobx.md
 
