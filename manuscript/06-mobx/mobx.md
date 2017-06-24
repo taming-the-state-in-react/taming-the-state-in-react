@@ -394,7 +394,7 @@ class TodoAdd extends React.Component {
 
 MobX is able to take over the local state management of React without using `this.state` and `this.setState()`. The application can be found in the [MobX Playground](https://jsbin.com/sonate/1/edit?html,js,output). Again you experience that MobX isn't opinionated about the way the state is managed. You can have the state management encapsulated in a store class or couple it next to a component as local state.
 
-## Scaling Observers
+## Scaling Reactions
 
 Each component can be decorated with an observer to be reactive to observable changes in MobX. When introducing a new component to display a todo item, you can decorate it as well. This `TodoItem` component receives the todo property, but also the `todoStore` in order to complete a todo item.
 
@@ -487,17 +487,112 @@ Open up the application in the [MobX Playground](https://jsbin.com/sonate/6/edit
 
 ## Inject Stores
 
-- inject, provider
+So far, the application passes down the store from the React entry point via props to its child components. However, the store(s) could be used directly in the components by importing them. They are only observable state. Since MobX is not opinionated about where to put state, the observable state, in this case stores, could live anywhere. But as mentioned, the book tries to give an opionated approach to achieve best practices.
+
+The [mobx-react](https://github.com/mobxjs/mobx-react) bridging library provides you with two helpers to pass the observable state implictly down to the components via React`s context rather than passing them through every component layer explictly. The first helper is the `Provider` component that passes down all the neccessary observable states down.
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+# leanpub-start-insert
+const { observer, Provider } = mobxReact;
+# leanpub-end-insert
+
+...
+~~~~~~~~
+
+You can use it in the React entry point to wrap your component tree. In addition, you can pass it any observable state that should be passed down. In this case, the observable state is the store instance. However, it could be multiple stores or only a couple of observable primitives.
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+...
+
+ReactDOM.render(
+# leanpub-start-insert
+  <Provider todoStore={todoStore}>
+    <div>
+      <TodoAdd />
+      <TodoList />
+    </div>
+  </Provider>,
+# leanpub-end-insert
+  document.getElementById('app')
+);
+~~~~~~~~
+
+The second helper is the `inject` decorator. You can use it at any component down your component tree, that is wrapped by the `Provider` component, to retrieve the provided observable state from the React context as props.
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+# leanpub-start-insert
+const { observer, inject, Provider } = mobxReact;
+# leanpub-end-insert
+
+...
+
+# leanpub-start-insert
+@inject('todoStore') @observer
+# leanpub-end-insert
+class TodoAdd extends React.Component {
+  ...
+}
+~~~~~~~~
+
+The `TodoAdd` component already has access to the `todoStore` now. You can add the injection to the other components too. It can be used as function for functional stateless components.
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+# leanpub-start-insert
+const TodoItem = inject('todoStore')(observer(({
+# leanpub-end-insert
+  todo, todoStore
+}) =>
+  <div>
+    {todo.name}
+    <button
+      type="button"
+      onClick={() => todoStore.toggleCompleted(todo)}
+    >
+    {todo.completed
+      ? "Incomplete"
+      : "Complete"
+    }
+    </button>
+  </div>
+# leanpub-start-insert
+));
+# leanpub-end-insert
+~~~~~~~~
+
+The `TodoList` component doesn't need to manually pass down the `todoStore` anymore. The `TodoItem` already accesses it via its `inject` helper.
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+# leanpub-start-insert
+@inject('todoStore') @observer
+# leanpub-end-insert
+class TodoList extends React.Component {
+  render() {
+    return (
+      <div>
+        {this.props.todoStore.todos.map(todo =>
+# leanpub-start-insert
+          <TodoItem
+            todo={todo}
+            key={todo.id}
+          />
+# leanpub-end-insert
+        )}
+      </div>
+    );
+  }
+};
+~~~~~~~~
+
+Every component can access the observable state, that is passed to the `Provider` component, with the `inject` decorator. This way you keep a clear separation of state and view layer. You can access the project in the [MobX Playground](https://jsbin.com/sonate/7/edit?js,output) again.
 
 ## Hands On: Snake with MobX
 
 - take local state snake as begin
-
-## Redux to MobX, MobX to Redux
-
-- refacotr
-- only bridge changes with container
-- no normalization anymore
 
 ## MobX in Scaling Applications
 
@@ -506,7 +601,6 @@ Open up the application in the [MobX Playground](https://jsbin.com/sonate/6/edit
 - use strict?
 - inject or passing?
 - store insatnces with actions and computations etc?
-
 
 - https://t.co/0imjjYENUo?ssr=true
 - ref as outline mobx-state-tree
@@ -519,6 +613,12 @@ Open up the application in the [MobX Playground](https://jsbin.com/sonate/6/edit
 - no strict boundaries between local and global state
 - used like two.way data bdingin
 - useStrict should be best practice
+
+## Redux to MobX, MobX to Redux
+
+- refacotr
+- only bridge changes with container
+- no normalization anymore
 
 ## Hands On: Todo App with MobX
 
