@@ -23,8 +23,11 @@ https://github.com/reactjs/react-redux/blob/master/docs/api.md#connectmapstateto
 - how to
 - clear state?
 - react-router everyone is using
-http://redux.js.org/docs/advanced/UsageWithReactRouter.html
-https://www.reddit.com/r/reactjs/comments/6d82li/is_it_advisable_to_integrate_reactrouter_with/
+- http://redux.js.org/docs/advanced/UsageWithReactRouter.html
+
+- https://www.reddit.com/r/reactjs/comments/6d82li/is_it_advisable_to_integrate_reactrouter_with/
+
+- https://medium.com/handlebar-labs/use-redux-to-manage-react-navigation-state-b6d639497143
 
 ## Typed Redux
 

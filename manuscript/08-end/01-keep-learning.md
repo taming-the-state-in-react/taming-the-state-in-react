@@ -6,7 +6,7 @@ I believe there is one secret when it comes to learning. There exists a principl
 * **10% Reading** (Uuups!)
 * **20% Audiovisual** (Phew...) TODO check if doing screencasts
 * **30% Demonstration** (Check!)
-* **50% Discussion** (Did I mention that there is a [Slack Channel](https://join.slack.com/taming-the-state/shared_invite/MTkzNDMzNDQzMzUwLTE0OTY2NTYxNjctNzU1YjA2NDcyYg)?)
+* **50% Discussion** (Did I mention that there is a [Slack Channel](https://slack-taming-the-state.wieruch.com/)?)
 * **75% Practice by Doing** (I hope your did all Hands Ons/Challenges!)
 * **90% Teach Others** (Hmmm...)
 

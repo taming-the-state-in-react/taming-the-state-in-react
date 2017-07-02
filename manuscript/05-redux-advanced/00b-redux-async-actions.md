@@ -391,7 +391,7 @@ In conclusion, as you can see, all these libraries, Redux Saga, Redux Observable
 
 ## Hands On: Todo with Redux Saga
 
-- you have used Redux Thunk to dispatch asynchronous actions to add a todo item with a notification whereas the notifaction hides after a couple of seconds
+In a previous chapter, you have used Redux Thunk to dispatch asynchronous actions. These were used to add a todo item with a notification whereas the notifaction vanishes after a couple of seconds again. In this chapter you will use Redux Saga instead of Redux Thunk. Therefore, you can install the former library and uninstall the latter one.
 - let's use Redux Saga: uninstall redux-thunk and install redux-saga
 
 {title="Command Line",lang="text"}
@@ -400,7 +400,7 @@ npm uninstall --save redux-thunk
 npm install --save redux-saga
 ~~~~~~~~
 
-- add an action type, refactor the action
+The action you have used before with a thunk becomes a pure action creator now. It will be used to trigger the saga thread.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -416,9 +416,19 @@ function doAddTodoWithNotification(id, name) {
 }
 ~~~~~~~~
 
-- introduce a saga, watch is a thread, handle deals with the incoming things from a thread
+Now you can introduce your first saga that listens on this particular action that is used to trigger the saga. The watching part is used for listening to action types.
 
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
 // sagas
+
+function* watchAddTodoWithNotification() {
+  yield takeEvery(TODO_ADD_WITH_NOTIFICATION, handleAddTodoWithNotification);
+}
+~~~~~~~~
+
+- handle deals with the incoming things from a thread
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -426,6 +436,7 @@ function* watchAddTodoWithNotification() {
   yield takeEvery(TODO_ADD_WITH_NOTIFICATION, handleAddTodoWithNotification);
 }
 
+# leanpub-start-insert
 function* handleAddTodoWithNotification(action) {
   const { todo } = action;
   const { id, name } = todo;
@@ -433,6 +444,7 @@ function* handleAddTodoWithNotification(action) {
   yield delay(5000);
   yield put(doHideNotification(id));
 }
+# leanpub-end-insert
 ~~~~~~~~
 
 - exchange the middleware in the store

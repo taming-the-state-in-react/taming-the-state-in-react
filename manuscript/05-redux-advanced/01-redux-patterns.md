@@ -69,6 +69,7 @@ Personally I follow this naming convention with Redux functions. It uses prefixe
 * action creators: **do**Something
 * reducers: **apply**Something
 * selectors: **get**Something
+* sagas: **watch**Something, **handle**Something
 
 In the previous chapters, the example code always used this naming convention. In addition, it clearifies things when using higher order functions. Remember the `mapDispatchToProps()` function when connecting Redux to React?
 

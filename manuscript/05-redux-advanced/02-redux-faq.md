@@ -14,6 +14,8 @@ The boundaries between local state and sophisticated state will blur when using 
 
 In general, the usage of Redux state should be kept to a minimum. A good rule of thumb is to keep the state close to your component with local state but evaluate later whether another party is interested in the state. If another party has the same state, but only an independent copy of it, you could use a reusable higher order component that manages the state. If the state is shared, you could try to lift your state up or down. However, if lifting state doesn't solve the problem for you, because the state is shared across the application, you should consider to use Redux for it. All of this goes back that you might not need Redux in your application, because local state is sufficient.
 
+- TODO https://www.reddit.com/r/reactjs/comments/6g2kp1/react_state_vs_redux_state_when_and_why/?st=1Z141Z3&sh=255adc41
+
 ## View vs. Entity State
 
 In the beginning of the book I differentiated between view state and entity state. Imagine you have a page that does both displaying a list of items and showing opt-in modals for each item to remove or edit the item. While the former would be the entity state, the latter would be the view state. The entitiy state, the list of items, comes most often from a backend. The view state is triggered by the user only in the frontend. Is there a pattern of where to store which kind of state?

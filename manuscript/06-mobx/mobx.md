@@ -620,9 +620,14 @@ https://mobx.js.org/refguide/transaction.html
 - https://mobx.js.org/getting-started.html#demo
 - https://mobx.js.org/best/actions.html
 
-## Stores
+## State and Stores
 
-- only one way to manage state in mobx
+- local state, basically operating on primitives that are coupled to components
+- doesn't need to be coupled, can be somewhere outside
+
+- objects, arrays, references, class instances
+
+- stores are only one way to manage state in mobx
 - https://mobx.js.org/best/store.html
 - domain stores (entity state), ui stores (view state)
 
