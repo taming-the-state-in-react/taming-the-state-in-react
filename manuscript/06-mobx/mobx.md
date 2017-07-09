@@ -746,25 +746,13 @@ As you can see, there are a handful of decisions to make on how to use MobX. It 
 
 ## Alternative to Redux?
 
-- depends on yourself
+After all, is MobX a viable alternative to Redux? It depends all on yourself. Both solutions are different in their philosophy, their underlying mechanics and in their usage. Whereas Redux gives you one opionated way of managing your state, MobX gives you only the tools to manage your state but not the way of how to do things. Redux has a large community, a vibrant ecosystem of libraries and great selection of best practices. MobX is a younger library compared to Redux, but gives you a different approach of managing your state.
 
-### Comparison
+The defining powers of MobX come from its reactive nature. As you have seen when you connected your view layer to MobX with observers, only the reactive components updated that relied on an observable state change. Everything else stayed untouched. In a large scale application, it can keep your view layer updates to a minimum when using MobX the right way.
 
- - it’s defining power comes from it’s reactive nature.
- - It removes vulnerable manual subscriptions and replaces connects with more individual component observers.
- - So while it creates more “smart” components, at scale it actually preforms better.
+In MobX you don't need to normalize your state. You can work with references and keep your state nested. It stays simple to update your state with mutations not worrying about immutablity. On the other hand, you have to be cautious on how close you couple your state to your view layer. In the end, when the state is too close to your view layer, it could end up the same way as for the first generation of single page applciations were two-way data binding became a mess.
 
-- no normalization
-- ...
-- no strict boundaries between local and global state
-- used like two.way data bdingin
-- useStrict should be best practice
-
-### Redux to MobX, MobX to Redux
-
-- refacotr
-- only bridge changes with container
-- no normalization anymore
+If you want to read more about the differences of Redux and MobX, I recommened you to check out the following article: [Redux or MobX: An attempt to dissolve the Confusion](https://www.robinwieruch.de/redux-mobx-confusion/). After that you might come to a more informed decision on what you want to use for state management in your own application.
 
 ## Hands On: Snake with MobX
 
