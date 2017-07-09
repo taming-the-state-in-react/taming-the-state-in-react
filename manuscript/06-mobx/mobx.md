@@ -168,6 +168,40 @@ todoStore.addTodo({ id: '1', name: 'learn mobx', completed: false });
 
 You can test the MobX action and the `useStrict()` function in the [MobX Playground](https://jsbin.com/qazazajusa/1/edit?js,console).
 
+In addition, it makes always sense to think thoughtfully about your actions. In the previous case, every call of `addTodo()` would lead all relying reactions to run. That's why the autorun function runs every time you add a todo item. So how would you accomplish to add multiple todo items at once without triggering reactions for every todo item? You could have another action that takes an array of todo items.
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+const { observable, autorun, action } = mobx;
+
+class TodoStore {
+  @observable todos = [];
+
+  @action addTodo(todo) {
+    this.todos.push(todo);
+  }
+
+# leanpub-start-insert
+  @action addTodos(todos) {
+    todos.forEach(todo => this.addTodo(todo));
+  }
+# leanpub-end-insert
+}
+
+const todoStore = new TodoStore();
+
+autorun(() => console.log(todoStore.todos.length));
+
+# leanpub-start-insert
+todoStore.addTodos([
+  { id: '0', name: 'learn redux', completed: true },
+  { id: '1', name: 'learn mobx', completed: false },
+]);
+# leanpub-end-insert
+~~~~~~~~
+
+That way, the relying reactions onyl evaluate once after the action got called. You can find the necessary code to play around with in the [MobX Playground](https://jsbin.com/loyuser/10/edit?js,console).
+
 ### Computed Values
 
 Computed values are derived properties from the state or other computed values. They have no side-effects and thus are pure functions. The computed values help you to keep your state structure simple yet can derive complex properties from it. For instance, when you would filter a list of todos for their `completed` property, you could compute the values of incompleted todo items.
@@ -538,7 +572,7 @@ However, it could be multiple stores or only a couple of observable primitives.
 </Provider>
 ~~~~~~~~
 
-The second helper from the library is the `inject` decorator. You can use it for any component down your component tree, that is wrapped somewhere above by the `Provider` component, to retrieve the provided observable state from the React context as props.
+The second helper from the library is the `inject` decorator. You can use it for any component down your component tree that is wrapped somewhere above by the `Provider` component. It retrieves the provided observable state from React's context as props.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -609,53 +643,112 @@ class TodoList extends React.Component {
 
 Every component can access the observable state, that is passed to the `Provider` component, with the `inject` decorator. This way you keep a clear separation of state and view layer. You can access the project in the [MobX Playground](https://jsbin.com/sonate/7/edit?js,output) again.
 
-# Advanced MobX
+## Advanced MobX
 
-## Reactions
+MobX is not opinionated. Thus it gives you a handful of tools to accomplish your on way of mastering state management. It would be sufficient to use the basics of MobX to introduce state management in your application. But there are more tools hidden in MobX that this chapter is going to point out. It addition, this chapter should give you a couple more pillars to udnerstand and use MobX successfully in your own way.
 
-- observer
-- autorun
-- when https://mobx.js.org/refguide/when.html
-- more fine-graned than autorn: https://mobx.js.org/refguide/reaction.html but not into detail here
+### Other Reactions
 
-https://egghead.io/lessons/react-mobx-fundamentals-writing-your-own-reactions-using-when-and-autorun
+You have encountered two reactions by now: autorun and observer. The observer produces a reaction because it uses autorun under the hood. It is only used in the mobx-react package. Thus, both functions are used to create reactions based on observable state changes. While the autorun function can be used to re-render naively the UI, it can also used for broader domains. The observer decorator is solely used to make a view-layer reactive.
 
-## Transactions
+However, MobX comes with more reactions. The book will not go too much into detail here, but it does no harm to be aware of other options too. The [MobX when](https://mobx.js.org/refguide/when.html) is another function that produces a reaction. It is based on predicates and effects. A given predicate runs as long as it returns true. When it returns true, the effect is called. After that the autorunner is disposed. The `when` function returns a disposer to cancel the autorunner prematurely, so before an effect can be called.
 
-- https://medium.com/@mweststrate/becoming-fully-reactive-an-in-depth-explanation-of-mobservable-55995262a254
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+const { observable, autorun, computed, when } = mobx;
 
-https://mobx.js.org/refguide/transaction.html
+class TodoStore {
+  @observable todos = [];
 
-## Asynchronous Actions
+  constructor() {
+    when(
+      // once (predicate)...
+      () => this.hasCompleteTodos,
+      // ... then (effect)
+      () => this.celebrateAccomplishment()
+    );
+  }
 
-- https://mobx.js.org/getting-started.html#demo
-- https://mobx.js.org/best/actions.html
+  @computed get completeTodos() {
+    return this.todos.filter(todo => todo.completed);
+  }
 
-## State and Stores
+  @computed get hasCompleteTodos() {
+    return this.completeTodos.length > 0;
+  }
 
-- local state, basically operating on primitives that are coupled to components
-- doesn't need to be coupled, can be somewhere outside
+  celebrateAccomplishment() {
+    console.log('First todo completed, celebrate it!');
+  }
+}
 
-- objects, arrays, references, class instances
+const todoStore = new TodoStore();
 
-- stores are only one way to manage state in mobx
-- https://mobx.js.org/best/store.html
-- domain stores (entity state), ui stores (view state)
+autorun(() => console.log(todoStore.todos.length));
 
-## State Architecture
+todoStore.todos.push({ id: '0', name: 'finish the book', completed: false });
+todoStore.todos.push({ id: '1', name: 'learn redux', completed: true });
+todoStore.todos.push({ id: '2', name: 'learn mobx basics', completed: true });
+todoStore.todos.push({ id: '3', name: 'learn mobx', completed: false });
+~~~~~~~~
 
-- make it opinionated your way!
-- defintely align on a state architecture:
-- how to manage local state
-- use strict?
-- inject or passing?
-- store insatnces with actions and computations etc?
+So how many times does the reaction run? You can take your guess first and afterward open the [MobX Playground](https://jsbin.com/loyuser/4/edit?js,console) to experience the reaction yourself. Basically the `when` triggers its effect when the predicate returns true. But it only triggers once. As you can see, two todo items that are completed are added. However, the `celebrateAccomplishment()` method only runs once. This way MobX allows you to use its reactions to trigger side-effects. You could trigger anything ranging from an animation to an API call.
 
-- https://t.co/0imjjYENUo?ssr=true
-- ref as outline mobx-state-tree
-- ref Michel video youtube
+Another function in MobX, [the reaction function](https://mobx.js.org/refguide/reaction.html) itself, can be used to produce MobX reactions too. It is a fine-grained version of autorun. Whereas autorun will always run when the observable state has changed, the reaction function only runs when a particular given observable state has changed.
 
-## Redux Comparison
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+const { observable, autorun, computed, reaction } = mobx;
+
+class TodoStore {
+  @observable todos = [];
+
+  constructor() {
+
+    reaction(
+      () => this.completeTodos.length,
+      sizeCompleteTodos => console.log(sizeCompleteTodos + " todos completed!")
+    );
+  }
+
+  @computed get completeTodos() {
+    return this.todos.filter(todo => todo.completed);
+  }
+}
+
+const todoStore = new TodoStore();
+
+autorun(() => console.log(todoStore.todos.length));
+
+todoStore.todos.push({ id: '0', name: 'finish the book', completed: false });
+todoStore.todos.push({ id: '1', name: 'learn redux', completed: true });
+todoStore.todos.push({ id: '2', name: 'learn mobx basics', completed: true });
+todoStore.todos.push({ id: '3', name: 'learn mobx', completed: false });
+~~~~~~~~
+
+How many times does the reaction run? First you can have a guess, afterward you can confirm it by trying it in the [MobX Playground](https://jsbin.com/loyuser/5/edit?js,console).
+
+Now you have seen two more functions in MobX that produce reactions: `when` and `reaction`. Whereas the `when` function only runs once an effect when the predicate returns null, the `reaction` runs every time when a particular observable state has changed. You can use both to trigger side-effects, such as an API call.
+
+### Be Opinionated
+
+MobX gives you all the tools that are needed to manage state in modern JavaScript application. However, it doesn't give you an opinionated way of doing it. This way you have all the freedom to manage your state yet it can be difficult to follow best practices or to align a team on one philosophy. That's why it is important to find your own opinionated way of doing things in MobX. You have to align on one opionated way to manage your state.
+
+The chapters before have shown you that observable state in MobX can be far away managed in stores yet it could be used in the local state of the view layer too. Should MobX be used instead of `this.state` and `this.setState()` in React? Be clear about how close you want to keep your MobX state to your view layer.
+
+Another thing you should have an opinion about is how you update your observable state. Do you mutate the state directly in your view? Going this path would lead to coupling your state closer to your view layer. On the other hand, you could use explicit MobX actions. It would keep your state mutation at one place. You can make them even mandatory by using the `useStrict()` functionality provided by MobX. That way, every state mutation would have to go through an explicit action. No direct mutations of the state would be allowed anymore. Recommendation: You should make your state mutations as explicit as possible with actions and `useStrict()`.
+
+When using MobX to complement your view layer, you would need to decide on how to pass your state around. You can simply allocate your state next to your components, import it directly from another file using JavaScript ES6 import and export statements, pass it down explicitly (e.g. in React with props) or pass it down implictly from your root component with `inject()` function and the `Provider` component. You should avoid to mix up these things and follow one opinionated way. Recommendation: You should use the `inject()` function and `Provider` component to make your state implicitly accessible to your view layer.
+
+Last but not least, you would need to align on a state structure. Observable state in MobX can be anything. It can be primitives, it can be objects or arrays but it can also be store instances derived from JavaScript classes. Without mixing up everything, you would need to align on a proper state architecture. The approach to manage your state in stores, as shown in the previous chapters, gives you a maintainable way to manage your state for specific domains. In addition, you are able to keep actions, computed values and even reactions such as autorun, reaction and when in your store. Recommendation: You should use JavaScript classes to manage your state in stores. That way your state management stays maintainable by domain related stores as stakeholders.
+
+As you can see, there are a handful of decisions to make on how to use MobX. It gives you all the freedom to decide your own way of doing things, but after all you have to establish the opionated way yourself and stay dicisplined with it.
+
+## Alternative to Redux?
+
+- depends on yourself
+
+### Comparison
 
  - it’s defining power comes from it’s reactive nature.
  - It removes vulnerable manual subscriptions and replaces connects with more individual component observers.
@@ -667,7 +760,7 @@ https://mobx.js.org/refguide/transaction.html
 - used like two.way data bdingin
 - useStrict should be best practice
 
-## Redux to MobX, MobX to Redux
+### Redux to MobX, MobX to Redux
 
 - refacotr
 - only bridge changes with container

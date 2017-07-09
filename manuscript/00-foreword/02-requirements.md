@@ -34,4 +34,4 @@ npm --version
 *v4.0.5
 ~~~~~~~~
 
-When you read the Road to learn React, you should be familiar with the setup already. The book gives you also a short introduction into the npm ecosystem on the command line.
+When you read the Road to learn React, you should be familiar with the setup already. The book gives you a short introduction into the npm ecosystem on the command line too.
