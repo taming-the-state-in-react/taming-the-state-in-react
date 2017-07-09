@@ -380,19 +380,15 @@ This chapter briefly shows the alternatives that you could use instead of Redux 
 
 [Redux Saga](https://github.com/redux-saga/redux-saga) is the most popular asynchronous actions library for Redux. *"The mental model is that a saga is like a separate thread in your application that's solely responsible for side effects."* Basically it outsources the impure operations into separate threads. These threads can be started, paused or cancelled with plain Redux actions from your core application. Thereby threads in Redux Saga make it simple to keep your side-effects away from your core application. However, threads can dispatch actions and have access to the state though.
 
-Redux Saga uses as underlying technology [JavaScript ES6 Generators](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Generator). The code reads like synchronous code. You avoid to have callbacks. The advantage over Redux Thunk is that your actions stay pure and thus can test them well.
+Redux Saga uses as underlying technology [JavaScript ES6 Generators](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Generator). The code reads like synchronous code. You avoid to have callbacks. The advantage over Redux Thunk is that your actions stay pure and thus can test them well. You will use Redux Saga in a "Hands On" chapter later on.
 
-- obsrvable: comparison to Saga http://stackoverflow.com/questions/40021344/why-use-redux-observable-over-redux-saga
-- redux cycles: valid alternative for reactive programming
+Apart from Redux Thunk and Redux Sage, there are other side-effect libraries for Redux. If you want to try out observables in JavaScript, you could give [Redux Observable](https://github.com/redux-observable/redux-observable) a shot. It builds up on RxJS, a generic library for reactive programming. If you are interested in another library that uses reactive programming principles too, you can give [Redux Cycles](https://github.com/cyclejs-community/redux-cycles) a try.
 
 In conclusion, as you can see, all these libraries, Redux Saga, Redux Observable and Redux Cycles, make use of different techniques in JavaScript. You can give them a shot to try generators or observables. The whole ecosystem around asynchronous actions is a great playground to try new things in JavaScript.
-
-- TODO http://formidable.com/blog/2017/javascript-power-tools-redux-saga/
 
 ## Hands On: Todo with Redux Saga
 
 In a previous chapter, you have used Redux Thunk to dispatch asynchronous actions. These were used to add a todo item with a notification whereas the notifaction vanishes after a couple of seconds again. In this chapter you will use Redux Saga instead of Redux Thunk. Therefore, you can install the former library and uninstall the latter one.
-- let's use Redux Saga: uninstall redux-thunk and install redux-saga
 
 {title="Command Line",lang="text"}
 ~~~~~~~~
@@ -416,24 +412,34 @@ function doAddTodoWithNotification(id, name) {
 }
 ~~~~~~~~
 
-Now you can introduce your first saga that listens on this particular action that is used to trigger the saga. The watching part is used for listening to action types.
-
+Now you can introduce your first saga that listens on this particular action, because the action is solely used to trigger the saga thread.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
+import { takeEvery } from 'redux-saga/effects';
+
+...
+
 // sagas
 
 function* watchAddTodoWithNotification() {
-  yield takeEvery(TODO_ADD_WITH_NOTIFICATION, handleAddTodoWithNotification);
+  yield takeEvery(TODO_ADD_WITH_NOTIFICATION, ...);
 }
 ~~~~~~~~
 
-- handle deals with the incoming things from a thread
+Most often you will find one part of the saga watching incoming actions and evaluating them. If an evaluation applies truthfully, it often will call another generator function that handles the side-effect. That way you can keep your side-effect watcher maintainable and don't clutter them with business logic. In the previous example a `takeEvery()` effect of Redux Saga is used to handle every action with the specified action type. Yet there are other effects in Redux Saga such as `takeLatest` which only takes the last of the incoming actions by action type.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
+# leanpub-start-insert
+import { delay } from 'redux-saga';
+import { put, takeEvery } from 'redux-saga/effects';
+# leanpub-end-insert
+
 function* watchAddTodoWithNotification() {
+# leanpub-start-insert
   yield takeEvery(TODO_ADD_WITH_NOTIFICATION, handleAddTodoWithNotification);
+# leanpub-end-insert
 }
 
 # leanpub-start-insert
@@ -447,11 +453,19 @@ function* handleAddTodoWithNotification(action) {
 # leanpub-end-insert
 ~~~~~~~~
 
-- exchange the middleware in the store
+As you can see, in JavaScript generators you use the `yield` statement to execute asynchronous code synchronously. Only when the function after the `yield` resolves, the code will execute the next line of code. Redux Saga comes with a helper such as `delay()` that can be used to delay the execution by an amount of time. It would be the same as using `setTimeout()` in JavaScript, but the `delay()` helper makes it more concise when using JavaScript generators.
+
+Now, you only have to exchange your middleware in your Redux store from using Redux Thunk to Redux Saga.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
+# leanpub-start-insert
+import createSagaMiddleware, { delay } from 'redux-saga';
+# leanpub-end-insert
+import { put, takeEvery } from 'redux-saga/effects';
+
 ...
+
 # leanpub-start-insert
 import createSagaMiddleware from 'redux-saga';
 # leanpub-end-insert
@@ -480,19 +494,7 @@ saga.run(watchAddTodoWithNotification);
 # leanpub-end-insert
 ~~~~~~~~
 
-- import all the necessary things from redux saga
-
-{title="Code Playground",lang="javascript"}
-~~~~~~~~
-...
-# leanpub-start-insert
-import createSagaMiddleware, { delay } from 'redux-saga';
-import { put, takeEvery } from 'redux-saga/effects';
-# leanpub-end-insert
-...
-~~~~~~~~
-
-- final: https://github.com/rwieruch/taming-the-state-todo-app/tree/10.0.0
+That's it. You Todo application should run with Redux Saga instead of Redux Thunk now. The final application can be found in the [GitHub repository](https://github.com/rwieruch/taming-the-state-todo-app/tree/10.0.0). In the future, it is up to you when using Redux to decide on an asynchronous actions library. Is it Redux Thunk or Redux Saga? Or do you decide to try something new with Redux Observable or Redux Cycles? The Redux ecosystem is full of seducement to try cutting edge JavaScript features such as generators or observables.
 
 ## Challenge: Snake with Redux and Async Actions
 

@@ -1573,5 +1573,8 @@ Implementing this application could go on infinetely. I would have plenty of fea
 
 * Test: There are no tests yet for your state handling. You could introduce at least tests for your reducers, to ensure that the correct state is saved in the Redux store.
 
-- archived in local storage
-- caching
+* Caching: You could cache the incoming data from the Hacker News API in your Redux store. It could be cached by search term. When you search for a search term twice, the Redux store could be used, when a result by search term is already in place. Otherwise a request to the Hacker News API would be made. In [the Road to learn React](https://www.robinwieruch.de/the-road-to-learn-react/) readers create a cache in React's local state. However, the same can be done in a Redux store.
+
+* Local Storage: You keep track of your archived stories in the Redux store. You could introduce the native local storage of the browser, as you have seen in the plain React chapters, to keep this state persistent. When a user loads the application, there could be a lookup in the  local storage for archived stories. If there are archived stories, they could be rehydrated into the Redux store. When a story gets archived, it would be dehydrated into the local storage too. That way you would keep the list of archived stories in your Redux store and local storage in sync, but would add a persistent layer to it when an user closes your application and comes back later to it.
+
+As you can see, there are a multitude of features you could implement or technqieues you could make use of. Be curious and apply these on your own. After you come up with your own implementations, I am keen to see them. Feel free to reach out to me on [Twitter](https://twitter.com/rwieruch).
