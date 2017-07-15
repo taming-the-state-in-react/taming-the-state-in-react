@@ -1,6 +1,6 @@
 ## Requirements
 
-What are the requirements to read the book? First of all, you should be familiar with the basics of web development. You should know how to use HTML, CSS and JavaScript. Perhaps it makes sense to know the term [API](https://www.robinwieruch.de/what-is-an-api-javascript/) too, because you will use those in the book. But there is more that I want to give you on the way when reading this book.
+What are the requirements to read the book? First of all, you should be familiar with the basics of web development. You should know how to use HTML, CSS and JavaScript. Perhaps it makes sense to know the term [API](https://www.robinwieruch.de/what-is-an-api-javascript/) too, because you will use those in the book. But there is more that I want to give you on the way when reading this book. I encourage you to join the official [Slack Channel](https://slack-taming-the-state.wieruch.com/) for the book to get help or to help others.
 
 ### React
 

@@ -33,3 +33,5 @@ The second key take away, the contrainss, were another key factor to its success
 - TODO introduction: http://blog.isquaredsoftware.com/presentations/2017-02-react-redux-intro/#/58 or check if it deals with react-redux
 
 - TODO http://blog.isquaredsoftware.com/2017/05/idiomatic-redux-tao-of-redux-part-1/
+
+- TODO http://blog.isquaredsoftware.com/2017/05/idiomatic-redux-tao-of-redux-part-2/

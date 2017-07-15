@@ -366,6 +366,10 @@ In the second example, the "Archive in a List"-example, the state could be lifte
 
 In conclusion, lifting state allows you to keep your local state management maintainable. **Lifting state should be used to give components access to all the state they need, but not to more state than they need.** Sometimes you have to refactor components from a functional stateless component to a React ES6 class component or vice versa. It's not always possible, because a component that could become possibly a stateless functional component could still have other stateful properties.
 
+### The Provider Pattern
+
+- TODO Provider pattern with context and hocs https://medium.com/@nimelrian/thinking-in-react-a-paradox-statement-33c19e2eb9e2
+
 ### Functional State
 
 In all recent chapters, there is a mistake in using `this.setState()`. It is important to know that `this.setState()` is executed asynchronously. React batches all the state updates. It executes them after each other for performance optimization. Thus `this.setState()` comes in two versions.
