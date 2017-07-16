@@ -342,7 +342,7 @@ The `connect` HOC can have up to four arguments as configuration:
 connect([mapStateToProps], [mapDispatchToProps], [mergeProps], [options])(...);
 ~~~~~~~~
 
-Usually you will only use two of them: `mapStateToProps` and `mapDispatchToProps`. You will learn about the other two arguments, `mergeProps`and `options`, later in this book.
+Usually you will only use two of them: `mapStateToProps()` and `mapDispatchToProps()`. You will learn about the other two arguments, `mergeProps`and `options`, later in this book.
 
 **mapStateToProps(state, [props]) => derivedProps:** It is a function that can be passed to the connect HOC. If it is passed, the input component of the connect HOC will subscribe to updates from the Redux store. Thus it means that every time the store subscription notices an update, the `mapStateToProps()` function will run. The `mapStateToProps()` function itself has two arguments in its function signature: the global state object and optionally the props from the parent component. The function returns an object that is derived from the global state and optionally from the props from the parent component. The returned object will be merged into the remaining props that come as input in the `ConnectedComponent` component when it is used.
 
