@@ -132,8 +132,37 @@ You can read more about this topic in the [official documentation](http://redux.
 
 ## Typed Redux
 
-- flow
-- alternative: typescript
+JavaScript by nature is a untyped language. It lacks of static types. You will often encounter bugs in your career that could have been prevented by type safety. In Redux, type safety can make a lot of sense, because you can define exactly what kind of types go into your actions, reducers or state. You could define that an action that creates a todo item would have the property `name` with the type String and the property `completed` with the type Boolean. Every time you pass a wrong typed value for these properties to create a todo item, you would get an error on compile time of your application. You wouldn't wait until your application runs to figure out that you have passed a wrong value to your action. There wouldn't be a runtime exception when you can already cover these bugs during compile time.
+
+Typed JavaScript can be an overengineered solution when working on short living or simple projects. But when working in a large code base, where code needs to be kept maintainable, it is adviceable to use a type checker. It makes refactorings easier and adds a bunch of benefits to the developer experience due to editor and IDE integrations.
+
+There exist two major solutions gradually using JavaScript as a typed language: Flow (Facebook) and TypeScript (Microsoft). While the former has its biggest impact in the React community, the latter is well adopted amongst other frameworks and libraries.
+
+How would a type checker like Flow look like when using in Redux? For instance, in a todo reducer the state could be defined by a type:
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+# leanpub-start-insert
+type Todo = {
+  id: string,
+  name: string,
+  completed: boolean,
+};
+
+type Todos = Array<Todo>;
+
+function todoReducer(state: Todos = [], action) {
+# leanpub-end-insert
+  switch(action.type) {
+    case ADD_TODO : {
+      return applyAddTodo(state, action);
+    }
+    default : return state;
+  }
+}
+~~~~~~~~
+
+The same applies for action creators and selectors in Redux. Everything can be type checked. Then you already get an error on compile time, when an action attempts to use a wrong payload that would lead to an wrongly typed state. You can read more about [Flow on its official site](https://flow.org/).
 
 ## Fullstack Redux
 
