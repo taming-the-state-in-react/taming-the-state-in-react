@@ -432,4 +432,87 @@ That's it for testing your different groups of functions when using Redux. It ca
 
 ## Error Handling
 
-- TODO
+The topic of error handling is rarely touched when reading about technologies. Often the topic is avoided by the community and it is hard to find a common sense about it. This chapter gives you basic guidance on how you could provide error handling in your Redux application.
+
+Error handling is often involved when making requests to an API. You have learned about asynchronous actions in Redux that can be used for these kind of side-effects. But there was no say about error handling in those side-effects so far. How to catch the errors and how to make them visible for your application end-user?
+
+Basically an error in an application can be represented as a state. That's why the topic is discussed in a state management book in the first place. For instance, imagine that you get your todo items from a server request. You would have an API on the server-side that exposes these todo items. Once you fetch these todo items from the API, you would have to deal with error handling, because a request could always fail. The following request, using the [native fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch), returns a JavaScript promise. The fetch can be either successfully resolved in an `then()` method or yields an error in an `catch()` method.
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+fetch('my/todos/api').then(function(response) {
+  return response.json();
+}).then(function(todos) {
+  // do something with todos
+}).catch(function(error) {
+  // do something with error
+});
+~~~~~~~~
+
+When using Redux asynchronours actions, the request could live in a Redux Thunk.
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+function getTodos(dispatch) {
+  fetch('my/todos/api').then(function(response) {
+    return response.json();
+  }).then(function(todos) {
+    // do something with todos
+  }).catch(function(error) {
+    // do something with error
+  });
+}
+~~~~~~~~
+
+Now it would be up to you to store either the todos or the error as state in your Redux store. You could have two potential actions:
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+const TODOS_FETCH_SUCCESS = 'TODOS_FETCH_SUCCESS';
+const TODOS_FETCH_ERROR = 'TODOS_FETCH_ERROR';
+~~~~~~~~
+
+These could be used in your Redux Thunk to store both potential outcomes:
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+function getTodos(dispatch) {
+  fetch('my/todos/api').then(function(response) {
+    return response.json();
+  }).then(function(todos) {
+    dispatch({ type: TODOS_FETCH_SUCCESS, todos });
+  }).catch(function(error) {
+    dispatch({ type: TODOS_FETCH_ERROR, error });
+  });
+}
+~~~~~~~~
+
+The todo reducer would have to deal with both actions now. One that stores the todo items and one that stores the error object.
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+const initialState = {
+  todos: [],
+  error: null,
+};
+
+function reducer(state = initialState, action) {
+  switch(action.type) {
+    case 'TODOS_FETCH_SUCCESS' : {
+      return applyFetchTodosSuccess(state, action);
+    }
+    case 'TODOS_FETCH_ERROR' : {
+      return applyFetchTodosError(state, action);
+    }
+    default : return state;
+  }
+}
+
+...
+~~~~~~~~
+
+That's it basically for the state management part. Whereas the `applyFetchTodosError()` function would set the error object in the state, the `applyFetchTodosSuccess()` function would set the list of todos. In addition, the success function would have to reset the error property in the state to null again. Imagine you would do a second request after the first request has failed. When the second request was successful, you would want to store the todo items but reset the error state.
+
+In your view layer, depeneding on the todo state, you could decide whether to show an error message, because there is an error object in the todo state, or to show the list of todos. When there is an error message displayed, you could provide your end-user with a button to try again fetching the todos. When the second request is successful, the error object is set to null and instead the todo items are set in the state. The view layer could display the list of todo items now.
+
+After all, there is basically no magic behind error handling in Redux. Whenever an error occurs, you would store it in your state. When the view layer notices an error in the state, it could use conditional rendering to show an error message instead of the assumed result.

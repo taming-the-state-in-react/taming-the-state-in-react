@@ -18,7 +18,7 @@ In general, the usage of Redux state should be kept to a minimum. A good rule of
 
 ## View vs. Entity State
 
-In the beginning of the book I differentiated between view state and entity state. Imagine you have a page that does both displaying a list of items and showing opt-in modals for each item to remove or edit the item. While the former would be the entity state, the latter would be the view state. The entitiy state, the list of items, comes most often from a backend. The view state is triggered by the user only in the frontend. Is there a pattern of where to store which kind of state?
+In the beginning of the book, I differentiated between view state and entity state. Imagine you have a page that does both displaying a list of items and showing opt-in modals for each item to remove or edit the item. While the former would be the entity state, the latter would be the view state. The entitiy state, the list of items, comes most often from a backend. The view state is triggered by the user only in the frontend. Is there a pattern of where to store which kind of state?
 
 The entity state comes often from the backend. It is fetched asynchronously. In applications, you want to avoid to fetch entities more than once. A good practice would be to fetch the entities once and not again when they are already there. Thus they would have to be stored somewhere where several parties know that these entities are already fetched. The global state is a perfect place to store them.
 

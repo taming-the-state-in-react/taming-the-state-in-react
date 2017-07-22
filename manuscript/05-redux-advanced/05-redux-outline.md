@@ -2,7 +2,7 @@
 
 After learning the basics and advanced techniques in Redux and applying them on your own in an application, you are ready to explore the Redux ecosystem. The Redux ecosystem is huge and cannot be covered in one book. However this chapter attempts to outline different paths you can take to explore the world of Redux. Apart from outlining these different paths, a couple of topics will be revisisted as well to give you a richer toolset when using Redux.
 
-Before you are left alone with the least chapters covering Redux, I want to make you aware of [this repository](https://github.com/markerikson/redux-ecosystem-links) by Mark Erikson. It is a categorized list of Redux related addons, libraries and articles. If you get stuck at some point, want to find a solution for your problem or are just curious about the ecosystem, check out the repository.
+Before you are left alone with the last chapters covering Redux, I want to make you aware of [this repository](https://github.com/markerikson/redux-ecosystem-links) by Mark Erikson. It is a categorized list of Redux related addons, libraries and articles. If you get stuck at some point, want to find a solution for your problem or are just curious about the ecosystem, check out the repository. Otherwise I encourage you to join the official [Slack Channel](https://slack-taming-the-state.wieruch.com/).
 
 ## Redux DevTools
 
@@ -114,21 +114,19 @@ The library is only a small utility belt for Redux, yet a lot of people are usin
 
 ## React Redux Libraries
 
-Apart from the [react-redux](https://github.com/reactjs/react-redux) library that glues together your view and state layer, there exist other libraries that can be used when using React and Redux. Usually these libraries provide you with React higher order components that make use of the Redux store. That way, you don't need to worry about the state management when it is shielded away from you.
+Apart from the [react-redux](https://github.com/reactjs/react-redux) library that glues together your view and state layer, there exist other libraries that can be used when you already use React and Redux. Usually these libraries provide you with React higher order components that are coupled to the Redux store. That way, you don't need to worry about the state management when it is shielded away from you.
 
-For instance, when using HTML forms in React, [redux-form](https://github.com/erikras/redux-form) enables the form state in your Redux store. It supports you with accessing and updating form state and gives you ways to validate those forms.
+For instance, when using HTML forms in React, it is often hard to track the state of each input element in your local component. Moreover you are often confronted with validation of these forms. The library [redux-form](https://github.com/erikras/redux-form) helps you to keep track of the form state, but not in the local state but in the Redux store. It enables you to access and update the form state through an higher order component that is connected to the Redux store. In addition, it supports you in validating your form state before a user can submit it.
 
-Another example would be a table component in React. A plain table component in React can be easily written on your own. But what about certain features like sorting, filtering or pagination? Then it becomes difficult, because you would have to manage the state of the table component. There exist several libraries that help you to implement tables in React and glue them to the Redux store. For instance, the [fixed-data-table](https://github.com/facebook/fixed-data-table) can be used for such cases.
+Another example would be a table component in React. A plain table component in React can be easily written on your own. But what about certain features such as sorting, filtering or pagination? Then it becomes difficult, because you would have to manage the state of the table component. There exist several libraries that help you to implement tables in React and glue them to the Redux store. For instance, the [fixed-data-table](https://github.com/facebook/fixed-data-table) can be used for such cases.
 
-There are a ton of libraries that already abstract away the state management for you when using common components such as forms or tables. You can once again have a look into [this repository](https://github.com/markerikson/redux-ecosystem-links) to get to know various of these libraries.
+There are a ton of libraries that already abstract away the state management for you when using common components such as forms or tables. You can once again have a look into [this repository](https://github.com/markerikson/redux-ecosystem-links) to get to know various of these libraries. It makes sense to use battle tested abstractions as libraries before implementing them on your own.
 
 ## Routing with Redux
 
-When developing single page applications, routing can become a stateful issue too. In React there exists one prefered library for routing: [React Router](https://github.com/ReactTraining/react-router). There might exist other routing libraries in other single page application solutions.
+In single page applications you will introduce routing eventually. In React there exists one prefered library for routing: [React Router](https://github.com/ReactTraining/react-router). There might exist other routing libraries in other single page application solutions. These solutions help you to navigate from URL to URL without reloading the page. That's how single page applications work after all. You only fetch your application once, but keep track of the state even when you route from URL to URL. Thus the routes in your URLs are state too. But is it managed in the Redux store?
 
-The common sense when using routing in Redux is that the Router handles the URL and Redux handles the state. There is no interaction between them. For instance, when you decide to store your visibility filter `SHOW_ALL` into your URL (domain.com?filter=SHOW_ALL) instead of your Redux store, it is fine doing it. You only would have to retrieve the state from the URL and not from the Redux store. It depends on your own setup. In the end, the Router holds the single source of truth for the URL state and the Redux store holds the single source of truth for the Redux state.
-
-You can read more about this topic in the [official documentation](http://redux.js.org/docs/advanced/UsageWithReactRouter.html) of Redux.
+The common sense when using routing in Redux is that the Router handles the URL and Redux handles the state. There is no interaction between them. For instance, when you decide to store your visibility filter `SHOW_ALL` into your URL (domain.com?filter=SHOW_ALL) instead of your Redux store, it is fine doing it. You only would have to retrieve the state from the URL and not from the Redux store. It depends on your own setup. In the end, the Router holds the single source of truth for the URL state and the Redux store holds the single source of truth for the Redux state. You can read more about this topic in the [official documentation](http://redux.js.org/docs/advanced/UsageWithReactRouter.html) of Redux.
 
 ## Typed Redux
 
@@ -162,15 +160,22 @@ function todoReducer(state: Todos = [], action) {
 }
 ~~~~~~~~
 
-The same applies for action creators and selectors in Redux. Everything can be type checked. Then you already get an error on compile time, when an action attempts to use a wrong payload that would lead to an wrongly typed state. You can read more about [Flow on its official site](https://flow.org/).
+Now, whenever an action would lead to a state that is not defined by its type definition, you would get an error on compile time. In addition, you could use plugins for your editor or IDE to give you the early feedback that something is wrong with your action or reducer. As the previous example has shown type safety for reducers, you could apply the same for your action creators and selectors. Everything can be type checked. You can read more about [Flow on its official site](https://flow.org/).
 
-## Fullstack Redux
+## Server-side Redux
 
-- sevrer side rendering, store is not a singleton there! thats why it is good to never pass around the store directly, you dont do it in connected components and do not do it in asynchronours action creators.
-- sockets
+Server-side rendering is used to render the initial page load from a server. Every further user interaction is done on the client-side. For instance, it is beneficial for SEO, because when a web crawler visits your website, it can retrieve the whole application without bothering to execute JavaScript on the client-side. It retrieves the whole application with its initial state. The initial state can already be data that is fetched from a database. In React, but also in other single page applications, there are solutions to deal with server-side rendering. However, introducing server-side rendering comes with a handful of challenges. One of these challenges is state management.
 
-- state keys, gateway components ,  ... (LINK them)
+When the initial page is rendered by the server-side, the initial state must be sent as a response to the client as well. The client in return would use the initial state. For instance, imagine you would want to load data from a database before you send the response from the server to the client. Somehow you would have to put this data into the response next to your server-side rendered application. Afterward the client can use the response to render the application and would already have the initial state that comes from a database. If the data wouldn't be sent along in the initial server request, the client would have to fetch it again.
+
+In Redux you can initialize a Redux store anywhere. You can initialize it on a client-side to access and manipulate the state, but also on the server-side to provide your application with an initial state. The initial state would be put in the Redux store before the server-sided response is send to the client application. But how does it work? The Redux store on the client-side is a singleton. There is only one instance of the Redux store. On the server-side, the Redux store isn't a singleton. Every time a server-side request is made it would initializes a new instance of the Redux store. The Redux store can be filled with an initial state before the server-side response is sent to a client.
+
+Server-side rendering and state management open up a whole new topic. That's why the book doesn't cover the topic but only points you in the right direction. You can read more about the topic in the [official Redux documentation](http://redux.js.org/docs/recipes/ServerRendering.html).
+
+TODO - sockets
+
+TODO - state keys, gateway components ,  ... (LINK them)
 
 ## Challenge: Hacker News with beyond Redux
 
- - TODO extended with router (dismissed), typed, redux form (search field), using es6, folder organization
+- TODO extended with router (dismissed), typed, redux form (search field), using es6, folder organization
