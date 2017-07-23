@@ -339,7 +339,7 @@ Second, the `App` component gets a few CSS classes:
   margin: 20px;
 }
 
-.interactions {
+.interactions, .error {
   text-align: center;
 }
 ~~~~~~~~
@@ -1366,7 +1366,7 @@ import { STORIES_ADD } from '../constants/actionTypes';
 const INITIAL_STATE = [];
 
 const applyAddStories = (state, action) =>
-  [ ...action.stories ];
+  action.stories;
 # leanpub-end-insert
 
 function storyReducer(state = INITIAL_STATE, action) {
@@ -1559,6 +1559,340 @@ export {
 
 Great, you have separated the API functionality from the saga.
 
+## Part 18: Error Handling
+
+So you are making a request to the Hacker News API and display the retrieved stories in your React components. But what happens when an error occurs? You can try it yourself by toggling your browser to offline in your developer console. Nothign will show up when you search for stories. In order to give your end-user a great user experience, you could add error handling. Let's do it by introducing an action that will eventually allocate an error state in the Redux store.
+
+{title="src/constants/actionTypes.js",lang="javascript"}
+~~~~~~~~
+export const STORY_ARCHIVE = 'STORY_ARCHIVE';
+export const STORIES_FETCH = 'STORIES_FETCH';
+# leanpub-start-insert
+export const STORIES_FETCH_ERROR = 'STORIES_FETCH_ERROR';
+# leanpub-end-insert
+export const STORIES_ADD = 'STORIES_ADD';
+~~~~~~~~
+
+In the second step you would need an action creator that keeps an error object in its payload and can be catched in a reducer later on.
+
+{title="src/actions/story.js",lang="javascript"}
+~~~~~~~~
+import {
+  STORIES_ADD,
+  STORIES_FETCH,
+# leanpub-start-insert
+  STORIES_FETCH_ERROR,
+# leanpub-end-insert
+} from '../constants/actionTypes';
+
+...
+
+# leanpub-start-insert
+const doFetchErrorStories = error => ({
+  type: STORIES_FETCH_ERROR,
+  error,
+});
+# leanpub-end-insert
+
+export {
+  doAddStories,
+  doFetchStories,
+# leanpub-start-insert
+  doFetchErrorStories,
+# leanpub-end-insert
+};
+~~~~~~~~
+
+The action can be triggered now in your story saga. Redux Saga uses try and catch statements for error handling.
+
+{title="src/sagas/story.js",lang="javascript"}
+~~~~~~~~
+import { call, put } from 'redux-saga/effects';
+# leanpub-start-insert
+import { doAddStories, doFetchErrorStories } from '../actions/story';
+# leanpub-end-insert
+import { fetchStories } from '../api/story';
+
+function* handleFetchStories(action) {
+  const { query } = action;
+
+# leanpub-start-insert
+  try {
+# leanpub-end-insert
+    const result = yield call(fetchStories, query);
+    yield put(doAddStories(result.hits));
+# leanpub-start-insert
+  } catch (error) {
+    yield put(doFetchErrorStories(error));
+  }
+# leanpub-end-insert
+}
+
+export {
+  handleFetchStories,
+};
+~~~~~~~~
+
+Last but not least, a reducer needs to deal with the new action type. The best place to keep it would be next to the stories. The story reducer keeps only a list of stories so far, but you could change it to manage a complex object that holds the list of stories and an error object.
+
+{title="src/reducers/story.js",lang="javascript"}
+~~~~~~~~
+import { STORIES_ADD } from '../constants/actionTypes';
+
+# leanpub-start-insert
+const INITIAL_STATE = {
+  stories: [],
+  error: null,
+};
+# leanpub-end-insert
+
+# leanpub-start-insert
+const applyAddStories = (state, action) => ({
+  stories: action.stories,
+  error: null,
+});
+# leanpub-end-insert
+
+function storyReducer(state = INITIAL_STATE, action) {
+  switch(action.type) {
+    case STORIES_ADD : {
+      return applyAddStories(state, action);
+    }
+    default : return state;
+  }
+}
+
+export default storyReducer;
+~~~~~~~~
+
+Now you could introduce the second action type.
+
+{title="src/reducers/story.js",lang="javascript"}
+~~~~~~~~
+import {
+  STORIES_ADD,
+# leanpub-start-insert
+  STORIES_FETCH_ERROR,
+# leanpub-end-insert
+} from '../constants/actionTypes';
+
+...
+
+# leanpub-start-insert
+const applyFetchErrorStories = (state, action) => ({
+  stories: [],
+  error: action.error,
+});
+# leanpub-end-insert
+
+function storyReducer(state = INITIAL_STATE, action) {
+  switch(action.type) {
+    case STORIES_ADD : {
+      return applyAddStories(state, action);
+    }
+# leanpub-start-insert
+    case STORIES_FETCH_ERROR : {
+      return applyFetchErrorStories(state, action);
+    }
+# leanpub-end-insert
+    default : return state;
+  }
+}
+
+export default storyReducer;
+~~~~~~~~
+
+In your story selector, you would have to change the structure of the story state. The story state isn't anymore a mere list of stories but a complex object with a list of stories and an error object. In addition, you could add a second selector to select the error object. It will be used later on in a component.
+
+{title="src/selectors/story.js",lang="javascript"}
+~~~~~~~~
+...
+
+const getReadableStories = ({ storyState, archiveState }) =>
+# leanpub-start-insert
+  storyState.stories.filter(isNotArchived(archiveState));
+# leanpub-end-insert
+
+# leanpub-start-insert
+const getFetchError = ({ storyState }) =>
+    storyState.error;
+# leanpub-end-insert
+
+export {
+  getReadableStories,
+# leanpub-start-insert
+  getFetchError,
+# leanpub-end-insert
+};
+~~~~~~~~
+
+Last but not least, in your component you could retrieve the error object in your connect higher order component and display with React's conditional rendering an error message when an error occured.
+
+{title="src/components/Stories.js",lang="javascript"}
+~~~~~~~~
+...
+# leanpub-start-insert
+import {
+  getReadableStories,
+  getFetchError,
+} from '../selectors/story';
+# leanpub-end-insert
+
+...
+
+# leanpub-start-insert
+const Stories = ({ stories, error }) =>
+# leanpub-end-insert
+  <div className="stories">
+    <StoriesHeader columns={COLUMNS} />
+
+# leanpub-start-insert
+    { error && <p className="error">Something went wrong ...</p> }
+# leanpub-end-insert
+
+    {(stories || []).map(story =>
+      ...
+    )}
+  </div>
+
+...
+
+const mapStateToProps = state => ({
+  stories: getReadableStories(state),
+# leanpub-start-insert
+  error: getFetchError(state),
+# leanpub-end-insert
+});
+
+...
+~~~~~~~~
+
+In your browser in the developer console you can simulate being offline. You can try it and see that an error message shows up. When you go online again and search for stories, the error message should disappear. Instead a list of stories displays again.
+
+## Part 19: Testing
+
+Every application in production should be tested. Therefore the next step could be to add a couple of tests to your application. The chapter will only cover a handful of tests to demonstrate testing in Redux. You could add more of them on your own. In addition, the chapter will not test your view layer.
+
+Since you have bootstrapped your application with create-react-app, it already comes with [Jest](https://facebook.github.io/jest/) to test your application. You can give a filename the prefix *test* to include it in your test suite. The following files were not created for you, thus you would have to create them on your own.
+
+First, let's create a test for the story reducer. As you have learned, a reducer gets a previous state and an action as input and returns a new state. It is a pure function and thus it should be easy testable without any side-effects.
+
+{title="src/reducers/story.test.js",lang="javascript"}
+~~~~~~~~
+import storyReducer from './story';
+
+describe('story reducer', () => {
+  it('adds stories to the story state', () => {
+    const stories = ['a', 'b', 'c'];
+
+    const action = {
+      type: 'STORIES_ADD',
+      stories,
+    };
+
+    const previousState = { stories: [], error: null };
+    const expectedNewState = { stories, error: null };
+
+    const newState = storyReducer(previousState, action);
+
+    expect(newState).toEqual(expectedNewState);;
+  });
+});
+~~~~~~~~
+
+Basically you created the necessary inputs for your reducer and the expected output. Then you can compare both in your expecation. It depends on your test philosophy whether you create the action hard coded in the file or import your action creator that you already have in your application. In this case a hard coded action was used.
+
+In order to verify that your previous state isn't mutated when creating the new state, because Redux only uses immutable data structures, you could use a neat helper library that freezes your state.
+
+{title="Command Line",lang="text"}
+~~~~~~~~
+npm install --save-dev deep-freeze
+~~~~~~~~
+
+It can be used to freeze the previous state.
+
+{title="src/reducers/story.test.js",lang="javascript"}
+~~~~~~~~
+# leanpub-start-insert
+import deepFreeze from 'deep-freeze';
+# leanpub-end-insert
+import storyReducer from './story';
+
+describe('story reducer', () => {
+  it('adds stories to the story state', () => {
+    const stories = ['a', 'b', 'c'];
+
+    const action = {
+      type: 'STORIES_ADD',
+      stories,
+    };
+
+    const previousState = { stories: [], error: null };
+    const expectedNewState = { stories, error: null };
+
+# leanpub-start-insert
+    deepFreeze(previousState);
+# leanpub-end-insert
+    const newState = storyReducer(previousState, action);
+
+    expect(newState).toEqual(expectedNewState);;
+  });
+});
+~~~~~~~~
+
+Now every time you would mutate accidently your state an error would show up. It is up to you to add two more tests for the story reducer. One test could verify that an error object is set when an error occurs and another test that verifies that the error object is set to null when stories are successfully added to the state.
+
+Second, you can add a test for your selectors. Let's demonstrate it with your story selector. Since the selector function is a pure function again, you can easily test it with an input and an expected output. You would have to define your global state and use the selector the retrieve an expected substate.
+
+{title="src/selectors/story.test.js",lang="javascript"}
+~~~~~~~~
+import { getReadableStories } from './story';
+
+describe('story selector', () => {
+  it('retrieves readable stories', () => {
+    const storyState = {
+      error: null,
+      stories: [
+        { objectID: '1', title: 'foo' },
+        { objectID: '2', title: 'bar' },
+      ],
+    };
+    const archiveState = ['1'];
+    const state = { storyState, archiveState }
+
+    const expectedReadableStories = [{ objectID: '2', title: 'bar' }];
+    const readableStories = getReadableStories(state);
+
+    expect(readableStories).toEqual(expectedReadableStories);;
+  });
+});
+~~~~~~~~
+
+That's it. Your Redux state is a combination of the `storyState` and the `archiveState`. When both are defined, you already have your global state. The selector is used to retrieve a substate from the global state. Thus you would only have to check if all the readable stories that were not archived are retrieved by the selector.
+
+Third, you can add a test for your action creators. An action creator only gets a payload and returns an action object.
+
+{title="src/actions/story.test.js",lang="javascript"}
+~~~~~~~~
+import { doAddStories } from './story';
+
+describe('story action', () => {
+  it('adds stories', () => {
+    const stories = ['a', 'b'];
+
+    const expectedAction = {
+      type: 'STORIES_ADD',
+      stories,
+    };
+    const action = doAddStories(stories);
+
+    expect(action).toEqual(expectedAction);;
+  });
+});
+~~~~~~~~
+
+As you can see, testing reducers, selectors and action creators follows always a similar pattern. Due to the functions being pure functions, you can focus on the input and output of these functions. In the previous examples all three test cases were strictly decoupled. However, you could also devide to import your action creator in your reducer test avoid creating a hard coded action.
+
 ## Final Words
 
 Implementing this application could go on infinetely. I would have plenty of features in my head that I would want to add to it. What about you? Can you imagine to continue building this application? From a technical perspective, things that were taught in this book, everything is set up to give you the perfect starting point. However, there were more topics that you could apply. For instance, you could normalize your incoming stories from the API before they reach the Redux store. The following list should give you an idea about potential next steps:
@@ -1569,12 +1903,8 @@ Implementing this application could go on infinetely. I would have plenty of fea
 
 * Paginated Data: The response from the Hacker News API doesn't only return the list of stories. It returns a paginated list of stories with a page property. You could use the page property for fetch more stories with the same search term. The list component in React could be a [paginated list](https://www.robinwieruch.de/react-paginated-list/) or [infinite scroll list](https://www.robinwieruch.de/react-infinite-scroll/).
 
-* Error Handling: There was no error handling in place yet. But you could introduce it with your sagas by capturing the errors and storing them in your Redux store. Afterward, you can communicate the error with a proper message in one of your components.
-
-* Test: There are no tests yet for your state handling. You could introduce at least tests for your reducers, to ensure that the correct state is saved in the Redux store.
-
 * Caching: You could cache the incoming data from the Hacker News API in your Redux store. It could be cached by search term. When you search for a search term twice, the Redux store could be used, when a result by search term is already in place. Otherwise a request to the Hacker News API would be made. In [the Road to learn React](https://www.robinwieruch.de/the-road-to-learn-react/) readers create a cache in React's local state. However, the same can be done in a Redux store.
 
-* Local Storage: You keep track of your archived stories in the Redux store. You could introduce the native local storage of the browser, as you have seen in the plain React chapters, to keep this state persistent. When a user loads the application, there could be a lookup in the  local storage for archived stories. If there are archived stories, they could be rehydrated into the Redux store. When a story gets archived, it would be dehydrated into the local storage too. That way you would keep the list of archived stories in your Redux store and local storage in sync, but would add a persistent layer to it when an user closes your application and comes back later to it.
+* Local Storage: You already keep track of your archived stories in the Redux store. You could introduce the native local storage of the browser, as you have seen in the plain React chapters, to keep this state persistent. When a user loads the application, there could be a lookup in the  local storage for archived stories. If there are archived stories, they could be rehydrated into the Redux store. When a story gets archived, it would be dehydrated into the local storage too. That way you would keep the list of archived stories in your Redux store and local storage in sync, but would add a persistent layer to it when an user closes your application and comes back later to it.
 
 As you can see, there are a multitude of features you could implement or technqieues you could make use of. Be curious and apply these on your own. After you come up with your own implementations, I am keen to see them. Feel free to reach out to me on [Twitter](https://twitter.com/rwieruch).
