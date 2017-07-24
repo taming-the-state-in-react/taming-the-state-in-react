@@ -33,11 +33,6 @@
 
 06-mobx/mobx.md
 
-07-outline-technologies/00-learning-paths.md
-07-outline-technologies/01-graphql-relay-modern.md
-07-outline-technologies/02-apollo.md
-07-outline-technologies/03-point-free-state.md
-
 {backmatter}
 
 08-end/00-learning-paths.md
