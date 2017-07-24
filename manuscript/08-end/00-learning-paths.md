@@ -1,6 +1,6 @@
 # Last but not Least
 
-Well, if I haven't lost you by now, you can read a bit further to make it to the end of this book. The last chapters of this book have the objective to inspire you to apply your learnings. You will learn about further learning paths after you have read the book, a life hack to improve your learning experience and other people in the (React and) Redux ecosystem that you might want to follow.
+Well, if I haven't lost you by now, you can read further to make it to the end of this book. The last chapters of this book have the objective to inspire you to apply your learnings. You will learn about further learning paths after you have read the book, a life hack to improve your learning experience and other people in the (React and) Redux ecosystem that you might want to follow.
 
 ## Further Learning Paths
 
