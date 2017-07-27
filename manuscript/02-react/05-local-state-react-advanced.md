@@ -4,11 +4,13 @@ You should know about all the basics in React's local state management by now. H
 
 ### Lifting State
 
-In a scaling application, you will notice that you pass a lot of state down to child components as props. These props are often passed down multiple component levels. That's how state is shared vertically. Yet, the other way around, you will notice that more components need to share the same state. That's how state is shared horizontally. These two scaling issues, sharing state vertically and horizontally, are common in local state management. Therefore you can lift the state up and down to keeo your local state architecture maintainable. Lifting the state prevents to share too much or too less state in your component tree. Basically, it is a refactoring that you have to do once in a while to keep your components maintainable and focused on only consuming the state that they need to consume.
+In a scaling application, you will notice that you pass a lot of state down to child components as props. These props are often passed down multiple component levels. That's how state is shared vertically. Yet, the other way around, you will notice that more components need to share the same state. That's how state is shared horizontally. These two scaling issues, sharing state vertically and horizontally, are common in local state management. Therefore you can lift the state up and down keeping your local state architecture maintainable. Lifting the state prevents to share too much or too less state in your component tree. Basically, it is a refactoring that you have to do once in a while to keep your components maintainable and focused on only consuming the state that they need to consume.
 
 In order to experience up and down lifting of local state, the following chapter will demonstrate it with two examples. The first example that demonstrates the uplifting of state is called: "Search a List"-example. The second example that demonstrates the downlifting of state is called "Archive in a List"-example.
 
 The "Search a List"-example has three components. Two sibling components, a `Search` component and a `List` component, that are used in an  overarching `SearchableList` component.
+
+First, the `Search` component:
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -47,6 +49,8 @@ class Search extends React.Component {
 }
 ~~~~~~~~
 
+Second, the `List` component:
+
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
 function List({ list }) {
@@ -57,6 +61,8 @@ function List({ list }) {
   );
 }
 ~~~~~~~~
+
+Third, the `SearchableList` component:
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -72,9 +78,11 @@ function SearchableList({ list }) {
 
 While the `Search` component is a stateful ES6 class component, the `List` component is only a stateless functional component. The parent component that combines the `List` and `Search` components into a `SearchableList` component is a stateless functional component too.
 
-However, the example doesn't work. The `Search` component knows about the `query` that could be used to filter the list, but the `List` component doesn't know about it. You have to lift the state of the `Search` component up to the `SearchableList` to make the `query` state accessible for the `List` component. You want to share the state in both `List` component and `Search` component.
+However, the example doesn't work. The `Search` component knows about the `query` that could be used to filter the list, but the `List` component doesn't know about it. You have to lift the state of the `Search` component up to the `SearchableList` to make the `query` state accessible for the `List` component in order to filter the list. You want to share the `query` state in both `List` component and `Search` component.
 
-In order to lift the state up, the `SearchableList` becomes a stateful component. You have to refactor it to an React ES6 class component. On the other hand, you can refactor the `Search` component to a functional stateless component, because it doesn't need to be stateful anymore. The stateful parent component takes care about it.
+In order to lift the state up, the `SearchableList` becomes a stateful component. You have to refactor it to an React ES6 class component. On the other hand, you can refactor the `Search` component to a functional stateless component, because it doesn't need to be stateful anymore. The stateful parent component takes care about its whole statet. In other cases the `Search` component might stay as a stateful ES6 class component, because it still manages own state. But not in this example.
+
+First, the `Search` component:
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -94,6 +102,8 @@ function Search({ query, onChange, children }) {
   );
 }
 ~~~~~~~~
+
+Second, the `SearchableList` component:
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -154,9 +164,11 @@ function byQuery(query) {
 # leanpub-end-insert
 ~~~~~~~~
 
-After you have lifted the state up, the parent component takes care about the local state management. Both child components don't need to take care about it anymore. You have lifted the state up to share the local state across more components. THe list gets filtered by the search query before it reaches the `List` component.
+After you have lifted the state up, the parent component takes care about the local state management. Both child components don't need to take care about it anymore. You have lifted the state up to share the local state across the child components. The list gets filtered by the search query before it reaches the `List` component.
 
 Let's get to the second example: the "Archive in a List"-example. It builds up on the previous example, but this time the `List` component has the extended functionality to archive an item in the list.
+
+First, the `List` component:
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -186,6 +198,8 @@ function List({ list, onArchive }) {
   );
 }
 ~~~~~~~~
+
+Second, the `SearchableList` component:
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -255,9 +269,11 @@ function byArchived(archivedItems) {
 # leanpub-end-insert
 ~~~~~~~~
 
-The previous example was extended to faciliate the archiving of items in a list. Now, the `List` component receives all the neccessary properties, an `onArchive` callback and the list, filtered by `query` and `archivedItems`.
+The previous example was extended to faciliate the archiving of items in a list. Now, the `List` component receives all the neccessary properties: an `onArchive` callback and the list, filtered by `query` and `archivedItems`.
 
-You might see already the flaw. The `SearchableList` takes care about the archiving functionality. Howeover, it doesnt need the functionality itself. It only passes all the state to the `List` component. In a scaling application it would make sense to lift the state down to the `List` component. Even though the `List` component becomes a stateful component afterward, it is step in the right direction keeping the local state maintainable in the long run.
+You might see already the flaw. The `SearchableList` takes care about the archiving functionality. Howeover, it doesnt need the functionality itself. It only passes all the state to the `List` component as props. It manages the state on behalf of the `List` component. In a scaling application it would make sense to lift the state down to the `List` component. Even though the `List` component becomes a stateful component afterward, it is step in the right direction keeping the local state maintainable in the long run.
+
+First, the `List` component:
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -320,6 +336,8 @@ class List extends React.Component {
 }
 ~~~~~~~~
 
+Second, the `SearchableList` component:
+
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
 import React from 'react';
@@ -360,7 +378,7 @@ class SearchableList extends React.Component {
 
 Now, you have seen both variations of lifting state: lifting state up and lifting state down.
 
-In the first example, the "Search a List"-example, the state had to be lifted up to share the `query` property in two child components. The `Search` component had to manipulate the state by using a callback, but also had to use the `query` to be a controlled component. On the other hand, the 'SearchableList' component had to filter the list by using the `query` property. Another solution would have been to pass down the `query` property to the `List` component and let the component deal with the filtering.
+In the first example, the "Search a List"-example, the state had to be lifted up to share the `query` property in two child components. The `Search` component had to manipulate the state by using a callback, but also had to use the `query` to be a controlled component. On the other hand, the 'SearchableList' component had to filter the list by using the `query` property. Another solution would have been to pass down the `query` property to the `List` component and let the component deal with the filtering itself.
 
 In the second example, the "Archive in a List"-example, the state could be lifted down to keep the state maintainable in the long run. The parent component shouldn't be concerned about state that isn't used by the parent component itself and isn't shared across multiple child components. Because only one child component cared about the archived items, it was a clean code refactoring to lift the state down.
 
@@ -370,7 +388,7 @@ In conclusion, lifting state allows you to keep your local state management main
 
 In all recent chapters, there is a mistake in using `this.setState()`. It is important to know that `this.setState()` is executed asynchronously. React batches all the state updates. It executes them after each other for performance optimization. Thus `this.setState()` comes in two versions.
 
-In its first version, the `this.setState()` method takes an object to update the state. As explained in a previous chapter, the merging of the object is shallow. For instance, when updating `authors` in a state object of `authors` and `articles`, the `articles` stay intact. The previous examples have already used this approach.
+In its first version, the `this.setState()` method takes an object to update the state. As explained in a previous chapter, the merging of the object is a shallow merge. For instance, when updating `authors` in a state object of `authors` and `articles`, the `articles` stay intact. The previous examples have already used this approach.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -428,13 +446,13 @@ class CounterContainer extends React.Component {
 }
 ~~~~~~~~
 
-Executing one of the class methods, `onIncrement` or `onDecrement`, multiple times could lead to a bug. Because both methods depend on the previous state, it could use a stale state when the asynchronous update wasn't executed but the method invoked a second time.
+Executing one of the class methods, `onIncrement()` or `onDecrement()`, multiple times could lead to a bug. Because both methods depend on the previous state, it could use a stale state when the asynchronous update wasn't executed but the method invoked another time.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
 this.setState({ counter: this.state.counter + 1 }); // this.state: { counter: 0 }
-this.setState({ counter: this.state.counter + 1 }); // this.state still: { counter: 0 }
-this.setState({ counter: this.state.counter + 1 }); // this.state still: { counter: 0 }
+this.setState({ counter: this.state.counter + 1 }); // this.state: { counter: 0 }
+this.setState({ counter: this.state.counter + 1 }); // this.state: { counter: 0 }
 // updated state: { counter: 1 }
 // instead of: { counter: 3 }
 ~~~~~~~~
@@ -470,7 +488,7 @@ class CounterContainer extends React.Component {
 }
 ~~~~~~~~
 
-The functional approach opens up two more benefits. First, the function that updates the state is a pure function. There are no side-effects. The function always will return the same output when given the same input. It makes it predicable and uses the benefits of functional programming. Second, since the function is pure, it can be tested easily in an unit test and independently from the component. It gives you the opportunity to test your local state updates. You only have to extract the function from the component.
+The functional approach opens up two more benefits. First, the function that updates the state is a pure function. There are no side-effects. The function always will return the same output when given the same input. It makes it predictable and uses the benefits of functional programming. Second, since the function is pure, it can be tested easily in an unit test and independently from the component. It gives you the opportunity to test your local state updates. You only have to extract the function from the component.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -511,7 +529,7 @@ Now, you could test the pure functions. After all you might wonder, when to use 
 
 * Always use `this.setState()` with a function when you depend on previous state or props.
 * Only use `this.setState()` with an object when you don't depend on previous properties.
-* In case you are unsure, default to use `this.setState()` with a function.
+* In case of uncertainty, default to use `this.setState()` with a function.
 
 ### Higher Order Components
 
@@ -576,7 +594,7 @@ function byArchived(archivedItems) {
 }
 ~~~~~~~~
 
-The `ArchiveableList` has two purposes. On the one hand, it is a pure presenter that shows the items in a list. On the other hand, it is stateful container that keeps track of the archived items. Therefore you could split it up into representation and logic thus into presentational and container component. However, another approach could be to transfer the logic, mainly the local state management, into a higher order component.
+The `ArchiveableList` has two purposes. On the one hand, it is a pure presenter that shows the items in a list. On the other hand, it is stateful container that keeps track of the archived items. Therefore, you could split it up into representation and logic thus into presentational and container component. However, another approach could be to transfer the logic, mainly the local state management, into a higher order component. Higher order components are reusable and thus the local state management could become reusable.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -626,7 +644,7 @@ function withArchive(Component) {
 }
 ~~~~~~~~
 
-Thus the `List component would only display the list and receives a function in its props to archive an item.
+In return the `List` component would only display the list and receives a function in its props to archive an item.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -653,7 +671,7 @@ function List({ list, onArchive }) {
 }
 ~~~~~~~~
 
-Now you can compose "List" facilitating component with the functionality to archive items in a list.
+Now you can compose the list facilitating component with the functionality to archive items in a list.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -676,7 +694,7 @@ The `List` component would only display the items. The ability to archive an ite
 
 ### The Provider Pattern
 
-The provider pattern in React is a powerful concept. You will not often see it when using plain React, but might consider using it when scaling your application in React. Basically it takes the clutter away of passing mandatory props, that are needed by every component, down your whole component tree. In addition, the provider pattern is later on used in sophisticated state management libraries to glue the state layer to the (React) view layer.
+The provider pattern in React is a powerful concept. You will not often see it when using plain React, but might consider using it when scaling your application in React. Basically it takes the clutter away of passing mandatory props, that are needed by every component, down your whole component tree. In addition, the provider pattern is later on used in sophisticated state management libraries to glue the state layer (Redux, MobX) to the (React) view layer.
 
 There are two things you have to know about React before you can implement your own provider pattern in React: children and context.
 
@@ -713,7 +731,7 @@ function Search({ query, onChange, children }) {
 
 The component would be displayed as an input field with a label next to it that says "Search the List".
 
-### React's Context as Implicit Container
+#### React's Context as Implicit Container
 
 The second requirement before implementing the provider pattern in React is React's context. React’s context is not highly advertised. It is even discouraged to use it. The team behind React keeps it open if the API of the context in React changes in the future.
 
@@ -845,4 +863,4 @@ Paragraph.contextTypes = {
 };
 ~~~~~~~~
 
-That’s basically it for the provider pattern. You have the Provider component that makes properties accessible in React’s context and components that consume the context. How does this relate to state management? Basically the provider pattern is often used, when using a sophisticated state management solution, to make the state object(s) accessible in your view layer via React's context. The whole state can be accessed in each component. Perhaps you will never implement the provider pattern on your own, but you will most likely use it from a external library when you use a sophisticated state management solution such as Redux or MobX later on.
+That’s basically it for the provider pattern. You have the Provider component that makes properties accessible in React’s context and components that consume the context. How does this relate to state management? Basically the provider pattern is often used, when using a sophisticated state management solution that makes the state object(s) accessible in your view layer via React's context. The whole state can be accessed in each component. Perhaps you will never implement the provider pattern on your own, but you will most likely use it from a external library when you use a sophisticated state management solution such as Redux or MobX later on. So keep it in mind.
