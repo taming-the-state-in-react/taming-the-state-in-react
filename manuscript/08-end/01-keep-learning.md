@@ -7,7 +7,7 @@ I believe there is one secret when it comes to learning. There exists a principl
 * **20% Audiovisual** (Phew...) TODO check if doing screencasts
 * **30% Demonstration** (Check!)
 * **50% Discussion** (Did I mention that there is a [Slack Channel](https://slack-taming-the-state.wieruch.com/)?)
-* **75% Practice by Doing** (I hope your did all Hands Ons/Challenges!)
+* **75% Practice by Doing** (I hope your did all Hands Ons!)
 * **90% Teach Others** (Hmmm...)
 
 Perhaps you recall it from somewhere, but it is always refreshing to see it again. In the beginning of the book, I have written down some words that say that nobody learned something by reading a book. You have to apply your learnings. I hope that I arranged the book in a way, enabling you with all the techniques and exercises along the way, that you can learn form these experiences. In addition, I gave you in the last chapter some more learning paths to practice by doing.
