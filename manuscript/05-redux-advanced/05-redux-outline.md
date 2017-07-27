@@ -2,7 +2,7 @@
 
 After learning the basics and advanced techniques in Redux and applying them on your own in an application, you are ready to explore the Redux ecosystem. The Redux ecosystem is huge and cannot be covered in one book. However this chapter attempts to outline different paths you can take to explore the world of Redux. Apart from outlining these different paths, a couple of topics will be revisisted as well to give you a richer toolset when using Redux.
 
-Before you are left alone with the last chapters covering Redux, I want to make you aware of [this repository](https://github.com/markerikson/redux-ecosystem-links) by Mark Erikson. It is a categorized list of Redux related addons, libraries and articles. If you get stuck at some point, want to find a solution for your problem or are just curious about the ecosystem, check out the repository. Otherwise I encourage you to join the official [Slack Channel](https://slack-taming-the-state.wieruch.com/).
+Before you are left alone with the last chapters covering Redux, I want to make you aware of [this repository](https://github.com/markerikson/redux-ecosystem-links) by Mark Erikson. It is a categorized list of Redux related addons, libraries and articles. If you get stuck at some point, want to find a solution for your problem or are just curious about the ecosystem, check out the repository. Otherwise I encourage you to join the official [Slack Group](https://slack-the-road-to-learn-react.wieruch.com/).
 
 ## Redux DevTools
 
