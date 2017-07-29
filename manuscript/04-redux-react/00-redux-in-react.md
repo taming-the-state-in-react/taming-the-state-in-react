@@ -490,8 +490,4 @@ function TodoList({ todos }) {
 
 The final Todo application can be found in [the GitHub repository](https://github.com/rwieruch/taming-the-state-todo-app/tree/3.0.0).
 
-As you can imagine by now, you can connect your state everywhere to your view layer. You can retrieve it with `mapStateToProps()` and alter it with `mapDispatchToProps()` from everywhere in your component tree. These components that add this intermediate glue between view and state are called connected components. They are a subset of the container components from the container and presenter pattern. The presenter components are still clueless and don't know if the props are derived from a Redux store, from local state or actions. They just use these props. (TODO check if this is explained in the basics)
-
-## Challenge: Snake with React and Redux
-
--
+As you can imagine by now, you can connect your state everywhere to your view layer. You can retrieve it with `mapStateToProps()` and alter it with `mapDispatchToProps()` from everywhere in your component tree. These components that add this intermediate glue between view and state are called connected components. They are a subset of the container components from the container and presenter pattern. The presenter components are still clueless and don't know if the props are derived from a Redux store, from local state or actions. They just use these props.

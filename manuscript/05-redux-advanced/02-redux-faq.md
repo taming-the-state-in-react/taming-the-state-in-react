@@ -4,6 +4,8 @@ I intend to grow this section organically to answer frequently asked questions t
 
 ## Redux vs. Local State
 
+- TODO https://www.reddit.com/r/reactjs/comments/6g2kp1/react_state_vs_redux_state_when_and_why/?st=1Z141Z3&sh=255adc41
+
 When introducing Redux to a React application, people are unsure how to treat the local state with `this.state` and `this.setState()`. Should they replace the local state entirely with Redux or keep a mix of both? The larger part of the community would argue it is the latter and I agree with it. Local state doesn't become obsolete when using a sophisticated state management library like Redux. You can still use it.
 
 Imagine your application grows in line of code and your size of developers working on this application grows as well. Your global state in Redux will necessarly grow too. However, you want to keep the global state meaningful and reusable from multiple parties (developers, components) in your application. That's why not everything should end up in the global state. In a growing application, you should always revisit your global state and make sure that it is not cluttered and arranged thoughtfully.
@@ -13,8 +15,6 @@ The cluttering happens when too much state ends up in the global state that is o
 The boundaries between local state and sophisticated state will blur when using a state management library like MobX. You will get to know this library later as alternative to Redux. But there as well, you can plan your state in your application thoughtfully.
 
 In general, the usage of Redux state should be kept to a minimum. A good rule of thumb is to keep the state close to your component with local state but evaluate later whether another party is interested in the state. If another party has the same state, but only an independent copy of it, you could use a reusable higher order component that manages the state. If the state is shared, you could try to lift your state up or down. However, if lifting state doesn't solve the problem for you, because the state is shared across the application, you should consider to use Redux for it. All of this goes back that you might not need Redux in your application, because local state is sufficient.
-
-- TODO https://www.reddit.com/r/reactjs/comments/6g2kp1/react_state_vs_redux_state_when_and_why/?st=1Z141Z3&sh=255adc41
 
 ## View vs. Entity State
 

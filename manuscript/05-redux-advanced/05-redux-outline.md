@@ -171,11 +171,3 @@ When the initial page is rendered by the server-side, the initial state must be 
 In Redux you can initialize a Redux store anywhere. You can initialize it on a client-side to access and manipulate the state, but also on the server-side to provide your application with an initial state. The initial state would be put in the Redux store before the server-sided response is send to the client application. But how does it work? The Redux store on the client-side is a singleton. There is only one instance of the Redux store. On the server-side, the Redux store isn't a singleton. Every time a server-side request is made it would initializes a new instance of the Redux store. The Redux store can be filled with an initial state before the server-side response is sent to a client.
 
 Server-side rendering and state management open up a whole new topic. That's why the book doesn't cover the topic but only points you in the right direction. You can read more about the topic in the [official Redux documentation](http://redux.js.org/docs/recipes/ServerRendering.html).
-
-TODO - sockets
-
-TODO - state keys, gateway components ,  ... (LINK them)
-
-## Challenge: Hacker News with beyond Redux
-
-- TODO extended with router (dismissed), typed, redux form (search field), using es6, folder organization

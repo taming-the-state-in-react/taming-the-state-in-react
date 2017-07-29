@@ -751,13 +751,3 @@ The defining powers of MobX come from its reactive nature. As you have seen when
 In MobX you don't need to normalize your state. You can work with references and keep your state nested. It stays simple to update your state with mutations not worrying about immutablity. On the other hand, you have to be cautious on how close you couple your state to your view layer. In the end, when the state is too close to your view layer, it could end up the same way as for the first generation of single page applciations were two-way data binding became a mess.
 
 If you want to read more about the differences of Redux and MobX, I recommened you to check out the following article: [Redux or MobX: An attempt to dissolve the Confusion](https://www.robinwieruch.de/redux-mobx-confusion/). After that you might come to a more informed decision on what you want to use for state management in your own application.
-
-## Hands On: Snake with MobX
-
-- take local state snake as begin
-
-## Hands On: Todo App with MobX
-
-- or leave it out, or challenge and leave out HN MobX
-
-## Challenge: Hacker News App with MobX

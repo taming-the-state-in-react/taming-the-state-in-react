@@ -985,7 +985,3 @@ function getTodo(state, todoId) {
 ~~~~~~~~
 
 Since your state is normalized, your have to map through all your `ids` to get a list of `todos`, filter them by `filterState`, and map them back to 'ids'. You filter functionality should work now. Start your application and try it. You can find the final application in the [GitHub repository](https://github.com/rwieruch/taming-the-state-todo-app/tree/8.0.0).
-
-## Challenge: Snake with Redux
-
-- TODO show off command (only one reducer cares, but refactor it to local state) vs event (multiple reducers care) pattern

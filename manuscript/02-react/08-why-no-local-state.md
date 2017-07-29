@@ -1,6 +1,8 @@
-## The Lies of Local State Management
+## Transition to Sophisticated State
 
 Now you have learned about the basics in local state management and how to scale it in growing application with a variety of techniques and best practices. The next chapters will give you a transition from local state management to sophisticated state management with libraries such as Redux and MobX.
+
+### The Controversies of Local State Management
 
 State management is a controversial topic. You will find a ton of discussions and opinions around it. You will find it as reccuring topic not only in React, but also in other SPA or view layer solutions for modern web applications. The book is my attempt to give you consistency for these opinions and enable you to learn state management step by step.
 
@@ -18,7 +20,7 @@ I strongly disagree with the statement too. If you want to develop applications 
 
 These were only three controversial statemanemts. But there are way more opinions around the topic. In the end, you should make your own experiences to get to know what makes sense for you. However, if you are transitioning from plain React to React + Redux or React + Redux, I highly recommend you to read this article before continuing reading the book: [Things to learn in React before using Redux](https://www.robinwieruch.de/learn-react-before-using-redux/).
 
-## The Flaw of Local State Management
+### The Flaw of Local State Management
 
 In order to come to a conclusion of local state management there is one open question: What's the problem with local state management? Developers wonder why they need sophisticated state management in order to tame their state. In other scenarios, people never wonder about it, because they have learned sophistiacted state management from the beginnign without using local state. That might not be the best approahc in the first place, because you have to experience a problem before you use a solution for it. You can't skip the problem and use the solution right away.
 

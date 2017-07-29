@@ -66,7 +66,7 @@ function reducer(state, action) {
 }
 ~~~~~~~~
 
-By using the [JavaScript built-in concat functionality](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/concat), the state, thus the list of todos, is concated to another item. The other item is the newly added todo from the action. You might wonder if this embraces immutabilty now. Yes it does, because `concat` always returns a new array without mutating the old array. The data structure stays immutable. You will learn later more about how to keep your data structures immutable. (TODO check reference)
+By using the [JavaScript built-in concat functionality](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/concat), the state, thus the list of todos, is concated to another item. The other item is the newly added todo from the action. You might wonder if this embraces immutabilty now. Yes it does, because `concat` always returns a new array without mutating the old array. The data structure stays immutable. You will learn later more about how to keep your data structures immutable.
 
 **But what about the action type?** Right now, only the payload is used to produce a new state but the action type is ignored.
 

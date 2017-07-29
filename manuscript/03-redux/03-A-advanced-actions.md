@@ -178,7 +178,7 @@ function doToggleLoginModal(open) {
 }
 ~~~~~~~~
 
-In idiomatic Redux, actions should always try to stay on an abstract level rather than on a concrete level. Otherwise, you will end up with duplications and verbose actions. However, don't worry too much about it for now. This will be explained in more detail in another chapter that is about the Command and Event pattern in Redux. (TODO check again when other chapter is written Command Evtn pattern.)
+In idiomatic Redux, actions should always try to stay on an abstract level rather than on a concrete level. Otherwise, you will end up with duplications and verbose actions. However, don't worry too much about it for now. This will be explained in more detail in another chapter in this book.
 
 ### Payload Structure
 
@@ -323,7 +323,3 @@ store.dispatch(doToggleTodo('0'));
 There were two more advanced topics about actions in this chapter: optional payload and payload structure. The first topic wouldn't apply in the current application. Every action has to have a payload. The second topic could be applied. However, the payload is small and thus doesn't need to be deeply restructured with a payload property.
 
 The [final Todo application can be found in this JS Bin](https://jsbin.com/kopohur/8/edit?html,js,console). You can do further experiments with it before you continue with the next chapter.
-
-
-
-

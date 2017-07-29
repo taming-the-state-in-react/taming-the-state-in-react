@@ -82,7 +82,7 @@ showNotificationWithDelay(store.dispatch, 'Todo created.');
 
 The extracted function gets control over the `dispatch()` method from the Redux store, because it needs to dispatch a delayed action.
 
-**Why not passing the Redux store instead?** Usually you want to avoid to pass the store around directly. You have encountered the same reasoning in the book when weaving the Redux store for the first time into your React application. You want to make the functionalities of the store available, but not the entire store itself. That's why you only have the `dispatch()` method and not the entire store in your `mapDispatchToProps()` function when using react-redux. A connected component has never access to the store directly and thus no other functionalities should have direct access to it. You will learn more about this best practice in a chapter that is about server side rendering (TODO check if I write it).
+**Why not passing the Redux store instead?** Usually you want to avoid to pass the store around directly. You have encountered the same reasoning in the book when weaving the Redux store for the first time into your React application. You want to make the functionalities of the store available, but not the entire store itself. That's why you only have the `dispatch()` method and not the entire store in your `mapDispatchToProps()` function when using react-redux. A connected component has never access to the store directly and thus no other functionalities should have direct access to it.
 
 The pattern from above suffices for simple Redux applications that need a delayed action. However, in scaling applications it has a drawback. The approach creates two types of action creators. While there are synchronours action creators that can be dispacthed directly, there are pseudo asynchronours action creators too. These pseudo asynchronours action creators cannot be dispacthed directly but have to accept the dispatch method as argument. Wouldn't it be great to use both types of actions the same without worrying to pass around the dispatch method and any asynchronours or synchronours behavior?
 
@@ -90,6 +90,7 @@ The pattern from above suffices for simple Redux applications that need a delaye
 
 - TODO https://www.reddit.com/r/reactjs/comments/6e0vgt/is_my_understanding_of_reduxthunk_correct/?st=1Z141Z3&sh=255adc41
 - TODO https://medium.com/@talkol/redux-thunks-dispatching-other-thunks-discussion-and-best-practices-dd6c2b695ecf
+- TODO https://decembersoft.com/posts/what-is-the-right-way-to-do-asynchronous-operations-in-redux/
 
 The previous question led Dan Abramov, the creator of Redux, thinking about a general pattern to the problem of asynchronours actions. He came up with the library called [redux-thunk](https://github.com/gaearon/redux-thunk) to legitimize the concept. Synchronours and asynchronours action creators should be dispatched in a similar way from a Redux store. It is used as middleware in your Redux store.
 
@@ -163,8 +164,6 @@ That are the basics of Redux Thunk. There are a few more things that are good to
 * **getState():** A thunk function gives you as second argument the `getState()` method of the Redux store: `function (dispatch, getState)`. However, you should generally avoid it. It's best practice to pass all necessary state to the action creator instead of retrieving it in the thunk.
 * **Promises:** Thunks work great in combination with promises. You can return a promise from your thunk and use it, for instance, to wait for its completion: `store.dispatch(showNotificationWithDelay('Todo created.')).then(...)`.
 * **Recursive Thunks:** The dispatch method in a thunk can again be used to dispatch an asynchronours action. Thus you can apply the thunk pattern recursively.
-
-- TODO https://decembersoft.com/posts/what-is-the-right-way-to-do-asynchronous-operations-in-redux/
 
 ## Hands On: Todo with Notifications
 
@@ -495,7 +494,3 @@ saga.run(watchAddTodoWithNotification);
 ~~~~~~~~
 
 That's it. You Todo application should run with Redux Saga instead of Redux Thunk now. The final application can be found in the [GitHub repository](https://github.com/rwieruch/taming-the-state-todo-app/tree/10.0.0). In the future, it is up to you when using Redux to decide on an asynchronous actions library. Is it Redux Thunk or Redux Saga? Or do you decide to try something new with Redux Observable or Redux Cycles? The Redux ecosystem is full of seducement to try cutting edge JavaScript features such as generators or observables.
-
-## Challenge: Snake with Redux and Async Actions
-
-- TODO extract the timeout functionality into a simple delayed action first, then redux thunk, but then use redux saga to accomplish it

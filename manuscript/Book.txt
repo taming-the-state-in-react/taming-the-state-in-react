@@ -14,7 +14,6 @@
 02-react/04-local-state-react.md
 02-react/05-local-state-react-advanced.md
 02-react/06-persistent-state.md
-02-react/07-hands-on-snake.md
 02-react/08-why-no-local-state.md
 
 03-redux/01-introduction.md
@@ -32,6 +31,8 @@
 05-redux-advanced/05-redux-outline.md
 
 06-mobx/mobx.md
+
+07-outline-technologies/00-learning-paths.md
 
 {backmatter}
 
