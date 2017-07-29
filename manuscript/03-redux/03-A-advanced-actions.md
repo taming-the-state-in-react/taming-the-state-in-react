@@ -1,3 +1,5 @@
+{pagebreak}
+
 ## Advanced Actions
 
 You have learned about actions in a previous chapter. However, there are more fine grained details that I want to cover in this chapter. The same applies for reducers. These will be covered in the following chapter.

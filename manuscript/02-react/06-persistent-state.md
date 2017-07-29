@@ -1,3 +1,5 @@
+{pagebreak}
+
 ## Persistence in State
 
 State in applications is often not persistent. When your application starts, there is often an initial state. The state updates when the user interacts with the application or data arrives from a backend application. However, you might wonder whether there is a way to persist the state? The question applies to both, local state management and sophisticated state management later on.
@@ -71,7 +73,7 @@ localStorage.clear();
 
 In the end, you can apply them the same way as you did in the previous `ArchiveableList` component that used the backend request to retrieve the data. Only that the `ArchiveableList` component would use the storage instead of the backend to retrieve the state. If you are keen to explore the usage with the local storage in React, you can read more about it in [this article](https://www.robinwieruch.de/local-storage-react/).
 
-## Caching in State
+### Caching in State
 
 The local state, later on the sophisticated state as well, can be used as a cache for your application. A cache would make recurring requests to retrieve data from a backend redundant, because they would return the same data as before and the data is already cached in the state.
 

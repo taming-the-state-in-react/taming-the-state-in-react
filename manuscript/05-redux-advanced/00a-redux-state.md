@@ -1,4 +1,4 @@
-# State Structure and Retrieval
+# Redux State Structure and Retrieval
 
 You have learned about Redux standalone and Redux in React. You already would be able to build applications with it. Before you dive deeper into Redux, I recommend you to experiment with your recent learnings and apply them on smaller applications.
 
@@ -591,32 +591,21 @@ The application should work the same as before. The source code can be found in 
 npm install --save normalizr
 ~~~~~~~~
 
-Let's have a look at the inital state for the `todoReducer`. You could make up your own initial state. For instance, what about completing all "Hands On" and "Challenge" chapters in this book?
+Let's have a look at the inital state for the `todoReducer`. You could make up your own initial state. For instance, what about completing all coding challenges in this book?
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
 const todos = [
-  { id: '0', name: 'Hands On: Snake with Local State' },
-  { id: '1', name: 'Challenge: Snake with Higher Order Components' },
-  { id: '2', name: 'Hands On: Redux Standalone with advanced Actions' },
-  { id: '3', name: 'Hands On: Redux Standalone with advanced Reducers' },
-  { id: '4', name: 'Hands On: Bootstrap App with Redux' },
-  { id: '5', name: 'Hands On: Naive Todo with React and Redux' },
-  { id: '6', name: 'Hands On: Sophisticated Todo with React and Redux' },
-  { id: '7', name: 'Hands On: Connecting State Everywhere' },
-  { id: '8', name: 'Challenge: Snake with React and Redux' },
-  { id: '9', name: 'Hands On: Todo with advanced Redux' },
-  { id: '10', name: 'Hands On: Todo with more Features' },
-  { id: '11', name: 'Challenge: Snake with Redux' },
-  { id: '12', name: 'Hands On: Todo with Notifications' },
-  { id: '13', name: 'Challenge: Snake with Redux and Async Actions' },
-  { id: '14', name: 'Hands On: Hacker News with Redux' },
-  { id: '15', name: 'Challenge: Hacker News with beyond Redux' },
-  { id: '16', name: 'Challenge: Hacker News with beyond Redux' },
-  { id: '17', name: 'Hands On: Snake with MobX' },
-  { id: '18', name: 'Hands On: Todo App with MobX' },
-  { id: '19', name: 'Challenge: Hacker News App with MobX' },
-  { id: '20', name: 'Challenge: Consuming a GrapQL API with Relay' },
+  { id: '1', name: 'Hands On: Redux Standalone with advanced Actions' },
+  { id: '2', name: 'Hands On: Redux Standalone with advanced Reducers' },
+  { id: '3', name: 'Hands On: Bootstrap App with Redux' },
+  { id: '4', name: 'Hands On: Naive Todo with React and Redux' },
+  { id: '5', name: 'Hands On: Sophisticated Todo with React and Redux' },
+  { id: '6', name: 'Hands On: Connecting State Everywhere' },
+  { id: '7', name: 'Hands On: Todo with advanced Redux' },
+  { id: '8', name: 'Hands On: Todo but more Features' },
+  { id: '9', name: 'Hands On: Todo with Notifications' },
+  { id: '10', name: 'Hands On: Hacker News with Redux' },
 ];
 
 function todoReducer(state = todos, action) {
@@ -798,7 +787,7 @@ function mapStateToPropsItem(state, props) {
 
 The Todo application should work with selectors now. You can find it in the [GitHub repository](https://github.com/rwieruch/taming-the-state-todo-app/tree/7.0.0).
 
-## Hands On: Todo with more Features
+## Hands On: Todo but more Features
 
 In the Todo application, there are two pieces missing feature wise: the ability to add a todo and to filter todos by their complete state. Let's begin with the creation of a todo item. First, there needs to be a component where you can type in a todo name and execute the creation.
 

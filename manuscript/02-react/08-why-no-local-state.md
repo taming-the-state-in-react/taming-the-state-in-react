@@ -1,3 +1,5 @@
+{pagebreak}
+
 ## Transition to Sophisticated State
 
 Now you have learned about the basics in local state management and how to scale it in growing application with a variety of techniques and best practices. The next chapters will give you a transition from local state management to sophisticated state management with libraries such as Redux and MobX.

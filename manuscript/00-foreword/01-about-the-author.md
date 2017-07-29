@@ -1,3 +1,5 @@
+{pagebreak}
+
 ## About the Author
 
 Robin Wieruch is a german software and web engineer who is dedicated to learn and teach programming in JavaScript. After he graduated from university with a masters degree in computer science, he didn't stop to learn every day. His experiences from the startup world, where he used JavaScript excessivley during his professional time and spare time, gave him the opportunity to teach others about these topics in his spare time.

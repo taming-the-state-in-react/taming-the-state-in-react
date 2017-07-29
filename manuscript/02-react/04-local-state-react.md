@@ -1,3 +1,5 @@
+{pagebreak}
+
 ## Local State in React
 
 The book uses React as view layer for demonstrating the local state. The following chapter focuses on the local state in React before it dives into sophistaicated state management with Redux and MobX. As mentioned, the concept of local state should be known in other SPA solutions too and thus be applicable in those solutions.
