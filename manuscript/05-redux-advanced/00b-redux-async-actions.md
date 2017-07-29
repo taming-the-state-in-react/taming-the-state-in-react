@@ -165,7 +165,7 @@ That are the basics of Redux Thunk. There are a few more things that are good to
 * **Promises:** Thunks work great in combination with promises. You can return a promise from your thunk and use it, for instance, to wait for its completion: `store.dispatch(showNotificationWithDelay('Todo created.')).then(...)`.
 * **Recursive Thunks:** The dispatch method in a thunk can again be used to dispatch an asynchronours action. Thus you can apply the thunk pattern recursively.
 
-## Hands On: Todo with Notifications
+### Hands On: Todo with Notifications
 
 After learning about asynchronous actions, the Todo application could make use of notifications, couldn't it? The first part of this hands on chapter is a great repition on using everything you have learned before asynchronrsous actions. First, you have to implement a notification reducer that evaluates actions that should generate a notification.
 
@@ -385,7 +385,7 @@ Apart from Redux Thunk and Redux Sage, there are other side-effect libraries for
 
 In conclusion, as you can see, all these libraries, Redux Saga, Redux Observable and Redux Cycles, make use of different techniques in JavaScript. You can give them a shot to try generators or observables. The whole ecosystem around asynchronous actions is a great playground to try new things in JavaScript.
 
-## Hands On: Todo with Redux Saga
+### Hands On: Todo with Redux Saga
 
 In a previous chapter, you have used Redux Thunk to dispatch asynchronous actions. These were used to add a todo item with a notification whereas the notifaction vanishes after a couple of seconds again. In this chapter you will use Redux Saga instead of Redux Thunk. Therefore, you can install the former library and uninstall the latter one.
 

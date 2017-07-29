@@ -23,7 +23,7 @@ View -> Action -> Reducer(s) -> Store -> View
 
 How can `dispatch()`, `subscribe()` and `getState()` be accessed in React? Basically the view layer has to be able to dispatch actions on the one end, while it has to listen to updates from the store, in order to update itself, on the other end. All three functionalities are accessible on the Redux store.
 
-## Hands On: Bootstrap React App with Redux
+### Hands On: Bootstrap React App with Redux
 
 I can recommend to use create-react-app to bootstrap your React application. But it is up to you. If you use create-react-app and never used it before, you have to install it from the command line:
 
@@ -191,7 +191,7 @@ ReactDOM.render(<TodoApp />, document.getElementById('root'));
 
 The bootstrapping is done. You have a running React application and a Redux store. The next step is to wire both together.
 
-## Hands On: Naive Todo with React and Redux
+### Hands On: Naive Todo with React and Redux
 
 The following will showcase a naive usage scenario of Redux in React. So far, you have only a `TodoApp` component in React. However, you want to start a component tree that can display a list of todos and gives the user the possibility to toggle these todos. Apart from the `TodoApp` component, you will have a `TodoList` component and a `TodoItem` component. The `TodoItem` shows the name of the todo and has a functionality that is used in a button to complete the todo.
 
@@ -357,7 +357,7 @@ View -> (mapDispatchToProps) -> Action -> Reducer(s) -> Store -> (mapStateToProp
 
 You will see in the following examples that these functions don't need to be intimidating at all.
 
-## Hands On: Sophisticated Todo with React and Redux
+### Hands On: Sophisticated Todo with React and Redux
 
 Now you will use react-redux to wire up React with Redux. Let's open up again your Todo Application in the editor. First, you have to install the new library:
 
@@ -441,7 +441,7 @@ const ConnectedTodoApp = connect(mapStateToProps, mapDispatchToProps)(TodoApp);
 
 That's it. In `mapStateToProps()` only a substate is returned. In `mapDispatchToProps()` only a higher order function that encapsulates the dispatching of an action is returned. The child components are unaware of any state or actions. They are only receiving props. The final application of this approach can be found in a [GitHub repository](https://github.com/rwieruch/taming-the-state-todo-app/tree/2.0.0).. I would advice you to compare it again with the naive version that wires React and Redux together. It is not that different from it.
 
-## Hands On: Connecting State Everywhere
+### Hands On: Connecting State Everywhere
 
 There is one last clue to understand the basics of wiring React and Redux together. In the previous example you only used one connected component that is located at the root of your component tree. But you can use connected components everywhere.
 

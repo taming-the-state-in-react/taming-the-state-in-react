@@ -1,5 +1,3 @@
-{pagebreak}
-
 ## Scaling Local State in React
 
 You should know about all the basics in React's local state management by now. However, you will notice that there are more patterns and best practices out there to apply local state in a scaling application. The following chapter gives you insights into these topics.

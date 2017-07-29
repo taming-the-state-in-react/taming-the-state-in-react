@@ -1,5 +1,3 @@
-{pagebreak}
-
 ## FAQ
 
 **How to get updates?** I have two channels where I share updates about my content. Either you can [subscribe to updates by email](https://www.getrevue.co/profile/rwieruch) or [follow me on Twitter](https://twitter.com/rwieruch). Regardless of the channel, my objective is to only share qualitative content. You will never receive any spam. Once you get the update that the book has changed, you can download the new version of it.

@@ -1,5 +1,3 @@
-{pagebreak}
-
 ## Advanced Reducers
 
 Apart from the advanced topics about actions, there is more to know about reducers too. Again not everything is mandatory, but you should at least know about the following things to embrace best practices, common usage patterns and practices on scaling your state architecture.

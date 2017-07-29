@@ -1,5 +1,3 @@
-{pagebreak}
-
 ## Persistence in State
 
 State in applications is often not persistent. When your application starts, there is often an initial state. The state updates when the user interacts with the application or data arrives from a backend application. However, you might wonder whether there is a way to persist the state? The question applies to both, local state management and sophisticated state management later on.

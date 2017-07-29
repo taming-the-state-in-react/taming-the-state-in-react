@@ -1,5 +1,3 @@
-{pagebreak}
-
 ## How to read the Book
 
 I should stop beating about the bush. No one learned programming by just reading a book. Programming is about hands on experiences. It is about conquering challenges to grow in the long term. So no one learned a programming paradigm, such as functional programming, in the short term. No one learned a concept, such as state management, on a weekend. No one learned yet another library, such as React and Redux, over one night. You will learn things only when you deliberatly practice them.
