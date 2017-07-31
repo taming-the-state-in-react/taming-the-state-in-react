@@ -258,7 +258,12 @@ The first part of the "Hands On" chapter is done. You should see a notification 
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
+const TODO_ADD = 'TODO_ADD';
+const TODO_TOGGLE = 'TODO_TOGGLE';
+const FILTER_SET = 'FILTER_SET';
+# leanpub-start-insert
 const NOTIFICATION_HIDE = 'NOTIFICATION_HIDE';
+# leanpub-end-insert
 ~~~~~~~~
 
 Second, you can implement an action creator that uses the action type. It will hide (remove) the notification by id, because they are stored by id:
@@ -462,10 +467,6 @@ import createSagaMiddleware, { delay } from 'redux-saga';
 import { put, takeEvery } from 'redux-saga/effects';
 
 ...
-
-# leanpub-start-insert
-import createSagaMiddleware from 'redux-saga';
-# leanpub-end-insert
 
 const rootReducer = combineReducers({
   todoState: todoReducer,

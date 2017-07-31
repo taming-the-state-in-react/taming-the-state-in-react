@@ -182,6 +182,8 @@ After that, your React code follows. It should be already there in the same file
 
 {title="Command Line",lang="text"}
 ~~~~~~~~
+// view layer
+
 function TodoApp() {
   return <div>Todo App</div>;
 }
@@ -189,7 +191,7 @@ function TodoApp() {
 ReactDOM.render(<TodoApp />, document.getElementById('root'));
 ~~~~~~~~
 
-The bootstrapping is done. You have a running React application and a Redux store. But they don't work together yet. The next step is to wire both together.
+The bootstrapping is done. The bootstrapped application can be found in a [GitHub repository](https://github.com/rwieruch/taming-the-state-todo-app/tree/0.0.0). Now you have a running React application and a Redux store. But they don't work together yet. The next step is to wire both together.
 
 ### Hands On: Naive Todo with React and Redux
 
