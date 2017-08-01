@@ -54,16 +54,16 @@ You have learned that you can plan your state management ahead. There are use ca
 
 ## Hands On: Hacker News with Redux
 
-In this chapter, you will be guided to build your own Hacker News application with React and Redux. Hacker News is a platform to share news in and around the technology domain. It provides a [public API](https://hn.algolia.com/api) to interact with their data. Some of you might have read [the Road to learn React](https://www.robinwieruch.de/the-road-to-learn-react/) where you have build a Hacker News application as well. But that time it was only plain React. Now you can experience the differences when using Redux.
+In this chapter, you will be guided to build your own [Hacker News](https://news.ycombinator.com/) application with React and Redux. Hacker News is a platform to share news in and around the technology domain. It provides a [public API](https://hn.algolia.com/api) to retrieve their data. Some of you might have read [the Road to learn React](https://www.robinwieruch.de/the-road-to-learn-react/) where you have build a Hacker News application as well. In that book it was only plain React. Now you can experience the differences when using Redux in this book.
 
-You are going to start with create-react-app to bootstrap your project. You can read the [official documentation](https://github.com/facebookincubator/create-react-app) to read about how it works. You simply start by choosing a project name for your application.
+You are going to use create-react-app to bootstrap your project. You can read the [official documentation](https://github.com/facebookincubator/create-react-app) to get to know how it works. After you have installed it, you simply start by choosing a project name for your application.
 
 {title="Command Line",lang="text"}
 ~~~~~~~~
 create-react-app react-redux-hackernews
 ~~~~~~~~
 
-After the project was created for your, you can navigate into the project folder, open your editor and start the application.
+After the project was created for you, you can navigate into the project folder, open your editor and start the application.
 
 {title="Command Line",lang="text"}
 ~~~~~~~~
@@ -71,11 +71,11 @@ cd react-redux-hackernews
 npm start
 ~~~~~~~~
 
-It should show the defaults that come with create-create-app.
+In your browser it should show the defaults that come with create-create-app.
 
 ### Part 1: Project Organization
 
-Before you familiarze yourself with the folder structure in this part, you will adapt it to your own needs. First, move into the *src/* folder and delete the boilerplate files that are not needed for the application.
+Before you familiarize yourself with the folder structure in this part, you will adapt it to your own needs. First, navigate into the *src/* folder and delete the boilerplate files that are not needed for the application.
 
 {title="Command Line: /",lang="text"}
 ~~~~~~~~
@@ -83,11 +83,11 @@ cd src
 rm logo.svg App.js App.test.js App.css
 ~~~~~~~~
 
-Even the `App` component gets deleted, because you'll organize it in folders instead of in the top level *src/* folder. Now, from the *src/* folder, create the folders for a organized folder structure by a technical separation.
+Even the `App` component is removed, because you'll organize it in folders instead of in the top level *src/* folder. Now, from the *src/* folder, create the folders for an organized folder structure by a technical separation.
 
 {title="Command Line: src/",lang="text"}
 ~~~~~~~~
-mkdir constants reducers actions selectors sagas components store
+mkdir constants reducers actions selectors sagas components store api
 ~~~~~~~~
 
 Your folder structure should be similiar to the following:
@@ -107,12 +107,12 @@ Your folder structure should be similiar to the following:
 --index.js
 ~~~~~~~~
 
-Navigate in the *component/* folder and create the following files for your independent components.
+Navigate in the *components/* folder and create the following files for your independent components. These are not all components yet. You will create more of them on your own for this application.
 
 {title="Command Line: src/",lang="text"}
 ~~~~~~~~
 cd components
-touch index.js App.js Stories.js Story.js
+touch App.js Stories.js Story.js App.css Stories.css Story.css
 ~~~~~~~~
 
 You can continue this way and create the remaining files to end up with the following folder structure.
@@ -133,8 +133,8 @@ You can continue this way and create the remaining files to end up with the foll
 ---actionTypes.js
 --reducers/
 ---index.js
----sagas/
-----index.js
+--sagas/
+---index.js
 --selectors/
 --store/
 ---index.js
@@ -142,11 +142,11 @@ You can continue this way and create the remaining files to end up with the foll
 --index.js
 ~~~~~~~~
 
-Now you have your foundation of folders and files for your React and Redux application. Except for the specific component files that you already have, everything else can be used as a blueprint, your own boilerplate, for any application using React and Redux. But only if it is separated by technical concerns. In a growing application you might want to separate your folders by feature.
+Now you have your foundation of folders and files for your React and Redux application. Except for the specific component files that you already have, everything else can be used as a blueprint, your own boilerplate, for any application using React and Redux. But only if it is separated by technical concerns. In a growing application, you might want to separate your folders by feature. You can find this part of the chapter in [the GitHub repository](https://github.com/rwieruch/taming-the-state-hn-app/tree/d5ab6a77653ee641d339c0a6a91c8444eff3f699).
 
 ### Part 2: Plain React Components
 
-In this you will implement your plain React component architecture that only receives all necessary props from their parent components. These props can already have callback functions to do something. The point is that the props don't reveal that they are props themselves in the parent component, state from the local state or even Redux, or derived properties. The callback functions are plain functions too. Thus the components are not aware of using local state functions or Redux actions to alter the state.
+In this part you will implement your plain React component architecture that only receives all necessary props from their parent components. These props can already have callback functions to do something. The point is that the props don't reveal that they are props themselves that are located in the parent component, state from the local state or even Redux state. The callback functions are plain functions too. Thus the components are not aware of using local state methods or Redux actions to alter the state.
 
 In your entry point to React, where your root component gets rendered into the DOM, adjust the import of the `App` component by including the components folder in the path.
 
@@ -162,7 +162,7 @@ import './index.css';
 ReactDOM.render(<App />, document.getElementById('root'));
 ~~~~~~~~
 
-In the next step, you can come up with sample data that can be used in the React components. The sample data becomes the input of the `App` component. At a later point in time this data will get fetched from the Hacker News API.
+In the next step, you can come up with sample data that can be used in the React components. The sample data becomes the input of the `App` component. At a later point in time, this data will get fetched from the Hacker News API.
 
 {title="src/index.js",lang="javascript"}
 ~~~~~~~~
@@ -187,7 +187,10 @@ const stories = [
   },
 ];
 
-ReactDOM.render(<App stories={stories} />, document.getElementById('root'));
+ReactDOM.render(
+  <App stories={stories} />,
+  document.getElementById('root')
+);
 # leanpub-end-insert
 ~~~~~~~~
 
@@ -208,7 +211,7 @@ const App = ({ stories }) =>
 export default App;
 ~~~~~~~~
 
-Second, the `Stories` component receives the `stories` as props and renders for each story a `Story` component.
+Second, the `Stories` component receives the `stories` as props and renders for each story a `Story` component. You want to default to an empty array that the `Stories` component doesn't crash when the list of stories is null.
 
 {title="src/components/Stories.js",lang="javascript"}
 ~~~~~~~~
@@ -230,7 +233,7 @@ const Stories = ({ stories }) =>
 export default Stories;
 ~~~~~~~~
 
-Third, the `Story` component renders a few properties of the `story` object that gets destructured from the props object.
+Third, the `Story` component renders a few properties of the `story` object. The story object gets already destructured from the props in the function signature. Furthermore the story object gets destructured as well.
 
 {title="src/components/Story.js",lang="javascript"}
 ~~~~~~~~
@@ -261,11 +264,11 @@ const Story = ({ story }) => {
 export default Story;
 ~~~~~~~~
 
-You can start your application again with `npm start` on the command line. Both sample stories should be displayed in plain React.
+You can start your application again with `npm start` on the command line. Both sample stories should be displayed in plain React. You can find this part of the chapter in [the GitHub repository](https://github.com/rwieruch/taming-the-state-hn-app/tree/f5843d2a06033cd045e6d0427993e30e289031a7).
 
 ### Part 3: Apply Styling
 
-The application looks a bit dull without any styling. Therefore you can drop in styling some styling of your own or use the styling that's provided. First, the application needs some general style that can be defined in the root style file.
+The application looks a bit dull without any styling. Therefore you can drop in some of your own styling or use the styling that's provided in this part. First, the application would need some general style that can be defined in the root style file.
 
 {title="src/index.css",lang="css"}
 ~~~~~~~~
@@ -367,7 +370,7 @@ Third, the `Stories` component gets some style:
 }
 ~~~~~~~~
 
-And last but not least, the `Story` component will get styled:
+And last but not least, the `Story` component will get styled too:
 
 {title="src/components/Story.css",lang="css"}
 ~~~~~~~~
@@ -425,7 +428,7 @@ const Stories = ({ stories }) =>
   ...
 ~~~~~~~~
 
-The last column with the 'archive' property name is not used yet, but will be used in a later point in time. Second, you can pass this object to your `Story` component.
+The last column with the 'archive' property name will not be used yet, but will be used in a later point in time. Second, you can pass this object to your `Story` component. Still the `Stories` component has the object to use it later on for the column headings.
 
 {title="src/components/Stories.js",lang="javascript"}
 ~~~~~~~~
@@ -443,7 +446,7 @@ const Stories = ({ stories }) =>
   </div>
 ~~~~~~~~
 
-The `Story` component can use it to style each displaying property of the story.
+The `Story` component can use it to style each displaying property of the story. It uses inline style to define the width of each column.
 
 {title="src/components/Story.js",lang="javascript"}
 ~~~~~~~~
@@ -476,7 +479,7 @@ const Story = ({ story, columns }) => {
 }
 ~~~~~~~~
 
-Last but not least, you can use the `COLUMNS` object to give your `Stories` component matching header columns. That's why the `COLUMNS` object got defined in the `Stories` component in the first place. Now, rather than doing it manually, as in the `Story` component, you will map the object dynamically to render the header columns. Since it is an object, you have to turn it into an array of the property names first, and then access the object by its mapped keys.
+Last but not least, you can use the `COLUMNS` object to give your `Stories` component matching header columns. That's why the `COLUMNS` object got defined in the `Stories` component in the first place. Now, rather than doing it manually, as in the `Story` component, you will map over the object dynamically to render the header columns. Since it is an object, you have to turn it into an array of the property names first, and then access the object by its mapped keys again.
 
 {title="src/components/Stories.js",lang="javascript"}
 ~~~~~~~~
@@ -535,13 +538,13 @@ const StoriesHeader = ({ columns }) =>
 # leanpub-end-insert
 ~~~~~~~~
 
-In this part, you have colored your application and components with styling. The application should be in a representable state for none designers.
+In this part, you have applied styling for your application and components. It should be in a representable state now. You can find this part of the chapter in [the GitHub repository](https://github.com/rwieruch/taming-the-state-hn-app/tree/6cb35b024abb59a2192c8ac0bb700046a700d470).
 
 ### Part 4: Archive a Story
 
 Now you will add your first functionality: archiving a story. Therefore you will have to introduce Redux at some point to your application to manage the state of archived stories. I want to highly empahsize that it would work in plain React too. But for the sake of learning Redux, you will already use it at this point in time.
 
-First, the archiving functionality can be passed down to the `Story` component from your React root component. In the beginning, it can be an empty function. The function will be replaced later.
+First, the archiving functionality can be passed down to the `Story` component from your React root component. In the beginning, it can be an empty function. The function will be replaced later when you will dispatch a Redux action.
 
 {title="src/index.js",lang="javascript"}
 ~~~~~~~~
@@ -555,11 +558,13 @@ ReactDOM.render(
 );
 ~~~~~~~~
 
-Second, you can pass it through your `App` and `Stories` components. These components don't use the function but only pass it to the `Story` component. You might already notice that this could be a potential refactoring later on, because the function gets passed from the root component through a few components only to reach the leaf component.
+Second, you can pass it through your `App` and `Stories` components. These components don't use the function but only pass it to the `Story` component. You might already notice that this could be a potential refactoring later on, because the function gets passed from the root component through a few components only to reach a leaf component.
 
 {title="src/components/App.js",lang="javascript"}
 ~~~~~~~~
+# leanpub-start-insert
 const App = ({ stories, onArchive }) =>
+# leanpub-end-insert
   <div className="app">
     <Stories
       stories={stories}
@@ -591,14 +596,13 @@ const Stories = ({ stories, onArchive }) =>
   </div>
 ~~~~~~~~
 
-Finally, you can use it in your `Story` component in a `onClick` handler of a button.
+Finally, you can use it in your `Story` component in a `onClick` handler of a button. The story `objectID` will be passed in the handler to identify the archived story.
 
 {title="src/components/Story.js",lang="javascript"}
 ~~~~~~~~
 # leanpub-start-insert
 const Story = ({ story, columns, onArchive }) => {
 # leanpub-end-insert
-
   const {
     title,
     url,
@@ -700,7 +704,7 @@ const Button = ({
   </button>
 ~~~~~~~~
 
-Both button components should be extracted to a new file called *src/components/Buttons.js*, but exported so that at least the `ButtonInline` component can be reused in the `Story` component. Now, when you start your application again, the button to archive a story is there. But it doesn't work because it only receives a no-op (empty function) as property.
+Both button components should be extracted to a new file called *src/components/Button.js*, but exported so that at least the `ButtonInline` component can be reused in the `Story` component. You can find this part of the chapter in [the GitHub repository](https://github.com/rwieruch/taming-the-state-hn-app/tree/55de13475aa9c2424b0fc00ce95dd4c5474c0473). Now, when you start your application again, the button to archive a story is there. But it doesn't work because it only receives a no-op (empty function) as property from your root component. You will later on introduce a Redux action that can be dispatched to archive a story.
 
 ### Part 5: Introduce Redux: Store + First Reducer
 
@@ -725,7 +729,7 @@ import './index.css';
 
 ReactDOM.render(
 # leanpub-start-insert
-  <App stories={store.getState()} />,
+  <App stories={store.getState()} onArchive={() => {}} />,
 # leanpub-end-insert
   document.getElementById('root')
 );
@@ -745,7 +749,7 @@ const store = createStore(
 export default store;
 ~~~~~~~~
 
-Fourth, in your *src/reducers/* folder you can create your first reducer: `storyReducer`. It can have the sample stories as initial state .
+Fourth, in your *src/reducers/* folder you can create your first reducer: `storyReducer`. It can have the sample stories as initial state.
 
 {title="src/reducers/story.js",lang="javascript"}
 ~~~~~~~~
@@ -776,11 +780,11 @@ function storyReducer(state = INITIAL_STATE, action) {
 export default storyReducer;
 ~~~~~~~~
 
-Your application should work when you start it. It is using the Redux store to retrieve the initial state from the `storyReducer`, because it is the only reducer in your application. There are no actions yet and no action is captured in the reducer yet. Even though there was no action dispatched yet, you can see that the Redux store runs through all its defined reducers to initialize its initial state in the store. The state gets visible through the `Stories` and `Story` components, because it is passed down from the React root entry point.
+Your application should work when you start it. It is using the state from the Redux store that is initialized in the `storyReducer`, because it is the only reducer in your application. There are no actions yet and no action is captured in the reducer yet. Even though there was no action dispatched, you can see that the Redux store runs through all its defined reducers to initialize its initial state in the store. The state gets visible through the `Stories` and `Story` components, because it is passed down from the React root entry point. You can find this part of the chapter in [the GitHub repository](https://github.com/rwieruch/taming-the-state-hn-app/tree/5aafb21595541c21db778ad8825c97403e44b963).
 
-### Part 7: Two Reducers
+### Part 6: Two Reducers
 
-You have used the Redux store to define an initial state of sample stories and to retrieve this state for your component tree. But there is no state manipulation happening yet. In this part and the next part you are going to implement the archive functionality. When approaching this functionality, the simplest thing to do would be to remove the archived story from the list of stories in the `storyReducer`. But let's approach this from a different angle to have a greater impact in the long run. It could still be useful to have all stories in the end, but have a way to distinguish between them: stories and archived stories. Following this way, you would be able in the future to have a second component that shows the archived stories next to the available stories.
+You have used the Redux store and a reducer to define an initial state of sample stories and to retrieve this state for your component tree. But there is no state manipulation happening yet. In the following parts you are going to implement the archive functionality. When approaching this functionality, the simplest thing to do would be to remove the archived story from the list of stories in the `storyReducer`. But let's approach this from a different angle to have a greater impact in the long run. It could still be useful to have all stories in the end, but have a way to distinguish between them: stories and archived stories. Following this way, you would be able in the future to have a second component that shows the archived stories next to the available stories.
 
 From an implementation point of view, the `storyReducer` will stay as it is for now. But you can introduce a second reducer, a `archiveReducer`, that keeps a list of references to the archived stories.
 
@@ -846,11 +850,11 @@ ReactDOM.render(
 );
 ~~~~~~~~
 
-The application should show up the same stories as before when you start it. However, there is still no state manipulation happening, because no actions are involved yet. Finally in the next part you will dispatch your first action to archive a story.
+The application should show up the same stories as before when you start it. You can find this part of the chapter in [the GitHub repository](https://github.com/rwieruch/taming-the-state-hn-app/tree/f6d436fdfdab19296e473fbe7243690e830c1c2b). However, there is still no state manipulation happening, because no actions are involved yet. Finally in the next part you will dispatch your first action to archive a story.
 
-### Part 8: First Action
+### Part 7: First Action
 
-In this part you will dispatch your first action to archive a story. The archive action needs to be captured in the new `archiveReducer`. It simply stores all archived stories by their id in a list. The initial state is an empty list, because no story is archived in the beginning.
+In this part, you will dispatch your first action to archive a story. The archive action needs to be captured in the new `archiveReducer`. It simply stores all archived stories by their id in a list. There is no need to duplicate the story entity, because you want to keep the law of a single source of truth. The initial state is an empty list, because no story is archived in the beginning. When archiving a story, all the previous ids in the state and the new archived id will be used in a new array. The JavaScript spread operator is used here.
 
 {title="src/reducers/archive.js",lang="javascript"}
 ~~~~~~~~
@@ -886,7 +890,7 @@ The action type is already outsourced in a different file. This way it can be re
 export const STORY_ARCHIVE = 'STORY_ARCHIVE';
 ~~~~~~~~
 
-Last but not least, you can import the action type and dispatch the whole action in your root component.
+Last but not least, you can import the action type and dispatch the action in your root component where you had the empty function before.
 
 {title="src/reducers/archive.js",lang="javascript"}
 ~~~~~~~~
@@ -910,11 +914,11 @@ ReactDOM.render(
 );
 ~~~~~~~~
 
-Now you dispatch the action directly without an action creator. When you start your application, it should still work, but nothing happens when archiving a story. The archived stories are not yet evaluated in the component tree.
+Now you dispatch the action directly without an action creator. You can find this part of the chapter in [the GitHub repository](https://github.com/rwieruch/taming-the-state-hn-app/tree/5ddbcc2fa8269d615763770a49e7675c5f02d173). When you start your application, it should still work, but nothing happens when you archive a story. The archived stories are not yet evaluated in the component tree. The `stories` prop that is passed to the `App` component still uses all the stories from the `storyState`.
 
-### Part 9: First Selector
+### Part 8: First Selector
 
-You can use both substates, `storyState` and `archiveState` to derive the list of stories that are not archiveed. The deriving of those properties can happen in a selector. You can create your first selector that only returns the part of the stories that is not archived.
+You can use both substates, `storyState` and `archiveState` to derive the list of stories that are not archived. The deriving of those properties can happen in a selector. You can create your first selector that only returns the part of the stories that is not archived.
 
 {title="src/selectors/story.js",lang="javascript"}
 ~~~~~~~~
@@ -973,11 +977,11 @@ ReactDOM.render(
 );
 ~~~~~~~~
 
-When you start your application, nothing happens when you archive a story. There is no re-rendering of the view in place to update it.
+You can find this part of the chapter in [the GitHub repository](https://github.com/rwieruch/taming-the-state-hn-app/tree/5e3338d3ffff924b7a12eccb691365fd11cb5aed). When you start your application, nothing happens again when you archive a story. Even though you are using the readable stories now. That's because there is no re-rendering of the view in place to update it.
 
-### Part 11: Re-render View
+### Part 9: Re-render View
 
-In this part you will update the view layer to reflect the correct state that is used from the Redux store. When an action dispatches, the state in the Redux store gets updated. However, the component tree in React doesn't update, because no one subscribed to the Redux store yet. In the first attempt, you are going to wire up Redux and React naively and re-render the whole component tree on each update.
+In this part, you will update the view layer to reflect the correct state that is used from the Redux store. When an action dispatches, the state in the Redux store gets updated. However, the component tree in React doesn't update, because no one subscribed to the Redux store yet. In the first attempt, you are going to wire up Redux and React naively and re-render the whole component tree on each update.
 
 {title="src/index.js",lang="javascript"}
 ~~~~~~~~
@@ -1003,11 +1007,11 @@ render();
 # leanpub-end-insert
 ~~~~~~~~
 
-Now the components will re-render once you archive a story, because the state in the Redux store updates and the subscription will run to render again the whole component tree. Congratulations, you dispatched your first action, selected derived properties from the state and updated your component tree by subscribing it to the Redux store. That took longer as expected, didn't it? However, now most of the Redux and React infrastructure is in place to be more efficient when introducing new features.
+Now the components will re-render once you archive a story, because the state in the Redux store updates and the subscription will run to render again the whole component tree. In addition, you render the component only once when the application starts. Congratulations, you dispatched your first action, selected derived properties from the state and updated your component tree by subscribing it to the Redux store. That took longer as expected, didn't it? However, now most of the Redux and React infrastructure is in place to be more efficient when introducing new features. You can find this part of the chapter in [the GitHub repository](https://github.com/rwieruch/taming-the-state-hn-app/tree/286c04354fcab639ebd60ac2430ad939ce107365).
 
-### Part 12: First Middleware
+### Part 10: First Middleware
 
-In this chapter you will introduce your first middleware to the Redux store. In a scaling application it becomes often a problem to track state updates. Often you don't notice when an action is dispatched, because too many actions get involved and a bunch of them might get triggered implictly. Therefore you can use the [redux-logger](https://github.com/evgenyrodionov/redux-logger) middleware in your Redux store to `console.log()` every action, the previous state and the next state, automatically to your developers console when dispatching an action. First, you have to install the neat middleware library.
+In this part, you will introduce your first middleware to the Redux store. In a scaling application it becomes often a problem to track state updates. Often you don't notice when an action is dispatched, because too many actions get involved and a bunch of them might get triggered implictly. Therefore you can use the [redux-logger](https://github.com/evgenyrodionov/redux-logger) middleware in your Redux store to `console.log()` every action, the previous state and the next state, automatically to your developers console when dispatching an action. First, you have to install the neat middleware library.
 
 {title="Command Line",lang="text"}
 ~~~~~~~~
@@ -1016,7 +1020,7 @@ npm install --save redux-logger
 
 Second, you can use it as middleware in your Redux store initialization.
 
-{title="src/store.js",lang="javascript"}
+{title="src/store/index.js",lang="javascript"}
 ~~~~~~~~
 # leanpub-start-insert
 import { createStore, applyMiddleware } from 'redux';
@@ -1039,11 +1043,11 @@ const store = createStore(
 export default store;
 ~~~~~~~~
 
-That's it. Every time you dispatch an action now, for instance when archiving a story, you will see the logging in the developer console in your browser.
+That's it. Every time you dispatch an action now, for instance when archiving a story, you will see the logging in the developer console in your browser. You can find this part of the chapter in [the GitHub repository](https://github.com/rwieruch/taming-the-state-hn-app/tree/652e6419e2a872ba2d1dd65465006b13f0799c4f).
 
-### Part 13: First Action Creator
+### Part 11: First Action Creator
 
-The action you are dispatching is a plain action object. However, you might want to reuse it in a later point in time. Action creators are not mandatory, but they keep your Redux architecture organized. In order to stay organized, let's define the first action creator. First, you have to define the action creator that takes a story id, to identify the archiving story, in a new file.
+The action you are dispatching is a plain action object. However, you might want to reuse it in a later point in time. Action creators are not mandatory, but they keep your Redux architecture organized. In order to stay organized, let's define your first action creator. First, you have to define the action creator that takes a story id, to identify the archiving story, in a new file.
 
 {title="src/actions/archive.js",lang="javascript"}
 ~~~~~~~~
@@ -1061,12 +1065,17 @@ export {
 
 Second, you can use it in your root component. Instead of dispatchign the action object directly, you can create an action by using its action creator.
 
-{title="src/actions/archive.js",lang="javascript"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
-...
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './components/App';
+import store from './store';
+import { getReadableStories } from './selectors/story';
 # leanpub-start-insert
 import { doArchiveStory } from './actions/archive';
 # leanpub-end-insert
+import './index.css';
 
 function render() {
   ReactDOM.render(
@@ -1083,11 +1092,11 @@ function render() {
 ...
 ~~~~~~~~
 
-The application should operate as before when you start it.
+The application should operate as before when you start it. But this time you have used an action creator rather than dispatching an action object directly. You can find this part of the chapter in [the GitHub repository](https://github.com/rwieruch/taming-the-state-hn-app/tree/4cc5e995d63fd935a2e335b0a4946a1811c04202).
 
-### Part 14: Connect React with Redux
+### Part 12: Connect React with Redux
 
-In this part, you will connect the React and Redux in a more sophisticated way. The component tree already re-renders when you dispatch an action. However, you might  want to wire up components indepdently with the Redux store without using the Redux store directly. In addition, you don't want to re-render the whole component tree, but only the components where the state or props have changed. Let's change this by using the react-redux library that connects both worlds.
+In this part, you will connect the React and Redux in a more sophisticated way. The component tree already re-renders when you dispatch an action. However, you might want to wire up components indepdently with the Redux store without using the Redux store directly. In addition, you don't want to re-render the whole component tree, but only the components where the state or props have changed. Let's change this by using the [react-redux](https://github.com/reactjs/react-redux) library that connects both worlds.
 
 {title="Command Line",lang="text"}
 ~~~~~~~~
@@ -1126,7 +1135,9 @@ import './App.css';
 
 import Stories from './Stories';
 
+# leanpub-start-insert
 const App = () =>
+# leanpub-end-insert
   <div className="app">
 # leanpub-start-insert
     <Stories />
@@ -1136,7 +1147,7 @@ const App = () =>
 export default App;
 ~~~~~~~~
 
-But who gives the props to the `Stories` component? This component is the first component that needs to know about the list of stories, because it has to display it. The solution is to upgrade the `Stories` component to a connected component. So, instead of only exporting the plain `Stories` component:
+But who gives the props to the `Stories` component then? This component is the first component that needs to know about the list of stories, because it has to display it. The solution is to upgrade the `Stories` component to a connected component. It should be connected to the state layer. So, instead of only exporting the plain `Stories` component:
 
 {title="src/components/Stories.js",lang="javascript"}
 ~~~~~~~~
@@ -1145,7 +1156,7 @@ But who gives the props to the `Stories` component? This component is the first 
 export default Stories;
 ~~~~~~~~
 
-You can export the connected component that has access to the store:
+You can export the connected component that has access to the Redux store:
 
 {title="src/components/Stories.js",lang="javascript"}
 ~~~~~~~~
@@ -1173,11 +1184,13 @@ export default connect(
 # leanpub-end-insert
 ~~~~~~~~
 
-The `Stories` component is a connected component now and is the only component that has access to the Redux store. The application should work again, but this time with a clever interaction between Redux and React.
+The `Stories` component is a connected component now and is the only component that has access to the Redux store. It receives the stories from the state in `mapStateToProps()` and a function that triggers the dispatching of an action to archive a story in `mapDispatchToProps()`. The application should work again, but this time with a sophisticated interaction between Redux and React. You can find this part of the chapter in [the GitHub repository](https://github.com/rwieruch/taming-the-state-hn-app/tree/88072e9b62230f59ffa83a5ddd06ceda6bf75fe4).
 
-### Part 15: Lift Connection
+### Part 13: Lift Connection
 
 It is no official term yet, but you can lift the connection between React and Redux. For instance, you could lift the connection from the `Stories` component to another component. But you need the list of stories to map over them in the `Stories` component. However, what about the `onArchive()` function? It is not used in the `Stories` component, but only in the `Story` component and only passed via the `Stories` component. Thus you could lift the connection partly. The `stories` would stay in the `Stories` component, but the `onArchive()` function could live in the `Story` component.
+
+First, you remove the `onArchive()` function for the `Stories` component and remove the `mapDispatchToProps()` as well. It will be used later on in the `Story` component.
 
 {title="src/components/Stories.js",lang="javascript"}
 ~~~~~~~~
@@ -1190,11 +1203,13 @@ const Stories = ({ stories }) =>
     <StoriesHeader columns={COLUMNS} />
 
     {(stories || []).map(story =>
+# leanpub-start-insert
       <Story
         key={story.objectID}
         story={story}
         columns={COLUMNS}
       />
+# leanpub-end-insert
     )}
   </div>
 
@@ -1211,7 +1226,7 @@ export default connect(
 # leanpub-end-insert
 ~~~~~~~~
 
-Instead you can connect the `Story` component now. You would have two connected components afterward.
+Now you can connect the `Story` component instead. You would have two connected components afterward.
 
 {title="src/components/Story.js",lang="javascript"}
 ~~~~~~~~
@@ -1234,9 +1249,9 @@ export default connect(
 # leanpub-end-insert
 ~~~~~~~~
 
-With this refactoring step in your mind, you can always lift your connections to the Redux store from your view layer depending on the needs of the components. Does the component need state from the Redux store? Does the component need to alter the state in the Redux store via dispatching an action? You are in full control of where you want to use connected components and where you want to keep your components as presenter components.
+With this refactoring step in your mind, you can always lift your connections to the Redux store from your view layer depending on the needs of the components. Does the component need state from the Redux store? Does the component need to alter the state in the Redux store via dispatching an action? You are in full control of where you want to use connected components and where you want to keep your components as presenter components. You can find this part of the chapter in [the GitHub repository](https://github.com/rwieruch/taming-the-state-hn-app/tree/779d52fc85ecfbaf5a821cbbae384aac962e76a7).
 
-### Part 16: Interacting with an API
+### Part 14: Interacting with an API
 
 Implementing applications with sample data can be dull. It can be more exciting by interacting with a real API - the [Hacker News API](https://hn.algolia.com/api). Even though, as you have learned, you can have asynchronous actions without any asynchronous action library, this application will introduce Redux Saga as asynchrnours action library to deal with side-effects such as fetching data from a third-party library.
 
@@ -1245,26 +1260,26 @@ Implementing applications with sample data can be dull. It can be more exciting 
 npm install --save redux-saga
 ~~~~~~~~
 
-First, you can introduce a root saga in your entry point file to sagas. It can be similar seen to the combined root reducer, because in the end the Redux store expects one reducer and one saga for its creation.
+First, you can introduce a root saga in your entry point file to sagas. It can be similar seen to the combined root reducer, because in the end the Redux store expects one saga for its creation. Basically the root saga watches all saga triggering actions by using effects such as `takeEvery()`.
 
 {title="src/sagas/index.js",lang="javascript"}
 ~~~~~~~~
-import { takeEvery } from 'redux-saga/effects';
+import { takeEvery, all } from 'redux-saga/effects';
 import { STORIES_FETCH } from '../constants/actionTypes';
 import { handleFetchStories } from './story';
 
 function *watchAll() {
-  yield [
+  yield all([
     takeEvery(STORIES_FETCH, handleFetchStories),
-  ]
+  ])
 }
 
 export default watchAll;
 ~~~~~~~~
 
-Second, the root saga can be used in the Redux store middleware when initializing the saga middleware.
+Second, the root saga can be used in the Redux store middleware when initializing the saga middleware. It is used in the middleware, but also needs to be run in a `saga.run()` method.
 
-{title="src/sagas/index.js",lang="javascript"}
+{title="src/store/index.js",lang="javascript"}
 ~~~~~~~~
 import { createStore, applyMiddleware } from 'redux';
 import { createLogger } from 'redux-logger';
@@ -1307,7 +1322,7 @@ export const STORIES_ADD = 'STORIES_ADD';
 # leanpub-end-insert
 ~~~~~~~~
 
-Fourth, you can implement the story saga that encapsulates the API request
+Fourth, you can implement the story saga that encapsulates the API request. It uses the native fetch API of the browser ti retrieve the stories from the Hacker News endpoint. In your `handleFetchStories()` generator function, that is used in your too saga, you can use the `yield` statement to write asynchronous code as it would be synchronous code. As long as the promise from the Hacker News request doesn't resolve, the next line of code after the `yield` state will not be evaluated. When you finally have the result from the API request, you can use the `put()` effect to dispatch an action.
 
 {title="src/sagas/story.js",lang="javascript"}
 ~~~~~~~~
@@ -1356,7 +1371,7 @@ export {
 };
 ~~~~~~~~
 
-Only the second action needs to be intercepted in your `storyReducer` to store the stories. The first action is only used to trigger the saga. Don't forget to remove the sample stories.
+Only the second action needs to be intercepted in your `storyReducer` to store the stories. The first action is only used to trigger the saga in your root saga. Don't forget to remove the sample stories in your reducers.
 
 {title="src/reducers/story.js",lang="javascript"}
 ~~~~~~~~
@@ -1383,9 +1398,9 @@ function storyReducer(state = INITIAL_STATE, action) {
 export default storyReducer;
 ~~~~~~~~
 
-Now, everything is setup from a Redux and Redux Saga perspective. As last step, only one component from the view layer needs to trigger the `STORIES_FETCH` action that is intercepted in the saga, fetches the stories in a side-effect, and stores them in the Redux store with the `STORIES_ADD` action. Therefore, in your `App` component, you can introduce the new `SearchStories` component.
+Now, everything is setup from a Redux and Redux Saga perspective. As last step, only one component from the view layer needs to trigger the `STORIES_FETCH` action. This action is intercepted in the saga, fetches the stories in a side-effect, and stores them in the Redux store with the `STORIES_ADD` action. Therefore, in your `App` component, you can introduce the new `SearchStories` component.
 
-{title="src/reducers/story.js",lang="javascript"}
+{title="src/components/App.js",lang="javascript"}
 ~~~~~~~~
 import React from 'react';
 import './App.css';
@@ -1413,7 +1428,7 @@ The `SearchStories` component will be a connected component. The next step is to
 {title="src/components/SearchStories.js",lang="javascript"}
 ~~~~~~~~
 import React, { Component } from 'react';
-import Button from './Buttons';
+import Button from './Button';
 
 class SearchStories extends Component {
   constructor(props) {
@@ -1443,7 +1458,7 @@ class SearchStories extends Component {
 export default SearchStories;
 ~~~~~~~~
 
-There are two class methods you would have to introduce for the `SearchStories` component to make it work.
+There are two missing class methods: `onChange()` and `onSubmit()`. Let's introduce them to make the component complete.
 
 {title="src/components/SearchStories.js",lang="javascript"}
 ~~~~~~~~
@@ -1500,7 +1515,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { doFetchStories } from '../actions/story';
 # leanpub-end-insert
-import Button from './Buttons';
+import Button from './Button';
 
 ...
 
@@ -1516,11 +1531,11 @@ export default connect(
 # leanpub-end-insert
 ~~~~~~~~
 
-Start your application again and try to search for stories such as "React" or "Redux". It should work now. The connect component dispatches an action that triggers the saga. The side-effect of the saga is the fetching process of the stories by search term from the Hacker News API. Once the request succeeds, another action gets dispatched and captured in the `storyReducer` to finally store the stories.
+Start your application again and try to search for stories such as "React" or "Redux". It should work now. The connect component dispatches an action that triggers the saga. The side-effect of the saga is the fetching process of the stories by search term from the Hacker News API. Once the request succeeds, another action gets dispatched and captured in the `storyReducer` to finally store the stories. You can find this part of the chapter in [the GitHub repository](https://github.com/rwieruch/taming-the-state-hn-app/tree/94efe051bd639aeedce402a33af5acb20397f9f2).
 
-### Part 17: Separation of API
+### Part 15: Separation of API
 
-There is one refactoring step that you could apply. It would improve the separation between API functionalities and sagas. You would extract the API call from the story saga into an own API folder. Afterward, other sagas could make use of these API requests too. First, extract the functionality from the saga:
+There is one refactoring step that you could apply. It would improve the separation between API functionalities and sagas. You would extract the API call from the story saga into an own API folder. Afterward, other sagas could make use of these API requests too. First, extract the functionality from the saga and instead import it.
 
 {title="src/sagas/story.js",lang="javascript"}
 ~~~~~~~~
@@ -1556,11 +1571,11 @@ export {
 };
 ~~~~~~~~
 
-Great, you have separated the API functionality from the saga.
+Great, you have separated the API functionality from the saga. You can find this part of the chapter in [the GitHub repository](https://github.com/rwieruch/taming-the-state-hn-app/tree/b6a6e59af71613471a50c9366c4c4e107e00b66f).
 
-### Part 18: Error Handling
+### Part 16: Error Handling
 
-You are making a request to the Hacker News API and display the retrieved stories in your React components. But what happens when an error occurs? You can try it yourself by toggling your browser to offline in your developer console. Nothign will show up when you search for stories. In order to give your end-user a great user experience, you could add error handling. Let's do it by introducing an action that will eventually allocate an error state in the Redux store.
+So far, you are making a request to the Hacker News API and display the retrieved stories in your React components. But what happens when an error occurs? You can try it yourself by toggling your browser to offline in your developer console. Nothign will show up when you search for stories. In order to give your end-user a great user experience, you could add error handling to your application. Let's do it by introducing an action that could allocate an error state in the Redux store.
 
 {title="src/constants/actionTypes.js",lang="javascript"}
 ~~~~~~~~
@@ -1572,7 +1587,7 @@ export const STORIES_FETCH_ERROR = 'STORIES_FETCH_ERROR';
 export const STORIES_ADD = 'STORIES_ADD';
 ~~~~~~~~
 
-In the second step you would need an action creator that keeps an error object in its payload and can be catched in a reducer later on.
+In the second step, you would need an action creator that keeps an error object in its payload and can be catched in a reducer later on.
 
 {title="src/actions/story.js",lang="javascript"}
 ~~~~~~~~
@@ -1602,7 +1617,7 @@ export {
 };
 ~~~~~~~~
 
-The action can be triggered now in your story saga. Redux Saga uses try and catch statements for error handling.
+The action can be triggered now in your story saga. Redux Saga uses try and catch statements for error handling. Every time you would get an error in your try block, you would end up in the catch block to do something with the error object. In this case, you can dispatch your new action to save an error state in your Redux store.
 
 {title="src/sagas/story.js",lang="javascript"}
 ~~~~~~~~
@@ -1664,7 +1679,7 @@ function storyReducer(state = INITIAL_STATE, action) {
 export default storyReducer;
 ~~~~~~~~
 
-Now you could introduce the second action type.
+Now you could introduce the second action type in the reducer. It would allocate the error object in the state but keeps the list of stories empty.
 
 {title="src/reducers/story.js",lang="javascript"}
 ~~~~~~~~
@@ -1714,7 +1729,7 @@ const getReadableStories = ({ storyState, archiveState }) =>
 
 # leanpub-start-insert
 const getFetchError = ({ storyState }) =>
-    storyState.error;
+  storyState.error;
 # leanpub-end-insert
 
 export {
@@ -1725,7 +1740,7 @@ export {
 };
 ~~~~~~~~
 
-Last but not least, in your component you could retrieve the error object in your connect higher order component and display with React's conditional rendering an error message when an error occurs.
+Last but not least, in your component you could retrieve the error object in your connect higher order component and display with React's [conditional rendering](https://www.robinwieruch.de/conditional-rendering-react/) an error message when an error occurs.
 
 {title="src/components/Stories.js",lang="javascript"}
 ~~~~~~~~
@@ -1766,15 +1781,15 @@ const mapStateToProps = state => ({
 ...
 ~~~~~~~~
 
-In your browser in the developer console, you can simulate being offline. You can try it and see that an error message shows up when searching for stories. When you go online again and search for stories, the error message should disappear. Instead a list of stories displays again.
+In your browser in the developer console, you can simulate being offline. You can try it and see that an error message shows up when searching for stories. When you go online again and search for stories, the error message should disappear. Instead a list of stories displays again. You can find this part of the chapter in [the GitHub repository](https://github.com/rwieruch/taming-the-state-hn-app/tree/a1f6a885357a891b5e94ade90728a1f2d3d1dbb9).
 
-### Part 19: Testing
+### Part 17: Testing
 
-Every application in production should be tested. Therefore the next step could be to add a couple of tests to your application. The chapter will only cover a handful of tests to demonstrate testing in Redux. You could add more of them on your own. In addition, the chapter will not test your view layer.
+Every application in production should be tested. Therefore, the next step could be to add a couple of tests to your application. The chapter will only cover a handful of tests to demonstrate testing in Redux. You could add more of them on your own. In addition, the chapter will not test your view layer.
 
-Since you have bootstrapped your application with create-react-app, it already comes with [Jest](https://facebook.github.io/jest/) to test your application. You can give a filename the prefix *test* to include it in your test suite. Once you run `npm test` on the command line, all included tests will run. The following files were not created for you, thus you would have to create them on your own.
+Since you have bootstrapped your application with create-react-app, it already comes with [Jest](https://facebook.github.io/jest/) to test your application. You can give a filename the prefix *test* to include it in your test suite. Once you run `npm test` on the command line, all included tests will get executed. The following files were not created for you, thus you would have to create them on your own.
 
-First, let's create a test for the story reducer. As you have learned, a reducer gets a previous state and an action as input and returns a new state. It is a pure function and thus it should be easy testable without any side-effects.
+First, let's create a test file for the story reducer. As you have learned, a reducer gets a previous state and an action as input and returns a new state. It is a pure function and thus it should be simple to test because it has no side-effects.
 
 {title="src/reducers/story.test.js",lang="javascript"}
 ~~~~~~~~
@@ -1869,7 +1884,7 @@ describe('story selector', () => {
 
 That's it. Your Redux state is a combination of the `storyState` and the `archiveState`. When both are defined, you already have your global state. The selector is used to retrieve a substate from the global state. Thus you would only have to check if all the readable stories that were not archived are retrieved by the selector.
 
-Third, you can add a test for your action creators. An action creator only gets a payload and returns an action object.
+Third, you can add a test for your action creators. An action creator only gets a payload and returns an action object. The expected action object can be tested.
 
 {title="src/actions/story.test.js",lang="javascript"}
 ~~~~~~~~
@@ -1890,7 +1905,7 @@ describe('story action', () => {
 });
 ~~~~~~~~
 
-As you can see, testing reducers, selectors and action creators follows always a similar pattern. Due to the functions being pure functions, you can focus on the input and output of these functions. In the previous examples all three test cases were strictly decoupled. However, you could also devide to import your action creator in your reducer test avoid creating a hard coded action.
+As you can see, testing reducers, selectors and action creators follows always a similar pattern. Due to the functions being pure functions, you can focus on the input and output of these functions. In the previous examples all three test cases were strictly decoupled. However, you could also devide to import your action creator in your reducer test avoid creating a hard coded action. You can find this part of the chapter in [the GitHub repository](https://github.com/rwieruch/taming-the-state-hn-app/tree/d1fcb31b7a1b1602069718941844d08c21583607).
 
 ### Final Words
 
