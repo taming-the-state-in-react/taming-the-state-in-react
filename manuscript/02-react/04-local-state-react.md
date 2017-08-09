@@ -1,8 +1,8 @@
 ## Local State in React
 
-The book uses React as view layer for demonstrating the local state. The following chapter focuses on the local state in React before it dives into sophistaicated state management with Redux and MobX. As mentioned, the concept of local state should be known in other SPA solutions too and thus be applicable in those solutions.
+The book uses React as view layer for demonstrating the local state. The following chapter focusses on the local state in React before it dives into sophisticated state management with Redux and MobX. As mentioned, the concept of local state should be known in other SPA solutions, too, and thus be applicable in those solutions.
 
-So, how does local state look like in a React component?
+So, what does local state look like in a React component?
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -27,7 +27,7 @@ class Counter extends React.Component {
 }
 ~~~~~~~~
 
-The example shows a `Counter` component that has a `counter` property in the local state object. It is initiliazed with a value of `0` when the component gets instantiated by its constructor. In addition, the `counter` property from the local state object is used in the render method of the component to display its current value.
+The example shows a `Counter` component that has a `counter` property in the local state object. It is initialized with a value of `0` when the component gets instantiated by its constructor. In addition, the `counter` property from the local state object is used in the render method of the component to display its current value. To do: It is "initialized"?
 
 There is no state manipulation in place yet. Before you start to manipulate your state, you should know that you are never allowed to alter the state directly: `this.state.counter = 1`. That would be a direct mutation. Instead, you have to use the React component API to change the state explicitly by using the `this.setState()` method.
 
@@ -94,7 +94,7 @@ class Counter extends React.Component {
 
 Now ,the button `onClick` handler should invoke the class methods to alter the state by either incrementing or decrementing the counter value.
 
-The update functionality with `this.setState()` is performing a **shallow merge** of objects. What does a shallow merge mean? Imagine you would have the following state in your component.
+The update functionality with `this.setState()` is performing a **shallow merge** of objects. What does a shallow merge mean? Imagine you had the following state in your component.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -115,13 +115,13 @@ this.setState({
 });
 ~~~~~~~~
 
-It only updates the `authors` without touching the `articles`. That's a shallow merge. It simplifies the local state management by not keeping an eye every time on all properties in the local state.
+It only updates the `authors` without touching the `articles`. That's a shallow merge. It simplifies the local state management by not always keeping an eye on all properties in the local state. 
 
 ### Stateful and Stateless Components
 
-Local state can only be used in React ES6 class components. The component becomes a **stateful component** when state is used. Otherwise it can be called **stateless component** even though it is still a React ES6 class component.
+Local state can only be used in React ES6 class components. The component becomes a **stateful component** when state is used. Otherwise, it can be called **stateless component** even though it is still a React ES6 class component.
 
-On the other hand, **functional stateless components** have no state, because, like the name implies, they are only functions and thus are stateless. In a statless component state can only be passed as props from a parent component. In addition, callback functions could be passed down to alter the state in the parent component. A functional stateless component for the Counter example could look like the following:
+On the other hand, **functional stateless components** have no state, because, as the name implies, they are only functions and thus, they are stateless. In a stateless component state can only be passed as props from a parent component. In addition, callback functions could be passed down to alter the state in the parent component. A functional stateless component for the Counter example could look like the following:
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -144,9 +144,9 @@ function CounterPresenter(props) {
 
 Now only the props from the parent component would be used in this functional stateless component. The `counter` prop would be displayed and the two callback functions, `onIncrement()` and `onDecrement()` would be used for the buttons. However, the functional stateless component is not aware whether the passed properties are state, props or some other derived properties. The origin of the props doesn't need to be in the parent component after all, it could be somewhere higher up the component tree. The parent component would only pass the properties or derived properties along the way. In addition, the component is unaware of what the callback functions are doing. It doesn't know that these alter the local state of the parent component.
 
-After all, the callback functions in the stateless component would make it possible to alter the state somewhere above in one of the parent components. Once the state got manipulated, the new state flows down as props into the child component again. The new `counter` prop would be displayed correctly, because the render method of the child component runs again with the incoming changed props.
+After all, the callback functions in the stateless component would make it possible to alter the state somewhere above in one of the parent components. Once the state was manipulated, the new state flows down as props into the child component again. The new `counter` prop would be displayed correctly, because the render method of the child component runs again with the incoming changed props.
 
-That's one example how local state from one component can traverse down the component tree. To make the example with the functional stateless component complete, let's quickly show how a potential parent component, that manages the local state, would look like. It is a React ES6 class component in order to be stateful.
+That's one example how local state from one component can traverse down the component tree. To make the example with the functional stateless component complete, let's quickly show what a potential parent component, that manages the local state, would look like. It is a React ES6 class component in order to be stateful. To do: erster Satz Satzstellung!
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -186,7 +186,7 @@ class CounterContainer extends React.Component {
 }
 ~~~~~~~~
 
-It is not by accident that the suffixes in the naming of both `Counter` components are `Container` and `Presenter`. It is called the [container and presentational component pattern](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0). It is most often applied in React, but could live in other component centered libraries and frameworks too. If you have never heard about it, I recommend you to read the referenced article. It is a widely used pattern, where the container component deals with "How things work" and the presenter component deals with "How things look". In this case, the container component cares about the state while the presenter component only displays the counter value and provides a handful of click handler yet without knowing that these click handlers manipulate the state.
+It is not by accident that the suffixes in the naming of both `Counter` components are `Container` and `Presenter`. It is called the [container and presentational component pattern](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0). It is most often applied in React, but could live in other component centered libraries and frameworks, too. If you have never heard about it, I recommend reading the referenced article. It is a widely used pattern, where the container component deals with "How things work" and the presenter component deals with "How things look". In this case, the container component cares about the state while the presenter component only displays the counter value and provides a handful of click handler yet without knowing that these click handlers manipulate the state.
 
 Container components are the ideal candidates to manage state while the presenter components only display it and act on callback functions. You will encounter these container components more often in the book, when dealing with the concepts of higher order components, that could potentially manage local state, and connected components.
 
@@ -200,13 +200,13 @@ After all, you can't modify props. Props are only properties passed from a paren
 
 When one of these objects changes, whether it is the props that come from the parent component or the state in the component, the update lifecycle methods of the component will run. One of these lifecycle methods is the `render()` method that updates your component instance based on the props and state. The correct values will be used and displayed after the update ran in your component.
 
-When you start to use React, it might be difficult to identifiy props and state. Personally I like the [rules in the official React documentation](https://facebook.github.io/react/docs/thinking-in-react.html) to identify state.
+When you start to use React, it might be difficult to identifiy props and state. Personally, I like the [rules in the official React documentation](https://facebook.github.io/react/docs/thinking-in-react.html) to identify state.
 
-* Are the properties passed from the parent component? If yes, the likelihood is high that it isn't state. Although it is possible to save props as state, there are little use cases. It should be avoided to save props as state. Use them as props as they are.
+* Are the properties passed from the parent component? If yes, the likelihood is high that it isn't state. Though it is possible to save props as state, there are little use cases. It should be avoided to save props as state. Use them as props as they are.
 
 * Are the properties unchanged over time? If yes, they don't need to be stateful, because they don't get modified.
 
-* Are the properties deriveable from local state or props? If yes, you don't need it as state, because you can derive it. If you would allocate extra state, the state has to be managed and can get out of sync when you miss to derive the new properties it at some point.
+* Are the properties deriveable from local state or props? If yes, you don't need it as state, because you can derive it. If you allocated extra state, the state has to be managed and can get out of sync when you miss to derive the new properties it at some point. To do: letzter Satz "it"
 
 ### Form State
 
@@ -307,15 +307,15 @@ class Search extends React.Component {
 }
 ~~~~~~~~
 
-You don't need to make use of the ref attribute anymore. You can solve the problem by using local state only. The exampel demonstrates it with only one input field yet it can be used with multple input fields too. You would only need to allocate more properties in the local state.
+You don't need to make use of the ref attribute anymore. You can solve the problem by using local state only. The exampel demonstrates it with only one input field yet it can be used with multple input fields, too. You would only need to allocate more properties in the local state.
 
 ### Controlled Components
 
-The previous example of using form state with local state has one flaw. It doesn't make use of **controlled components**. Naturally a HTML input fields holds its own state. When you enter a value into the input field, the DOM node knows about the value.
+The previous example of using form state with local state has one flaw. It doesn't make use of **controlled components**. Naturally, a HTML input field holds its own state. When you enter a value into the input field, the DOM node knows about the value.
 
-However, the value lives in your local state too. You have it in both, the native DOM node state and local state. But you want to make use of a single source of truth. It is a best practice to overwrite the native DOM node state by using the `value` attribute and the value from the local state.
+However, the value lives in your local state, too. You have it in both, the native DOM node state and local state. But you want to make use of a single source of truth. It is a best practice to overwrite the native DOM node state by using the `value` attribute and the value from the local state.
 
-Let's consider again the previous example. The input field had no value attribute assigned. By using the native value attribute and passing the local state as value, you convert an uncontrolled component to a controlled component.
+Let's consider the previous example again. The input field had no value attribute assigned. By using the native value attribute and passing the local state as value, you convert an uncontrolled component to a controlled component.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -348,30 +348,30 @@ Now the value comes from the local state as single source of truth. It cannot ge
 
 ### Unidirectional Data Flow
 
-In the previous example, you experienced a typically unidirectional data flow. The Flux architecture, the underlying architecture for several sophisticated state management solutions, coined the term **unidirectional data flow**. You will get to know more about the Flux architecture in a later chapter. But the essence of an unidirectional data flow is embraced by local state in React too.
+In the previous example, you experienced a typically unidirectional data flow. The Flux architecture, the underlying architecture for several sophisticated state management solutions, coined the term **unidirectional data flow**. You will get to know more about the Flux architecture in a later chapter. But the essence of an unidirectional data flow is embraced by local state in React, too. To do: a typically uni... or typical?
 
 State in React flows only in one direction. State gets updated by using `this.setState()` and is displayed due to the `render()` lifecycle method by accessing `this.state`. Then again, it can be updated via `this.setState()` and a component re-renders.
 
-The previous example, where you have used controlled components, shows the perfect loop of the unidirectional data flow. The input field triggers the `onChange` handler when the input changes. The handler alters the local state. The changed local state triggers an update lifecylce of the component. The update lifecylce runs the `render()` lifecycle method again. The `render()` method makes use of the updated state. The state flows back to the input field to make it a controlled component. The loop is closed. A new loop can be triggered by typing something in the input field again.
+The previous example, where you have used controlled components, shows the perfect loop of the unidirectional data flow. The input field triggers the `onChange` handler when the input changes. The handler alters the local state. The changed local state triggers an update lifecylce of the component. The update lifecylce runs the `render()` lifecycle method again. The `render()` method makes use of the updated state. The state flows back to the input field to make it a controlled component. The loop is closed. A new loop can be triggered by typing something into the input field again.
 
-The unidirectional data flow makes state management predictable and maintainable. The best practice already spread to other state libraries, view layer libraries and single page application solutions. In the previous generation of SPAs most often other mechanics were used.
+The unidirectional data flow makes state management predictable and maintainable. The best practice already spread to other state libraries, view layer libraries and single page application solutions. In the previous generation of SPAs, most often other mechanics were used.
 
-For instance, in Angular 1.x you had to use two-way data binding in a model-view-controller (MVC) architecture. That means, once you changed the value in the view, let's say in an input field by typing something, the value got changed in the controller. But it worked vice versa too. Once you changed the value in the controller programmatically, the view, to be more specific the inptu field, displayed the new value.
+For instance, in Angular 1.x you had to use two-way data binding in a model-view-controller (MVC) architecture. That means, once you changed the value in the view, let's say in an input field by typing something, the value got changed in the controller. But it worked vice versa, too. Once you had changed the value in the controller programmatically, the view, to be more specific the inptu field, displayed the new value.
 
 You might wonder: What's the problem with this approach? Why is everybody using unidirectional data flow instead of bidirectional data flow now?
 
 #### Unidirectional vs. Bidirectional Data Flow
 
-React embraces unidirectional data flow. In the past, frameworks like Angular 1.x embraced bidirectional data flow. It was known as two-way data binding. It was one of the reasons that made Angular popular in the first place. But it failed in this particular area too. Especially, in my opinion, this particular flaw led a lot of people switching to React. But at this point I don't want to get too opinionated. So why did the bidirectional data flow fail? Why is everyone adopting the unidirection data flow?
+React embraces unidirectional data flow. In the past, frameworks like Angular 1.x embraced bidirectional data flow. It was known as two-way data binding. It was one of the reasons that made Angular popular in the first place. But it failed in this particular area, too. Especially, in my opinion, this particular flaw led a lot of people to switch to React. But at this point I don't want to get too opinionated. So why did the bidirectional data flow fail? Why is everyone adopting the unidirection data flow?
 
 The three advantages in unidirectional data flow over bidirectional data flow are prediciablity, maintainability and performance.
 
-**Predicability**: In a scaling application, state management needs to stay predictable. When you alter your state, it should be clear which components care about it. It should be also clear who alters the state in the first place. In an unidirectional data flow one stakeholder alters the state, the state gets stored, and the state flows down from one place, for instance a stateful component, to all child components that are interested in the state.
+**Predicability**: In a scaling application, state management needs to stay predictable. When you alter your state, it should be clear which components care about it. It should also be clear who alters the state in the first place. In an unidirectional data flow one stakeholder alters the state, the state gets stored, and the state flows down from one place, for instance a stateful component, to all child components that are interested in the state.
 
-**Maintainability:** When collaborating in a team on a scaling application, it is a requirement that the state management is predicatblte. Humans are not capable to keep track of a growing bidirectional data flow. It is a limitation by nature. That's why the state management stays more maintainable when it is predictable. Otherwise, when people cannot reason about the state, they introduce unefficient state handling.
+**Maintainability:** When collaborating in a team on a scaling application, it is a requirement that the state management is predicatblte. Humans are not capable to keep track of a growing bidirectional data flow. It is a limitation by nature. That's why the state management stays more maintainable when it is predictable. Otherwise, when people cannot reason about the state, they introduce inefficient state handling. To do: 1.Satz: one requirement of state management is predictability.
 
-But maintainability doesn't come without any cost in an unidirectinal data flow. Even though the state is predictable, it needs to be often refactored thoughtfully. In a later chapter, you will read about those refactroings such as lifting state or higher order components for local state.
+But maintainability doesn't come without any cost in a unidirectinal data flow. Even though the state is predictable, it often needs to be refactored thoughtfully. In a later chapter, you will read about those refactorings such as lifting state or higher order components for local state.
 
-**Performance:** In an unidirectional data flow, the state flows down the component tree. All components that depend on the state have the chance to re-render. Contrary in an bidirectional data flow, it is not always clear who has to update according to state changes. The state flows in too many directions. The model layer depends on the view layer and the view layer depends on the model layer. It's a vice versa dependency that leads to performance issues in the update lifecycle.
+**Performance:** In a unidirectional data flow, the state flows down the component tree. All components that depend on the state have the chance to re-render. Contrary to a bidirectional data flow, it is not always clear who has to update according to state changes. The state flows in too many directions. The model layer depends on the view layer and the view layer depends on the model layer. It's a vice versa dependency that leads to performance issues in the update lifecycle.
 
-These three advantages show the benefits of using an unidirectional data flow over an bidirectional data flow. That's why so many state management solutions thrive for the former one nowadays.
+These three advantages show the benefits of using a unidirectional data flow over an bidirectional data flow. That's why so many state management solutions thrive for the former one nowadays.
