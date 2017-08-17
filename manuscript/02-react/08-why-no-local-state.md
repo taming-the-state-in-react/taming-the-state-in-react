@@ -14,7 +14,7 @@ The next statement might be controversial, too: *Once you have a sophisitcated s
 
 Personally, I strongly disagree with the statement. Not every state should live in a sophisticated state management. There are use cases when local state is applicable in large applications. Especially when considering entity state and view state: The view state can most often live in a local state, because it is not shared widely across the application. But the entity state can live in a sophisticated state, because it is shared across multiple components. It might need to be accessible and modifiable by multiple components across your application.
 
-Last but not least, another controversial statement: *You don't need local state, learn Redux instead when you learn React.* To do: ... if you learn React?
+Last but not least, another controversial statement: *You don't need React's local state, you can learn Redux instead togeter with React.*
 
 I strongly disagree with the statement, too. If you want to develop applications with React, you should certainly be aware of local state in React. You should have built applications with it before you start to learn and apply sophisticated state management solutions. You need to run into local state management problems before you get the help of sophisticated state management solutions. You will always need local state management, even for large applications.
 
@@ -24,7 +24,7 @@ These were only three controversial statemanemts. But there are way more opinion
 
 In order to come to a conclusion of local state management, there is one open question: What's the problem with local state management? Developers wonder why they need sophisticated state management in order to tame their state. In other scenarios, people never wonder about it, because they have learned sophistiacted state management from the beginnign without using local state. That might not be the best approach in the first place, because you have to experience a problem before you use a solution for it. You can't skip the problem and use the solution right away.
 
-So what's the problem in local state management? It doesn't scale in large applications. It doesn't scale implementation-wise, but it might doesn't scale in a team of developers too. To do: might doesn't gibt es nicht!
+So what's the problem with using only local state management? It doesn't scale in large applications. It doesn't scale implementation-wise, but it probably doesn't scale in a team of developers too.
 
 Implementation-wise it doesn't scale because too many components across your application share state. They need to access the state, need to modify it or need to remove it. In a small application, these components are not far away from each other. You can apply best practices like lifting state up and down to keep the state management maintainable. At some point, components are too far away from each other. The state needs to be lifted the component tree all the way up. Still, child components could be multiple levels below the stateful component. The state would creep through all components in between even though these components don't need access to it.
 

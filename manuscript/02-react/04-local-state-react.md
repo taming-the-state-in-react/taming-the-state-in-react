@@ -27,7 +27,7 @@ class Counter extends React.Component {
 }
 ~~~~~~~~
 
-The example shows a `Counter` component that has a `counter` property in the local state object. It is initialized with a value of `0` when the component gets instantiated by its constructor. In addition, the `counter` property from the local state object is used in the render method of the component to display its current value. To do: It is "initialized"?
+The example shows a `Counter` component that has a `counter` property in the local state object. It is defined with a value of `0` when the component gets instantiated by its constructor. In addition, the `counter` property from the local state object is used in the render method of the component to display its current value.
 
 There is no state manipulation in place yet. Before you start to manipulate your state, you should know that you are never allowed to alter the state directly: `this.state.counter = 1`. That would be a direct mutation. Instead, you have to use the React component API to change the state explicitly by using the `this.setState()` method.
 
@@ -115,7 +115,7 @@ this.setState({
 });
 ~~~~~~~~
 
-It only updates the `authors` without touching the `articles`. That's a shallow merge. It simplifies the local state management by not always keeping an eye on all properties in the local state. 
+It only updates the `authors` without touching the `articles`. That's a shallow merge. It simplifies the local state management by not always keeping an eye on all properties in the local state.
 
 ### Stateful and Stateless Components
 
@@ -146,7 +146,7 @@ Now only the props from the parent component would be used in this functional st
 
 After all, the callback functions in the stateless component would make it possible to alter the state somewhere above in one of the parent components. Once the state was manipulated, the new state flows down as props into the child component again. The new `counter` prop would be displayed correctly, because the render method of the child component runs again with the incoming changed props.
 
-That's one example how local state from one component can traverse down the component tree. To make the example with the functional stateless component complete, let's quickly show what a potential parent component, that manages the local state, would look like. It is a React ES6 class component in order to be stateful. To do: erster Satz Satzstellung!
+The example shows how local state can traverse down from one component to the component tree. To make the example with the functional stateless component complete, let's quickly show what a potential parent component, that manages the local state, would look like. It is a React ES6 class component in order to be stateful.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -202,11 +202,11 @@ When one of these objects changes, whether it is the props that come from the pa
 
 When you start to use React, it might be difficult to identifiy props and state. Personally, I like the [rules in the official React documentation](https://facebook.github.io/react/docs/thinking-in-react.html) to identify state.
 
-* Are the properties passed from the parent component? If yes, the likelihood is high that it isn't state. Though it is possible to save props as state, there are little use cases. It should be avoided to save props as state. Use them as props as they are.
+* Are the properties passed from the parent component? If yes, the likelihood is high that they aren't state. Though it is possible to save props as state, there are little use cases. It should be avoided to save props as state. Use them as props as they are.
 
 * Are the properties unchanged over time? If yes, they don't need to be stateful, because they don't get modified.
 
-* Are the properties deriveable from local state or props? If yes, you don't need it as state, because you can derive it. If you allocated extra state, the state has to be managed and can get out of sync when you miss to derive the new properties it at some point. To do: letzter Satz "it"
+* Are the properties deriveable from local state or props? If yes, you don't need them as state, because you can derive them. If you allocated extra state, the state has to be managed and can get out of sync when you miss to derive the new properties at some point.
 
 ### Form State
 
@@ -348,7 +348,7 @@ Now the value comes from the local state as single source of truth. It cannot ge
 
 ### Unidirectional Data Flow
 
-In the previous example, you experienced a typically unidirectional data flow. The Flux architecture, the underlying architecture for several sophisticated state management solutions, coined the term **unidirectional data flow**. You will get to know more about the Flux architecture in a later chapter. But the essence of an unidirectional data flow is embraced by local state in React, too. To do: a typically uni... or typical?
+In the previous example, you experienced a typical unidirectional data flow. The Flux architecture, the underlying architecture for several sophisticated state management solutions, coined the term **unidirectional data flow**. You will get to know more about the Flux architecture in a later chapter. But the essence of an unidirectional data flow is embraced by local state in React, too.
 
 State in React flows only in one direction. State gets updated by using `this.setState()` and is displayed due to the `render()` lifecycle method by accessing `this.state`. Then again, it can be updated via `this.setState()` and a component re-renders.
 
@@ -368,7 +368,7 @@ The three advantages in unidirectional data flow over bidirectional data flow ar
 
 **Predicability**: In a scaling application, state management needs to stay predictable. When you alter your state, it should be clear which components care about it. It should also be clear who alters the state in the first place. In an unidirectional data flow one stakeholder alters the state, the state gets stored, and the state flows down from one place, for instance a stateful component, to all child components that are interested in the state.
 
-**Maintainability:** When collaborating in a team on a scaling application, it is a requirement that the state management is predicatblte. Humans are not capable to keep track of a growing bidirectional data flow. It is a limitation by nature. That's why the state management stays more maintainable when it is predictable. Otherwise, when people cannot reason about the state, they introduce inefficient state handling. To do: 1.Satz: one requirement of state management is predictability.
+**Maintainability:** When collaborating in a team on a scaling application, one requirement of state management is predictability. Humans are not capable to keep track of a growing bidirectional data flow. It is a limitation by nature. That's why the state management stays more maintainable when it is predictable. Otherwise, when people cannot reason about the state, they introduce inefficient state handling.
 
 But maintainability doesn't come without any cost in a unidirectinal data flow. Even though the state is predictable, it often needs to be refactored thoughtfully. In a later chapter, you will read about those refactorings such as lifting state or higher order components for local state.
 

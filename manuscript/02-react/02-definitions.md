@@ -4,11 +4,11 @@ Before we dive into state management, this chapter gives you general defintions 
 
 ### Pure Functions
 
-Pure functions is a concept from the functional programming paradigm. It says that a pure function always returns the same output when given the same input. There is no layer in between that could alter the output on the way when the input doesn't change. The layer in between, that could possibly alter the output, is called **side-effect**. Thus, pure functions have no side-effects. Two major benefits of these pure functions are predictablity and testability. To do: ...when given the same input. - The same input or just any input??
+Pure functions is a concept from the functional programming paradigm. It says that a pure function always returns the same output if given the same input. There is no layer in between that could alter the output on the way when the input doesn't change. The layer in between, that could possibly alter the output, is called **side-effect**. Thus, pure functions have no side-effects. Two major benefits of these pure functions are predictablity and testability.
 
-### Immutabiltiy 
+### Immutabiltiy
 
-Immutabiltiy is a concept from functional programming, too. It says that a data structure is immutable when it is never changed. When there is the need to modify the immutable data structure, for instance an object, you would always return a new object. Rather than altering the object at hand, you would create a new object based on the old object and the modification. The old and new object would have their own instances. To do: ..a concept from (or of) functional programming. To do: ...is immutable, when never having been changed.?
+Immutabiltiy is a concept of functional programming, too. It says that a data structure is immutable when it cannot be changed. When there is the need to modify the immutable data structure, for instance an object, you would always return a new object. Rather than altering the object at hand, you would create a new object based on the old object and the modification. The old and new object would have their own instances.
 
 Immutable data structures have the beneift of predictability. For instance, when sharing an object through the whole application, it could lead to bugs when altering the object directly, because every stakeholder has a reference to this potentially altered object. It would be unpredictable what happens when an object changes and a handful of stakeholders are dependent on this object. In a growing application, it is difficult to oversee the places where the object is currently used by its reference.
 
@@ -16,7 +16,7 @@ The antagonsit of immutablity is called mutability. It says that an object can b
 
 ### State
 
-State is a broad word in modern applications. When speaking about application state, it could be anything that needs to live and be modified in the browser. It could be entity state that was retrieved from a backend application or a view state in the application, for instance, when toggling a popup to show additional information. To do: It could be entity state.... missing Artikel?
+State is a broad word in modern applications. When speaking about application state, it could be anything that needs to live and be modified in the browser. It could be an entity state that was retrieved from a backend application or a view state in the application, for instance, when toggling a popup to show additional information.
 
 I will refer to the former one as **entity state** and to the latter one as **view state**. Entitiy state is data retrieved from the backend. It could be a list of authors or the user object describing the user that is currently logged in to the application. View state, on the other hand, doesn't need to be stored in the backend. It is used when you open up a modal or switch a box from preview to edit mode.
 

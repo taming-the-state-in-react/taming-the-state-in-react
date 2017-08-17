@@ -1,6 +1,6 @@
 # Redux
 
-Redux is one of the libraries that helps you implement sophistaicated state management in your applications. It goes beyond the local state. It is one of the solutions you would take in a scaling application in order to tame the state. A React application is a perfect fit for Redux, yet other libraries and frameworks highly adopted it as well. To do: last part doesn't make sense. What is 'it'?
+Redux is one of the libraries that helps you implement sophistaicated state management in your applications. It goes beyond the local state. It is one of the solutions you would take in a scaling application in order to tame the state. A React application is a perfect fit for Redux, yet other libraries and frameworks highly adopted its concepts as well.
 
 **Why is Redux that popular in the JavaScript community?** In order to answer that question, I have to go a bit into the past of JavaScript applications. In the beginning, there was one library to rule them all: jQuery. It was mainly used to manipulate the DOM, to amaze with animations and to implement reusable widgets. It was the number one library in JavaScript. There was no way around it. However, the usage of jQuery skyrocketed and applications grew in size, but not in size of HTML and CSS. It was the size of code in JavaScript. Eventually, the code in those applications became a mess, because there was no proper architecture around it. The infamous spaghetti code became a problem in JavaScript applications.
 
@@ -20,12 +20,12 @@ You can [read more about the Flux architecture](https://facebook.github.io/flux/
 
 After all, Redux became the successor library of the Flux architecture. Even though there were a bunch of solutions around the Flux architecture, Redux managed to succeed. But why did it succeed?
 
-[Dan Abramov](https://twitter.com/dan_abramov) and [Andrew Clark](https://twitter.com/acdlite) are the creators of Redux. It was [introduced by Dan Abramov at React Europe](https://www.youtube.com/watch?v=xsSnOQynTHs) in 2015. However, the talk by Dan doesn't introduce Redux per se. Instead, the talk introduced a problem that Dan Abramov faced that led to Redux. I don't want to foreclose the content of the talk, that's why I encourage you to watch the video. If you are keen to learn Redux, you should dive into the problem that was solved by it for Dan Abramov. To do: Last part doesn't make sense.
+[Dan Abramov](https://twitter.com/dan_abramov) and [Andrew Clark](https://twitter.com/acdlite) are the creators of Redux. It was [introduced by Dan Abramov at React Europe](https://www.youtube.com/watch?v=xsSnOQynTHs) in 2015. However, the talk by Dan doesn't introduce Redux per se. Instead, the talk introduced a problem that Dan Abramov faced that led to implementing Redux. I don't want to foreclose the content of the talk, that's why I encourage you to watch the video youself. If you are keen to learn Redux, you should dive into the problem that was solved by it.
 
-Nevertheless, one year later, again at React Europe, Dan Abramov reflected on the journey of Redux and its success. He mentioned a few things that had made Redux successful in his opinion. The two main take aways of the success of Redux were: the problem and the constraints. To do: Vielleicht etwas flach als main take aways...
+Nevertheless, one year later, again at React Europe, Dan Abramov reflected on the journey of Redux and its success. He mentioned a few things that had made Redux successful in his opinion.
 
 Redux was developed to solve a problem. The problem was explained by Dan Abramov one year ealier when he introduced Redux. It was not yet another library. It was a library that solved a problem. Time Traveling and Hot Reloading were the stress test for Redux.
 
-The second key take away, the contraints, were another key factor to its success. Redux managed to shield away the problem with a simple API and a thoughtful way to solve the problem of state management itself.
+The contraints of Redux were another key factor to its success. Redux managed to shield away the problem with a simple API and a thoughtful way to solve the problem of state management itself.
 
 [You can watch the talk](https://www.youtube.com/watch?v=uvAXVMwHJXU) too. I highly recommend it. Either you watch it right now or after the next chapter that introduces you to the basics of Redux.
