@@ -14,6 +14,8 @@ I want to thank my people at Small Improvements who are great mentors and always
 
 I want to thank Per Fragemann, CEO of Small Improvements, for the chance to work at Small Improvements. He sees opportunities in people, believes in a sustainable company culture, and gives people all they need to grow. His values taught me a lot.
 
+A special thanks goes to [Charisse Ysabel de Torres](https://dribbble.com/charisseysabel) who contributed a cover image for the book in her free time. She was keen to help me with it and in a few brainstorm and several sketching sessions, she came up with an awesome illustration.
+
 In the end, I want to thank my girlfriend [Liesa](https://www.iamliesa.com/) for always being supportive. Writing a book can be an enduring battle. There were several weekends, mornings and evenings where I just sat down to write this book. She prevented me from getting into burnout and managed a lot in my life. Now, after the book is written, I hope we can have a few more relaxed weekends again.
 
 Last but not least, I want to thank the React community. It's an highly creative and innovative yet friendly place that makes it possible for everyone to build effortless applications. The community is supportive and welcoming to everyone. It provides every newcomer with useful resources to get started. I hope I can contribute to this community by writing about these things. One of my objective is to broaden the diversity among developers by providing free learning material to minorities. Reach out to me, if you are from an underrepresented group, to get a free copy of this book.
