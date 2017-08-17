@@ -24,6 +24,6 @@ The view state is altered only in the frontend. Often it isn't shared across the
 
 Imagine you have a component that has tabs. Each tab gives you the possibility to change the representation of displayed items. For instance, the user can choose a grid or a list layout. It is absolutely fine to store this state in the local state. In addition, you can give your user an improved user experience. You could store the selected tab in the local storage of your browser too and when the user returns to the page, you rehydrate the state from the local storage into your local state. The user will always find his/her preffered tab as the selected one.
 
-## Planning State
+## Accidental vs. Planned State
 
 Can you plan your state? I would argue that you can plan it. You can plan which part of the state goes into the global state and which part goes into the local state. For instance, you know about the view and entitiy states. In addtion, you can put some of your state in the local storage to imporve the user experience. However, in an evolving application your state grows and the structure changes. What can you do about it? My recommendation is always revisiting your state arrangement and structure. There is always room for improvements. You should refactor it early to keep it maintainable and predictable in the long run.
