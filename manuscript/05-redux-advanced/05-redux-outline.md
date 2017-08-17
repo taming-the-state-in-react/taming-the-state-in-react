@@ -1,8 +1,8 @@
 # Redux Ecosystem Outline
 
-After learning the basics and advanced techniques in Redux and applying them on your own in an application, you are ready to explore the Redux ecosystem. The Redux ecosystem is huge and cannot be covered in one book. However this chapter attempts to outline different paths you can take to explore the world of Redux. Apart from outlining these different paths, a couple of topics will be revisisted as well to give you a richer toolset when using Redux.
+After learning the basics and advanced techniques in Redux and applying them on your own in an application, you are ready to explore the Redux ecosystem. The Redux ecosystem is huge and cannot be covered in one book. However this chapter attempts to outline different paths you can take to explore the world of Redux. Apart from outlining these different paths, a couple of topics will be revisited as well to give you a richer toolset when using Redux.
 
-Before you are left alone with the last chapters covering Redux, I want to make you aware of [this repository](https://github.com/markerikson/redux-ecosystem-links) by Mark Erikson. It is a categorized list of Redux related addons, libraries and articles. If you get stuck at some point, want to find a solution for your problem or are just curious about the ecosystem, check out the repository. Otherwise I encourage you to join the official [Slack Group](https://slack-the-road-to-learn-react.wieruch.com/) for further recommendations.
+Before you are left alone with the last chapters covering Redux, I want to make you aware of [this repository](https://github.com/markerikson/redux-ecosystem-links) by Mark Erikson. It is a categorized list of Redux related add-ons, libraries and articles. If you get stuck at some point, want to find a solution for your problem or are just curious about the ecosystem, check out the repository. Otherwise I encourage you to join the official [Slack Group](https://slack-the-road-to-learn-react.wieruch.com/) for further recommendations.
 
 ## Redux DevTools
 
@@ -30,7 +30,7 @@ The third argument is called `mergeProps()`. As arguments it gets the result fro
 
 The fourth argument is called `options`. It is an object to configure the connect higher order component. It comes with these additional properties: `pure`, `areStatesEqual()`, `areOwnPropsEqual()`, `areMergedPropsEqual()`. How does it work altogether? When the first argument, the `pure` property, is set to true, the connect higher order component will avoid re-rendering the view and avoids the calls to its arguments `mapStateToProps()`, `mapDispatchToProps()` and `mergeProps()`. But only when the equality checks of `areStatesEqual()`, `areOwnPropsEqual()`, `areMergedPropsEqual()` remain equal based on their respective equality checks. These equality checks are performed on the previous state and props and updated state and props. These equality checks can be modified in the options `areStatesEqual`, `areOwnPropsEqual`, `areMergedPropsEqual`. Otherwise they have a default equality check.
 
-After all, the `options` are a pure performance optimization. It is rarely used when developing Redux applications. Basically you can set the `pure` property to true to avoid re-renderings and other argument evaluations of the `connect` higher order component. But it comes with certain default equality checks that can be configured. In addition, the udnerlying assumption is that the wrapped component is a pure component and doesn't rely on any other side-effect data.
+After all, the `options` are a pure performance optimization. It is rarely used when developing Redux applications. Basically you can set the `pure` property to true to avoid re-renderings and other argument evaluations of the `connect` higher order component. But it comes with certain default equality checks that can be configured. In addition, the underlying assumption is that the wrapped component is a pure component and doesn't rely on any other side-effect data.
 
 If you want to read up the `connect` higher order component again, you can checkout the [official repository of react-redux](https://github.com/reactjs/react-redux) and look for the `connect` chapter.
 
@@ -38,9 +38,9 @@ If you want to read up the `connect` higher order component again, you can check
 
 Redux made state management predictable with clear constraints. Yet these constraints come with a lot of code to manage actions and reducers. There are people who argue that writing Redux code is verbose. That's why there exist utility libraries on top of Redux to reduce the boilerplate code. One of them is called [redux-actions](https://github.com/acdlite/redux-actions).
 
-The library attempts to make your actions and reducers consise. It comes with three methods: `createAction()`, `handleAction()` and `combineActions()`. The book will give you a brief overview of the former two methods.
+The library attempts to make your actions and reducers concise. It comes with three methods: `createAction()`, `handleAction()` and `combineActions()`. The book will give you a brief overview of the former two methods.
 
-The `createAction()` method is a utitlity for action creators. To be more specific, the method should be named: `createActionCreator()`. The only required argument for the method is an action type.
+The `createAction()` method is a utility for action creators. To be more specific, the method should be named: `createActionCreator()`. The only required argument for the method is an action type.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -65,7 +65,7 @@ const action = doAddTodo({ id: '0', name: 'learn redux', completed: false });
 // }
 ~~~~~~~~
 
-The `handleAction()` method is a utitlity for reducers. It aligns action types with reducers whereas no switch case statement is needed anymore. It takes the action type as argument and a reducer function for handling the incoming action. As third argument, it takes an initial state.
+The `handleAction()` method is a utility for reducers. It aligns action types with reducers whereas no switch case statement is needed anymore. It takes the action type as argument and a reducer function for handling the incoming action. As third argument, it takes an initial state.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -124,7 +124,7 @@ There are a ton of libraries that already abstract away the state management for
 
 ## Routing with Redux
 
-In single page applications you will introduce routing eventually. In React there exists one prefered library for routing: [React Router](https://github.com/ReactTraining/react-router). There might exist other routing libraries in other single page application solutions. These solutions help you to navigate from URL to URL without reloading the page. That's how single page applications work after all. You only fetch your application once, but keep track of the state even when you route from URL to URL. Thus the routes in your URLs are state too. But is it managed in the Redux store?
+In single page applications you will introduce routing eventually. In React there exists one preferred library for routing: [React Router](https://github.com/ReactTraining/react-router). There might exist other routing libraries in other single page application solutions. These solutions help you to navigate from URL to URL without reloading the page. That's how single page applications work after all. You only fetch your application once, but keep track of the state even when you route from URL to URL. Thus the routes in your URLs are state too. But is it managed in the Redux store?
 
 The common sense when using routing in Redux is that the Router handles the URL and Redux handles the state. There is no interaction between them. For instance, when you decide to store your visibility filter `SHOW_ALL` into your URL (domain.com?filter=SHOW_ALL) instead of your Redux store, it is fine doing it. You only would have to retrieve the state from the URL and not from the Redux store. It depends on your own setup. In the end, the Router holds the single source of truth for the URL state and the Redux store holds the single source of truth for the application state. You can read more about this topic in the [official documentation](http://redux.js.org/docs/advanced/UsageWithReactRouter.html) of Redux.
 
@@ -132,7 +132,7 @@ The common sense when using routing in Redux is that the Router handles the URL 
 
 JavaScript by nature is an untyped language. You will often encounter bugs in your career that could have been prevented by type safety. In Redux, type safety can make a lot of sense, because you can define exactly what kind of types go into your actions, reducers or state. You could define that an action that creates a todo item would have the property `name` with the type String and the property `completed` with the type Boolean. Every time you pass a wrong typed value for these properties to create a todo item, you would get an error on compile time of your application. You wouldn't wait until your application runs to figure out that you have passed a wrong value to your action. There wouldn't be a runtime exception when you can already cover these bugs during compile time.
 
-Typed JavaScript can be a verbose solution when working on short living or simple projects. But when working in a large code base, where code needs to be kept maintainable, it is adviceable to use a type checker. It makes refactorings easier and adds a bunch of benefits to the developer experience due to editor and IDE integrations.
+Typed JavaScript can be a verbose solution when working on short living or simple projects. But when working in a large code base, where code needs to be kept maintainable, it is advisable to use a type checker. It makes refactorings easier and adds a bunch of benefits to the developer experience due to editor and IDE integrations.
 
 There exist two major solutions gradually using JavaScript as a typed language: Flow (Facebook) and TypeScript (Microsoft). While the former has its biggest impact in the React community, the latter is well adopted amongst other frameworks and libraries.
 

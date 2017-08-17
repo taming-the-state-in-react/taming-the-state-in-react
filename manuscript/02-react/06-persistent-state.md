@@ -50,7 +50,7 @@ The rehydration and dehydration of state are most often unconscious steps in mod
 
 ### Local Storage
 
-Is there a more lightweight solution compared to a backend application? You could use the native browser API. To be more specific, most of the modern browser have a storage functionality to persist data. It is the lightwight version of a database that is used in the browser. Of course, it is only visible to the user of the browser and cannot be distributed to other users.
+Is there a more lightweight solution compared to a backend application? You could use the native browser API. To be more specific, most of the modern browser have a storage functionality to persist data. It is the lightweight version of a database that is used in the browser. Of course, it is only visible to the user of the browser and cannot be distributed to other users.
 
 Modern browsers have access to the [local storage](https://developer.mozilla.org/en/docs/Web/API/Window/localStorage) and [session storage](https://developer.mozilla.org/en/docs/Web/API/Window/sessionStorage). Both work the same, but there is one difference in their functionalities. While the local storage keeps the data even when the browser is closed, the session storage expires once the browser closes. Both storages work the same by using key value pairs.
 
@@ -92,6 +92,6 @@ this.state = {
 }
 ~~~~~~~~
 
-Every time your application performs a search request, the key value pair in the cache object in your local state would be filled. Before you make a new request, the cache would be checked whether the search term was already available as a key. If the key is available, the request would be surpressed and the cache result would be used instead. If the key is not available, a request would be made. After the request succeeded, the search term would be saved as key and the search result would be saved as value for the key in the local state.
+Every time your application performs a search request, the key value pair in the cache object in your local state would be filled. Before you make a new request, the cache would be checked whether the search term was already available as a key. If the key is available, the request would be suppressed and the cache result would be used instead. If the key is not available, a request would be made. After the request succeeded, the search term would be saved as key and the search result would be saved as value for the key in the local state.
 
 The book doesn't give you an in-depth implementation of the cache solution. If you did read [the Road to learn React](https://www.robinwieruch.de/the-road-to-learn-react/), you will already know how to implement such a cache in plain React with local state. In one of its lessons, the book uses a cache in a more elaborated way to cache paginated search results efficiently in the local state.

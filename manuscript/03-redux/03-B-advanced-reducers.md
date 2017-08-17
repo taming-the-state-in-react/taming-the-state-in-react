@@ -13,14 +13,14 @@ const store = createStore(reducer, []);
 
 That's the initial state for the whole Redux store. However, you can apply the initial state on a more fine-grained level. Before you dispatch your first action, the Redux store will initialize by running through all reducers once. You can try it by removing all of your dispatches in the editor and add a `console.log()` in the reducer. You will see that it runs with an initializing action once, even though there is no dispatched action.
 
-The initializing action, that is received in the reducer, is accompanied by the initial state that is specified in the `createStore()` function. However, if you leave out the initial state in the store initialiazation, the incoming state in the reducer will be `undefined`.
+The initializing action, that is received in the reducer, is accompanied by the initial state that is specified in the `createStore()` function. However, if you leave out the initial state in the store initialization, the incoming state in the reducer will be `undefined`.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
 const store = createStore(reducer);
 ~~~~~~~~
 
-That's where you can opt-in to specify initial state on a fine-grained level. If the incoming state is `undefined`, you can default with a [JavaScript ES6 default paramater](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Functions/Default_parameters) to a default initial state.
+That's where you can opt-in to specify initial state on a fine-grained level. If the incoming state is `undefined`, you can default with a [JavaScript ES6 default parameter](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Functions/Default_parameters) to a default initial state.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -55,7 +55,7 @@ const initialState = {
 const store = createStore(reducer, initialState);
 ~~~~~~~~
 
-Now you can use the space horiztonally in your `initialState` object. It might grow to the following at some point:
+Now you can use the space horizontally in your `initialState` object. It might grow to the following at some point:
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -122,7 +122,7 @@ const rootReducer = combineReducers({
 });
 ~~~~~~~~
 
-Afterward, the `rootReducer` can be used to initialize the Redux store insetad of the single todo reducer.
+Afterward, the `rootReducer` can be used to initialize the Redux store instead of the single todo reducer.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -172,7 +172,7 @@ Now, there comes the important clue. The `combineReducers()` function introduces
 }
 ~~~~~~~~
 
-The property keys for the intermediate layer are those defined in the `combineReducers()` function. However, in your reducers the incoming state is not the global state object anymore. It is their defined substate from the `combinedReducers()` function. The `todoReducer` doesn't know anythign about the `filterState` and the `filterReducer` doesn't know anything about the `todoState`.
+The property keys for the intermediate layer are those defined in the `combineReducers()` function. However, in your reducers the incoming state is not the global state object anymore. It is their defined substate from the `combinedReducers()` function. The `todoReducer` doesn't know anything about the `filterState` and the `filterReducer` doesn't know anything about the `todoState`.
 
 The `filterReducer` and `todoReducer` can use the JavaScript ES6 default parameter to define their initial state.
 

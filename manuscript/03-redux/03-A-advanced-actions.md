@@ -49,7 +49,7 @@ Finally, you can omit it in the action:
 }
 ~~~~~~~~
 
-Now, you only defined the necessary payload in the action. Nevertheless, if at some point the Todo application decides to add incompleted todos in the first place, you can add it in the action again and leave it out in the reducer. Ultimately, keeping the payload in the action to a minimum is a best practice in Redux.
+Now, you only defined the necessary payload in the action. Nevertheless, if at some point the Todo application decides to add uncompleted todos in the first place, you can add it in the action again and leave it out in the reducer. Ultimately, keeping the payload in the action to a minimum is a best practice in Redux.
 
 ### Action Type
 
@@ -111,7 +111,7 @@ store.dispatch({
 });
 ~~~~~~~~
 
-Action creators encapsule the action with its action type and optional payload in a reusable function. In addition, they give you the flexibility to pass any payload. After all, they are only pure functions which return an object.
+Action creators encapsulate the action with its action type and optional payload in a reusable function. In addition, they give you the flexibility to pass any payload. After all, they are only pure functions which return an object.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -130,7 +130,7 @@ Now, you can use it by invoking the function in your dispatch method:
 store.dispatch(doAddTodo('0', 'learn redux'));
 ~~~~~~~~
 
-Action creators return a plain action. Once again, it is not mandatory to use them, but it adds convenience and makes your code more readable in the long run. In addition, you can test action creators independetly as functions. Last but not least, these action creators stay reusable because they are functions.
+Action creators return a plain action. Once again, it is not mandatory to use them, but it adds convenience and makes your code more readable in the long run. In addition, you can test action creators independently as functions. Last but not least, these action creators stay reusable because they are functions.
 
 ### Optional Payload
 

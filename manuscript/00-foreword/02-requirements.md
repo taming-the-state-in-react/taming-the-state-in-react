@@ -4,9 +4,9 @@ What are the requirements to read the book? First of all, you should be familiar
 
 ### React
 
-The book uses React as library to teach modern state management. It is a perfect choice for demonstrating and learning state managament in modern applications. Because React is only a view layer, it is up to you to decide how to deal with the state in your application. The state management layer is exchangeable.
+The book uses React as library to teach modern state management. It is a perfect choice for demonstrating and learning state management in modern applications. Because React is only a view layer, it is up to you to decide how to deal with the state in your application. The state management layer is exchangeable.
 
-After all, it's not neccessary to be a React developer in order to learn about state management in modern applications. If you are developing with another SPA framework, such as Angular, or view layer library, such as Vue, all these things about state managament taught in this book can still be applied in your appliactions. The state management solutions are agnostic to frameworks and libraries.
+After all, it's not necessary to be a React developer in order to learn about state management in modern applications. If you are developing with another SPA framework, such as Angular, or view layer library, such as Vue, all these things about state management taught in this book can still be applied in your applications. The state management solutions are agnostic to frameworks and libraries.
 
 Still, since the book uses React for the sake of teaching state management in a proper context, if you are not familiar with React or need to have a refresher on the topic, I encourage you to read the precedent book: [The Road to learn React](https://www.robinwieruch.de/the-road-to-learn-react/). It is open source and should enable everyone to learn React. However, you can decide to pay something to support the project.
 

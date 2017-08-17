@@ -62,7 +62,7 @@ The JavaScript community shifts in the direction of functional programming and e
 
 ## Naming Conventions
 
-In Redux you have a handful of different types of functions. You have action creators, selectors and reducers. It is always good to name them accordingly to their type. Other developers will have an easier time identifiying the function type. Just following a naming convention for your functions, you can give yourself and others a valuable information about the function itself.
+In Redux you have a handful of different types of functions. You have action creators, selectors and reducers. It is always good to name them accordingly to their type. Other developers will have an easier time identifying the function type. Just following a naming convention for your functions, you can give yourself and others a valuable information about the function itself.
 
 Personally I follow this naming convention with Redux functions. It uses prefixes for each function type:
 
@@ -71,7 +71,7 @@ Personally I follow this naming convention with Redux functions. It uses prefixe
 * selectors: **get**Something
 * sagas: **watch**Something, **handle**Something
 
-In the previous chapters, the example code always used this naming convention. In addition, it clearifies things when using higher order functions. Remember the `mapDispatchToProps()` function when connecting Redux to React?
+In the previous chapters, the example code always used this naming convention. In addition, it clarifies things when using higher order functions. Remember the `mapDispatchToProps()` function when connecting Redux to React?
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -84,7 +84,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 ~~~~~~~~
 
-The functions themselves become more concise by using JavaScript ES6 arrow functions. But there is another clue that makes proper naming so powerful. Solely from a naming perspective, you can see that the `mapStateToProps()` and `mapDispatchToProps()` functions transform the returned properties from the Redux world to the React world. The connected component doesn't know about selectors or actions creators anymore. As you can see, that is already expressed in the transformed props and functions. THey are named `todos` and `onToggleTodo`. There are no remains from the Redux world, from a technical perspective but also from a pure naming perspective. That's powerful, because your underlying components are Redux agnostic.
+The functions themselves become more concise by using JavaScript ES6 arrow functions. But there is another clue that makes proper naming so powerful. Solely from a naming perspective, you can see that the `mapStateToProps()` and `mapDispatchToProps()` functions transform the returned properties from the Redux world to the React world. The connected component doesn't know about selectors or actions creators anymore. As you can see, that is already expressed in the transformed props and functions. They are named `todos` and `onToggleTodo`. There are no remains from the Redux world, from a technical perspective but also from a pure naming perspective. That's powerful, because your underlying components are Redux agnostic.
 
 So far, the topic was only about function naming. But there is another part in Redux that can be named properly: action types. Consider the following action type names:
 
@@ -107,7 +107,7 @@ These are only opinionated naming conventions for those types of functions and c
 
 ## The Relationship between Actions and Reducers
 
-Actions and reducers are not strictly coupled. They only share an action type. A dispacthed action, for example with the action type `SOMETHING_ADD`, can be captured in multiple reducers that utilize `SOMETHING_ADD`. That's an important fact when implementing a scaling state management architecture in your application.
+Actions and reducers are not strictly coupled. They only share an action type. A dispatched action, for example with the action type `SOMETHING_ADD`, can be captured in multiple reducers that utilize `SOMETHING_ADD`. That's an important fact when implementing a scaling state management architecture in your application.
 
 When coming from an object-oriented programming background though, you might abuse actions/reducers as setters and selectors as getters. You will couple actions and reducers in a 1:1 relationship. I will call it the **command pattern** in Redux. It can be useful in some scenarios, as I will point out later, but in general it's not the philosophy of Redux.
 
@@ -174,7 +174,7 @@ function progressReducer(state = 0, action) {
 }
 ~~~~~~~~
 
-The action would be dispatched in paralell with the `COMPLETE_TODO` action.
+The action would be dispatched in parallel with the `COMPLETE_TODO` action.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -278,15 +278,15 @@ An elaborated folder/file organization might look like the following:
 ---store.js
 ~~~~~~~~
 
-This approach, separating by features, is way more flexible than the previous approach. It gives you more freedom to arrange your folders and files. When using this approach, there are more ways to accomplish it. You don't necessairly have to follow the example above.
+This approach, separating by features, is way more flexible than the previous approach. It gives you more freedom to arrange your folders and files. When using this approach, there are more ways to accomplish it. You don't necessarily have to follow the example above.
 
-What are the advantages and disadvanatges of this approach? It has the same advantages and disadvantages as the technical folder organization but negated. Instead of making action creators and reducers accessible on a top level, they are hidden in a feature folder. In a scaling application with multiple teams, other teams will most likely not reuse your action creators and reducers but implement their own. Another disadvantage is that is groups action creators and reducers in a 1:1 relationship which goes against the overarching idea of Redux. You embrace a command pattern instead of an event pattern. The advantage on the other side, and that's why most teams in a scaling application are using this approach, is that it grows well. Teams can work on separate feature folders and don't run into conflicts. Still they can follow, when using a middleware library like redux-logger, the overarching state management flow.
+What are the advantages and disadvantages of this approach? It has the same advantages and disadvantages as the technical folder organization but negated. Instead of making action creators and reducers accessible on a top level, they are hidden in a feature folder. In a scaling application with multiple teams, other teams will most likely not reuse your action creators and reducers but implement their own. Another disadvantage is that is groups action creators and reducers in a 1:1 relationship which goes against the overarching idea of Redux. You embrace a command pattern instead of an event pattern. The advantage on the other side, and that's why most teams in a scaling application are using this approach, is that it grows well. Teams can work on separate feature folders and don't run into conflicts. Still they can follow, when using a middleware library like redux-logger, the overarching state management flow.
 
-Even though the feature folder organization bears a lot of pitfalls by embracing the command pattern, it is often used in scaling applications with several development teams. Therefore I can give one advice: Make your action creators, reducers and selectors accessible to everyone so that they can be reused. It can happen by doumentation, word of mouth or another variation of folder/file organization.
+Even though the feature folder organization bears a lot of pitfalls by embracing the command pattern, it is often used in scaling applications with several development teams. Therefore I can give one advice: Make your action creators, reducers and selectors accessible to everyone so that they can be reused. It can happen by documentation, word of mouth or another variation of folder/file organization.
 
 ### Ducks
 
-There exists another concept called ducks in Redux. It relates to the organization of action creators, action types and reducers as touples. The ducks concept bundles these tuples into self contained modules. Often these modules end up being only one file. The official ducks pattern has a bunch of guidelines which you can read up in the [GitHub repository](https://github.com/erikras/ducks-modular-redux). However, you wouldn't need to apply all of these. For instance, in the Todo application a duck file for the filter domain might look like the following:
+There exists another concept called ducks in Redux. It relates to the organization of action creators, action types and reducers as tuples. The ducks concept bundles these tuples into self contained modules. Often these modules end up being only one file. The official ducks pattern has a bunch of guidelines which you can read up in the [GitHub repository](https://github.com/erikras/ducks-modular-redux). However, you wouldn't need to apply all of these. For instance, in the Todo application a duck file for the filter domain might look like the following:
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -325,11 +325,11 @@ The drawbacks of the ducks concept are similar to the feature folder approach. Y
 
 The book will not dive deeply into the topic of testing, but it shouldn't be unmentioned. Testing your code in programming is essential and should be seen as mandatory. You want to keep the quality of your code high and an assurance that everything works. However, testing your code can often be tedious. You have to setup, mock or spy things before you can finally start to test it. Or you you have to cover a ton of edge cases in your one huge code block. But I can give you comfort by saying that this is not the case when testing state management done with Redux. I will show you how you can easily test the necessary parts, keep your efforts low and stay lazy.
 
-Perhaps you have heard about the testing pyramid. There are end-to-end tests, integration tests and units tests. If you are not familiar with those, the book gives you a quick and basic overview. A unit test is used to test an isolated and small block of code. It can be a single function that is tested by an unit test. However, sometimes the units work well in isolation yet don't work in combination with other units. They need to be tested as a group as units. That's where integration tests can help out by covering whether units work well together. Last but not least, an end-to-end test is the simulation of a real user scenario. It could be an automated setup in a browser simulating the login flow of an user in a web application. While unit tests are fast and easy to write and to maintain, end-to-end tests are the opposite ot the this spectrum.
+Perhaps you have heard about the testing pyramid. There are end-to-end tests, integration tests and units tests. If you are not familiar with those, the book gives you a quick and basic overview. A unit test is used to test an isolated and small block of code. It can be a single function that is tested by an unit test. However, sometimes the units work well in isolation yet don't work in combination with other units. They need to be tested as a group as units. That's where integration tests can help out by covering whether units work well together. Last but not least, an end-to-end test is the simulation of a real user scenario. It could be an automated setup in a browser simulating the login flow of an user in a web application. While unit tests are fast and easy to write and to maintain, end-to-end tests are the opposite of this spectrum.
 
-How many tests do I need of each type? You want to have many unit tests to cover your isolated functions. After that you can have several integration tests to cover that the most important functions work in combination as expected. Last but not least, you might want to have only a few end-to-end tests to simulate critical scenarios in your web application. That's it for the general excursion in the world of testing. Now, how does it apply to state managament with Redux?
+How many tests do I need of each type? You want to have many unit tests to cover your isolated functions. After that you can have several integration tests to cover that the most important functions work in combination as expected. Last but not least, you might want to have only a few end-to-end tests to simulate critical scenarios in your web application. That's it for the general excursion in the world of testing. Now, how does it apply to state management with Redux?
 
-Redux embraces the functional programming style. Your functions are pure and you don't have to worry about any side-effects. A function always returns the same output for the same input. Such functions are easy to test, because you only have to give them an input and expect the output because there is a no side-effect guarantee. That's the perfect fit for unut tests, isn't it? In conclusion, it makes stata management testing when build with Redux a pleasure.
+Redux embraces the functional programming style. Your functions are pure and you don't have to worry about any side-effects. A function always returns the same output for the same input. Such functions are easy to test, because you only have to give them an input and expect the output because there is a no side-effect guarantee. That's the perfect fit for unit tests, isn't it? In conclusion, it makes state management testing when build with Redux a pleasure.
 
 In Redux, you have different groups of functions: action creators, reducers, selectors. For each of these groups, you can see a pattern for their input and output. These can be applied to a test pattern which can be used as blueprint for a unit test for each group of functions.
 
@@ -401,7 +401,7 @@ expect(newState).to.equal(expectedNewState);
 
 These test patterns will always stay the same for their aspects. You only have to fill in the blanks. You can even give yourself an easier time and setup automated code snippets for your editor of choice. For instance, typing "rts" (abbr. for "redux test selector") gives you the blueprint for a selector test. The other two snippets could be "rtr" (redux test reducer) and "rta" (redux test action). After that, you only have to fill in the remaining things.
 
-These test patterns for state management show you how simple testing becomes when you work with the clear constraints of a library like Redux. Everything behaves the same, it is predictable, and thus can be tested every time the in the same way. When setting up automated code snippets, you will save yourself a lot of time yet have a great test coverage for your whole state management. You can go even one step furhter and apply [test-driven development](https://en.wikipedia.org/wiki/Test-driven_development) (TDD) which basically means you test before you implement.
+These test patterns for state management show you how simple testing becomes when you work with the clear constraints of a library like Redux. Everything behaves the same, it is predictable, and thus can be tested every time the in the same way. When setting up automated code snippets, you will save yourself a lot of time yet have a great test coverage for your whole state management. You can go even one step further and apply [test-driven development](https://en.wikipedia.org/wiki/Test-driven_development) (TDD) which basically means you test before you implement.
 
 There is another neat helper that can ensure that your state stays immutable. Because you never know if you accidentally mutate your state even though it is forbidden in Redux. I guess there are a handful of libraries around this topic, but I use [deep-freeze](https://github.com/substack/deep-freeze) in my tests to ensure that the state (and even actions) doesn't get mutated.
 
@@ -448,7 +448,7 @@ fetch('my/todos/api').then(function(response) {
 });
 ~~~~~~~~
 
-When using Redux asynchronours actions, the request could live in a Redux Thunk.
+When using Redux asynchronous actions, the request could live in a Redux Thunk.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -512,6 +512,6 @@ function reducer(state = initialState, action) {
 
 That's it basically for the state management part. Whereas the `applyFetchTodosError()` function would set the error object in the state, the `applyFetchTodosSuccess()` function would set the list of todos. In addition, the success function would have to reset the error property in the state to null again, because imagine you would do a second request after the first request has failed. When the second request was successful, you would want to store the todo items but reset the error state.
 
-In your view layer, depeneding on the todo state, you could decide whether to show an error message, because there is an error object in the todo state, or to show the list of todos. When there is an error message displayed, you could provide your end-user with a button to try again fetching the todos. When the second request is successful, the error object is set to null and instead the todo items are set in the state. The view layer could display the list of todo items now.
+In your view layer, depending on the todo state, you could decide whether to show an error message, because there is an error object in the todo state, or to show the list of todos. When there is an error message displayed, you could provide your end-user with a button to try again fetching the todos. When the second request is successful, the error object is set to null and instead the todo items are set in the state. The view layer could display the list of todo items now.
 
 After all, there is basically no magic behind error handling in Redux. Whenever an error occurs, you would store it in your state. When the view layer notices an error in the state, it could use conditional rendering to show an error message instead of the assumed result.

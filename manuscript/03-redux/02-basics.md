@@ -9,7 +9,7 @@ Redux adopted a handful of constraints from the Flux architecture but not all of
 View -> Action -> Reducer(s) -> Store -> View
 ~~~~~~~~
 
-Why is it called Redux? Because it combines the two words Reducer and Flux. The abstract picture should be imaginable now. The state doesn't live in the View anymore, it is only connected to the View. What does connected mean? It is connected on two ends, because it is part of the unidirectional data flow. One end is responsible to trigger an Action to update the state, the second end is resonspible to receive the state from the Store. The View can update according to state changes and can trigger state changes.
+Why is it called Redux? Because it combines the two words Reducer and Flux. The abstract picture should be imaginable now. The state doesn't live in the View anymore, it is only connected to the View. What does connected mean? It is connected on two ends, because it is part of the unidirectional data flow. One end is responsible to trigger an Action to update the state, the second end is responsible to receive the state from the Store. The View can update according to state changes and can trigger state changes.
 
 The View, in this case, would be React, but Redux could be used with any other library or standalone. After all, it is only a state management container.
 
@@ -64,7 +64,7 @@ function reducer(state, action) {
 }
 ~~~~~~~~
 
-By using the [JavaScript built-in concat functionality](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/concat), the state and thus the list of todos is concated to another item. The other item is the newly added todo from the action. You might wonder if this embraces immutabilty now. Yes it does, because `concat` always returns a new array without mutating the old array. The data structure stays immutable. You will learn more about how to keep your data structures immutable later on.
+By using the [JavaScript built-in concat functionality](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/concat), the state and thus the list of todos is concatenated to another item. The other item is the newly added todo from the action. You might wonder if this embraces immutability now. Yes it does, because `concat` always returns a new array without mutating the old array. The data structure stays immutable. You will learn more about how to keep your data structures immutable later on.
 
 **But what about the action type?** Right now, only the payload is used to produce a new state but the action type is ignored.
 
@@ -188,7 +188,7 @@ Now you can use it to create a store singleton instance. The `createStore` funct
 const store = createStore(reducer);
 ~~~~~~~~
 
-In addition, the `createStore` takes a second optional argument: the initial state. In the case of the Todo application, the reducer operated on a list of todos as state. The list of todo items should be initialized as an empty array or prefilled array with todos. If it wasn't initialiazed, the reducer would fail because it would operate on undefined property.
+In addition, the `createStore` takes a second optional argument: the initial state. In the case of the Todo application, the reducer operated on a list of todos as state. The list of todo items should be initialized as an empty array or pre-filled array with todos. If it wasn't initialized, the reducer would fail because it would operate on undefined property.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -197,7 +197,7 @@ const store = createStore(reducer, []);
 
 In another chapter, the book will showcase another way to initialize state. Therefore, you would use the reducer instead of the store.
 
-Now you have a store instance that knows about the reducer. The Redux setup is done. However, now you want to interact with the store. You want to dispatch actions, get the state from the store and listen to upates of the state in the store. So how to dispatch an action?
+Now you have a store instance that knows about the reducer. The Redux setup is done. However, now you want to interact with the store. You want to dispatch actions, get the state from the store and listen to updates of the state in the store. So how to dispatch an action?
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~

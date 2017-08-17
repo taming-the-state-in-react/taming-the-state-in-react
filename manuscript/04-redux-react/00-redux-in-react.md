@@ -14,7 +14,7 @@ On the other hand you have Redux. By now, you should know how to manage state in
 
 These three interactions need to be accessed from your view layer. As mentioned, the view layer can be anything, but to keep it focused it will be React in this book.
 
-If you recall the unidirectional data flow in Redux, that was adapated from the Flux architecture, you will notice that you have all parts at your disposal by now.
+If you recall the unidirectional data flow in Redux, that was adapted from the Flux architecture, you will notice that you have all parts at your disposal by now.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -75,7 +75,7 @@ import { combineReducers, createStore } from 'redux';
 import './index.css';
 ~~~~~~~~
 
-Now, in between of your imports and your React code, you introduce your Redux functionlities. First, the action types:
+Now, in between of your imports and your React code, you introduce your Redux functionalities. First, the action types:
 
 {title="Command Line",lang="text"}
 ~~~~~~~~
@@ -259,7 +259,7 @@ ReactDOM.render(
 );
 ~~~~~~~~
 
-The store does two things: it makes state accessible and exposes functionalities to alter the state. The `todos` props are passed down to the `TodoApp` by retrieving them from the `store`. In addition, a `onToggleTodo` property is passed down which is a function. This function is a higher order function that wraps the dispatching of an action that is created by its action creator. However, the `TodoApp` component is completly unaware of the `todos` being retrieved from the Redux store or of the `onToggleTodo()` being a dispatched action on the Redux store. These passed properties are simple props for the `TodoApp`. You can start your application again with `npm start`. The todos should be displayed but not updated yet.
+The store does two things: it makes state accessible and exposes functionalities to alter the state. The `todos` props are passed down to the `TodoApp` by retrieving them from the `store`. In addition, a `onToggleTodo` property is passed down which is a function. This function is a higher order function that wraps the dispatching of an action that is created by its action creator. However, the `TodoApp` component is completely unaware of the `todos` being retrieved from the Redux store or of the `onToggleTodo()` being a dispatched action on the Redux store. These passed properties are simple props for the `TodoApp`. You can start your application again with `npm start`. The todos should be displayed but not updated yet.
 
 What about the update mechanism? When an action is dispatched, someone needs to subscribe to the Redux store. In a naive approach, you can do the following to force a view update. First, wrap your React root into a function.
 

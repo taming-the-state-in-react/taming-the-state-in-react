@@ -80,7 +80,7 @@ While the `Search` component is a stateful ES6 class component, the `List` compo
 
 However, the example doesn't work. The `Search` component knows about the `query` that could be used to filter the list, but the `List` component doesn't know about it. You have to lift the state of the `Search` component up to the `SearchableList` to make the `query` state accessible for the `List` component in order to filter the list. You want to share the `query` state in both `List` component and `Search` component.
 
-In order to lift the state up, the `SearchableList` becomes a stateful component. You have to refactor it to an React ES6 class component. On the other hand, you can refactor the `Search` component to a functional stateless component, because it doesn't need to be stateful anymore. The stateful parent component takes care about its whole statet. In other cases the `Search` component might stay as a stateful ES6 class component, because it still manages own state. But not in this example.
+In order to lift the state up, the `SearchableList` becomes a stateful component. You have to refactor it to an React ES6 class component. On the other hand, you can refactor the `Search` component to a functional stateless component, because it doesn't need to be stateful anymore. The stateful parent component takes care about its whole state. In other cases the `Search` component might stay as a stateful ES6 class component, because it still manages own state. But not in this example.
 
 First, the `Search` component:
 
@@ -269,9 +269,9 @@ function byArchived(archivedItems) {
 # leanpub-end-insert
 ~~~~~~~~
 
-The previous example was extended to faciliate the archiving of items in a list. Now, the `List` component receives all the neccessary properties: an `onArchive` callback and the list, filtered by `query` and `archivedItems`.
+The previous example was extended to facilitate the archiving of items in a list. Now, the `List` component receives all the necessary properties: an `onArchive` callback and the list, filtered by `query` and `archivedItems`.
 
-You might see already the flaw. The `SearchableList` takes care about the archiving functionality. Howeover, it doesnt need the functionality itself. It only passes all the state to the `List` component as props. It manages the state on behalf of the `List` component. In a scaling application it would make sense to lift the state down to the `List` component. Even though the `List` component becomes a stateful component afterward, it is step in the right direction keeping the local state maintainable in the long run.
+You might see already the flaw. The `SearchableList` takes care about the archiving functionality. However, it doesn't need the functionality itself. It only passes all the state to the `List` component as props. It manages the state on behalf of the `List` component. In a scaling application it would make sense to lift the state down to the `List` component. Even though the `List` component becomes a stateful component afterward, it is step in the right direction keeping the local state maintainable in the long run.
 
 First, the `List` component:
 
