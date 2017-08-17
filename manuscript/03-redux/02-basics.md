@@ -4,7 +4,7 @@ On the [official Redux website](http://redux.js.org/) it says: *"Redux is a pred
 
 Redux adopted a handful of constraints from the Flux architecture but not all of them. It has Actions that encapsulate information about the state update. It has a Store to save the state, too. However, the Store is a singleton. Thus, there are not multiple Stores like there used to be in the Flux architecture. In addition, there is no single Dispatcher. Instead, Redux uses multiple Reducers. Basically, Reducers pick up the information from Actions and "reduce" it to a new state that is saved in the Store. When state in the Store is changed, the View can act on this by subscribing to the Store.
 
-{title="Code Playground",lang="javascript"}
+{title="Concept Playground",lang="text"}
 ~~~~~~~~
 View -> Action -> Reducer(s) -> Store -> View
 ~~~~~~~~
@@ -232,7 +232,7 @@ That's it. The Redux store has only a slim API to access the state, update it an
 
 You know about all the basics in Redux now. A view dispatches an action on the store, the action passes all reducers and gets reduced by reducers that care about it. The store saves the new state object. Finally, a listener updates the view with the new state.
 
-{title="Code Playground",lang="javascript"}
+{title="Concept Playground",lang="text"}
 ~~~~~~~~
 View -> Action -> Reducer(s) -> Store -> View
 ~~~~~~~~

@@ -2,14 +2,14 @@
 
 The book taught you the practical usage of Redux. You have learned about the main parts in the Redux state management architecture: actions, reducers and the store.
 
-{title="Code Playground",lang="javascript"}
+{title="Concept Playground",lang="text"}
 ~~~~~~~~
 Action -> Reducer(s) -> Store
 ~~~~~~~~
 
 The chain is connected to the view layer by something (e.g. react-redux with `mapStateToProps()` and `mapDispatchToProps()`) that enables you to write connected components. These components have access to the Redux store. They are used to receive state or to alter the state. They are a specialized case of a container component in the presenter and container pattern when using components.
 
-{title="Code Playground",lang="javascript"}
+{title="Concept Playground",lang="text"}
 ~~~~~~~~
 View -> (mapDispatchToProps) -> Action -> Reducer(s) -> Store -> (mapStateToProps) -> View
 ~~~~~~~~
@@ -1255,7 +1255,7 @@ With this refactoring step in your mind, you can always lift your connections to
 
 Implementing applications with sample data can be dull. It can be more exciting by interacting with a real API - the [Hacker News API](https://hn.algolia.com/api). Even though, as you have learned, you can have asynchronous actions without any asynchronous action library, this application will introduce Redux Saga as asynchronous action library to deal with side-effects such as fetching data from a third-party library.
 
-{title="Command Line",lang="text"}
+{title="Command Line: /",lang="text"}
 ~~~~~~~~
 npm install --save redux-saga
 ~~~~~~~~
@@ -1818,7 +1818,7 @@ Basically you created the necessary inputs for your reducer and the expected out
 
 In order to verify that your previous state isn't mutated when creating the new state, because Redux embraces immutable data structures, you could use a neat helper library that freezes your state.
 
-{title="Command Line",lang="text"}
+{title="Command Line: /",lang="text"}
 ~~~~~~~~
 npm install --save-dev deep-freeze
 ~~~~~~~~

@@ -515,14 +515,14 @@ In the Todo application, you could refactor everything to use the advanced techn
 
 In the first part, let's use the [redux-logger](https://github.com/evgenyrodionov/redux-logger) middleware. You have to install it on the command line:
 
-{title="Command Line",lang="text"}
+{title="Command Line: /",lang="text"}
 ~~~~~~~~
 npm install --save redux-logger
 ~~~~~~~~
 
 Next you can use it when you create your store:
 
-{title="Code Playground",lang="javascript"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -559,7 +559,7 @@ When you start your Todo application now, you should see the output of the `logg
 
 The second part is to use spread operators instead of the `Object.assign()` function to keep an immutable data structure. You can apply it in your reducer functions:
 
-{title="Code Playground",lang="javascript"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 function applyAddTodo(state, action) {
 # leanpub-start-insert
@@ -583,14 +583,14 @@ The application should work the same as before. The source code can be found in 
 
 In the third part of the refactoring, you will use a normalized state structure. Therefore, you can install the neat library [normalizr](https://github.com/paularmstrong/normalizr).
 
-{title="Command Line",lang="text"}
+{title="Command Line: /",lang="text"}
 ~~~~~~~~
 npm install --save normalizr
 ~~~~~~~~
 
 Let's have a look at the initial state for the `todoReducer`. You could make up your own initial state. For instance, what about completing all coding examples in this book?
 
-{title="Code Playground",lang="javascript"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 const todos = [
   { id: '1', name: 'Hands On: Redux Standalone with advanced Actions' },
@@ -612,7 +612,7 @@ function todoReducer(state = todos, action) {
 
 You can use normalizr to normalize this data structure. First, you have to define a schema:
 
-{title="Code Playground",lang="javascript"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -633,7 +633,7 @@ const todoSchema = new schema.Entity('todo');
 
 Second, you can use the schema to normalize your initial todos and use them as default parameter in your `todoReducer`.
 
-{title="Code Playground",lang="javascript"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 // reducers
 
@@ -656,7 +656,7 @@ function todoReducer(state = initialTodoState, action) {
 
 Third, your `todoReducer` needs to handle the normalized state structure. It has to deal with entities and a result (list of ids). You can output the normalized todos even though the Todo application crashes when you attempt to start it.
 
-{title="Code Playground",lang="javascript"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 const normalizedTodos = normalize(todos, [todoSchema]);
 console.log(normalizedTodos);
@@ -664,7 +664,7 @@ console.log(normalizedTodos);
 
 The adjusted reducer would have the following internal functions:
 
-{title="Code Playground",lang="javascript"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 function applyAddTodo(state, action) {
   const todo = { ...action.todo, completed: false };
@@ -684,7 +684,7 @@ function applyToggleTodo(state, action) {
 
 It operates on `entities` and `ids`. Last but not least, when connecting Redux with React, the components need to be aware of the normalized data structure. First, the connection between store and components:
 
-{title="Code Playground",lang="javascript"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 # leanpub-start-insert
 function mapStateToPropsList(state) {
@@ -716,7 +716,7 @@ const ConnectedTodoItem = connect(mapStateToPropsItem, mapDispatchToPropsItem)(T
 
 Second, the `TodoList` component receives only the `todosAsIds` and the `TodoItem` receives the `todo` entity.
 
-{title="Code Playground",lang="javascript"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 function TodoApp() {
   return <ConnectedTodoList />;
@@ -746,7 +746,7 @@ The application should work again. Start it and play around with it. You can fin
 
 In the fourth and last part of the refactoring you are going to use selectors. This refactoring is fairly straight forward. You have to extract the parts that operate on the state in your `mapStateToProps()` functions to selector functions. First, define the selector functions:
 
-{title="Code Playground",lang="javascript"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 // selectors
 
@@ -761,7 +761,7 @@ function getTodo(state, todoId) {
 
 Second, you can use these functions instead of operating on the state directly in your `mapStateToProps()` functions:
 
-{title="Code Playground",lang="javascript"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 // Connecting React and Redux
 
@@ -788,7 +788,7 @@ The Todo application should work with selectors now. You can find it in the [Git
 
 In the Todo application, there are two pieces missing feature-wise: the ability to add a todo and to filter todos by their complete state. Let's begin with the creation of a todo item. First, there needs to be a component where you can type in a todo name and execute the creation.
 
-{title="Code Playground",lang="javascript"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 class TodoCreate extends React.Component {
   constructor(props) {
@@ -832,7 +832,7 @@ class TodoCreate extends React.Component {
 
 Notice again that the component is completely unaware of Redux. It only updates its local `value` state. When the form gets submitted, it uses the internal `value` state for the `onAddTodo()` callback function that's accessible in the `props` object. The component doesn't know whether the callback function updates the local state of a parent component or the Redux store. Next, you can use the connected version of this component in the `TodoApp` component.
 
-{title="Code Playground",lang="javascript"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 function TodoApp() {
   return (
@@ -850,7 +850,7 @@ function TodoApp() {
 
 The last step is to wire the React component to the Redux store by making it a connected component.
 
-{title="Code Playground",lang="javascript"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 function mapDispatchToPropsCreate(dispatch) {
   return {
@@ -863,12 +863,12 @@ const ConnectedTodoCreate = connect(null, mapDispatchToPropsCreate)(TodoCreate);
 
 It uses the `mapDispatchToPropsCreate()` function to get access to the dispatch method of the Redux store. The `doAddTodo()` action creator takes the name of the todo item, coming from the `TodoCreate` component, and generates a unique identifier with the `uuid()` function. The `uuid()` function is a neat little helper function that comes from the [uuid](https://github.com/kelektiv/node-uuid) library. You have to install it and import it to your Todo application:
 
-{title="Command Line",lang="text"}
+{title="Command Line: /",lang="text"}
 ~~~~~~~~
 npm install --save uuid
 ~~~~~~~~
 
-{title="Code Playground",lang="text"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -884,7 +884,7 @@ import './index.css';
 
 You can try to create a todo item in your Todo application now. It should work. Next you want to make use of your filter functionality to filter by completeness status of a todo item. First, you have to add a `Filter` component.
 
-{title="Code Playground",lang="text"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 function Filter({ onSetFilter }) {
   return (
@@ -909,7 +909,7 @@ function Filter({ onSetFilter }) {
 
 The `Filter` component only receives a callback function. Again it doesn't know anything about the state management that is happening above. The callback function is used in different buttons to set specific filter types. You can use the connected component in the `TodoApp` component again.
 
-{title="Code Playground",lang="text"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 function TodoApp() {
   return (
@@ -926,7 +926,7 @@ function TodoApp() {
 
 Last but not least, you have to connect the `Filter` component to actually use it in the `TodoApp` component. It dispatched the `doSetFilter` action creator by passing the filter type from the underlying buttons in the `Filter` component.
 
-{title="Code Playground",lang="text"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 function mapDispatchToPropsFilter(dispatch) {
   return {
@@ -939,7 +939,7 @@ const ConnectedFilter = connect(null, mapDispatchToPropsFilter)(Filter);
 
 When you start your Todo application now, you will see that the `filterState` will change once you click on one of your filter buttons. But nothing happens to your displayed todos. They are not filtered, because in your selector you select the whole list of todos. The next step would be to adjust the selector to only select the todos in the list that are matching the filter. First, you can define filter functions that match todos according to their `completed` state.
 
-{title="Code Playground",lang="text"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 // filters
 
@@ -952,7 +952,7 @@ const VISIBILITY_FILTERS = {
 
 Second, can use your selector to only select the todos matching a filter. You already have all selectors in place. But you need to adjust one to filter the todos according to the `filterState`.
 
-{title="Code Playground",lang="text"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 // selectors
 

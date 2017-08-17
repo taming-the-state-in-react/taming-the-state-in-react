@@ -29,7 +29,7 @@ You can verify your versions of node and npm on the command line. If you don't g
 {title="Command Line",lang="text"}
 ~~~~~~~~
 node --version
-*v8.1.2
+*v8.2.1
 npm --version
 *v5.3.0
 ~~~~~~~~

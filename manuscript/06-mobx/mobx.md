@@ -12,14 +12,14 @@ Along the way of the following chapters you can decide to opt-in any time the [M
 
 MobX is often used in applications that have a view layer such as React. Thus the state, similar to Redux, needs to be connected to the view. It needs to be connected in a way that the state can be updated and the updated state flows back into the view.
 
-{title="Code Playground",lang="javascript"}
+{title="Concept Playground",lang="text"}
 ~~~~~~~~
 View -> MobX -> View
 ~~~~~~~~
 
 The schema can be elaborated to give more detail about MobX and its parts.
 
-{title="Code Playground",lang="javascript"}
+{title="Concept Playground",lang="text"}
 ~~~~~~~~
 View -> (Actions) -> State -> (Computed Values) -> Reactions -> View
 ~~~~~~~~

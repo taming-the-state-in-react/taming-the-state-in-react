@@ -86,8 +86,8 @@ Such a fluctuant cache solution is not difficult to implement with a local state
 this.state = {
   ...
   searchCache: {
-    "React": [...],
-    "ReactLocalState": [...],
+    React: [...],
+    ReactLocalState: [...],
   }
 }
 ~~~~~~~~

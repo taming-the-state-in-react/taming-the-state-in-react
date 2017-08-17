@@ -167,7 +167,7 @@ After learning about asynchronous actions, the Todo application could make use o
 
 The first part of this hands on chapter is a great repetition on using everything you have learned before asynchronous actions. First, you have to implement a notification reducer that evaluates actions that should generate a notification.
 
-{title="Code Playground",lang="javascript"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 function notificationReducer(state = {}, action) {
   switch(action.type) {
@@ -186,7 +186,7 @@ function applySetNotifyAboutAddTodo(state, action) {
 
 You don't need to create a new action type. Instead you can reuse the action you already have to add todos. When a todo gets created, the notification reducer will store a new notification about the created todo item. Second, you have to include the reducer in your combined reducer to make it accessible to the Redux store.
 
-{title="Code Playground",lang="javascript"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 const rootReducer = combineReducers({
   todoState: todoReducer,
@@ -199,7 +199,7 @@ const rootReducer = combineReducers({
 
 The Redux part is done. It is only a reducer and including it in the Redux store. The action gets reused. Third, you have to implement a React component that displays all of your notifications.
 
-{title="Code Playground",lang="javascript"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 function Notifications({ notifications }) {
   return (
@@ -212,7 +212,7 @@ function Notifications({ notifications }) {
 
 Fourth, you can include the connected version of the `Notifications` component in your `TodoApp` component.
 
-{title="Code Playground",lang="javascript"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 function TodoApp() {
   return (
@@ -230,7 +230,7 @@ function TodoApp() {
 
 Last but not least, you have to wire up React and Redux in the connected `ConnectedNotifications` component.
 
-{title="Code Playground",lang="javascript"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 function mapStateToPropsNotifications(state, props) {
   return {
@@ -243,7 +243,7 @@ const ConnectedNotifications = connect(mapStateToPropsNotifications)(Notificatio
 
 The only thing left is to implement the missing selector `getNotifications()`. Since the notifications in the Redux store as saved as an object, you have to use a helper function to convert it into an array. It is good to extract the helper function earlier on, because you might need such functionalities more often and shouldn't couple it to the domain of notifications.
 
-{title="Code Playground",lang="javascript"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 function getNotifications(state) {
   return getArrayOfObject(state.notificationState);
@@ -256,7 +256,7 @@ function getArrayOfObject(object) {
 
 The first part of the "Hands On" chapter is done. You should see a notification in your Todo application once you create a todo item. The second part will implement a `NOTIFICATION_HIDE` action and use it in the `notificationReducer` to remove the notification from the state. First, you have to introduce the action type:
 
-{title="Code Playground",lang="javascript"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 const TODO_ADD = 'TODO_ADD';
 const TODO_TOGGLE = 'TODO_TOGGLE';
@@ -268,7 +268,7 @@ const NOTIFICATION_HIDE = 'NOTIFICATION_HIDE';
 
 Second, you can implement an action creator that uses the action type. It will hide (remove) the notification by id, because they are stored by id:
 
-{title="Code Playground",lang="javascript"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 function doHideNotification(id) {
   return {
@@ -280,7 +280,7 @@ function doHideNotification(id) {
 
 Third, you can capture it in the `notificationReducer`. The JavaScript destructuring functionality can be used to omit a property from an object. You can simply omit the notification and return the remaining object.
 
-{title="Code Playground",lang="javascript"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 function notificationReducer(state = {}, action) {
   switch(action.type) {
@@ -311,14 +311,14 @@ That was the second part of the "Hands On" chapter that introduced the hiding no
 
 First, you have to install the [redux-thunk](https://github.com/gaearon/redux-thunk) on the command line:
 
-{title="Command Line",lang="text"}
+{title="Command Line: /",lang="text"}
 ~~~~~~~~
 npm install --save redux-thunk
 ~~~~~~~~
 
 Second, you can import it in your code:
 
-{title="Code Playground",lang="javascript"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 ...
 # leanpub-start-insert
@@ -329,7 +329,7 @@ import thunk from 'redux-thunk';
 
 And third, use it in your Redux store middleware:
 
-{title="Code Playground",lang="javascript"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 const store = createStore(
   rootReducer,
@@ -342,7 +342,7 @@ const store = createStore(
 
 The application should still work. When using Redux Thunk, you can dispatch action objects as before. However, now you can dispatch thunks (functions) too. Rather than dispatching an action object that only creates a todo item, you can dispatch a thunk function that creates a todo item and hides the notification about the creation after a couple of seconds. You have two plain actions creators, `doAddTodo()` and `doHideNotification()`, already in place. You only have to reuse it in your thunk function.
 
-{title="Code Playground",lang="javascript"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 function doAddTodoWithNotification(id, name) {
   return function (dispatch) {
@@ -357,7 +357,7 @@ function doAddTodoWithNotification(id, name) {
 
 In the last step, you have to use the `doAddTodoWithNotification()` rather than the `doAddTodo()` action creator when connecting Redux and React in your `TodoCreate` component.
 
-{title="Code Playground",lang="javascript"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 function mapDispatchToPropsCreate(dispatch) {
   return {
@@ -392,7 +392,7 @@ In conclusion, as you can see, all these libraries, Redux Saga, Redux Observable
 
 In a previous chapter, you have used Redux Thunk to dispatch asynchronous actions. These were used to add a todo item with a notification whereas the notification vanishes after a couple of seconds again. In this chapter you will use Redux Saga instead of Redux Thunk. Therefore, you can install the former library and uninstall the latter one. You can continue with your previous Todo application.
 
-{title="Command Line",lang="text"}
+{title="Command Line: /",lang="text"}
 ~~~~~~~~
 npm uninstall --save redux-thunk
 npm install --save redux-saga
@@ -400,7 +400,7 @@ npm install --save redux-saga
 
 The action you have used before with a thunk becomes a pure action creator now. It will be used to trigger the saga thread.
 
-{title="Code Playground",lang="javascript"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 const TODO_ADD_WITH_NOTIFICATION = 'TODO_ADD_WITH_NOTIFICATION';
 
@@ -416,7 +416,7 @@ function doAddTodoWithNotification(id, name) {
 
 Now you can introduce your first saga that listens on this particular action, because the action is solely used to trigger the saga thread.
 
-{title="Code Playground",lang="javascript"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 import { takeEvery } from 'redux-saga/effects';
 
@@ -431,7 +431,7 @@ function* watchAddTodoWithNotification() {
 
 Most often you will find one part of the saga watching incoming actions and evaluating them. If an evaluation applies truthfully, it often will call another generator function that handles the side-effect. That way you can keep your side-effect watcher maintainable and don't clutter them with business logic. In the previous example a `takeEvery()` effect of Redux Saga is used to handle every action with the specified action type. Yet there are other effects in Redux Saga such as `takeLatest()` which only takes the last of the incoming actions by action type.
 
-{title="Code Playground",lang="javascript"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 # leanpub-start-insert
 import { delay } from 'redux-saga';
@@ -459,7 +459,7 @@ As you can see, in JavaScript generators you use the `yield` statement to execut
 
 Now, you only have to exchange your middleware in your Redux store from using Redux Thunk to Redux Saga.
 
-{title="Code Playground",lang="javascript"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 # leanpub-start-insert
 import createSagaMiddleware, { delay } from 'redux-saga';

@@ -383,7 +383,7 @@ const expectedSubstate = { ... };
 expect(substate).to.equal(expectedSubstate)
 ~~~~~~~~
 
-*Reducer:*
+*Reducers:*
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~

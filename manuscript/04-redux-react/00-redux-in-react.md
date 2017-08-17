@@ -16,7 +16,7 @@ These three interactions need to be accessed from your view layer. As mentioned,
 
 If you recall the unidirectional data flow in Redux, that was adapted from the Flux architecture, you will notice that you have all parts at your disposal by now.
 
-{title="Code Playground",lang="javascript"}
+{title="Concept Playground",lang="text"}
 ~~~~~~~~
 View -> Action -> Reducer(s) -> Store -> View
 ~~~~~~~~
@@ -43,7 +43,7 @@ npm start
 
 If you haven't used create-react-app before, I recommend you to read up the basics in the [official documentation](https://github.com/facebookincubator/create-react-app). Basically, your *src/* folder has several files. You will not use the *src/App.js* file in this application, but only the *src/index.js* file. Open up your editor and adjust your *src/index.js* file to the following:
 
-{title="Code Playground",lang="javascript"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -58,14 +58,14 @@ ReactDOM.render(<TodoApp />, document.getElementById('root'));
 
 Now, when you start your application again with `npm start`, you should see the displayed "Todo App" string from the `TodoAdd`component. Before you continue to build a React application now, let's hook in all of the Redux code that you have written in the previous chapters. First, install Redux in your application.
 
-{title="Command Line",lang="text"}
+{title="Command Line: /",lang="text"}
 ~~~~~~~~
 npm install --save redux
 ~~~~~~~~
 
 Second, re-use the Redux code from the previous chapters in your *src/index.js* file. You start at the top to import the two Redux functionalities that you have used so far. They belong next to the imports that are already there:
 
-{title="Command Line",lang="text"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -77,7 +77,7 @@ import './index.css';
 
 Now, in between of your imports and your React code, you introduce your Redux functionalities. First, the action types:
 
-{title="Command Line",lang="text"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 // action types
 
@@ -88,7 +88,7 @@ const FILTER_SET = 'FILTER_SET';
 
 Second, the reducers with an initial state:
 
-{title="Command Line",lang="text"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 // reducers
 
@@ -138,7 +138,7 @@ function applySetFilter(state, action) {
 
 Third, the action creators:
 
-{title="Command Line",lang="text"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 // action creators
 
@@ -166,7 +166,7 @@ function doSetFilter(filter) {
 
 And last but not least, the creation of the store with the combined reducers:
 
-{title="Command Line",lang="text"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 // store
 
@@ -180,7 +180,7 @@ const store = createStore(rootReducer);
 
 After that, your React code follows. It should already be there in the same file.
 
-{title="Command Line",lang="text"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 // view layer
 
@@ -199,7 +199,7 @@ The following will showcase a naive usage scenario of Redux in React. So far, yo
 
 First, the `TodoApp` component:
 
-{title="Code Playground",lang="javascript"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 function TodoApp({ todos, onToggleTodo }) {
   return <TodoList
@@ -211,7 +211,7 @@ function TodoApp({ todos, onToggleTodo }) {
 
 Second, the `TodoList` component:
 
-{title="Code Playground",lang="javascript"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 function TodoList({ todos, onToggleTodo }) {
   return (
@@ -228,7 +228,7 @@ function TodoList({ todos, onToggleTodo }) {
 
 Third, the `TodoItem` component:
 
-{title="Code Playground",lang="javascript"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 function TodoItem({ todo, onToggleTodo }) {
   const { name, id, completed } = todo;
@@ -248,7 +248,7 @@ function TodoItem({ todo, onToggleTodo }) {
 
 Notice that none of these components is aware of Redux. They simply display todos and use a callback function to toggle todo items. Now, in the last step, you wire together Redux and React. You can use the initialized `store` in your root component where React hooks into HTML.
 
-{title="Code Playground",lang="javascript"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 ReactDOM.render(
   <TodoApp
@@ -263,7 +263,7 @@ The store does two things: it makes state accessible and exposes functionalities
 
 What about the update mechanism? When an action is dispatched, someone needs to subscribe to the Redux store. In a naive approach, you can do the following to force a view update. First, wrap your React root into a function.
 
-{title="Code Playground",lang="javascript"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 # leanpub-start-insert
 function render() {
@@ -282,7 +282,7 @@ function render() {
 
 Second, you can pass the function to the `subscribe()` method of the Redux store. And last but not least, you have to invoke the function one time for the initial render of your component tree.
 
-{title="Code Playground",lang="javascript"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 function render() {
   ReactDOM.render(
@@ -364,7 +364,7 @@ Usually, you will only use two of them: `mapStateToProps()` and `mapDispatchToPr
 
 That is a lot of knowledge to digest. Both functions, `mapStateToProps()` and `mapDispatchToProps()`, can be intimidating at the beginning. In addition, they are used in a foreign higher order component. However, they only give you access to the state and to the dispatch method of the store.
 
-{title="Code Playground",lang="javascript"}
+{title="Concept Playground",lang="text"}
 ~~~~~~~~
 View -> (mapDispatchToProps) -> Action -> Reducer(s) -> Store -> (mapStateToProps) -> View
 ~~~~~~~~
@@ -375,14 +375,14 @@ You will see in the following examples that these functions don't need to be int
 
 Now you will use react-redux to wire up React with Redux. Let's open up your Todo Application in the editor again. First, you have to install the new library:
 
-{title="Command Line",lang="text"}
+{title="Command Line: /",lang="text"}
 ~~~~~~~~
 npm install --save react-redux
 ~~~~~~~~
 
 Second, instead of wrapping the React root component into the `render()` function and subscribing it to the `store.subscribe()` method, you will use the plain React root component again but use the `Provider` component given by react-redux.
 
-{title="Code Playground",lang="javascript"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -406,7 +406,7 @@ ReactDOM.render(
 
 It uses the plain `TodoApp` component. The component still expects `todos` and `onToggleTodo` as props. But it doesn't have these props. Let's use the `connect` higher order component to expose these to the `TodoApp` component. The `TodoApp` component will become a connected `TodoApp` component.
 
-{title="Code Playground",lang="javascript"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -432,7 +432,7 @@ ReactDOM.render(
 
 Now, only the connections, `mapStateToProps()` and `mapDispatchToProps()` are missing. They are quite similar to the naive React with Redux version.
 
-{title="Code Playground",lang="javascript"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 # leanpub-start-insert
 function mapStateToProps(state) {
@@ -463,7 +463,7 @@ Only your `TodoApp` component has access to the state and enables you to alter t
 
 In the Todo application, you could keep both `mapStateToProps()` and `mapDispatchToProps()`, but you would use them somewhere else. While the `TodoApp` component doesn't need them anymore, they would be used in a connected `TodoItem` and connected `TodoList` component.
 
-{title="Code Playground",lang="javascript"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 # leanpub-start-insert
 const ConnectedTodoList = connect(mapStateToProps)(TodoList);
@@ -482,7 +482,7 @@ ReactDOM.render(
 
 Now you wouldn't need to pass the `onToggleTodo()` props through the `TodoApp` component and `TodoList` component anymore. The same applies for the `todos` that don't need to get passed through the `TodoApp` component.
 
-{title="Code Playground",lang="javascript"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 # leanpub-start-insert
 function TodoApp() {
