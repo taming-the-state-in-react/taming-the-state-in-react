@@ -1,6 +1,6 @@
 # Redux State Structure and Retrieval
 
-You have learned about Redux standalone and Redux in React. You already would be able to build applications with it. Before you dive deeper into Redux, I recommend you to experiment with your recent learnings and apply them in smaller applications.
+You have learned about Redux standalone and Redux in React. You would already be able to build applications with it. Before you dive deeper into Redux, I recommend you to experiment with your recent learnings and apply them in smaller applications.
 
 The following chapter guides you through more advanced topics in Redux to manage your state. You will get to know the middleware in Redux, you will learn more about a normalized state structure, an immutable state structure and how to retrieve a substate in an improved way from the global state with selectors.
 
@@ -43,17 +43,17 @@ const store = createStore(
 );
 ~~~~~~~~
 
-That's it. Now every action should be visible in your developer console when dispatching them. You don't have to take care about this anymore. Your state changes become more predictable as developer.
+That's it. Now every action should be visible in your developer console when dispatching them. You don't have to take care of this anymore. Your state changes become more predictable as developer.
 
-The `applyMiddleware()` functionality takes any number of middleware: `applyMiddleware(firstMiddleware, secondMiddleware, ...);`. The action will flow through all middleware before it reaches the reducers. Sometimes you have to make sure to apply them in the correct order. For instance, the `redux-logger` middleware must be last in the middleware chain in order to output the correct actions and states.
+The `applyMiddleware()` functionality takes any number of middleware: `applyMiddleware(firstMiddleware, secondMiddleware, ...);`. The action will flow through all middleware before it reaches the reducers. Sometimes, you have to make sure to apply them in the correct order. For instance, the `redux-logger` middleware must be last in the middleware chain in order to output the correct actions and states.
 
-Nevertheless, that's only the redux-logger middleware. On your way to implement Redux applications, you will surely find out more about useful features that can be used with a middleware. Most of theses features are already taken care of in libraries that you will find published on npm. For instance, asynchronous actions in Redux are possible by using the Redux middleware. These asynchronous actions will be explained later in this book.
+Nevertheless, that's only the redux-logger middleware. On your way to implement Redux applications, you will surely find out more about useful features that can be used with a middleware. Most of these features are already taken care of in libraries that you will find published on npm. For instance, asynchronous actions in Redux are possible by using the Redux middleware. These asynchronous actions will be explained later in this book.
 
 ## Immutable State
 
-Redux embraces an immutable state. Your reducers will always return a new state object. You will never mutate the incoming state. Therefore you might have to get used to different JavaScript functionalities and syntax to embrace immutable data structures.
+Redux embraces an immutable state. Your reducers will always return a new state object. You will never mutate the incoming state. Therefore, you might have to get used to different JavaScript functionalities and syntax to embrace immutable data structures.
 
-So far, you have used built-in JavaScript functionalities to keep your data structures immutable. Such as `array.map()` and `array.concat(item)` for arrays or `Object.assign()` for objects. All of these functionalities return new instances of arrays or objects. Often you have to read the official JavaScript documentation to make sure that they return a new instance of the array or object. Otherwise you would violate the constraints of Redux because you would mutate the previous instance.
+So far, you have used built-in JavaScript functionalities to keep your data structures immutable. Such as `array.map()` and `array.concat(item)` for arrays or `Object.assign()` for objects. All of these functionalities return new instances of arrays or objects. Often, you have to read the official JavaScript documentation to make sure that they return a new instance of the array or object. Otherwise, you would violate the constraints of Redux because you would mutate the previous instance.
 
 But it doesn't end here. You should know about your tools to keep data structures immutable in JavaScript. There are a handful of third-party libraries that can support you in keeping them immutable.
 
@@ -69,7 +69,7 @@ Personally I would recommend to use such libraries only in two scenarios:
 * You are not comfortable to keep your data structures immutable with JavaScript ES5, JavaScript ES6 and beyond.
 * You want to improve the performance of immutable data structures when using huge amounts of data.
 
-If both statements are false, I would advice you to stick to plain JavaScript. As you have seen the built-in JavaScript functionalities already help a lot. In JavaScript ES6 and beyond you get one more functionality to keep your data structures immutable: [spread operators](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Operators/Spread_operator). Spreading an object or array into a new object or new array always gives you a new object or new array.
+If both statements are false, I would advice you to stick to plain JavaScript. As you have seen, the built-in JavaScript functionalities already help a lot. In JavaScript ES6 and beyond you get one more functionality to keep your data structures immutable: [spread operators](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Operators/Spread_operator). Spreading an object or array into a new object or new array always gives you a new object or new array.
 
 Do you recall how you added a new todo item or how you completed a todo item  in your reducers?
 
@@ -87,7 +87,7 @@ const newTodos = todos.map(todo =>
   );
 ~~~~~~~~
 
-If you would add more JavaScript ES6, you can keep it even more concise.
+If you added more JavaScript ES6, you could keep it even more concise.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -107,12 +107,12 @@ JavaScript gives you enough tools to keep your data structures immutable. There 
 
 ## Normalized State
 
-A best practice in Redux is a flat state strcuture. You don't want to maintain a immutable state when it is deeply nested. It becomes even with spread operators tedious and unreadable. But often you have no control over your data structure, because it comes from a backend application via its API. When having a deeply nested data structure, you have two options:
+A best practice in Redux is a flat state strcuture. You don't want to maintain an immutable state when it is deeply nested. It becomes tedious and unreadable even with spread operators. But often you don't have control over your data structure, because it comes from a backend application via its API. When having a deeply nested data structure, you have two options:
 
 * saving it in the store as it is and postpone the problem
 * saving it as normalized data structure in the store
 
-You should prefer the second option. You only deal once with the problem and all subsequent parts in your application will be grateful for it. Let's run through one scenario to illustrate the normalization of data. Imagine you have a deeply nested data structure:
+You should prefer the second option. You only deal with the problem once and all subsequent parts in your application will be grateful for it. Let's run through one scenario to illustrate the normalization of data. Imagine you have a deeply nested data structure:
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -138,7 +138,7 @@ const todos = [
 ];
 ~~~~~~~~
 
-Both library creators, Dan Abramov and Michel Weststrate, did a great job: they created popular libraries for state management. The first option, as mentioned, would be to save the todos as they are in the store. The todos itself would have the deeply nested information of the assigned user. Now, when an action would want to correct an assigned user, the reducer would have to deal with the deeply nested data structure. Let's add Andrew Clark to the creators of Redux.
+Both library creators, Dan Abramov and Michel Weststrate, did a great job: they created popular libraries for state management. The first option, as mentioned, would be to save the todos as they are in the store. The todos themselves would have the deeply nested information of the assigned user. Now, if an action wanted to correct an assigned user, the reducer would have to deal with the deeply nested data structure. Let's add Andrew Clark to the creators of Redux.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -176,9 +176,9 @@ function applyChangeAssignedTo(state, action) {
 }
 ~~~~~~~~
 
-The further you have to reach into a deeply nested data structure, the more you have to be careful to keep your data structure immutable. Each level of nested data adds more tedious work of maintaing it. Therefore, you should use a library called [normalizr](https://github.com/paularmstrong/normalizr). The library uses schema defintions to transform deeply nested data structures into dictionaries that have entities and a corresponending list of ids.
+The further you have to reach into a deeply nested data structure, the more you have to be careful to keep your data structure immutable. Each level of nested data adds more tedious work of maintaining it. Therefore, you should use a library called [normalizr](https://github.com/paularmstrong/normalizr). The library uses schema defintions to transform deeply nested data structures into dictionaries that have entities and a corresponending list of ids.
 
-How would that look like? Let's take the previous list of todo items as example. First, you would have to define only once schemas for your entities:
+What would that look like? Let's take the previous list of todo items as example. First, you would have to define schemas for your entities only once:
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -245,7 +245,7 @@ The output would be the following:
 }
 ~~~~~~~~
 
-The deeply nested data became a flat data structure grouped by entities. Each entity can reference another entity by its id. Now you could have one reducer that stores and deals with the `assignedTo` entities and one reducer that deals with the `todo` entities. The data structure is flat and grouped by entities and thus easier to access and to manipulate. The basic approach would be to normalize data structure first before you send it as a payload in a action to their reducers.
+The deeply nested data became a flat data structure grouped by entities. Each entity can reference another entity by its id. Now you could have one reducer that stores and deals with the `assignedTo` entities and one reducer that deals with the `todo`entities. The data structure is flat and grouped by entities and thus easier to access and to manipulate. The basic approach would be to normalize data structure first before you send it as a payload in a action to their reducers.
 
 There is another benefit in normalizing your data. When your data is denormalized, entities are often duplicated in your nested data structure. Imagine the following object with todos.
 
@@ -273,7 +273,7 @@ const todos = [
 ];
 ~~~~~~~~
 
-If you would store such denormalized data in your Redux store, you will likely run into an issue. What's the problem with the denormalized data structure? Imagine you want to update the name property `Robin Wieruch` of all `assignedTo` properties. You would have to run through all todos in order to update all `assignedTo` properties with the id `55`. The problem: There is no single source of truth. You will likely forget to update an entity and run into a stale state eventually. Therefore the best practice is to store your state normalized so that each entitiy can be a single source of truth. There will be no duplication of entities and thus no stale state when updating the single source of truth. Each todo will reference to the updated `assignedTo` entitity:
+If you store such denormalized data in your Redux store, you will likely run into an issue. What's the problem with the denormalized data structure? Imagine you want to update the name property `Robin Wieruch` of all `assignedTo` properties. You would have to run through all todos in order to update all `assignedTo` properties with the id `55`. The problem: There is no single source of truth. You will likely forget to update an entity and run into a stale state eventually. Therefore, the best practice is to store your state normalized so that each entity can be a single source of truth. There will be no duplication of entities and thus no stale state when updating the single source of truth. Each todo will reference to the updated `assignedTo` entitity:
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -306,7 +306,7 @@ If you would store such denormalized data in your Redux store, you will likely r
 
 In conclusion, normalizing your state has two benefits. It keeps your state flat and thus easier manageable with immutable data structures. In addition, it groups entities to single sources of truth without any duplications. When you normalize your state, you will automatically get groupings of entities that could lead to their own reducers managing them.
 
-There exists yet another benefit when normalizing your state. It is about denormalization: how to component retrieve the normalized state? You will learn it in the next chapter.
+There exists yet another benefit when normalizing your state. It is about denormalization: how do component retrieve the normalized state? You will learn it in the next chapter.
 
 ## Selectors
 
@@ -314,7 +314,7 @@ In Redux, there is the concept of selectors to retrieve derived properties from 
 
 ### Plain Selectors
 
-Selectors follow usually the same syntax. The mandatory argument of a selector is the state from where it has to select from. There can be optional arguments that are in a supportive role to select the substate or the derived properties.
+Selectors usually follow the same syntax. The mandatory argument of a selector is the state from where it has to select from. There can be optional arguments that are in a supportive role to select the substate or the derived properties.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -322,7 +322,7 @@ Selectors follow usually the same syntax. The mandatory argument of a selector i
 (state, arg) => derived properties
 ~~~~~~~~
 
-Selectors are not mandatory. When thinking about all the parts in Redux, only the action(s), the reducer(s) and the Redux store are a binding requirement. Similar to action creators, selectors can be used to achieve an improved developer experience in a Redux architecture. How does a selector look like? It is a plain function, as mentioned, that could live anywhere. However, you would use it, when using Redux in React, in your `mapStateToProps()` function.
+Selectors are not mandatory. When thinking about all the parts in Redux, only the action(s), the reducer(s) and the Redux store are a binding requirement. Similar to action creators, selectors can be used to achieve an improved developer experience in a Redux architecture. What does a selector look like? It is a plain function, as mentioned, that could live anywhere. However, you would use it, when using Redux in React, in your `mapStateToProps()` function.
 
 Instead of retrieving the state explicitly:
 
@@ -335,7 +335,7 @@ function mapStateToProps(state) {
 }
 ~~~~~~~~
 
-You would retrieve it implicit via a selector:
+You would retrieve it implicitly via a selector:
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -356,11 +356,11 @@ function mapStateToProps(state) {
 
 It is similar to the action and reducer concept. Instead of manipulating the state directly in the Redux store, you will use action(s) and reducer(s) to alter it indirectly. The same applies for selectors that don't retrieve the derived properties directly but indirectly from the global state.
 
-Why is that an advantage? There are several benefits. A selector can be reused. You will run more often into cases where you select the derived properties. That's always a good sign to use a function in the first place. In addition, selectors can be tested separately. They are pure functions and thus an easily testable part in the architecture. Last but not least, deriving properties from state can become a complex undertaking in a scaling application. As mentioned, a selector could get optional arguments to derive more sophistitated properties from the state. The selector function itself would become more complex, but it would be encapsulated in one function rather than, for instance in React and Redux, in a `mapStateToProps()` function.
+Why is that an advantage? There are several benefits. A selector can be reused. You will run into cases where you select the derived properties more often. That's always a good sign to use a function in the first place. In addition, selectors can be tested separately. They are pure functions and thus an easily testable part in the architecture. Last but not least, deriving properties from state can become a complex undertaking in a scaling application. As mentioned, a selector could get optional arguments to derive more sophistitated properties from the state. The selector function itself would become more complex, but it would be encapsulated in one function rather than, for instance in React and Redux, in a `mapStateToProps()` function.
 
 ### Denormalize State in Selectors
 
-In the last chapter that was about normalizing your state, there was one benefit left unexplained. It is about selecting normalized state. Personally I would argue a normalized state structure makes it much more convenient to select a substate from it. When you recall the normalized state structure, it looked something like the following:
+In the last chapter that was about normalizing your state, there was one benefit left unexplained. It is about selecting normalized state. Personally, I would argue a normalized state structure makes it much more convenient to select a substate from it. When you recall the normalized state structure, it looked something like the following:
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -398,7 +398,7 @@ For instance, in a real work application it would look like the following:
 
 If you recall the Redux in React chapter, there you passed the list of todos from the `TodoList` component, because it is a connected component, down to the whole component tree. How would you solve this with the normalized state from above?
 
-Assuming that the reducer would store the state in a normalized immutable data structure, you would only pass the list of todo `ids` to your `TodoList` component. Because this component manages the list and not the entities itself, it makes perfect sense that it only gets the list with references to the entities.
+Assuming that the reducer stored the state in a normalized immutable data structure, you would only pass the list of todo `ids` to your `TodoList` component. Because this component manages the list and not the entities themselves, it makes perfect sense that it only gets the list with references to the entities.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -451,9 +451,9 @@ const ConnectedTodoItem = connect(mapStateToProps, mapDispatchToProps)(TodoItem)
 
 The `TodoItem` component itself would stay the same. It still gets the `todo` item and the `onToggleTodo()` handler as arguments. In addition, you can see two more concepts that were explained earlier. First, the selector grows in complexity because it gets optional arguments to select derived properties from the state. Second, the `mapStateToProps()` function makes use of the incoming props from the `TodoList` component that uses the `ConnectedTodoItem` component.
 
-As you can see, the normalized state requires to use more connected components. More components are responsible to select their needed derived properties. But in a growing application, following this pattern can make it easier to reason about it. You only pass properties that are really necessary to the component. In the last case, the `TodoList` component only cares about a list of references yet the `TodoItem` component itself cares about the entitiy that is selected by using the reference passed down by the `TodoList` component.
+As you can see, the normalized state requires to use more connected components. More components are responsible to select their needed derived properties. But in a growing application, following this pattern can make it easier to reason about it. You only pass properties that are really necessary to the component. In the last case, the `TodoList` component only cares about a list of references yet the `TodoItem` component itself cares about the entity that is selected by using the reference passed down by the `TodoList` component.
 
-There exists another way, when using normalizr, to denormalize your normalized state. The previous scenario allowed you to pass only the minimum of properties to the components. Each component was responsible to select its state. In this scenario, you will denormalize your state in one component while the other components don't need to care about it. You will use the defined schema again to reverse the normalization.
+There exists another way to denormalize your normalized state when using normalizr. The previous scenario allowed you to only pass the minimum of properties to the components. Each component was responsible to select its state. In this scenario, you will denormalize your state in one component while the other components don't need to care about it. You will use the defined schema again to reverse the normalization.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -492,7 +492,7 @@ In this scenario, the whole normalized data structure gets normalized in the sel
 
 ### Reselect
 
-When using selectors in a scaling application, you should consider a library called [reselect](https://github.com/reactjs/reselect) that provides you with advanced selectors. Basically it uses the same concept of plain selectors as you have learned before. But it comes with two improvements.
+When using selectors in a scaling application, you should consider a library called [reselect](https://github.com/reactjs/reselect) that provides you with advanced selectors. Basically, it uses the same concept of plain selectors as you have learned before. But it comes with two improvements.
 
 A plain selector has one constraint:
 
@@ -581,7 +581,7 @@ function applyToggleTodo(state, action) {
 
 The application should work the same as before. The source code can be found in the [GitHub repository](https://github.com/rwieruch/taming-the-state-todo-app/tree/5.0.0).
 
-In the third part of the refactoring, you will use a normalized state structure. Therefore you can install the neat library [normalizr](https://github.com/paularmstrong/normalizr).
+In the third part of the refactoring, you will use a normalized state structure. Therefore, you can install the neat library [normalizr](https://github.com/paularmstrong/normalizr).
 
 {title="Command Line",lang="text"}
 ~~~~~~~~
@@ -786,7 +786,7 @@ The Todo application should work with selectors now. You can find it in the [Git
 
 ## Hands On: Todo but more Features
 
-In the Todo application, there are two pieces missing feature wise: the ability to add a todo and to filter todos by their complete state. Let's begin with the creation of a todo item. First, there needs to be a component where you can type in a todo name and execute the creation.
+In the Todo application, there are two pieces missing feature-wise: the ability to add a todo and to filter todos by their complete state. Let's begin with the creation of a todo item. First, there needs to be a component where you can type in a todo name and execute the creation.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -830,7 +830,7 @@ class TodoCreate extends React.Component {
 }
 ~~~~~~~~
 
-Notice again that the component is complelty unaware of Redux. It only updates its local `value` state. When the form gets submitted, it uses the internal `value` state for the `onAddTodo()` callback function that's accessible in the `props` object. The component doesn't know whether the callback function updates the local state of a parent component or the Redux store. Next you can use the connected version of this component in the `TodoApp` component.
+Notice again that the component is complelty unaware of Redux. It only updates its local `value` state. When the form gets submitted, it uses the internal `value` state for the `onAddTodo()` callback function that's accessible in the `props` object. The component doesn't know whether the callback function updates the local state of a parent component or the Redux store. Next, you can use the connected version of this component in the `TodoApp` component.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -861,7 +861,7 @@ function mapDispatchToPropsCreate(dispatch) {
 const ConnectedTodoCreate = connect(null, mapDispatchToPropsCreate)(TodoCreate);
 ~~~~~~~~
 
-It uses the `mapDispatchToPropsCreate()` function to get access to the dispatch method of the Redux store. The `doAddTodo()` action creator takes the name of the todo item, coming from the `TodoCreate` component, and generates an unique identifier with the `uuid()` function. The `uuid()` function is a neat little helper function that comes from the [uuid](https://github.com/kelektiv/node-uuid) library. You have to install it and import it to your Todo application:
+It uses the `mapDispatchToPropsCreate()` function to get access to the dispatch method of the Redux store. The `doAddTodo()` action creator takes the name of the todo item, coming from the `TodoCreate` component, and generates a unique identifier with the `uuid()` function. The `uuid()` function is a neat little helper function that comes from the [uuid](https://github.com/kelektiv/node-uuid) library. You have to install it and import it to your Todo application:
 
 {title="Command Line",lang="text"}
 ~~~~~~~~
@@ -950,7 +950,7 @@ const VISIBILITY_FILTERS = {
 };
 ~~~~~~~~
 
-Second, can use your selector to only select the todos matching a filter. You have already all selectors in place. But you need to adjust one to filter the todos according to the `filterState`.
+Second, can use your selector to only select the todos matching a filter. You already have all selectors in place. But you need to adjust one to filter the todos according to the `filterState`.
 
 {title="Code Playground",lang="text"}
 ~~~~~~~~
@@ -970,6 +970,6 @@ function getTodo(state, todoId) {
 }
 ~~~~~~~~
 
-Since your state is normalized, your have to map through all your `ids` to get a list of `todos`, filter them by `filterState`, and map them back to 'ids'. You filter functionality should work now. Start your application and try it.
+Since your state is normalized, your have to map through all your `ids` to get a list of `todos`, filter them by `filterState`, and map them back to 'ids'. Your filter functionality should work now. Start your application and try it.
 
 You can find the final application in the [GitHub repository](https://github.com/rwieruch/taming-the-state-todo-app/tree/8.0.0). It applies all the learnings about the Redux middleware, immutable and normalized data structures and selectors.

@@ -1,6 +1,6 @@
 # Redux in React
 
-In the last chapters, you got to know plain Redux. It helps you to manage a predictable state object. However, you want to use this state object in an application eventually. It can be any JavaScript application that has to deal with state management. The principle of Redux could be deployed in any programming language to manage a state object.
+In the last chapters, you got to know plain Redux. It helps you to manage a predictable state object. However, you want to use this state object in an application eventually. It can be any JavaScript application that has to deal with state management. The principle of Redux could be deployed to any programming language to manage a state object.
 
 State management in single page applications (SPAs) is one of these use cases where Redux can be applied. These applications are usually built with a framework (Angular) or view layer library (React, Vue), but most often these solutions lack of a sophisticated state management solution. That's where Redux comes into play. The book focuses on React, but you can apply the learnings to other solutions, such as Angular and Vue, too.
 
@@ -21,11 +21,11 @@ If you recall the unidirectional data flow in Redux, that was adapated from the 
 View -> Action -> Reducer(s) -> Store -> View
 ~~~~~~~~
 
-How can `dispatch()`, `subscribe()` and `getState()` be accessed in a React view layer? Basically the view layer has to be able to dispatch actions on the one end, while it has to listen to updates from the store, in order to update itself, on the other end. All three functionalities are accessible as methods on the Redux store.
+How can `dispatch()`, `subscribe()` and `getState()` be accessed in a React view layer? Basically, the view layer has to be able to dispatch actions on the one end, while it has to listen to updates from the store, in order to update itself, on the other end. All three functionalities are accessible as methods on the Redux store.
 
 ### Hands On: Bootstrap React App with Redux
 
-It is highly recommended to use create-react-app to bootstrap your React application. But it is up to you. If you use create-react-app and never used it before, you have to install it first from the command line:
+It is highly recommended to use create-react-app to bootstrap your React application. However, it is up to you to follow that advice. If you use create-react-app and have never used it before, you have to install it first from the command line:
 
 {title="Command Line",lang="text"}
 ~~~~~~~~
@@ -41,7 +41,7 @@ cd taming-the-state-todo-app
 npm start
 ~~~~~~~~
 
-If you haven't used create-react-app before, I recommend you to read up the basics in the [official documentation](https://github.com/facebookincubator/create-react-app). Basically your *src/* folder has several files. You will not use the *src/App.js* file in this application, but only the *src/index.js* file. Open up your editor and adjust your *src/index.js* file to the following.
+If you haven't used create-react-app before, I recommend you to read up the basics in the [official documentation](https://github.com/facebookincubator/create-react-app). Basically, your *src/* folder has several files. You will not use the *src/App.js* file in this application, but only the *src/index.js* file. Open up your editor and adjust your *src/index.js* file to the following:
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -56,14 +56,14 @@ function TodoApp() {
 ReactDOM.render(<TodoApp />, document.getElementById('root'));
 ~~~~~~~~
 
-Now when you start your application again with `npm start`, you should see the displayed "Todo App" string from the `TodoAdd` component. Before you continue to build a React application now, let's hook in all of the Redux code that you have written in the previous chapters. First, install Redux in your application.
+Now, when you start your application again with `npm start`, you should see the displayed "Todo App" string from the `TodoAdd`component. Before you continue to build a React application now, let's hook in all of the Redux code that you have written in the previous chapters. First, install Redux in your application.
 
 {title="Command Line",lang="text"}
 ~~~~~~~~
 npm install --save redux
 ~~~~~~~~
 
-Second, reuse the Redux code from the previous chapters in your *src/index.js* file. You start in the top to import the two Redux functionalities that you have used so far. They belong next to the imports that are already there:
+Second, re-use the Redux code from the previous chapters in your *src/index.js* file. You start at the top to import the two Redux functionalities that you have used so far. They belong next to the imports that are already there:
 
 {title="Command Line",lang="text"}
 ~~~~~~~~
@@ -178,7 +178,7 @@ const rootReducer = combineReducers({
 const store = createStore(rootReducer);
 ~~~~~~~~
 
-After that, your React code follows. It should be already there in the same file.
+After that, your React code follows. It should already be there in the same file.
 
 {title="Command Line",lang="text"}
 ~~~~~~~~
@@ -195,7 +195,7 @@ The bootstrapping is done. The bootstrapped application can be found in a [GitHu
 
 ### Hands On: Naive Todo with React and Redux
 
-The following will showcase a naive usage scenario of Redux in React. So far, you have only a `TodoApp` component in React. However, you want to start a component tree that can display a list of todos and gives the user the possibility to toggle these todos to a completed status. Apart from the `TodoApp` component, you will have a `TodoList` component and a `TodoItem` component. The `TodoItem` shows the name of the todo and has a functionality that is used in a button to complete the todo.
+The following will showcase a naive usage scenario of Redux in React. So far, you only have a `TodoApp` component in React. However, you want to start a component tree that can display a list of todos and gives the user the possibility to toggle these todos to a completed status. Apart from the `TodoApp` component, you will have a `TodoList` component and a `TodoItem` component. The `TodoItem` shows the name of the todo and has a functionality that is used in a button to complete the todo.
 
 First, the `TodoApp` component:
 
@@ -306,13 +306,13 @@ The approach showcased how you can wire up your React component tree with the Re
 
 Even though the previous approach is pragmatic and shows a simplified version of how to wire up all these things, it is naive. Why is that? In a real application you want to avoid the following practices:
 
-* re-render the whole component tree: You want to re-render only the components that are affected by the global state updated. Otherwise you will run into performance issues in a scaling application.
+* re-render the whole component tree: You want to re-render only the components that are affected by the global state updated. Otherwise, you will run into performance issues in a scaling application.
 
 * using the store instance: You want to avoid to operate directly on the Redux store instance. The store should be injected somehow into your component tree to make it accessible for components that need to have access to the store.
 
 * making the store globally available: The store shouldn't be globally accessible by every component. In the previous example only the React root component uses it, but who prevents you from using it directly in your `TodoItem` component to dispatch an action?
 
-Fortunately, there exists a library that takes care about these things and gives you a bridge from the Redux to the React world.
+Fortunately, there exists a library that takes care of these things and gives you a bridge from the Redux to the React world.
 
 ## Connecting the State, but Sophisticated
 
@@ -332,7 +332,7 @@ ReactDOM.render(
 );
 ~~~~~~~~
 
-After you have done this, every child component in the whole component tree has an implicit access to the store. Thus every component is able to dispatch actions and to listen to updates in order to re-render. But not every component has to listen to updates. How does this work without passing the store as props to each child component? It uses the provider pattern that you have got to know in a previous chapter. Under the hood it uses the React context API:
+After you have done this, every child component in the whole component tree has an implicit access to the store. Thus, every component is able to dispatch actions and to listen to updates in order to re-render. But not every component has to listen to updates. How does this work without passing the store as props to each child component? It uses the provider pattern that you got to know in a previous chapter. Under the hood it uses the React context API:
 
 *"In some cases, you want to pass data through the component tree without having to pass the props down manually at every level. You can do this directly in React with the powerful "context" API."*
 
@@ -356,13 +356,13 @@ The `connect` HOC can have up to four arguments as configuration:
 connect([mapStateToProps], [mapDispatchToProps], [mergeProps], [options])(...);
 ~~~~~~~~
 
-Usually you will only use two of them: `mapStateToProps()` and `mapDispatchToProps()`. You will learn about the other two arguments, `mergeProps()` and `options`, later in this book.
+Usually, you will only use two of them: `mapStateToProps()` and `mapDispatchToProps()`. You will learn about the other two arguments, `mergeProps()` and `options`, later in this book.
 
-**mapStateToProps(state, [props]) => derivedProps:** It is a function that can be passed to the connect HOC. If it is passed, the input component of the connect HOC will subscribe to updates from the Redux store. Thus it means that every time the store subscription notices an update, the `mapStateToProps()` function will run. The `mapStateToProps()` function itself has two arguments in its function signature: the global state object and optionally the props from the parent component. The function returns an object that is derived from the global state and optionally from the props from the parent component. The returned object will be merged into the remaining props that come as input in the connected component when it is used.
+**mapStateToProps(state, [props]) => derivedProps:** It is a function that can be passed to the connect HOC. If it is passed, the input component of the connect HOC will subscribe to updates from the Redux store. Thus, it means that every time the store subscription notices an update, the `mapStateToProps()` function will run. The `mapStateToProps()` function itself has two arguments in its function signature: the global state object and optionally the props from the parent component. The function returns an object that is derived from the global state and optionally from the props from the parent component. The returned object will be merged into the remaining props that come as input in the connected component when it is used.
 
-**mapDispatchToProps(dispatch, [props]):** It is a function (or object) that can be passed to the connect HOC. Whereas `mapStateToProps()` gives access to the global state, `mapDispatchToProps()` gives access to the dispatch method of the store. It makes it possible to dispatch actions but passes down only plain functions that wire up the dispatching in a higher order function. After all, it makes it possible to pass functions down to the input component of the connect HOC to alter the state. You can use optionally the incoming props to wrap those into the dispatched action.
+**mapDispatchToProps(dispatch, [props]):** It is a function (or object) that can be passed to the connect HOC. Whereas `mapStateToProps()` gives access to the global state, `mapDispatchToProps()` gives access to the dispatch method of the store. It makes it possible to dispatch actions but passes down only plain functions that wire up the dispatching in a higher order function. After all, it makes it possible to pass functions down to the input component of the connect HOC to alter the state. Optionally, you can use the incoming props to wrap those into the dispatched action.
 
-That is a lot of knowledge to digest. Both functions, `mapStateToProps()` and `mapDispatchToProps()`, can be intimidating in the beginning. In addition, they are used in a foreign higher order component. However, they only give you access to the state and to the dispatch method of the store.
+That is a lot of knowledge to digest. Both functions, `mapStateToProps()` and `mapDispatchToProps()`, can be intimidating at the beginning. In addition, they are used in a foreign higher order component. However, they only give you access to the state and to the dispatch method of the store.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -373,7 +373,7 @@ You will see in the following examples that these functions don't need to be int
 
 ### Hands On: Sophisticated Todo with React and Redux
 
-Now you will use react-redux to wire up React with Redux. Let's open up again your Todo Application in the editor. First, you have to install the new library:
+Now you will use react-redux to wire up React with Redux. Let's open up your Todo Application in the editor again. First, you have to install the new library:
 
 {title="Command Line",lang="text"}
 ~~~~~~~~
@@ -404,7 +404,7 @@ ReactDOM.render(
 # leanpub-end-insert
 ~~~~~~~~
 
-It uses the plain `TodoApp` component. The component still expects `todos` and `onToggleTodo` as props. But it hasn't these props. Let's use the `connect` higher order component to expose these to the `TodoApp` component. The `TodoApp` component will become a connected `TodoApp` component.
+It uses the plain `TodoApp` component. The component still expects `todos` and `onToggleTodo` as props. But it doesn't have these props. Let's use the `connect` higher order component to expose these to the `TodoApp` component. The `TodoApp` component will become a connected `TodoApp` component.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -453,13 +453,13 @@ const ConnectedTodoApp = connect(mapStateToProps, mapDispatchToProps)(TodoApp);
 ...
 ~~~~~~~~
 
-That's it. In `mapStateToProps()` only a substate is returned. In `mapDispatchToProps()` only a higher order function that encapsulates the dispatching of an action is returned. The child components are unaware of any state or actions. They are only receiving props. The final application of this approach can be found in a [GitHub repository](https://github.com/rwieruch/taming-the-state-todo-app/tree/2.0.0). I would advice you to compare it again with the naive version that wires React and Redux together. It is not that different from it.
+That's it. In `mapStateToProps()` only a substate is returned. In `mapDispatchToProps()` only a higher order function that encapsulates the dispatching of an action is returned. The child components are unaware of any state or actions. They are only receiving props. The final application of this approach can be found in a [GitHub repository](https://github.com/rwieruch/taming-the-state-todo-app/tree/2.0.0). I would advice you to compare it to the naive version again that wires React and Redux together. It is not that different from it.
 
 ### Hands On: Connecting State Everywhere
 
-There is one last clue to understand the basics of wiring React and Redux together. In the previous example, you have only used one connected component that is located at the root of your component tree. But you can use connected components everywhere.
+There is one last clue to understand the basics of wiring React and Redux together. In the previous example, you only used one connected component that is located at the root of your component tree. But you can use connected components everywhere.
 
-Only your `TodoApp` component has access to the state and enables you to alter the state. Instead of using your root component to connect to it to the store, you can add connected components in between. For instance, the `onToggleTodo()` function has to pass several component until it reaches its destination in the `TodoItem` component. Why not connecting the `TodoItem` component to make the functionality right next to it available rather than passing it down multiple components? The same applies for the `TodoList` component. It could be connected to retrieve the list of todos instead of getting it from the `TodoApp` component.
+Only your `TodoApp` component has access to the state and enables you to alter the state. Instead of using your root component to connect to it to the store, you can add connected components in between. For instance, the `onToggleTodo()` function has to pass several components until it reaches its destination in the `TodoItem` component. Why not connecting the `TodoItem` component to make the functionality right next to it available rather than passing it down to multiple components? The same applies for the `TodoList` component. It could be connected to retrieve the list of todos instead of getting it from the `TodoApp` component.
 
 In the Todo application, you could keep both `mapStateToProps()` and `mapDispatchToProps()`, but you would use them somewhere else. While the `TodoApp` component doesn't need them anymore, they would be used in a connected `TodoItem` and connected `TodoList` component.
 

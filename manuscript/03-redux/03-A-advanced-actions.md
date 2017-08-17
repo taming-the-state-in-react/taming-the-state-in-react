@@ -2,7 +2,7 @@
 
 You have learned about actions in a previous chapter. However, there are more fine grained details that I want to cover in this chapter. The same applies for reducers. Both will be covered in the following chapters.
 
-Therefore it would be a requirement that you feel confident with the learnings from the previous chapter. Not all of the following learnings are mandatory to write applications in Redux, but they teach best practices and common usage patterns. In an advanced application, you would want to know about these topics.
+Therefore, it would be a requirement that you feel confident with the learnings from the previous chapter. Not all of the following learnings are mandatory to write applications in Redux, but they teach best practices and common usage patterns. In an advanced application, you would want to know about these topics.
 
 ### Minimum Action Payload
 
@@ -16,9 +16,9 @@ Do you recall the action from a previous chapter that added a todo item? It was 
 }
 ~~~~~~~~
 
-As you can see, the `completed` property is defined as false. In addition, you have seen that the action and reducer from the previous chapter did work under these circumstances. However, a rule of thumb in Redux is to keep the action payload to a minimum.
+As you can see, the `completed` property is defined as false. In addition, you saw that the action and reducer from the previous chapter did work under these circumstances. However, a rule of thumb in Redux is to keep the action payload to a minimum.
 
-In the example, when you want to add a todo in a Todo application, it would need at least the unique identifier and a name of a todo. But the `completed` property is unneccesary. The assumption is that every todo that is added to the store will be incomplete. It wouldn't make sense in a puristic Todo application to add completed todos, would it? Therefore not the action would take care about the property but the reducer.
+In the example, when you want to add a todo in a Todo application, it would need at least the unique identifier and a name of a todo. But the `completed` property is unnecessary. The assumption is that every todo that is added to the store will be incomplete. It wouldn't make sense in a puristic Todo application to add completed todos, would it? Therefore, not the action would take care of the property but the reducer.
 
 Instead of simply passing the whole todo object into the list of todos in your reducer:
 
@@ -39,7 +39,7 @@ function applyAddTodo(state, action) {
 }
 ~~~~~~~~
 
-Finally you can omit it in the action:
+Finally, you can omit it in the action:
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -49,11 +49,11 @@ Finally you can omit it in the action:
 }
 ~~~~~~~~
 
-Now, you defined only the necessary payload in the action. Nevertheless, if the Todo application decides at some point to add incompleted todos in the first place, you can add it in the action again and leave it out in the reducer. Ultimatively keeping the payload in the action to a minimum is a best practice in Redux.
+Now, you only defined the necessary payload in the action. Nevertheless, if at some point the Todo application decides to add incompleted todos in the first place, you can add it in the action again and leave it out in the reducer. Ultimately, keeping the payload in the action to a minimum is a best practice in Redux.
 
 ### Action Type
 
-Actions get evaluated in reducers by action type. The action type is the glue between both parts even though actions and reducers can be defined independently. To make the application more robust, you should extract the action type as a variable. Otherwise you can run into typos where an action never reaches a reducer because you mispelled it.
+Actions get evaluated in reducers by action type. The action type is the glue between both parts even though actions and reducers can be defined independently. To make the application more robust, you should extract the action type as a variable. Otherwise, you can run into typos where an action never reaches a reducer because you misspelled it.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -97,7 +97,7 @@ There is another benefit in extracting the action type as variable. Because acti
 
 ### Action Creator
 
-Action creators add another layer on top that often leads to confusion when learning Redux. Action creators are not mandatory, but they are convenient to use.
+Action creators add another layer on top, which often leads to confusion when learning Redux. Action creators are not mandatory, but they are convenient to use.
 
 So far, you have dispatched an action as plain action object:
 
@@ -111,7 +111,7 @@ store.dispatch({
 });
 ~~~~~~~~
 
-Action creators encapsule the action with its action type and optional payload in a reusable function. In addition, they give you the flexibility to pass any payload. After all, they are only pure functions that return an object.
+Action creators encapsule the action with its action type and optional payload in a reusable function. In addition, they give you the flexibility to pass any payload. After all, they are only pure functions which return an object.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -130,13 +130,13 @@ Now, you can use it by invoking the function in your dispatch method:
 store.dispatch(doAddTodo('0', 'learn redux'));
 ~~~~~~~~
 
-Action creators return a plain action. Once again, it is not mandatory to use them, but it adds convenience and makes your code more readable in the long run. In addition, you can test action creators independetly as functions. Last but not least, these action creatiors stay reusable because they are functions.
+Action creators return a plain action. Once again, it is not mandatory to use them, but it adds convenience and makes your code more readable in the long run. In addition, you can test action creators independetly as functions. Last but not least, these action creators stay reusable because they are functions.
 
 ### Optional Payload
 
-In the book, it was earlier mentioned that actions don't need to have a payload. Only the action type is required.
+In the book, it was mentioned earlier that actions don't need to have a payload. Only the action type is required.
 
-For instance, imagine you want to login into your Todo application. Therefore you need to open up a modal where you can enter your credentials: email and password. You wouldn't need a payload for your action in order to open a modal. You only need to signalize by dispatching an action that the modal state should be stored as open.
+For instance, imagine you want to login into your Todo application. Therefore, you need to open up a modal where you can enter your credentials: email and password. You wouldn't need a payload for your action in order to open a modal. You only need to signalize that the modal state should be stored as open by dispatching an action.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -156,7 +156,7 @@ A reducer would take care of it and set the state of a `isLoginModalOpen` proper
 
 A reducer would set the `isLoginModalOpen` property in the state to false. That's verbose, because you already need two actions to alter only one property in the state.
 
-By planning your actions thoughtfully, you avoid these bad practices and keep your actions on a higher level of abstraction. If you would use the optional payload for the action, you could solve login scenario in only one action instead of two actions. The `isLoginModalOpen` property would be dynamically passed in the action rather than being hardcoded in a reducer.
+By planning your actions thoughtfully, you avoid these bad practices and keep your actions on a higher level of abstraction. If you used the optional payload for the action, you could solve login scenario in only one action instead of two actions. The `isLoginModalOpen` property would be dynamically passed in the action rather than being hardcoded in a reducer.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -193,7 +193,7 @@ Again you will encounter a best practice that is not mandatory in Redux. So far,
 }
 ~~~~~~~~
 
-The properties would add up horizontally, but mask the one most important property: the type. Therefore you should treat action type and payload on the same level, but nest the payload itself one level deeper as the two abstract properties.
+The properties would add up horizontally, but mask the one most important property: the type. Therefore, you should treat action type and payload on the same level, but nest the payload itself one level deeper as the two abstract properties.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -210,7 +210,7 @@ The refactoring ensures that type and payload are visible on first glance. As sa
 
 ### Hands On: Redux Standalone with advanced Actions
 
-Let's dip again into the Redux Playground with the acquired knowledge about actions. You can take again the [JS Bin project that you have done in the last chapter](https://jsbin.com/kopohur/28/edit?html,js,console). The project will be used to show the advanced actions. You can try it on your own. Otherwise the following part will guide you through the refactorings.
+Let's dip into the Redux Playground again with the acquired knowledge about actions. You can take the [JS Bin project that you have done in the last chapter](https://jsbin.com/kopohur/28/edit?html,js,console) again. The project will be used to show the advanced actions. You can try it on your own. Otherwise, the following part will guide you through the refactorings.
 
 The minimum action payload is a quick refactoring. You can omit the `completed` in the action and add it to the reducer functionality.
 
@@ -290,7 +290,7 @@ store.dispatch({
 });
 ~~~~~~~~
 
-In the next step you can introduce action creators to your Todo application. First, you can define them:
+In the next step, you can introduce action creators to your Todo application. First, you can define them:
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
