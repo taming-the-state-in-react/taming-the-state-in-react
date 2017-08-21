@@ -87,7 +87,7 @@ Even the `App` component is removed, because you'll organize it in folders inste
 
 {title="Command Line: src/",lang="text"}
 ~~~~~~~~
-mkdir constants reducers actions selectors sagas components store api
+mkdir components reducers actions selectors store sagas api constants
 ~~~~~~~~
 
 Your folder structure should be similar to the following:
@@ -146,7 +146,7 @@ Now you have your foundation of folders and files for your React and Redux appli
 
 ### Part 2: Plain React Components
 
-In this part you will implement your plain React component architecture that only receives all necessary props from their parent components. These props can already have callback functions to do something. The point is that the props don't reveal that they are props themselves that are located in the parent component, state from the local state or even Redux state. The callback functions are plain functions too. Thus the components are not aware of using local state methods or Redux actions to alter the state.
+In this part you will implement your plain React component architecture that only receives all necessary props from their parent components. These props can include callback functions that will enable interactions later on. The point is that the props don't reveal that they are props themselves that are located in the parent component, state from the local state or even Redux state. The callback functions are plain functions too. Thus the components are not aware of using local state methods or Redux actions to alter the state.
 
 In your entry point to React, where your root component gets rendered into the DOM, adjust the import of the `App` component by including the components folder in the path.
 
@@ -428,7 +428,7 @@ const Stories = ({ stories }) =>
   ...
 ~~~~~~~~
 
-The last column with the 'archive' property name will not be used yet, but will be used in a later point in time. Second, you can pass this object to your `Story` component. Still the `Stories` component has the object to use it later on for the column headings.
+The last column with the `archive` property name will not be used yet, but will be used in a later point in time. Second, you can pass this object to your `Story` component. Still the `Stories` component has the object to use it later on for the column headings.
 
 {title="src/components/Stories.js",lang="javascript"}
 ~~~~~~~~
