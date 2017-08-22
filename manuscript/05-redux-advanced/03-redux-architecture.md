@@ -715,7 +715,7 @@ This part will finally introduce Redux to manage the state of the (sample) stori
 npm install --save redux
 ~~~~~~~~
 
-Second, in the root entry point of React, you can import the Redux store. The store is not defined yet. Instead of using the sample stories, you will use the stories that are stored in the Redux store. Taken that the store saves only a list of stories as state, you can simply get the root state of the store and assume that it is the list of stories.
+Second, in the root entry point of React, you can import the Redux store. The store is not defined yet. Instead of using the sample stories, you will use the stories that are stored in the Redux store. Taken that the store only saves a list of stories as state, you can simply get the root state of the store and assume that it is the list of stories.
 
 {title="src/index.js",lang="javascript"}
 ~~~~~~~~
@@ -918,7 +918,7 @@ Now you dispatch the action directly without an action creator. You can find thi
 
 ### Part 8: First Selector
 
-You can use both substates, `storyState` and `archiveState` to derive the list of stories that are not archived. The deriving of those properties can happen in a selector. You can create your first selector that only returns the part of the stories that is not archived.
+You can use both substates, `storyState` and `archiveState` to derive the list of stories that are not archived. The deriving of those properties can happen in a selector. You can create your first selector that only returns the part of the stories that is not archived. The `archiveState` is the list of archived ids.
 
 {title="src/selectors/story.js",lang="javascript"}
 ~~~~~~~~
