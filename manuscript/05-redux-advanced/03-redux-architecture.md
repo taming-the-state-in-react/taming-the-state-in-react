@@ -1096,7 +1096,7 @@ The application should operate as before when you start it. But this time you ha
 
 ### Part 12: Connect React with Redux
 
-In this part, you will connect the React and Redux in a more sophisticated way. The component tree already re-renders when you dispatch an action. However, you might want to wire up components independently with the Redux store without using the Redux store directly. In addition, you don't want to re-render the whole component tree, but only the components where the state or props have changed. Let's change this by using the [react-redux](https://github.com/reactjs/react-redux) library that connects both worlds.
+In this part, you will connect React and Redux in a more sophisticated way. The whole component tree re-renders everytime when the state changes now. However, you might want to wire up components independently with the Redux store. In addition, you don't want to re-render the whole component tree, but only the components where the state or props have changed. Let's change this by using the [react-redux](https://github.com/reactjs/react-redux) library that connects both worlds.
 
 {title="Command Line",lang="text"}
 ~~~~~~~~
@@ -1184,7 +1184,7 @@ export default connect(
 # leanpub-end-insert
 ~~~~~~~~
 
-The `Stories` component is a connected component now and is the only component that has access to the Redux store. It receives the stories from the state in `mapStateToProps()` and a function that triggers the dispatching of an action to archive a story in `mapDispatchToProps()`. The application should work again, but this time with a sophisticated interaction between Redux and React. You can find this part of the chapter in [the GitHub repository](https://github.com/rwieruch/taming-the-state-hn-app/tree/88072e9b62230f59ffa83a5ddd06ceda6bf75fe4).
+The `Stories` component is a connected component now and is the only component that has access to the Redux store. It receives the stories from the state in `mapStateToProps()` and a function that triggers the dispatching of an action to archive a story in `mapDispatchToProps()`. The application should work again, but this time with a sophisticated connection between Redux and React. You can find this part of the chapter in [the GitHub repository](https://github.com/rwieruch/taming-the-state-hn-app/tree/88072e9b62230f59ffa83a5ddd06ceda6bf75fe4).
 
 ### Part 13: Lift Connection
 
@@ -1253,7 +1253,7 @@ With this refactoring step in your mind, you can always lift your connections to
 
 ### Part 14: Interacting with an API
 
-Implementing applications with sample data can be dull. It can be more exciting by interacting with a real API - the [Hacker News API](https://hn.algolia.com/api). Even though, as you have learned, you can have asynchronous actions without any asynchronous action library, this application will introduce Redux Saga as asynchronous action library to deal with side-effects such as fetching data from a third-party library.
+Implementing applications with sample data can be dull. It can be more exciting to interact with a real API - in this case the [Hacker News API](https://hn.algolia.com/api). Even though, as you have learned, you can have asynchronous actions without any asynchronous action library, this application will introduce Redux Saga as asynchronous action library to deal with side-effects such as fetching data from a third-party platform.
 
 {title="Command Line: /",lang="text"}
 ~~~~~~~~
@@ -1575,7 +1575,7 @@ Great, you have separated the API functionality from the saga. You can find this
 
 ### Part 16: Error Handling
 
-So far, you are making a request to the Hacker News API and display the retrieved stories in your React components. But what happens when an error occurs? You can try it yourself by toggling your browser to offline in your developer console. Nothing will show up when you search for stories. In order to give your end-user a great user experience, you could add error handling to your application. Let's do it by introducing an action that could allocate an error state in the Redux store.
+So far, you are making a request to the Hacker News API and display the retrieved stories in your React components. But what happens when an error occurs? Nothing will show up when you search for stories. In order to give your end-user a great user experience, you could add error handling to your application. Let's do it by introducing an action that could allocate an error state in the Redux store.
 
 {title="src/constants/actionTypes.js",lang="javascript"}
 ~~~~~~~~
