@@ -1,12 +1,12 @@
 # Redux Patterns, Techniques and Best Practices
 
-There are several patterns and best practices that you can apply in a Redux application. I will go through a handful of them to point you in the right direction. However, the evolving patterns and best practices around the ecosystem are changing all the time. You want to read more about these topics on your own.
+There are several patterns and best practices that you can apply in a Redux application. I will go through a handful of them to point you in the right direction. However, the evolving patterns and best practices around the ecosystem are changing all the time. You will want to read more about these topics on your own.
 
 ## Using JavaScript ES6
 
-So far, you have written your Redux code mostly in JavaScript ES5. Redux is inspired by the functional programming paradigm and uses a lot of its concepts: immutable data structures and pure functions. When using Redux in your scaling application, you will find yourself often using pure functions that solve only one problem. For instance, an action creator only returns an action object, a reducer only returns the new state and a selector only returns derived properties. You will embrace this mental model and use it in Redux agnostic code too. You will see yourself more often using functions that only solve one problem, using higher order functions to return reusable functions and compose functions into each other. You will move toward a functional programming style with Redux.
+So far, you have written your Redux code mostly in JavaScript ES5. Redux is inspired by the functional programming paradigm and uses a lot of its concepts: immutable data structures and pure functions. When using Redux in your scaling application, you will often find yourself using pure functions that solve only one problem. For instance, an action creator only returns an action object, a reducer only returns the new state and a selector only returns derived properties. You will embrace this mental model and use it in Redux agnostic code, too. You will see yourself more often using functions that only solve one problem, using higher order functions to return reusable functions and compose functions into each other. You will move toward a functional programming style with Redux.
 
-JavaScript ES6 and beyond complements the functional programming style in JavaScript perfectly. You only have to look at the following example to understand how much more concise higher order functions can be written with JavaScript ES6 arrow functions.
+JavaScript ES6 and beyond complements the functional programming style in JavaScript perfectly. You only have to look at the following example to understand how much more concisely higher order functions can be written with JavaScript ES6 arrow functions.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -21,7 +21,7 @@ function higherOrderFunction() {
 const higherOrderFunction = () => { ... };
 ~~~~~~~~
 
-It's a higher order function that is much more readable in JavaScript ES6. You will find yourself more often using higher order functions when programming in a functional style. It will happen that you not only use one higher order function, but a higher order function that returns a higher order function that returns a function. Again it becomes easier to read when using JavaScript ES6.
+It's a higher order function that is much more readable in JavaScript ES6. You will find yourself using higher order functions more often when programming in a functional style. It will happen that you not only use one higher order function, but a higher order function that returns a higher order function that returns a function. Again it becomes easier to read when using JavaScript ES6.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -58,13 +58,13 @@ const showNotificationWithDelay = (text) => (dispatch) => {
 }
 ~~~~~~~~
 
-The JavaScript community shifts in the direction of functional programming and embraces more than ever this style. Functional programming let's you write more predictable code by embracing pure functions without side-effects and immutable data structures. JavaScript ES6 and beyond makes it easier and more readable to write in a functional style.
+The JavaScript community shifts in the direction of functional programming and embraces more than ever this style. Functional programming let's you write more predictable code by embracing pure functions without side-effects and immutable data structures. JavaScript ES6 and beyond make it easier and more readable to write in a functional style.
 
 ## Naming Conventions
 
-In Redux you have a handful of different types of functions. You have action creators, selectors and reducers. It is always good to name them accordingly to their type. Other developers will have an easier time identifying the function type. Just following a naming convention for your functions, you can give yourself and others a valuable information about the function itself.
+In Redux, you have a handful of different types of functions. You have action creators, selectors and reducers. It is always good to name them accordingly to their type. Other developers will have an easier time identifying the function type. Just following a naming convention for your functions, you can give yourself and others a valuable information about the function itself.
 
-Personally I follow this naming convention with Redux functions. It uses prefixes for each function type:
+Personally, I follow this naming convention with Redux functions. It uses prefixes for each function type:
 
 * action creators: **do**Something
 * reducers: **apply**Something
@@ -94,7 +94,7 @@ const ADD_TODO = 'ADD_TODO';
 const TODO_ADD = 'TODO_ADD';
 ~~~~~~~~
 
-Most cultures read from left to right. That's conveyed in programming too. So which action type naming makes more sense? It is the verb or the subject? You can decide on your own, but become clear about a consistent naming convention for your action types. Personally, I find it easier to scan when I have the subject first. When using Redux Logger in a scaling application where a handful actions can be dispatched at once, I find it easier to scan by subject than by verb.
+Most cultures read from left to right. That's conveyed in programming, too. So which action type naming makes more sense? Is it the verb or the subject? You can decide on your own, but become clear about a consistent naming convention for your action types. Personally, I find it easier to scan when I have the subject first. When using Redux Logger in a scaling application where a handful actions can be dispatched at once, I find it easier to scan by subject than by verb.
 
 You can even go one step further and apply the subject as domain prefix for your action types.
 
@@ -113,9 +113,10 @@ When coming from an object-oriented programming background though, you might abu
 
 Redux can be seen as event bus of your application. You can send events (actions) with a payload and an identifier (action type) into the bus and it will pass potential consumer (reducers). A part of these consumers is interested in the event. That's what I call the **event pattern** that Redux embraces.
 
-You can say that the higher you place your actions on the spectrum of abstraction, the more reducers are interested in it. The action becomes an event. The lower you place your actions on the spectrum of abstraction, most often only one reducer can consume it. The action becomes a command. It is a concrete action rather than an abstract action. It is important to note though that you have to keep the balance between abstraction and concreteness. Too abstract actions can lead to a mess when too many reducers consume it. Too concrete actions might be only used by one reducer all the time. Most developers run into the latter scenario though. In Redux, obviously depending on your application, it should be a healthy mix of both.
+You can say that the higher you place your actions on the spectrum of abstraction, the more reducers are interested in it. The action becomes an event. The lower you place your actions on the spectrum of abstraction, most often only one reducer can consume it. To do: After "the lower you..." it has to follow "the bla bla it gets."..
+The action becomes a command. It is a concrete action rather than an abstract action. It is important to note, though, that you have to keep the balance between abstraction and concreteness. Too abstract actions can lead to a mess when too many reducers consume it. Too concrete actions might only be used by one reducer all the time. Most developers run into the latter scenario though. In Redux, obviously depending on your application, it should be a healthy mix of both.
 
-In the book you have encountered most of the time a relationship of 1:1 between action and reducer. Let's take an action that completes a todo as demonstration:
+In the book, you have encountered a relationship of 1:1 between action and reducer most of the time. Let's take an action that completes a todo as demonstration:
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -136,7 +137,7 @@ function todosReducer(state = [], action) {
 }
 ~~~~~~~~
 
-Now imagine that there should be a measuring of the progress of the Todo application user. The progress will always start at zero when the user opens the application. When a todo gets completed, the progress should increase by one. A potential easy solution could be counting all completed todo items. However, since there could be completed todo items already, and you want to measure the completed todo items in this session, the solution would not suffice. The solution could be a second reducer that counts the completed todos in this session.
+Now, imagine that there should be a measuring of the progress of the Todo application user. The progress will always start at zero when the user opens the application. When a todo gets completed, the progress should increase by one. A potentially easy solution could be counting all completed todo items. However, since there could be completed todo items already, and you want to measure the completed todo items in this session, the solution would not suffice. The solution could be a second reducer that counts the completed todos in this session.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -150,7 +151,7 @@ function progressReducer(state = 0, action) {
 }
 ~~~~~~~~
 
-The counter will increment when a todo got completed. Now you can easily measure the progress of the user. Suddenly, you have a 1:2 relationship between action and reducer. Nobody forces you not to couple action and reducer in a 1:1 relationship, but it always makes sense to be creative in this manner. What would happen otherwise? Regarding the progress measurement issue, you might would come up with a second action type and couple it to the previous reducer:
+The counter will increment when a todo got completed. Now, you can easily measure the progress of the user. Suddenly, you have a 1:2 relationship between action and reducer. Nobody forces you not to couple action and reducer in a 1:1 relationship, but it always makes sense to be creative in this manner. What would happen otherwise? Regarding the progress measurement issue, you might come up with a second action type and couple it to the previous reducer:
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -186,9 +187,9 @@ But that would miss the point in Redux. You would want to come up with these com
 
 ## Folder Organization
 
-Eventually your Redux application grows and you cannot manage everything - reducers, action creators, selectors, store and view - in one file. You will have to split up the files. Fortunately JavaScript ES6 brings [import](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Statements/import) and [export](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Statements/export) statements to distribute functionalities in files. If you are not familiar with these, you should read about them.
+Eventually, your Redux application grows and you cannot manage everything - reducers, action creators, selectors, store and view - in one file. You will have to split up the files. Fortunately, JavaScript ES6 brings [import](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Statements/import) and [export](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Statements/export) statements to distribute functionalities in files. If you are not familiar with these, you should read about them.
 
-In this chapter, I want to show you two approaches to organize your folder and files in a Redux application. The first approach, the **technical folder organization**, is used in smaller applications. Once your application scales and more than one team in your organization is working on the project, you can consider the **feature folder organization**. In addition, you will learn in this chapter about best practices for your file and folder structure.
+In this chapter, I want to show you two approaches to organize your folder and files in a Redux application. The first approach, the **technical folder organization**, is used in smaller applications. Once your application scales and more than one team in your organization is working on the project, you can consider the **feature folder organization**. In addition, you will learn about best practices for your file and folder structure in this chapter.
 
 ### Technical Folder Organization
 
