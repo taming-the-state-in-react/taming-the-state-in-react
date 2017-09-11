@@ -75,7 +75,7 @@ You can continue this way and create the remaining files to end up with the foll
 --index.js
 ~~~~~~~~
 
-Now you have your foundation of folders and files for your React and MobX application. Except for the specific component files that you already have, everything else can be used as a blueprint, your own boilerplate, for any application using React and MobX. But only if it is separated by technical concerns. In a growing application, you might want to separate your folders by feature. You can find this part of the chapter in [the GitHub repository](https://github.com/rwieruch/taming-the-state-hn-app/tree/d5ab6a77653ee641d339c0a6a91c8444eff3f699).
+Now you have your foundation of folders and files for your React and MobX application. Except for the specific component files that you already have, everything else can be used as a blueprint, your own boilerplate, for any application using React and MobX. But only if it is separated by technical concerns. In a growing application, you might want to separate your folders by feature.
 
 ### Part 2: Plain React Components
 
