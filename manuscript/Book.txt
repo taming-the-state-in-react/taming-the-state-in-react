@@ -39,3 +39,4 @@
 08-end/01-keep-learning.md
 08-end/02-acknowledgements.md
 08-end/03-thanks.md
+08-end/04-copyright.md
