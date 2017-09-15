@@ -197,7 +197,7 @@ const rootReducer = combineReducers({
 });
 ~~~~~~~~
 
-The Redux part is done. It is only a reducer and including it in the Redux store. The action gets reused. Third, you have to implement a React component that displays all of your notifications. To do: zweiter Satz macht keinen Sinn!
+The Redux part is done. It is only a reducer that you need to include in the Redux store. The action gets reused. Third, you have to implement a React component that displays all of your notifications.
 
 {title="src/index.js",lang="javascript"}
 ~~~~~~~~
@@ -241,8 +241,7 @@ function mapStateToPropsNotifications(state, props) {
 const ConnectedNotifications = connect(mapStateToPropsNotifications)(Notifications);
 ~~~~~~~~
 
-The only thing left is to implement the missing selector `getNotifications()`. Since the notifications in the Redux store as saved as an object, you have to use a helper function to convert it into an array. It is good to extract the helper function earlier on, because you might need such functionalities more often and shouldn't couple it to the domain of notifications.
-To do: ... Redux store as saved as an object? Are saved?
+The only thing left is to implement the missing selector `getNotifications()`. Since the notifications in the Redux store are saved as an object, you have to use a helper function to convert it into an array. It is good to extract the helper function earlier on, because you might need such functionalities more often and shouldn't couple it to the domain of notifications.
 
 {title="src/index.js",lang="javascript"}
 ~~~~~~~~

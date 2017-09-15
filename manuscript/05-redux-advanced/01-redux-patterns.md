@@ -113,7 +113,7 @@ When coming from an object-oriented programming background though, you might abu
 
 Redux can be seen as event bus of your application. You can send events (actions) with a payload and an identifier (action type) into the bus and it will pass potential consumer (reducers). A part of these consumers is interested in the event. That's what I call the **event pattern** that Redux embraces.
 
-You can say that the higher you place your actions on the spectrum of abstraction, the more reducers are interested in it. The action becomes an event. The lower you place your actions on the spectrum of abstraction, most often only one reducer can consume it. To do: After "the lower you..." it has to follow "the bla bla it gets."..
+You can say that the higher you place your actions on the spectrum of abstraction, the more reducers are interested in it. The action becomes an event. The lower you place your actions on the spectrum of abstraction, the less reducers are interested in it. In the end, most often only one reducer can consume it when it is placed on a lower place of the spectrum of abstraction.
 The action becomes a command. It is a concrete action rather than an abstract action. It is important to note, though, that you have to keep the balance between abstraction and concreteness. Too abstract actions can lead to a mess when too many reducers consume it. Too concrete actions might only be used by one reducer all the time. Most developers run into the latter scenario though. In Redux, obviously depending on your application, it should be a healthy mix of both.
 
 In the book, you have encountered a relationship of 1:1 between action and reducer most of the time. Let's take an action that completes a todo as demonstration:
