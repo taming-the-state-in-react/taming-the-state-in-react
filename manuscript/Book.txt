@@ -31,8 +31,6 @@
 
 06-mobx/mobx.md
 
-07-outline-technologies/00-learning-paths.md
-
 {backmatter}
 
 08-end/00-learning-paths.md
