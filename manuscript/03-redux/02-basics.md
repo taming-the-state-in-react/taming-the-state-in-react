@@ -110,9 +110,11 @@ function reducer(state, action) {
     }
     case 'TODO_TOGGLE' : {
 # leanpub-start-insert
-    todo.id === action.todo.id
-      ? Object.assign({}, todo, { completed: !todo.completed })
-      : todo
+      return state.map(todo =>
+        todo.id === action.todo.id
+          ? Object.assign({}, todo, { completed: !todo.completed })
+          : todo
+      );
 # leanpub-end-insert
     }
     default : return state;
@@ -154,10 +156,11 @@ function applyAddTodo(state, action) {
 }
 
 function applyToggleTodo(state, action) {
-  const newState = state.map(todo =>
+  return state.map(todo =>
     todo.id === action.todo.id
       ? Object.assign({}, todo, { completed: !todo.completed })
       : todo
+  );
 }
 # leanpub-end-insert
 ~~~~~~~~
@@ -218,9 +221,9 @@ How to subscribe (and unsubscribe) to the store in order to listen for updates?
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
-const unsubscribe = store.subscribe(() =>
+const unsubscribe = store.subscribe(() => {
   console.log(store.getState());
-);
+});
 
 // don't forget to unsubscribe eventually
 unsubscribe();
