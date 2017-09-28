@@ -59,7 +59,7 @@ Actions get evaluated in reducers by action type. The action type is the glue be
 ~~~~~~~~
 # leanpub-start-insert
 const TODO_ADD = 'TODO_ADD';
-const TODO_TOGGLE = 'TODO_ADD';
+const TODO_TOGGLE = 'TODO_TOGGLE';
 # leanpub-end-insert
 
 const action = {
