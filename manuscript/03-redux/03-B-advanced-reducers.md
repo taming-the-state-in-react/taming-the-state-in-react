@@ -290,7 +290,7 @@ function applyAddTodo(state, action) {
   return Object.assign({}, action.todo, { completed: false });
 }
 
-function applyToggleTodo(state, action) {
+function applyToggleTodo(todo, action) {
   return todo.id === action.todo.id
     ? Object.assign({}, todo, { completed: !todo.completed })
     : todo
