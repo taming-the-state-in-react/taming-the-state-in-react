@@ -71,7 +71,7 @@ Personally I would recommend to use such libraries only in two scenarios:
 
 If both statements are false, I would advice you to stick to plain JavaScript. As you have seen, the built-in JavaScript functionalities already help a lot. In JavaScript ES6 and beyond you get one more functionality to keep your data structures immutable: [spread operators](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Operators/Spread_operator). Spreading an object or array into a new object or new array always gives you a new object or new array.
 
-Do you recall how you added a new todo item or how you completed a todo item  in your reducers?
+Do you recall how you added a new todo item or how you completed a todo item in your reducers?
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -96,14 +96,14 @@ const todo = { ...action.todo, completed: false };
 const newTodos = [ ...todos, todo ];
 
 // toggling todo
-const todos.map(todo =>
+const newTodos = todos.map(todo =>
   todo.id === action.todo.id
     ? { ...todo, completed: !todo.completed }
     : todo
   );
 ~~~~~~~~
 
-JavaScript gives you enough tools to keep your data structures immutable. There is no need to use a third-party library except for the two mentioned use cases. However, there might be a third use case where such library would help: deeply nested data structures in Redux that need to be kept immutable. It is true that it becomes more difficult to keep data structures immutable when they are deeply nested. But, as mentioned earlier in the book, it is bad practice to have deeply nested data structures in Redux in the first place. That's were the next chapter of the book comes into play that can be used to keep your data structures flat.
+JavaScript gives you enough tools to keep your data structures immutable. There is no need to use a third-party library except for the two mentioned use cases. However, there might be a third use case where such library would help: deeply nested data structures in Redux that need to be kept immutable. It is true that it becomes more difficult to keep data structures immutable when they are deeply nested. But, as mentioned earlier in the book, it is bad practice to have deeply nested data structures in Redux in the first place. That's where the next chapter of the book comes into play that can be used to keep your data structures flat.
 
 ## Normalized State
 
@@ -488,7 +488,7 @@ function mapStateToProps(state) {
 const ConnectedTodoList = connect(mapStateToProps)(TodoList);
 ~~~~~~~~
 
-In this scenario, the whole normalized data structure gets normalized in the selector. You will have the whole list of todos in your `TodoList` component. The `TodoItem` component wouldn't need to take care about the denormalization.
+In this scenario, the whole normalized data structure gets denormalized in the selector. You will have the whole list of todos in your `TodoList` component. The `TodoItem` component wouldn't need to take care about the denormalization.
 
 ### Reselect
 
@@ -891,15 +891,15 @@ function Filter({ onSetFilter }) {
     <div>
       Show
       <button
-        type="text"
+        type="button"
         onClick={() => onSetFilter('SHOW_ALL')}>
         All</button>
       <button
-        type="text"
+        type="button"
         onClick={() => onSetFilter('SHOW_COMPLETED')}>
         Completed</button>
       <button
-        type="text"
+        type="button"
         onClick={() => onSetFilter('SHOW_INCOMPLETED')}>
         Incompleted</button>
     </div>
