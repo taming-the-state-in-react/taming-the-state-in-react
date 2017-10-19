@@ -2,6 +2,8 @@
 
 **How to get updates?** I have two channels where I share updates about my content. Either you can [subscribe to updates by email](https://www.getrevue.co/profile/rwieruch) or [follow me on Twitter](https://twitter.com/rwieruch). Regardless of the channel, my objective is to only share qualitative content. You will never receive any spam. Once you get the update that the book has changed, you can download the new version of it.
 
+**How to get access to the source code projects and screencasts series?** If you have bought one of the extended packages that give you access to the source code projects and screencast series, you should find these on your [course dashboard](https://roadtoreact.com/my-courses). If you have bought the course somewhere else than on [the official Road to React](https://roadtoreact.com/) course platform, you need to create an account on this platform, go to the Admin page and reach out to me with one of the email templates. Afterward I can enroll you to the course.
+
 **Why is the book not for free?** I often share content for free ([blog](https://www.robinwieruch.de/), [ebook](https://www.robinwieruch.de/the-road-to-learn-react/)). I believe information should be free and everyone should be able to learn from it. However, at some point I think people are able to be professionals in these areas and can afford to pay for the more advanced content. Whereas learning React is an entry point to a whole ecosystem and to first professional opportunities, Redux and MobX are advanced solutions that are used in larger applications most often in companies. At this point, it makes sense to pay for educating to keep up with the industry standards.
 
 **What should I do when I cannot afford to pay for the book?** If you cannot afford the book but want to learn about the topic, you can reach out to me. It could be that you are still a student or that the book would be too expensive in your country. In addition, I want to support any cause to improve the diversity in our culture of developers. If you belong to a minority or are in an organization that supports diversity, please reach out to me.
@@ -10,7 +12,7 @@
 
 **Is there a money back guarantee?** Yes, there is 100% money back if you don't think it's a good fit. Please reach out to me to get a refund.
 
-**Can I help to improve the content?** Yes, I would love to hear your feedback. Once again, please reach out to me. These can be improvements technical wise yet also about the written word. I am no native speaker. In the next iteration of the book, if the book generates income, I will hand it over to a proofreader and editor for improvements.
+**Can I help to improve the content?** Yes, I would love to hear your feedback. You can simply open an issue on [GitHub](https://github.com/rwieruch/taming-the-state-issue-tracker). These can be improvements technical wise yet also about the written word. I am no native speaker. In the next iteration of the book, if the book generates income, I will hand it over to a proofreader and editor for improvements.
 
 **How can I get help while reading the book?** The book has a [Slack Group](https://slack-the-road-to-learn-react.wieruch.com/)for people who are reading the book. You can join the channel to get help or to help others. After all, helping others can internalize your learnings, too. If there is no one out to help you, you can always reach out to me.
 
