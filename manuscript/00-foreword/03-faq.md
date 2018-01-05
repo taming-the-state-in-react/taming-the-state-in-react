@@ -8,11 +8,11 @@
 
 **What should I do when I cannot afford to pay for the book?** If you cannot afford the book but want to learn about the topic, you can reach out to me. It could be that you are still a student or that the book would be too expensive in your country. In addition, I want to support any cause to improve the diversity in our culture of developers. If you belong to a minority or are in an organization that supports diversity, please reach out to me.
 
-**How to support the project?** If you believe in the content that I create, you can [support me](https://www.robinwieruch.de/about/). Furthermore, I would be grateful if you spread the word about this book after you read it and enjoyed reading it.
+**How to support the project?** If you believe in the content that I create, you can [support me](https://www.robinwieruch.de/about/). Furthermore, I would be grateful if you spread the word about this book after you read it and enjoyed reading it. Furthermore, I would love to have you as my [Patron on Patreon](https://www.patreon.com/rwieruch).
 
-**Is there a money back guarantee?** Yes, there is 100% money back if you don't think it's a good fit. Please reach out to me to get a refund.
+**Is there a money back guarantee?** Yes, there is 100% money back guarantee for two months if you don't think it's a good fit. Please reach out to me to get a refund.
 
-**Can I help to improve the content?** Yes, I would love to hear your feedback. You can simply open an issue on [GitHub](https://github.com/rwieruch/taming-the-state-issue-tracker). These can be improvements technical wise yet also about the written word. I am no native speaker. In the next iteration of the book, if the book generates income, I will hand it over to a proofreader and editor for improvements.
+**Can I help to improve the content?** Yes, I would love to hear your feedback. You can simply open an issue on [GitHub](https://github.com/rwieruch/taming-the-state-in-react). These can be improvements technical wise yet also about the written word. I am no native speaker that's why any help is appreciated. You can open pull requests on the GitHub page as well.
 
 **How can I get help while reading the book?** The book has a [Slack Group](https://slack-the-road-to-learn-react.wieruch.com/)for people who are reading the book. You can join the channel to get help or to help others. After all, helping others can internalize your learnings, too. If there is no one out to help you, you can always reach out to me.
 
