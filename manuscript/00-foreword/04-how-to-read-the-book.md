@@ -1,6 +1,6 @@
 ## How to read the Book
 
-On thing is certain, no one learned programming by just reading a book. Programming is about hands on experiences. It is about conquering challenges to grow in the long term. So no one learned a programming paradigm, such as functional programming, in the short term. No one learned a concept, such as state management, on a weekend. No one learned yet another library, such as React and Redux, over one night. You will learn things only by deliberately practicing them.
+One thing is certain, no one learned programming by just reading a book. Programming is about hands on experiences. It is about conquering challenges to grow in the long term. So no one learned a programming paradigm, such as functional programming, in the short term. No one learned a concept, such as state management, on a weekend. No one learned yet another library, such as React and Redux, over one night. You will learn things only by deliberately practicing them.
 
 In the book, I want to give you these hands on experiences and challenges to grow. The challenges are meant to create a flow experience, a scenario where the challenge meets your skills and tools at hand. Otherwise, you would feel either overwhelmed or bored. If the book accomplishes to keep this balance of challenging you and respecting your level of skill, you might experience a [state of flow](https://www.robinwieruch.de/lessons-learned-deep-work-flow/). Personally I found this insight astonishing when I read about it, so I hope that I can induce it in this book. It would be the perfect outcome.
 
