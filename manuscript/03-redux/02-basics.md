@@ -51,7 +51,8 @@ Apart from the functional programming principle, namely that a reducer is a pure
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
 function(state, action) {
-  return state.push(action.todo);
+  state.push(action.todo);
+  return state;
 }
 ~~~~~~~~
 
