@@ -692,175 +692,69 @@ function App({ list }) {
 
 The `List` component would only display the items. The ability to archive an item in the `List` component would be opt-in with a higher order component called `withArchive`. In addition, the HOC can be reused in other `List` components too for managing the state of archived items. After all, higher order components are great to extract local state management from components and to reuse the local state management in other components.
 
-### The Provider Pattern
+### React's Context for Provider and Consumer
 
-The provider pattern in React is a powerful concept. You will not often see it when using plain React, but might consider using it when scaling your application in React. Basically it takes the clutter away of passing mandatory props, that are needed by every component, down your whole component tree. In addition, the provider pattern is later on used in sophisticated state management libraries to glue the state layer (Redux, MobX) to the (React) view layer.
+React's context API is a powerful feature. You will not often see it when using plain React, but might consider using it when your React application grows in size and depth from a component perspective. Basically, React's context API takes the clutter away of passing mandatory props, that are needed by every component, down your whole component tree. Most often components in between are not interested in these props.
 
-There are two things you have to know about React before you can implement your own provider pattern in React: children and context.
+But you will not only see it when using plain React. Often React's Context API can be seen in action when using an external state management library such as Redux or MobX. There, you often end up with a `Provider` component at the top of your component hierarchy that bridges your state layer (Redux/MobX/...) to your view layer (React). The `Provider` component receives the state as props and afterward, each child component has implicitly access to the managed state by Redux and MobX.
 
-When you have already learned to use plain React, you should know about React's children. Basically they enable you to nest JSX into each other same as you would nest HTML tags into each other.
+Do you remember the last time when you had to pass props several components down your component tree? In plain React, you can be confronted often with this issue which is called "prop drilling". It can happen that a couple of these props are even mandatory for each child component. Thus you would need to pass the props down to each child component. In return, this would clutter every component in between which has to pass down these props without using them oneself.
 
-{title="Code Playground",lang="javascript"}
-~~~~~~~~
-class App extends Component {
-  render() {
+When these props become mandatory, React's context API gives you a way out of this mess. Instead of passing down the props explicitly down to each component, you can hide props, that are necessary for each component, in React's context and pass them implicitly down to each component. React's context traverses invisible down the component tree. If a component needs access to the context, it can consume it on demand.
 
-    return (
-      <Search
-        query={this.state.query}
-        onChange={this.onChange}
-      >
-        Search the List
-      </Search>
-    );
-  }
-}
+What are use cases for this approach? For instance, your application could have a configurable colored theme. Each component should be colored depending on the configuration. The configuration is fetched once from your server, but afterward you want to make this implicitly accessible for all components. Therefore you could use React's context API to give every component access to the colored theme. You would have to provide the colored theme at the top of your component hierarchy and consume it in every component which is located somewhere below it.
 
-function Search({ query, onChange, children }) {
-  return (
-    <div>
-      {children} <input
-        type="text"
-        value={query}
-        onChange={onChange}
-      />
-    </div>
-  );
-}
-~~~~~~~~
+How is React's context provided and consumed? Imagine you would have component A as root component that provides the context and component C as one of the child components that consumes the context. Somewhere in between is component D though. The application has a colored theme that can be used to style your components. Your goal is it to make the colored theme available for every component via the React context. In this case, component C should be able to consume it.
 
-The component would be displayed as an input field with a label next to it that says "Search the List".
-
-#### React's Context as Implicit Container
-
-The second requirement before implementing the provider pattern in React is React's context. React’s context is not highly advertised. It is even discouraged to use it. The team behind React keeps it open if the API of the context in React changes in the future.
-
-Nevertheless, the context in React is a powerful feature. Do you remember the last time when you had to pass props several components down your component tree? In plain React, you can be confronted often with this issue. It can happen that a couple of these props are even mandatory for each child component. Thus you would need to pass the props down to each child component. In return, this would clutter every component passing down these props.
-
-When these props become mandatory, React’s context gives you a way out of this mess. Instead of passing down the props explicitly down each component, you can hide props, that are necessary for each component, in the React context object and pass them implicitly down to each component. The React context object traverses invisible down the component tree. When a component needs access to the context object, it can access it.
-
-But you shouldn’t overdo it with React’s context. So what are use cases for this approach? For instance, your application could have a configurable colored theme. Each component should be colored depending on the configuration. The configuration is fetched once from your server, but now you want to make this implicitly accessible for all components. Therefore you could use React’s context to give every component access to the colored theme.
-
-How is React’s context provided and consumed? Imagine you would have component A as root component that provides the context and component C as one of the child components that consumes the context. But in between is component D. The application has a colored theme that can be used to style your components. Thus, you want to make the colored theme available for every component via the React context without passing it as mandatory props through each component.
-
-In your A component you provide the context. It is a hardcoded colored theme property in this case, but it can be anything from component state to component props. Component A display component D but makes the context available to all its children.
+First, you have to create the context which gives you access to a Provider and Consumer component. When you create the context with React by using `createContext()`, you can pass it an initial value. In this case, the initial value is can be null, because you may have no access to the value when it has to be fetched from a server first. Otherwise, you can already give it here a proper initial value.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
+import React from 'react';
+
+const ThemeContext = React.createContext(null);
+
+export default ThemeContext;
+~~~~~~~~
+
+Second, the A component would have to provide the context. It is a hardcoded `value` in this case, but it can be anything from component state or component props. The context value may change as well when the local state is changed due to a `setState()` call. Component A displays only component D yet makes the context available to all its other components below it. One of the leaf components will be component C that consumes the context eventually.
+
+{title="Code Playground",lang="javascript"}
+~~~~~~~~
+import ThemeContext from './ThemeContext';
+
 class A extends React.Component {
-  getChildContext() {
-    return {
-      coloredTheme: "green"
-    };
-  }
-
   render() {
-    return <D />;
+    return (
+      <ThemeContext.Provider value={'green'}>
+        <D />
+      </ThemeContext.Provider>
+    ):
   }
 }
-
-A.childContextTypes = {
-  coloredTheme: PropTypes.string
-};
 ~~~~~~~~
 
-In your component C, somewhere below component D, you could consume the context object. Notice that component A doesn’t need to pass down anything via component D in the props.
+Third, in your component C, below component D, you could consume the context object. Notice that component A doesn’t need to pass down anything via component D in the props so that it reaches component C.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
+import ThemeContext from './ThemeContext';
+
 class C extends React.Component {
   render() {
     return (
-      <div style={{ color: this.context.coloredTheme }}>
-        {this.children}
-      </div>
+      <ThemeContext.Consumer>
+        {coloredTheme =>
+          <div style={{ color: coloredTheme }}>
+            Hello World
+          </div>
+        }
+      </ThemeContext.Consumer>
     );
   }
 }
-
-C.contextTypes = {
-  coloredTheme: PropTypes.string
-};
 ~~~~~~~~
 
-By using the colored theme property from `this.context`, the component can derive its style. That way every component that needs to be styled according to the colored theme could get the necessary information from React’s context object. You can read more about React’s context in the [official documentation](https://facebook.github.io/react/docs/context.html).
+The component can derive its style by consuming the context. The Consumer component makes the passed context available by using a {{% a_blank "render prop" "https://reactjs.org/docs/render-props.html" %}}. As you can imagine, following this way every component that needs to be styled according to the colored theme could get the necessary information from React's context API by using the Consumer component now. You only have to use the Provider component which passes the value once somewhere above them. You can read more about [React's context in the official documentation](https://reactjs.org/docs/context.html).
 
-#### Combining Children and Context as Provider
-
-Both functionalities of React, context and children, are necessary to implement the provider pattern in React. These were the basics. Now you are able to implement it. Basically for the provider pattern there needs to be one part in the pattern that makes the properties accessible in the context and another part where components consume the context.
-
-Let’s start with the former: a `Provider` component.
-
-{title="Code Playground",lang="javascript"}
-~~~~~~~~
-class ThemeProvider extends React.Component {
-  getChildContext() {
-    return {
-      coloredTheme: this.props.coloredTheme
-    };
-  }
-
-  render() {
-    return <div>{this.props.children}</div>;
-  }
-}
-
-ThemeProvider.childContextTypes = {
-  coloredTheme: PropTypes.string
-};
-~~~~~~~~
-
-The `Provider` component only sets the colored theme from the incoming props. In addition, it only renders its children and doesn’t add anything to the JSX.
-
-After declaring the Provider component, you can use it anywhere in your React component tree. It makes most sense to use it at the top of your component hierarchy to make the context, the colored theme, accessible to everyone.
-
-{title="Code Playground",lang="javascript"}
-~~~~~~~~
-const coloredTheme = "green";
-// hardcoded theme
-// however, imagine the configuration is located somewhere else
-// and would be different for every user of your application
-// it would need to be fetched first
-// and varies depending on the app user
-
-ReactDOM.render(
-  <ThemeProvider coloredTheme={coloredTheme}>
-    <App />
-  </ThemeProvider>,
-  document.getElementById('app')
-);
-~~~~~~~~
-
-Now, every child component can consume the colored theme provided by the `ThemeProvider` component. It doesn’t need to be the direct child, in this case the `App` component, but any component down the component tree.
-
-{title="Code Playground",lang="javascript"}
-~~~~~~~~
-class App extends React.Component {
-  render() {
-    return (
-      <div>
-        <Paragraph>
-          That's how you would use children in React
-        </Paragraph>
-      </div>
-    );
-  }
-}
-
-class Paragraph extends React.Component {
-  render() {
-    const { coloredTheme } = this.context;
-    return (
-      <p style={{ color: coloredTheme }}>
-        {this.props.children}
-      </p>
-    );
-  }
-}
-
-Paragraph.contextTypes = {
-  coloredTheme: PropTypes.string
-};
-~~~~~~~~
-
-That’s basically it for the provider pattern. You have the Provider component that makes properties accessible in React’s context and components that consume the context. How does this relate to state management? Basically the provider pattern is often used, when using a sophisticated state management solution that makes the state object(s) accessible in your view layer via React's context. The whole state can be accessed in each component. Perhaps you will never implement the provider pattern on your own, but you will most likely use it from a external library when you use a sophisticated state management solution such as Redux or MobX later on. So keep it in mind.
+That’s basically it for React's context API. You have the Provider component that makes properties accessible in React’s context and components that consume the context by using the Consumer component. How does this relate to state management? Basically the pattern, also called provider pattern, is often used, when using a sophisticated state management solution that makes the state object(s) accessible in your view layer via React's context. The whole state can be accessed in each component. Perhaps you will never implement the provider pattern on your own, but you will most likely use it from a external library when you use a sophisticated state management solution such as Redux or MobX later on. So keep it in mind.

@@ -332,7 +332,7 @@ ReactDOM.render(
 );
 ~~~~~~~~
 
-After you have done this, every child component in the whole component tree has an implicit access to the store. Thus, every component is able to dispatch actions and to listen to updates in order to re-render. But not every component has to listen to updates. How does this work without passing the store as props to each child component? It uses the provider pattern that you got to know in a previous chapter. Under the hood it uses the React context API:
+After you have done this, every child component in the whole component tree has an implicit access to the store. Thus, every component is able to dispatch actions and to listen to updates in order to re-render. But not every component has to listen to updates. How does this work without passing the store as props to each child component? It uses the provider pattern that you got to know in a previous chapter. Under the hood, it uses the React context API:
 
 *"In some cases, you want to pass data through the component tree without having to pass the props down manually at every level. You can do this directly in React with the powerful "context" API."*
 
