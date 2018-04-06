@@ -89,7 +89,7 @@ todoStore.todos.push({ id: '0', name: 'learn redux', completed: true });
 todoStore.todos.push({ id: '0', name: 'learn mobx', completed: false });
 ~~~~~~~~
 
-It will run the first time when the state initializes, but then every time again when the observable state updates. You can open the [MobX Playground](https://jsbin.com/vawugugugu/4/edit?js,console) to experiment with it.
+It will run the first time when the state initializes, but then every time again when the observable state updates. You can open the [MobX Playground](https://jsbin.com/gezibazuke/1/edit?js,console) to experiment with it.
 
 ### Actions
 
@@ -134,16 +134,16 @@ class TodoStore {
 }
 ~~~~~~~~
 
-In order to enforce state updates with actions, you can opt-in the `useStrict()` functionality by MobX. After you have set it to true, every state update needs to happen via an action. This way you enforce the decoupling of state mutation and view with actions.
+In order to enforce state updates with actions, you can opt-in a configuration with the `configure()` functionality from MobX. There you can pass an object for global MobX confgurations whereas there is one configuration in particular to enforce actions in MobX. After you have set it to true, every state update needs to happen via an action. This way you enforce the decoupling of state mutation and view with actions.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
 # leanpub-start-insert
-const { observable, autorun, action, useStrict } = mobx;
+const { observable, autorun, action, configure } = mobx;
 # leanpub-end-insert
 
 # leanpub-start-insert
-useStrict(true);
+configure({ enforceActions: true });
 # leanpub-end-insert
 
 class TodoStore {
@@ -164,7 +164,7 @@ todoStore.addTodo({ id: '0', name: 'learn redux', completed: true });
 todoStore.addTodo({ id: '1', name: 'learn mobx', completed: false });
 ~~~~~~~~
 
-You can test the MobX action and the `useStrict()` function in the [MobX Playground](https://jsbin.com/qazazajusa/1/edit?js,console).
+You can test the MobX action and the `configure()` function with the enforced actions in the [MobX Playground](https://jsbin.com/zigapodeke/1/edit?js,console).
 
 In addition, it makes always sense to think thoughtfully about your actions. In the previous case, every call of `addTodo()` would lead all relying reactions to run. That's why the autorun function runs every time you add a todo item. So how would you accomplish to add multiple todo items at once without triggering reactions for every todo item? You could have another action that takes an array of todo items.
 
@@ -198,7 +198,7 @@ todoStore.addTodos([
 # leanpub-end-insert
 ~~~~~~~~
 
-That way, the relying reactions only evaluate once after the action got called. You can find the necessary code to play around with in the [MobX Playground](https://jsbin.com/loyuser/10/edit?js,console).
+That way, the relying reactions only evaluate once after the action got called. You can find the necessary code to play around with in the [MobX Playground](https://jsbin.com/yunebovose/1/edit?js,console).
 
 ### Computed Values
 
@@ -223,7 +223,7 @@ class TodoStore {
 }
 ~~~~~~~~
 
-The computation happens reactively when the state has changed and a reaction asks for it. Thus, these computed values are at your disposal, apart from the state itself, for your view layer later on. In addition, they don't compute actively every time but rather only compute reactively when a reaction demands it. You can experiment with it in the [MobX Playground](https://jsbin.com/didenujipi/3/edit?js,console).
+The computation happens reactively when the state has changed and a reaction asks for it. Thus, these computed values are at your disposal, apart from the state itself, for your view layer later on. In addition, they don't compute actively every time but rather only compute reactively when a reaction demands it. You can experiment with it in the [MobX Playground](https://jsbin.com/tapiyuricu/1/edit?js,console).
 
 # MobX in React
 
@@ -275,7 +275,7 @@ autorun(render);
 # leanpub-end-insert
 ~~~~~~~~
 
-Now you have one initial rendering of the view layer, because the `autorun` is running once initially, and successive renderings when the MobX state updates. You can play around with it in the [MobX Playground](https://jsbin.com/vobicoqifu/1/edit?html,js,output).
+Now you have one initial rendering of the view layer, because the `autorun` is running once initially, and successive renderings when the MobX state updates. You can play around with it in the [MobX Playground](https://jsbin.com/delohuwidi/1/edit?js,output).
 
 There exists a neat library that bridges from MobX to React: [mobx-react](https://github.com/mobxjs/mobx-react). It spares you to use the `autorun` reaction in order to re-render the view layer. Instead it uses a `observer` decorator, that uses the `autorun` function under the hood, to produce a reaction. The reaction simply flushes the update to a React component to re-render it. It makes your React view layer reactive and re-renders it when the observable state in MobX has changed.
 
@@ -312,7 +312,7 @@ ReactDOM.render(
 ...
 ~~~~~~~~
 
-Again you can play around with it in the [MobX Playground](https://jsbin.com/foqonacowi/1/edit?html,js,output). If you want to use the `TodoList` component as functional component, you can use the `observer` as well.
+Again you can play around with it in the [MobX Playground](https://jsbin.com/rusewogaza/1/edit?html,js,output). If you want to use the `TodoList` component as functional component, you can use the `observer` as well.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -329,7 +329,7 @@ const TodoList = observer(function (props) {
 });
 ~~~~~~~~
 
-You can find the example in the following [MobX Playground](https://jsbin.com/qucesewiwe/1/edit?html,js,output).
+You can find the example in the following [MobX Playground](https://jsbin.com/wefoyocutu/1/edit?html,js,output).
 
 ## Local State
 
@@ -384,7 +384,7 @@ class TodoAdd extends React.Component {
 # leanpub-start-insert
   @observable input = '';
 
-  @action onChange = (event) => {
+  onChange = (event) => {
     this.input = event.target.value;
   }
 # leanpub-end-insert
@@ -406,7 +406,7 @@ class TodoAdd extends React.Component {
 # leanpub-start-insert
   @observable id = 0;
 
-  @action onSubmit = () => {
+  onSubmit = () => {
     this.props.todoStore.addTodo({
       id: this.id,
       name: this.input,
@@ -418,7 +418,7 @@ class TodoAdd extends React.Component {
   }
 # leanpub-end-insert
 
-  @action onChange = (event) => {
+  onChange = (event) => {
     ...
   }
 
@@ -428,7 +428,7 @@ class TodoAdd extends React.Component {
 }
 ~~~~~~~~
 
-MobX is able to take over the local state of React. You wouldn't need to use `this.state` and `this.setState()` anymore. The previous example can be found in the [MobX Playground](https://jsbin.com/sonate/1/edit?html,js,output). Again you experience that MobX isn't opinionated about the way the state is managed. You can have the state management encapsulated in a store class or couple it next to a component as local state. It can make React local state obsolete. But should it? That is your own decision.
+MobX is able to take over the local state of React. You wouldn't need to use `this.state` and `this.setState()` anymore. The previous example can be found in the [MobX Playground](https://jsbin.com/velihicomu/2/edit?html,js,output). Again you experience that MobX isn't opinionated about the way the state is managed. You can have the state management encapsulated in a store class or couple it next to a component as local state. It can make React local state obsolete. But should it? That is your own decision.
 
 ## Scaling Reactions
 
@@ -519,7 +519,7 @@ class TodoList extends React.Component {
 };
 ~~~~~~~~
 
-You can open up the application in the [MobX Playground](https://jsbin.com/sonate/6/edit?js,console,output). When you add a todo item, you will get the `console.log()` outputs for the `TodoList` component and only the newly created `TodoItem`. When you complete a todo item, you will only get the `console.log()` of the completing `TodoItem` component. The reactive component only updates when their observable state changes. Everything else doesn't update, because the `observer` decorator implements under the hood the `shouldComponentUpdate()` lifecycle method of React to prevent the component from updating when nothing has changed. You can read more about optimizing MobX performance in React in the [official documentation](https://mobx.js.org/best/react-performance.html).
+You can open up the application in the [MobX Playground](https://jsbin.com/qecawoweja/2/edit?js,console,output). When you add a todo item, you will get the `console.log()` outputs for the `TodoList` component and only the newly created `TodoItem`. When you complete a todo item, you will only get the `console.log()` of the completing `TodoItem` component. The reactive component only updates when their observable state changes. Everything else doesn't update, because the `observer` decorator implements under the hood the `shouldComponentUpdate()` lifecycle method of React to prevent the component from updating when nothing has changed. You can read more about optimizing MobX performance in React in the [official documentation](https://mobx.js.org/best/react-performance.html).
 
 ## Inject Stores
 
@@ -639,7 +639,7 @@ class TodoList extends React.Component {
 };
 ~~~~~~~~
 
-Every component can access the observable state, that is passed to the `Provider` component, with the `inject` decorator. This way you keep a clear separation of state and view layer. You can access the project in the [MobX Playground](https://jsbin.com/sonate/7/edit?js,output) again.
+Every component can access the observable state, that is passed to the `Provider` component, with the `inject` decorator. This way you keep a clear separation of state and view layer. You can access the project in the [MobX Playground](https://jsbin.com/xubewezeji/3/edit?js,output) again.
 
 ## Advanced MobX
 
@@ -690,7 +690,7 @@ todoStore.todos.push({ id: '2', name: 'learn mobx basics', completed: true });
 todoStore.todos.push({ id: '3', name: 'learn mobx', completed: false });
 ~~~~~~~~
 
-So how many times does the reaction run? You can take your guess first and afterward open the [MobX Playground](https://jsbin.com/loyuser/4/edit?js,console) to experience the reaction yourself. Basically the `when` triggers its effect when the predicate returns true. But it only triggers once. As you can see, two todo items that are completed are added. However, the `celebrateAccomplishment()` method only runs once. This way MobX allows you to use its reactions to trigger side-effects. You could trigger anything ranging from an animation to an API call.
+So how many times does the reaction run? You can take your guess first and afterward open the [MobX Playground](https://jsbin.com/kuzadiwagi/1/edit?js,console) to experience the reaction yourself. Basically the `when` triggers its effect when the predicate returns true. But it only triggers once. As you can see, two todo items that are completed are added. However, the `celebrateAccomplishment()` method only runs once. This way MobX allows you to use its reactions to trigger side-effects. You could trigger anything ranging from an animation to an API call.
 
 Another function in MobX, [the reaction function](https://mobx.js.org/refguide/reaction.html) itself, can be used to produce MobX reactions too. It is a fine-grained version of autorun. Whereas autorun will always run when the observable state has changed, the reaction function only runs when a particular given observable state has changed.
 
@@ -724,7 +724,7 @@ todoStore.todos.push({ id: '2', name: 'learn mobx basics', completed: true });
 todoStore.todos.push({ id: '3', name: 'learn mobx', completed: false });
 ~~~~~~~~
 
-How many times does the reaction run? First you can have a guess, afterward you can confirm it by trying it in the [MobX Playground](https://jsbin.com/loyuser/5/edit?js,console).
+How many times does the reaction run? First you can have a guess, afterward you can confirm it by trying it in the [MobX Playground](https://jsbin.com/jizidoyoge/1/edit?js,console).
 
 Now you have seen two more functions in MobX that produce reactions: `when` and `reaction`. Whereas the `when` function only runs once an effect when the predicate returns null, the `reaction` runs every time when a particular observable state has changed. You can use both to trigger side-effects, such as an API call.
 
@@ -734,7 +734,7 @@ MobX gives you all the tools that are needed to manage state in modern JavaScrip
 
 The chapters before have shown you that observable state in MobX can be far away managed in stores yet it could be used in the local state of the view layer too. Should MobX be used instead of `this.state` and `this.setState()` in React? Be clear about how close you want to keep your MobX state to your view layer.
 
-Another thing you should have an opinion about is how you update your observable state. Do you mutate the state directly in your view? Going this path would lead to coupling your state closer to your view layer. On the other hand, you could use explicit MobX actions. It would keep your state mutation at one place. You can make them even mandatory by using the `useStrict()` functionality provided by MobX. That way, every state mutation would have to go through an explicit action. No direct mutations of the state would be allowed anymore. Recommendation: You should make your state mutations as explicit as possible with actions and `useStrict()`.
+Another thing you should have an opinion about is how you update your observable state. Do you mutate the state directly in your view? Going this path would lead to coupling your state closer to your view layer. On the other hand, you could use explicit MobX actions. It would keep your state mutation at one place. You can make them even mandatory by using the `configure()` functionality with enforced actions. That way, every state mutation would have to go through an explicit action. No direct mutations of the state would be allowed anymore. Recommendation: You should make your state mutations as explicit as possible with actions, `configure()` and the `enforceActions` flag set to true.
 
 When using MobX to complement your view layer, you would need to decide on how to pass your state around. You can simply allocate your state next to your components, import it directly from another file using JavaScript ES6 import and export statements, pass it down explicitly (e.g. in React with props) or pass it down implicitly from your root component with `inject()` function and the `Provider` component. You should avoid to mix up these things and follow one opinionated way. Recommendation: You should use the `inject()` function and `Provider` component to make your state implicitly accessible to your view layer.
 

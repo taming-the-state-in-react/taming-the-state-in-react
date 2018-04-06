@@ -368,19 +368,19 @@ autorun(render);
 
 ### Part 10: Enforced Actions
 
-- use strict, enforce actions, be opinionated, no direct mutations on stores
+- use confgiuration, enforce actions, be opinionated, no direct mutations on stores
 
 {title="src/stores/index.js",lang="javascript"}
 ~~~~~~~~
 # leanpub-start-insert
-import { useStrict } from 'mobx';
+import { configure } from 'mobx';
 # leanpub-end-insert
 
 import StoryStore from './storyStore';
 import ArchiveStore from './archiveStore';
 
 # leanpub-start-insert
-useStrict(true);
+configure({ enforceActions: true });
 # leanpub-end-insert
 
 class RootStore {
