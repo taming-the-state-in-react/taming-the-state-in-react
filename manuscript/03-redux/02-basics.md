@@ -81,7 +81,7 @@ Imagine your Todo application would have a second action that toggles a Todo to 
 }
 ~~~~~~~~
 
-The reducer would have to act on two actions now: `TODO_ADD` and 'TODO_TOGGLE'. By using a switch case statement, you can branch into different cases. If there is not such a case, you return the unchanged state by default.
+The reducer would have to act on two actions now: `TODO_ADD` and `TODO_TOGGLE`. By using a switch case statement, you can branch into different cases. If there is not such a case, you return the unchanged state by default.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~

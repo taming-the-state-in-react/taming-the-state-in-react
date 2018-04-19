@@ -357,7 +357,7 @@ function todoReducer(state = [], action) {
 }
 ~~~~~~~~
 
-The initial state isn't initialized in the `createStore()` function. It is initialized on a more fine-grained level in the reducers. When you recap the last lessons learned from the advanced reducers chapter, you will notice that you spared the back and forth with the initial state. Now, the `todoReducer` still operates on the `todos` substate and the new `filterReducer` operates on the `filter` substate. As third and last step you you have to combine both reducers to get this intermediate layer of substates.
+The initial state isn't initialized in the `createStore()` function. It is initialized on a more fine-grained level in the reducers. When you recap the last lessons learned from the advanced reducers chapter, you will notice that you spared the back and forth with the initial state. Now, the `todoReducer` still operates on the `todos` substate and the new `filterReducer` operates on the `filter` substate. As third and last step you have to combine both reducers to get this intermediate layer of substates.
 
 In the JS Bin you have Redux available as global variable to get the `combineReducer` function. Otherwise, you could import it with JavaScript ES6.
 
