@@ -29,7 +29,9 @@
 05-redux-advanced/03-redux-architecture.md
 05-redux-advanced/05-redux-outline.md
 
-06-mobx/mobx.md
+06-mobx/00-mobx.md
+
+07-outline-technologies/00-graphql.md
 
 {backmatter}
 
