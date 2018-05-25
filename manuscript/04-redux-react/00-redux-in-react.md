@@ -362,7 +362,7 @@ Usually, you will only use two of them: `mapStateToProps()` and `mapDispatchToPr
 
 **mapDispatchToProps(dispatch, [props]):** It is a function (or object) that can be passed to the connect HOC. Whereas `mapStateToProps()` gives access to the global state, `mapDispatchToProps()` gives access to the dispatch method of the store. It makes it possible to dispatch actions but passes down only plain functions that wire up the dispatching in a higher order function. After all, it makes it possible to pass functions down to the input component of the connect HOC to alter the state. Optionally, you can use the incoming props to wrap those into the dispatched action.
 
-That is a lot of knowledge to digest. Both functions, `mapStateToProps()` and `mapDispatchToProps()`, can be intimidating at the beginning. In addition, they are used in a foreign higher order component. However, they only give you access to the state and to the dispatch method of the store.
+That is a lot of knowledge to digest. Both functions, `mapStateToProps()` and `mapDispatchToProps()`, can be intimidating at the beginning. In addition, they are used in a foreign higher-order component. However, they only give you access to the state and to the dispatch method of the store.
 
 {title="Concept Playground",lang="text"}
 ~~~~~~~~
@@ -404,7 +404,7 @@ ReactDOM.render(
 # leanpub-end-insert
 ~~~~~~~~
 
-It uses the plain `TodoApp` component. The component still expects `todos` and `onToggleTodo` as props. But it doesn't have these props. Let's use the `connect` higher order component to expose these to the `TodoApp` component. The `TodoApp` component will become a connected `TodoApp` component.
+It uses the plain `TodoApp` component. The component still expects `todos` and `onToggleTodo` as props. But it doesn't have these props. Let's use the `connect` higher-order component to expose these to the `TodoApp` component. The `TodoApp` component will become a connected `TodoApp` component.
 
 {title="src/index.js",lang="javascript"}
 ~~~~~~~~

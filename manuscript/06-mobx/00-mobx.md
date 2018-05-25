@@ -647,7 +647,7 @@ MobX is not opinionated. Thus it gives you a handful of tools to accomplish your
 
 ### Other Reactions
 
-You have encountered two reactions by now: autorun and observer. The observer produces a reaction because it uses autorun under the hood. It is only used in the mobx-react package. Thus, both functions are used to create reactions based on observable state changes. While the autorun function can be used to re-render naively the UI, it can also used for broader domains. The observer decorator is solely used to make a view-layer reactive.
+You have encountered two reactions by now: autorun and observer. The observer produces a reaction because it uses autorun under the hood. It is only used in the mobx-react package. Thus, both functions are used to create reactions based on observable state changes. While the autorun function can be used to re-render naively the UI, it can also used for broader domains. The observer decorator is solely used to make a view layer reactive.
 
 However, MobX comes with more reactions. The book will not go too much into detail here, but it does no harm to be aware of other options too. The [MobX when](https://mobx.js.org/refguide/when.html) is another function that produces a reaction. It is based on predicates and effects. A given predicate runs as long as it returns true. When it returns true, the effect is called. After that the autorunner is disposed. The `when` function returns a disposer to cancel the autorunner prematurely, so before an effect can be called.
 

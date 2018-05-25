@@ -1740,7 +1740,7 @@ export {
 };
 ~~~~~~~~
 
-Last but not least, in your component you could retrieve the error object in your connect higher order component and display with React's [conditional rendering](https://www.robinwieruch.de/conditional-rendering-react/) an error message when an error occurs.
+Last but not least, in your component you could retrieve the error object in your connect higher-order component and display with React's [conditional rendering](https://www.robinwieruch.de/conditional-rendering-react/) an error message when an error occurs.
 
 {title="src/components/Stories.js",lang="javascript"}
 ~~~~~~~~
