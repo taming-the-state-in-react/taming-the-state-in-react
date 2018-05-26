@@ -684,9 +684,9 @@ The `List` component would only display the items. The ability to archive an ite
 
 ### React's Context for Provider and Consumer
 
-React's context API is a powerful feature. You will not often see it when using plain React, but might consider using it when your React application grows in size and depth from a component perspective. Basically, React's context API takes the clutter away of passing mandatory props, that are needed by every component, down your whole component tree. Most often components in between are not interested in these props.
+The context API is a powerful feature in React. You will not often see it when using plain React, but might consider using it when your React application grows in size and depth from a component perspective. Basically, React's context API takes the clutter away of passing mandatory props, that are needed by every component, down your whole component tree. Most often components in between are not interested in these props.
 
-But you will not only see it when using plain React. Often React's Context API can be seen in action when using an external state management library such as Redux or MobX. There, you often end up with a `Provider` component at the top of your component hierarchy that bridges your state layer (Redux/MobX/...) to your view layer (React). The `Provider` component receives the state as props and afterward, each child component has implicitly access to the managed state by Redux and MobX.
+But you will not only see it when using plain React. Often React's context API can be seen in action when using an external state management library such as Redux or MobX. There, you often end up with a `Provider` component at the top of your component hierarchy that bridges your state layer (Redux/MobX/...) to your view layer (React). The `Provider` component receives the state as props and afterward, each child component has implicitly access to the managed state by Redux and MobX.
 
 Do you remember the last time when you had to pass props several components down your component tree? In plain React, you can be confronted often with this issue which is called "prop drilling". It can happen that a couple of these props are even mandatory for each child component. Thus you would need to pass the props down to each child component. In return, this would clutter every component in between which has to pass down these props without using them oneself.
 
@@ -696,7 +696,7 @@ What are use cases for this approach? For instance, your application could have 
 
 How is React's context provided and consumed? Imagine you would have component A as root component that provides the context and component C as one of the child components that consumes the context. Somewhere in between is component D though. The application has a colored theme that can be used to style your components. Your goal is it to make the colored theme available for every component via the React context. In this case, component C should be able to consume it.
 
-First, you have to create the context which gives you access to a Provider and Consumer component. When you create the context with React by using `createContext()`, you can pass it an initial value. In this case, the initial value is can be null, because you may have no access to the value when it has to be fetched from a server first. Otherwise, you can already give it here a proper initial value.
+First, you have to create the context which gives you access to a Provider and Consumer component. When you create the context with React by using `createContext()`, you can pass it an initial value. In this case, the initial value can be null, because you may have no access to the initial value at this point in time. Otherwise, you can already give it here a proper initial value.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -724,7 +724,7 @@ class A extends React.Component {
 }
 ~~~~~~~~
 
-Third, in your component C, below component D, you could consume the context object. Notice that component A doesn’t need to pass down anything via component D in the props so that it reaches component C.
+Third, in your component C, somewhere below component D, you can consume the context object. Notice that component A doesn’t need to pass down anything via component D in the props so that it reaches component C.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -745,6 +745,6 @@ class C extends React.Component {
 }
 ~~~~~~~~
 
-The component can derive its style by consuming the context. The Consumer component makes the passed context available by using a {{% a_blank "render prop" "https://reactjs.org/docs/render-props.html" %}}. As you can imagine, following this way every component that needs to be styled according to the colored theme could get the necessary information from React's context API by using the Consumer component now. You only have to use the Provider component which passes the value once somewhere above them. You can read more about [React's context in the official documentation](https://reactjs.org/docs/context.html).
+The component can derive its style by consuming the context. The Consumer component makes the passed context available by using a {{% a_blank "render prop" "https://reactjs.org/docs/render-props.html" %}}. As you can imagine, following this way every component that needs to be styled accordingly to the colored theme could get the necessary information from React's context API by using the Consumer component now. You only have to use the Provider component which passes the value once somewhere above them and then consume it with the Consumer component. You can read more about [React's context API in the official documentation](https://reactjs.org/docs/context.html).
 
-That’s basically it for React's context API. You have the Provider component that makes properties accessible in React’s context and components that consume the context by using the Consumer component. How does this relate to state management? Basically the pattern, also called provider pattern, is often used, when using a sophisticated state management solution that makes the state object(s) accessible in your view layer via React's context. The whole state can be accessed in each component. Perhaps you will never implement the provider pattern on your own, but you will most likely use it from a external library when you use a sophisticated state management solution such as Redux or MobX later on. So keep it in mind.
+That’s basically it for React's context API. You have one Provider component that makes properties accessible in React’s context and components that consume the context by using the Consumer component. How does this relate to state management? Basically the pattern, also called provider pattern, is often applied, when using a sophisticated state management solution that makes the state object(s) accessible in your view layer via React's context. Thus the whole state can be accessed in each component. Perhaps you will never implement the provider pattern yourself, but you will most likely use it in a sophisticated state management solution such as Redux or MobX later on. So keep it in mind. Otherwise, React's context can be used to store a state object itself. It can be used when the state is shared globally in your React application, but you don't want to introduce Redux or MobX yet.
