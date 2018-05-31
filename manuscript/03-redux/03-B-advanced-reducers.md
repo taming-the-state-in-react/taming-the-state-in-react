@@ -20,7 +20,7 @@ The initializing action, that is received in the reducer, is accompanied by the 
 const store = createStore(reducer);
 ~~~~~~~~
 
-That's where you can opt-in to specify initial state on a fine-grained level. If the incoming state is `undefined`, you can default with a [JavaScript ES6 default parameter](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Functions/Default_parameters) to a default initial state.
+That's where you can opt-in to specify an initial state on a more fine-grained level. If the incoming state is `undefined`, you can default with a [JavaScript ES6 default parameter](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Functions/Default_parameters) to a default initial state.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -39,11 +39,11 @@ function reducer(state = [], action) {
 }
 ~~~~~~~~
 
-The initial state will be the same as before, but you defined it on a more fine-grained level. Later on, that will help you when you specify more than one reducer and your state object becomes more complex.
+The initial state will be the same as before, but you defined it on a more fine-grained level. Later on, that will help you when you specify more than one reducer and your state object becomes more complex because it it split up into multiple reducers. Then every reducer can define its fine-grained initial state.
 
 ### Nested Data Structures
 
-The initial state is an empty list of todos. However, in a growing application you want to operate on more than todos. You might have a `currentUser` object that represents the logged in user in your application. In addition, you want to have a `filter` property to filter todos by their `completed` property. In a growing application, more objects and arrays will gather in the global state. That's why your initial state shouldn't be an empty list but an object that represents the state object. This object then has nested properties for `todos`, `currentUser` and `filter`.
+The initial state is an empty list of todos. However, in a growing application you want to operate on more than todos. You might have a `currentUser` object that represents the logged in user in your application. In addition, you want to have a `filter` property to filter todos by their `completed` property. In a growing application, more objects and arrays will gather in the global state. That's why your initial state shouldn't be an empty array but an object that represents the state object. This object then has nested properties for `todos`, `currentUser` and `filter`.
 
 Disregarding the initial state in the reducer from the last chapter, you would define your initial state in the store like in the following:
 
@@ -66,7 +66,7 @@ const initialState = {
 };
 ~~~~~~~~
 
-If you get back to your Todo application, you will have to adjust your reducer. The reducer deals with a todos list as state, but now it is a complex global state object.
+If you get back to your Todo application, you will have to adjust your reducer. The reducer deals with a list of todos as state, but now it is a complex global state object.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -102,17 +102,15 @@ function applyToggleTodo(state, action) {
 }
 ~~~~~~~~
 
-Those **nested data structures** are fine in Redux, but you want to avoid **deeply nested data structures**. As you can see, it adds complexity to create your new state object. Another chapter later on in the book will pick up this topic. It will showcase how you can avoid deeply nested data structures by using a neat helper library with the name normalizr.
+Those **nested data structures** are fine in Redux, but you want to avoid **deeply nested data structures**. As you can see, it adds complexity to create your new state object. Another chapter which you will read up later in the book will pick up this topic again. It will showcase how you can avoid deeply nested data structures by using a neat helper library with the name normalizr.
 
 ### Combined Reducer
 
-The next chapter is crucial to understand the principles of scaling state by using substates in Redux.
+The next chapter is crucial to understand the principles of scaling state by using substates in Redux. In the previous chapters, you have heard about multiple reducers, but haven't used them yet. As you have learned, a reducer grows horizontally when it deals with more than one action type. But this doesn't scale at some point. You want to split your reducer up into two reducers or introduce another reducer right from the beginning. Imagine you had a reducer that served your todos, but you want to have a reducer for the `filter` state for your todos eventually. Another use case could be to have a reducer for the `currentUser` that is logged in into your Todo application.
 
-You heard about multiple reducers, but haven't used them yet. A reducer can grow horizontally by using action types, but it doesn't scale at some point. You want to split it up into two reducers or introduce another reducer right from the beginning. Imagine you had a reducer that served your todos, but you want to have a reducer for the `filter` state for your todos eventually. Another use case could be to have a reducer for the `currentUser` that is logged in into your Todo application.
+You can already see a pattern on how to separate your reducers. It is usually by domain like todos, filter, or user. A todo reducer might be responsible to add, remove, edit and complete todos. A filter reducer is responsible to manage the filter state of your todos. A user reducer cares about user entities that could be the `currentUser` who is logged in in your application or a list of users who are assigned to todos. That's where you could again split up the user reducer to a `currentUser` reducer and a `assignedUsers` reducer. You can imagine how this approach, introducing reducers by domain, scales very well.
 
-You can already see a pattern on how to separate your reducers. It is usually by domain like todos, filter, or user. A todo reducer might be responsible to add, remove, edit and complete todos. A filter reducer is responsible to manage the filter state. A user reducer cares about user entities that could be the `currentUser` who is logged in in your application or a list of users who are assigned to todos. That's where you could again split up the user reducer to a `currentUser` reducer and a `assignedUsers` reducer. You can imagine how this approach, introducing reducers by domain, scales very well.
-
-Let's enter **combined reducers** to enable you using multiple reducers. Redux gives you a helper to combine multiple reducers into one root reducer: `combineReducers()`. The function takes an object as input that has a state as property name and a reducer as value.
+Let's enter **combined reducers** to enable you using multiple reducers. Redux gives you a helper to combine multiple reducers into one root reducer: `combineReducers()`. The function takes an object as argument which can have multiple reducers assigned to their state which they are going to manage.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -122,14 +120,14 @@ const rootReducer = combineReducers({
 });
 ~~~~~~~~
 
-Afterward, the `rootReducer` can be used to initialize the Redux store instead of the single todo reducer.
+Afterward, the `rootReducer` can be used to initialize the Redux store instead of the single todo reducer. After all, only one reducer is needed to initialize the Redux store. So it has to be a combination of multiple reducers when having more than one reducer.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
 const store = createStore(rootReducer);
 ~~~~~~~~
 
-That's it for the initialization of the Redux store with combined reducers. But what about the reducers themselves? There is already one reducer that cares about the todos.
+That's it for the initialization of the Redux store with combined reducers. But what about the reducers themselves? There is already one reducer that cares about the todos, you would only have the rename it.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -148,7 +146,7 @@ function todoReducer(state, action) {
 }
 ~~~~~~~~
 
-The `filterReducer` is not there yet. It would look something like the following:
+The `filterReducer` is not there yet. It would look something like the following to set a filter for the todos (e.g. SHOW_ALL, SHOW_COMPLETED, SHOW_INCOMPLETED):
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -162,7 +160,7 @@ function filterReducer(state, action) {
 }
 ~~~~~~~~
 
-Now, there comes the important clue. The `combineReducers()` function introduces an intermediate state layer for the global state object. The global state object, when using the combined reducers as shown before, would look like the following:
+Now, there comes the important part: The `combineReducers()` function introduces an intermediate state layer for the global state object. The global state object, when using the combined reducers as shown before, would look like the following:
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -232,15 +230,13 @@ function applySetFilter(state, action) {
 # leanpub-end-insert
 ~~~~~~~~
 
-This chapter seems like a lot of hassle. But it is crucial knowledge to split up your global state into substates. These substates can be managed by their reducers who only operate on these substates. In addition, each reducer can be responsible to define the initial substate.
+It seems like a lot of hassle to define multiple reducers and combining them eventually. But it is crucial knowledge to split up your global state into substates. These substates can be managed by their reducers who only operate on these substates. In addition, each reducer can be responsible to define the initial substate.
 
 ### Clarification for Initial State
 
-The last chapters moved around the initial state initialization from `createStore()` to the reducer(s) a few times. You might wonder where to initialize your state after all.
+The last chapters moved around the initial state initialization from `createStore()` to the reducer(s) a few times. You might wonder where to initialize your state after all. Therefore, you have to distinguish whether you are using combined reducers or only one plain reducer.
 
-Therefore, you have to distinguish whether you are using combined reducers or only one plain reducer.
-
-**One plain reducer:** When using only one plain reducer, the initial state in `createStore()` dominates the initial state in the reducer. The initial state in the reducer only works when the incoming initial state is `undefined` because then it can apply a default state. But the initial state is already defined in `createStore()` and thus utilized by the reducer.
+**One plain reducer:** When using only one plain reducer, the initial state in `createStore()` dominates the initial state in the reducer. The initial state in the reducer only works when the incoming initial state is `undefined` because then it can apply the default state from the default parameter. But the initial state is already defined in `createStore()` and thus utilized by the reducer.
 
 **Combined reducers:** When using combined reducers, you can embrace a more nuanced usage of the state initialization. The initial state object that is used for the `createStore()` function doesn't have to include all substates that are introduced by the `combineReducers()` function. Thus, when a substate is `undefined`, the reducer can define the default substate. Otherwise, the default substate from the `createStore()` is used.
 
@@ -251,9 +247,9 @@ By now, you know two things about scaling reducers in a growing application that
 * a reducer can care about different action types
 * a reducer can be split up into multiple reducers yet be combined as one root reducer for the store initialization
 
-These steps are used to scale the reducers horizontally (even though combined reducers add at least one vertical level). A reducer operates on the global state or on a substate when using combined reducers. However, you can use nested reducers to introduce vertically clearer levels of substate.
+These steps are used to scale the reducers horizontally (even though combined reducers add at least one vertical level). A reducer operates on the global state or on a substate when using combined reducers. However, you can use nested reducers to introduce vertically levels of substate too.
 
-Take for example the `todoReducer` that operates on a list of todos. From a technical perspective, a list of todos has todo entities. So why not introduce a nested reducer that deals with the todo substate as entities?
+Take for example the `todoReducer` that operates on a list of todos. From a technical perspective, a list of todos has single todo entities. So why not introduce a nested reducer that deals with the todo substate as entities?
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -298,15 +294,11 @@ function applyToggleTodo(todo, action) {
 # leanpub-end-insert
 ~~~~~~~~
 
-You can use nested reducers to introduce clearer boundaries in substates. In addition, they can be reused. You might run into cases where you can reuse a nested reducer somewhere else.
-
-While nested reducers can give you a better picture on your state, they can add more levels of complexity for your state, too. You should follow the practice of not nesting your state too deeply in the first place. Then you won't run into nested reducers often.
+You can use nested reducers to introduce intermediate layers for substates. In addition, they can be reused. You might run into cases where you can reuse a nested reducer somewhere else. However, while nested reducers can give you a better picture on your state, they add more levels of complexity to your state, too. You should follow the practice of not nesting your state too deeply in the first place. Then you won't run into nested reducers often.
 
 ### Hands On: Redux Standalone with advanced Reducers
 
-Let's dip into the Redux Playground again with the acquired knowledge about reducers. Again, you can take the [JS Bin project that you have done in the last chapter](https://jsbin.com/kopohur/29/edit?html,js,console). The project will be used to show the advanced reducers. You can try it on your own. Otherwise, the following part will guide you through the refactorings.
-
-First, let's add the second reducer to filter the todos.
+Let's dip into the Redux Playground again with the acquired knowledge about reducers. Again, you can take the [JS Bin project that you have done in the last chapter](https://jsbin.com/kopohur/29/edit?html,js,console). The project will be used to show the advanced reducers. You can try it on your own. Otherwise, the following part will guide you through the refactorings. First, let's add the second reducer to filter the todos.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -326,7 +318,7 @@ function applySetFilter(state, action) {
 }
 ~~~~~~~~
 
-The reducer has an initial state. There is no action yet that serves the reducer though. You can add a simple action creator that only gets a string as filter. You will experience later on, how this can be used in a real application.
+The reducer has an initial state. There is no action yet that serves the reducer though. You can add a simple action creator that only receives a string as argument for the filter property. You will experience later on, how this can be used in a real application.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -357,9 +349,7 @@ function todoReducer(state = [], action) {
 }
 ~~~~~~~~
 
-The initial state isn't initialized in the `createStore()` function. It is initialized on a more fine-grained level in the reducers. When you recap the last lessons learned from the advanced reducers chapter, you will notice that you spared the back and forth with the initial state. Now, the `todoReducer` still operates on the `todos` substate and the new `filterReducer` operates on the `filter` substate. As third and last step you have to combine both reducers to get this intermediate layer of substates.
-
-In the JS Bin you have Redux available as global variable to get the `combineReducer` function. Otherwise, you could import it with JavaScript ES6.
+The initial state isn't initialized in the `createStore()` function anymore. It is initialized on a more fine-grained level in the reducers. When you recap the last lessons learned from the advanced reducers chapter, you will notice that you spared the back and forth with the initial state. Now, the `todoReducer` still operates on the `todos` substate and the new `filterReducer` operates on the `filter` substate. As third and last step, you have to combine both reducers to get this intermediate layer of substates in the first place. In the JS Bin you have Redux available as global variable to get the `combineReducer` function. Otherwise, you could import it with JavaScript ES6.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -369,7 +359,7 @@ const rootReducer = Redux.combineReducers({
 });
 ~~~~~~~~
 
-Now you can use the `rootReducer` in the store initialization.
+Now you can use the combined `rootReducer` in the store initialization.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -388,6 +378,6 @@ store.dispatch(doSetFilter('COMPLETED'));
 # leanpub-end-insert
 ~~~~~~~~
 
-The Todo application favors initial state in reducers over initial state in `createStore()`. In addition, it will not use a nested `todoEntityReducer` for the sake of keeping the reducer hierarchy simple for now. The nested data structures are achieved implicitly by using combined reducers.
+The Todo application favors initial state in reducers over initial state in `createStore()`. In addition, it will not use a nested `todoEntityReducer` for the sake of keeping the reducer hierarchy simple. Even though there is one intermediate state layer because of the combined reducers now.
 
 The [final Todo application can be found in this JS Bin](https://jsbin.com/kopohur/30/edit?html,js,console). You can do further experiments with it before continuing with the next chapter.
