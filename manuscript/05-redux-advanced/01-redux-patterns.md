@@ -4,9 +4,9 @@ There are several patterns and best practices that you can apply in a Redux appl
 
 ## Using JavaScript ES6
 
-So far, you have written your Redux code mostly in JavaScript ES5. Redux is inspired by the functional programming paradigm and uses a lot of its concepts: immutable data structures and pure functions. When using Redux in your scaling application, you will often find yourself using pure functions that solve only one problem. For instance, an action creator only returns an action object, a reducer only returns the new state and a selector only returns derived properties. You will embrace this mental model and use it in Redux agnostic code, too. You will see yourself more often using functions that only solve one problem, using higher order functions to return reusable functions and compose functions into each other. You will move toward a functional programming style with Redux.
+So far, you have written your Redux code mostly in JavaScript ES5. Redux is inspired by the functional programming paradigm and uses a lot of its concepts: immutable data structures and pure functions. When using Redux in your scaling application, you will often find yourself using pure functions that solve only one problem. For instance, an action creator only returns an action object, a reducer only returns the new state and a selector only returns derived properties. You will embrace this mental model and use it in Redux agnostic code, too. You will see yourself more often using functions that only solve one problem, using higher-order functions to return reusable functions and compose functions into each other. You will move toward a functional programming style with Redux.
 
-JavaScript ES6 and beyond complements the functional programming style in JavaScript perfectly. You only have to look at the following example to understand how much more concisely higher order functions can be written with JavaScript ES6 arrow functions.
+JavaScript ES6 and beyond complements the functional programming style in JavaScript perfectly. You only have to look at the following example to understand how much more concisely higher-order functions can be written with JavaScript ES6 arrow functions.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -21,7 +21,7 @@ function higherOrderFunction() {
 const higherOrderFunction = () => { ... };
 ~~~~~~~~
 
-It's a higher order function that is much more readable in JavaScript ES6. You will find yourself using higher order functions more often when programming in a functional style. It will happen that you not only use one higher order function, but a higher order function that returns a higher order function that returns a function. Again it becomes easier to read when using JavaScript ES6.
+It's a higher-order function that is much more readable in JavaScript ES6. You will find yourself using higher-order functions more often when programming in a functional style. It will happen that you not only use one higher-order function, but a higher-order function that returns a higher-order function that returns a function. Again it becomes easier to read when using JavaScript ES6.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -71,7 +71,7 @@ Personally, I follow this naming convention with Redux functions. It uses prefix
 * selectors: **get**Something
 * sagas: **watch**Something, **handle**Something
 
-In the previous chapters, the example code always used this naming convention. In addition, it clarifies things when using higher order functions. Remember the `mapDispatchToProps()` function when connecting Redux to React?
+In the previous chapters, the example code always used this naming convention. In addition, it clarifies things when using higher-order functions. Remember the `mapDispatchToProps()` function when connecting Redux to React?
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~

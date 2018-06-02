@@ -933,7 +933,7 @@ export {
 };
 ~~~~~~~~
 
-The selector makes heavily use of JavaScript ES6 arrow functions, JavaScript ES6 destructuring and a higher order function: `isNotArchived()`. If you are not used to JavaScript ES6, don't feel intimidated by it. It is only a way to express these functions more concise. In plain JavaScript ES5 it would look like the following:
+The selector makes heavily use of JavaScript ES6 arrow functions, JavaScript ES6 destructuring and a higher-order function: `isNotArchived()`. If you are not used to JavaScript ES6, don't feel intimidated by it. It is only a way to express these functions more concise. In plain JavaScript ES5 it would look like the following:
 
 {title="src/selectors/story.js",lang="javascript"}
 ~~~~~~~~

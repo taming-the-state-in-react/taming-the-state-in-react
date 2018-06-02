@@ -134,7 +134,7 @@ store.dispatch(function (dispatch) {
 });
 ~~~~~~~~
 
-The dispatch method of the Redux store when using Redux Thunk will differentiate between passed objects and functions. The passed function is called a **thunk**. You can dispatch as many actions synchronously and asynchronously as you want in a thunk. When a thunk is growing and handles complex business logic at some point in your application, it is called a **fat thunk**. You can extract a thunk function as an asynchronous action creator, that is a higher order function and returns the thunk function, and can be dispatched the same way as an synchronous action creator.
+The dispatch method of the Redux store when using Redux Thunk will differentiate between passed objects and functions. The passed function is called a **thunk**. You can dispatch as many actions synchronously and asynchronously as you want in a thunk. When a thunk is growing and handles complex business logic at some point in your application, it is called a **fat thunk**. You can extract a thunk function as an asynchronous action creator, that is a higher-order function and returns the thunk function, and can be dispatched the same way as an synchronous action creator.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
