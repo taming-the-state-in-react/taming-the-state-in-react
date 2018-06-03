@@ -2,11 +2,11 @@
 
 The next chapters of the book will dive into an alternative library that provides a state management solution: MobX. However, the book will not allocate the same space as for Redux and thus not deeply dive into the topic. Because MobX doesn't follow an opinionated way of how to structure your state management, it is difficult to tackle it from all angles. There are several ways on where to put your state and how to update it. The book shows only a few opinionated ways, but doesn't showcase all of them.
 
-[MobX](https://mobx.js.org/) advertises itself as simple yet scalable state management library. It was created and introduced by [Michel Weststrate](https://twitter.com/mweststrate) and heavily used, thus battle tested, in his own company. MobX is an alternative to Redux for state management. It grows in popularity even though only a fraction of people uses it as a state management alternative to Redux. In a later chapter, you can read about the differences between both libraries for state management, because you may want to make an informed decision on whether you should use Redux or MobX to scale your state management.
+MobX advertises itself as simple yet scalable state management library. It was created and introduced by [Michel Weststrate](https://twitter.com/mweststrate) and heavily used, thus battle tested, in his own company called Mendix. MobX is an alternative to Redux for state management. It grows in popularity even though only a fraction of people uses it as a state management alternative to Redux. In a later chapter, you can read about the differences between both libraries for state management, because you may want to make an informed decision on whether you should use Redux or MobX to scale your state management.
 
-The library uses heavily JavaScript decorators that are not widely adopted and supported by browsers yet. But they are not mandatory and you can avoid using them with plain functions. You can find these plain functions in the [official documentation](https://mobx.js.org/). However, this book will showcase the usage of these decorators, because it is another exciting way of using JavaScript.
+The library uses heavily JavaScript decorators that are not widely adopted and supported by browsers yet. But they are not mandatory and you can avoid using them with plain functions instead. You can find these plain functions in the [official documentation](https://mobx.js.org/). However, this book will showcase the usage of these decorators, because it is another exciting way of using JavaScript.
 
-Along the way of the following chapters you can decide to opt-in any time the [MobX + React DevTools](https://github.com/mobxjs/mobx-react-devtools). You can install the node package with npm and place the `DevTools` component that comes from the library somewhere between your components.
+Along the way of the following chapters you can decide to opt-in any time the [MobX + React DevTools](https://github.com/mobxjs/mobx-react-devtools). You can install the node package with npm and follow the instructions from the GitHub repository.
 
 ## Introduction
 
@@ -93,7 +93,7 @@ It will run the first time when the state initializes, but then every time again
 
 ### Actions
 
-As mentioned, the state can be mutated directly in MobX. But a handful of people would argue that it is a bad practice. It couples the state mutation to close to the view layer when you start to mutate the state directly in an `onClick` handler. Therefore, you can use MobX actions to decouple the state update and keep your state updates at one place.
+As mentioned, the state can be mutated directly in MobX. But a handful of people would argue that it is a bad practice. It couples the state mutation too close to the view layer when you start to mutate the state directly in a `onClick` handler. Therefore, you can use MobX actions to decouple the state update and keep your state updates at one place.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -164,9 +164,7 @@ todoStore.addTodo({ id: '0', name: 'learn redux', completed: true });
 todoStore.addTodo({ id: '1', name: 'learn mobx', completed: false });
 ~~~~~~~~
 
-You can test the MobX action and the `configure()` function with the enforced actions in the [MobX Playground](https://jsbin.com/zigapodeke/1/edit?js,console).
-
-In addition, it makes always sense to think thoughtfully about your actions. In the previous case, every call of `addTodo()` would lead all relying reactions to run. That's why the autorun function runs every time you add a todo item. So how would you accomplish to add multiple todo items at once without triggering reactions for every todo item? You could have another action that takes an array of todo items.
+You can test the MobX action and the `configure()` function with the enforced actions in the [MobX Playground](https://jsbin.com/zigapodeke/1/edit?js,console). In addition, it makes always sense to think thoughtfully about your actions. In the previous case, every call of `addTodo()` would lead all relying reactions to run. That's why the autorun function runs every time you add a todo item. So how would you accomplish to add multiple todo items at once without triggering reactions for every todo item? You could have another action that takes an array of todo items.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -227,7 +225,7 @@ The computation happens reactively when the state has changed and a reaction ask
 
 # MobX in React
 
-The basics in MobX should be clear by now. The state in MobX is mutable and can be mutated directly, by actions too or only by actions, and not directly, when using the strict mode. When scaling your state management in MobX, you would keep it in multiple yet manageable stores to keep it maintainable. These stores can expose actions and computed values, but most important they make their properties observable. All of these facts already give you an opinionated way of how to store state (e.g. with stores) and how to update the state (e.g. explicit actions with strict mode). However, you can decide to use a different opinionated approach.
+The basics in MobX should be clear by now. The state in MobX is mutable and can be mutated directly, by actions too or only by actions, and not directly, when enforcing actions with a configuration. When scaling your state management in MobX, you would keep it in multiple yet manageable stores to keep it maintainable. These stores can expose actions and computed values, but most important they make their properties observable. All of these facts already give you an opinionated way of how to store state (e.g. with stores) and how to update the state (e.g. explicit actions with enforced actions). However, you can decide to use a different opinionated approach.
 
 Now, every time an observable property in a store changes, the `autorun` function of MobX runs. The `autorun` makes it possible to bridge the MobX state updates over to other environments. For instance, it can be used in a view layer, such as React, to re-render it every time the state changes. MobX and React match very well. Both libraries solve their own problem, but can be used together to build a sophisticated scaling application. The React view layer can receive the state from MobX, but also can mutate the state. It can connect to both ends: getting state and mutating it.
 
@@ -312,7 +310,7 @@ ReactDOM.render(
 ...
 ~~~~~~~~
 
-Again you can play around with it in the [MobX Playground](https://jsbin.com/rusewogaza/1/edit?html,js,output). If you want to use the `TodoList` component as functional component, you can use the `observer` as well.
+Again you can play around with it in the [MobX Playground](https://jsbin.com/rusewogaza/1/edit?html,js,output). If you would want to use the `TodoList` component as functional component, you can use the `observer` as a function and not as a JavaScript decorator.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -329,11 +327,11 @@ const TodoList = observer(function (props) {
 });
 ~~~~~~~~
 
-You can find the example in the following [MobX Playground](https://jsbin.com/wefoyocutu/1/edit?html,js,output).
+You can find the example in the following [MobX Playground](https://jsbin.com/wefoyocutu/1/edit?html,js,output) to play around with it.
 
 ## Local State
 
-As mentioned before, MobX is not opinionated about how to store your state and how to update it. It goes so far, that you can even exchange your local state in React, `this.state` and `this.setState()`, with MobX. The case can be demonstrated by introducing a component that adds a todo item to the list of todo items from the previous example.
+As mentioned before, MobX is not opinionated about how to store your state and how to update it. It goes so far, that you can even exchange your local state in React, `this.state` and `this.setState()`, with MobX. There you wouldn't use a store which separates the state from the view, but use class properties of the component instead. The case can be demonstrated by introducing a component that adds a todo item to the list of todo items from the previous example.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -428,7 +426,7 @@ class TodoAdd extends React.Component {
 }
 ~~~~~~~~
 
-MobX is able to take over the local state of React. You wouldn't need to use `this.state` and `this.setState()` anymore. The previous example can be found in the [MobX Playground](https://jsbin.com/velihicomu/2/edit?html,js,output). Again you experience that MobX isn't opinionated about the way the state is managed. You can have the state management encapsulated in a store class or couple it next to a component as local state. It can make React local state obsolete. But should it? That is your own decision.
+MobX is able to take over the local state of React. You wouldn't need to use `this.state` and `this.setState()` anymore. The previous example can be found in the [MobX Playground](https://jsbin.com/velihicomu/2/edit?html,js,output). Again you experience that MobX isn't opinionated about the way the state is managed. You can have the state management encapsulated in a store class or couple it next to a component as local state. It can make React local state obsolete. But should it? That is up to you.
 
 ## Scaling Reactions
 
@@ -744,7 +742,7 @@ As you can see, there are a handful of decisions to make on how to use MobX. It 
 
 ## Alternative to Redux?
 
-After all, is MobX a viable alternative to Redux? It depends all on yourself. Both solutions are different in their philosophy, their underlying mechanics and in their usage. Whereas Redux gives you one opinionated way of managing your state, MobX gives you only the tools to manage your state but not the way of how to do things. Redux has a large community, a vibrant ecosystem of libraries and great selection of best practices. MobX is a younger library compared to Redux, but gives you a different approach of managing your state.
+After all, is MobX a viable alternative to Redux? It depends all on yourself and your requirements. Both solutions are different in their philosophy, their underlying mechanics and in their usage. Whereas Redux gives you one opinionated way of managing your state, MobX gives you only the tools to manage your state but not the way of how to do things. Redux has a large community, a vibrant ecosystem of libraries and great selection of best practices. MobX is a younger library compared to Redux, but gives you a different approach of managing your state and comes with lots of powerful features too.
 
 The defining powers of MobX come from its reactive nature. As you have seen when you connected your view layer to MobX with observers, only the reactive components updated that relied on an observable state change. Everything else stayed untouched. In a large scale application, it can keep your view layer updates to a minimum when using MobX the right way.
 
