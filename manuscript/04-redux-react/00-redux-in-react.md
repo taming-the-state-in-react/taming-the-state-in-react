@@ -280,7 +280,7 @@ function render() {
 # leanpub-end-insert
 ~~~~~~~~
 
-Second, you can pass the function to the `subscribe()` method of the Redux store as callback function. This way, the function is everytime called when the state in the Redux store changes. And last but not least, you have to invoke the function one time on your own for the initial rendering of your React component.
+Second, you can pass the function to the `subscribe()` method of the Redux store as callback function. This way, the function is every time called when the state in the Redux store changes. And last but not least, you have to invoke the function one time on your own for the initial rendering of your React component.
 
 {title="src/index.js",lang="javascript"}
 ~~~~~~~~

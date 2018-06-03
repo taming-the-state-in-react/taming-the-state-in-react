@@ -2,7 +2,7 @@
 
 After learning the basics and advanced techniques in Redux and applying them on your own in an application, you are ready to explore the Redux ecosystem. The Redux ecosystem is huge and cannot be covered in one book. However, this chapter attempts to outline different paths you can take to explore the world of Redux. Apart from outlining these different paths, a couple of topics will be revisited as well to give you a richer toolset when using Redux.
 
-Before you are left alone with the last chapter covering Redux, I want to make you aware of [this repository](https://github.com/markerikson/redux-ecosystem-links) by Mark Erikson. It is a categorized list of Redux related add-ons, libraries and articles. If you get stuck at some point, want to find a solution for your problem or are just curious about the ecosystem, check out the repository. Otherwise, I encourage you to join the official [Slack Group](https://slack-the-road-to-learn-react.wieruch.com/) for further recommendations.
+Before you are left alone with the last chapter covering Redux, I want to make you aware of [this repository](https://github.com/markerikson/redux-ecosystem-links) by Mark Erikson. It is a categorized list of Redux related add-ons, libraries and articles. If you get stuck at some point, want to find a solution for your problem, or are just curious about the ecosystem, check out the repository. Otherwise, I encourage you to join the official [Slack Group](https://slack-the-road-to-learn-react.wieruch.com/) for further recommendations.
 
 ## Redux DevTools
 
@@ -30,7 +30,7 @@ The third argument is called `mergeProps()`. As arguments it gets the result fro
 
 The fourth argument is called `options`. It is an object to configure the connect higher-order component. It comes with these additional properties: `pure`, `areStatesEqual()`, `areOwnPropsEqual()`, `areMergedPropsEqual()`. How does it work altogether? When the first argument, the `pure` property, is set to true, the connect higher-order component will avoid re-rendering the view and avoids the calls to its arguments `mapStateToProps()`, `mapDispatchToProps()` and `mergeProps()`. But only when the equality checks of `areStatesEqual()`, `areOwnPropsEqual()`, `areMergedPropsEqual()` remain equal based on their respective equality checks. These equality checks are performed on the previous state and props and updated state and props. These equality checks can be modified in the options `areStatesEqual`, `areOwnPropsEqual`, `areMergedPropsEqual`. Otherwise they have a default equality check.
 
-After all, the `options` are a pure performance optimization. It is rarely used when developing Redux applications. Basically, you can set the `pure` property to true to avoid re-renderings and other argument evaluations of the `connect` higher-order component. But it comes with certain default equality checks that can be configured. In addition, the underlying assumption is that the wrapped component is a pure component and doesn't rely on any other side-effect data.
+After all, the `options` are a pure performance optimization. It is not often used when developing Redux applications. Basically, you can set the `pure` property to true to avoid re-renderings and other argument evaluations of the `connect` higher-order component. But it comes with certain default equality checks that can be configured. In addition, the underlying assumption is that the wrapped component is a pure component and doesn't rely on any other side-effect data.
 
 If you want to read up the `connect` higher-order component again, you can checkout the [official repository of react-redux](https://github.com/reactjs/react-redux) and look for the `connect` chapter.
 
@@ -91,7 +91,7 @@ const reducer = handleActions({
 }, initialState);
 ~~~~~~~~
 
-As you can see, it is far more concise than defining reducers in plain JavaScript.
+As you can see, it is far more concise than defining reducers in plain JavaScript with the switch case statement.
 
 {title="Code Playground",lang="javascript"}
 ~~~~~~~~
@@ -118,15 +118,15 @@ Apart from the [react-redux](https://github.com/reactjs/react-redux) library tha
 
 For instance, when using HTML forms in React, it is often tedious to track the state of each input element in your local component. Moreover you are often confronted with validation of these forms. The library [redux-form](https://github.com/erikras/redux-form) helps you to keep track of the form state not in the local state but in the Redux store. It enables you to access and update the form state through a higher-order component that is connected to the Redux store. In addition, it supports you in validating your form state before a user can submit it.
 
-Another example would be a table component in React. A plain table component in React can be easily written on your own. But what about certain features such as sorting, filtering or pagination? Then it becomes difficult, because you would have to manage the state of each initialized table component. There exist several libraries that help you to implement tables in React and glue them to the Redux store. For instance, the [fixed-data-table](https://github.com/facebook/fixed-data-table) can be used for such cases.
+Another example would be a table component in React. A plain table component in React can be easily written on your own. But what about certain features such as sorting, filtering or pagination? Then it becomes difficult, because you would have to manage the state of each initialized table component. There exist several libraries that help you to implement tables in React and glue them to the Redux store. For instance, the [react-redux-composable-list](https://github.com/SmallImprovements/react-redux-composable-list) can be used for such cases.
 
-There are a ton of libraries that already abstract away the state management for you when using common components such as forms or tables. You can have a look into [this repository](https://github.com/markerikson/react-redux-links) to get to know various of these libraries. It makes sense to use battle tested abstractions as libraries before implementing them on your own.
+There are a ton of libraries that already abstract away the state management for you when using common components such as forms or tables. Again you can have a look into [this repository](https://github.com/markerikson/react-redux-links) to get to know various of these libraries. It makes sense to use battle tested abstractions as libraries before implementing them on your own.
 
 ## Routing with Redux
 
-In single page applications you will introduce routing eventually. In React, there exists one preferred library for routing: [React Router](https://github.com/ReactTraining/react-router). There might exist other routing libraries in other single page application solutions. These solutions help you to navigate from URL to URL without reloading the page. That's how single page applications work after all. You only fetch your application once, but keep track of the state even when you route from URL to URL. Thus the routes in your URLs are state, too. But is it managed in the Redux store?
+In single page applications you will introduce routing eventually. In React, there exists one preferred library for routing: [React Router](https://github.com/ReactTraining/react-router). There should be other routing libraries for other single page application solutions. These solutions help you to navigate from URL to URL without reloading the page. That's how single page applications work after all. You only fetch your application once, but keep track of the state even when you route from URL to URL. Thus the routes in your URLs are state, too. But is it managed in the Redux store?
 
-The common sense when using routing in Redux is that the Router handles the URL and Redux handles the state. There is no interaction between them. For instance, when you decide to store your visibility filter `SHOW_ALL` into your URL (domain.com?filter=SHOW_ALL) instead of your Redux store, it is fine doing it. You would only have to retrieve the state from the URL and not from the Redux store. It depends on your own setup. In the end, the Router holds the single source of truth for the URL state and the Redux store holds the single source of truth for the application state. You can read more about this topic in the [official documentation](http://redux.js.org/docs/advanced/UsageWithReactRouter.html) of Redux.
+The common sense when using routing in Redux is that the Router handles the URL and Redux handles the state. There is no interaction between them. For instance, when you decide to store your visibility filter `SHOW_ALL` into your URL (domain.com?filter=SHOW_ALL) instead of your Redux store, it is fine doing it. You would only have to retrieve the state from the URL and not from the Redux store. So it depends on your own setup. In the end, the Router holds the single source of truth for the URL state and the Redux store holds the single source of truth for the application state. You can read more about this topic in the [official documentation](http://redux.js.org/docs/advanced/UsageWithReactRouter.html) of Redux.
 
 ## Typed Redux
 
@@ -160,7 +160,7 @@ function todoReducer(state: Todos = [], action) {
 }
 ~~~~~~~~
 
-Now, whenever an action leads to a state that is not defined by its type definition, you would get an error on compile time. In addition, you could use plugins for your editor or IDE to give you the early feedback that something is wrong with your action or reducer. As the previous example has shown type safety for reducers, you could apply the same for your action creators and selectors. Everything can be type checked. You can read more about [Flow on its official site](https://flow.org/).
+Now, whenever an action leads to a state that is not defined by its type definition, you would get an error on compile time of your application. In addition, you can use plugins for your editor or IDE to give you the early feedback that something is wrong with your action or reducer. As the previous example has shown type safety for reducers, you could apply the same for your action creators and selectors. Everything can be type checked. You can read more about [Flow on its official site](https://flow.org/).
 
 ## Server-side Redux
 
