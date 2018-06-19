@@ -6,7 +6,7 @@ What are the requirements to read the book? First of all, you should be familiar
 
 The book uses React as library to teach modern state management. It is a perfect choice for demonstrating and learning state management in modern applications. Because React is only a view layer, it is up to you to decide how to deal with the state in your application. The state management layer is exchangeable.
 
-After all, it's not necessary to be a React developer in order to learn about state management in modern applications. If you are developing with another SPA framework, such as Angular, or view layer library, such as Vue, all these things about state management taught in this book can still be applied in your applications. The state management solutions are agnostic to frameworks and libraries.
+After all, it's not necessary to be a React developer in order to learn about state management in modern applications. If you are developing with another framework, such as Angular, or library, such as Vue, all these things about state management taught in this book can still be applied in your applications.
 
 Still, since the book uses React for the sake of teaching state management in a proper context, if you are not familiar with React or need to have a refresher on the topic, I encourage you to read the precedent book: [The Road to learn React](https://www.robinwieruch.de/the-road-to-learn-react/). It is for free and should enable everyone to learn React. However, you can decide to pay something to support the project.
 
@@ -29,9 +29,9 @@ You can verify your versions of node and npm on the command line. If you don't g
 {title="Command Line",lang="text"}
 ~~~~~~~~
 node --version
-*v8.2.1
+*v8.9.4
 npm --version
-*v5.3.0
+*v6.1.0
 ~~~~~~~~
 
 If you read the Road to learn React, you should be familiar with the setup already. The book gives you a short introduction into the npm ecosystem on the command line, too. So if you are not familiar with this, once again you can pick up the Road to learn React book.
