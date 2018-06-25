@@ -1,5 +1,7 @@
 # Taming the State in React [Book]
 
+[![Slack](https://slack-the-road-to-learn-react.wieruch.com/badge.svg)](https://slack-the-road-to-learn-react.wieruch.com/)
+
 The official repository for [Taming the State in React](https://roadtoreact.com/). If you want to leave a review, you can do it on [Amazon](https://www.amazon.com/dp/B07CYKDQ5S?tag=21moves-20) or [Goodreads](https://www.goodreads.com/book/show/36599578-taming-the-state-in-react).
 
 ## Updates, Help and Support
