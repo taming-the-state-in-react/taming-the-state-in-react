@@ -565,7 +565,7 @@ class ArchiveableList extends React.Component {
             <span>
               <button
                 type="button"
-                onClick={() => onArchive(item.id)}
+                onClick={() => this.onArchive(item.id)}
               >
                 Archive
               </button>
