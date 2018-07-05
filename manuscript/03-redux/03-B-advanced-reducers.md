@@ -257,7 +257,7 @@ function todoReducer(state = [], action) {
   switch(action.type) {
     case TODO_ADD : {
 # leanpub-start-insert
-      return [ ...state, todoEntityReducer(undefined, action) ];
+      return state.concat(todoEntityReducer(undefined, action));
 # leanpub-end-insert
     }
     case TODO_TOGGLE : {
