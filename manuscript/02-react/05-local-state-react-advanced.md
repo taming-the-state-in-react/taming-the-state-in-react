@@ -719,7 +719,7 @@ class A extends React.Component {
       <ThemeContext.Provider value={'green'}>
         <D />
       </ThemeContext.Provider>
-    ):
+    );
   }
 }
 ~~~~~~~~
