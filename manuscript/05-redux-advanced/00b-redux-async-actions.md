@@ -315,7 +315,7 @@ function applyRemoveNotification(state, action) {
 # leanpub-end-insert
 ~~~~~~~~
 
-That was the second part of this chapter that introduced the hiding notification functionality. But you don't make any use of the functionality yet. The third and last part of this chapter will introduce asynchronous actions to hide a notification after a couple of seconds. As mentioned earlier, you wouldn't need a library to solve this problem. You could simply built up on the JavaScript `setTimeout()` functionality. But for the sake of learning about asynchronous actions in Redux, you will use Redux Thunk. It's up to you to exchange it with another asynchronous actions library afterward for the sake of learning about the alternatives. You will hear about these alternative libraries later.
+That was the second part of this chapter that introduced the hiding notification functionality. But you don't make any use of the functionality yet. The third and last part of this chapter will introduce asynchronous actions to hide a notification after a couple of seconds. As mentioned earlier, you wouldn't need a library to solve this problem. You could simply build up on the JavaScript `setTimeout()` functionality. But for the sake of learning about asynchronous actions in Redux, you will use Redux Thunk. It's up to you to exchange it with another asynchronous actions library afterward for the sake of learning about the alternatives. You will hear about these alternative libraries later.
 
 First, you have to install the [redux-thunk](https://github.com/gaearon/redux-thunk) library on the command line:
 
