@@ -394,7 +394,7 @@ This chapter briefly shows the alternatives that you can use instead of Redux Th
 
 Redux Saga uses [JavaScript ES6 Generators](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Generator) as underlying technology. That's why the code reads like synchronous code. You avoid it having callback functions. The advantage over Redux Thunk is that your actions stay pure and thus they can be tested well.
 
-Apart from Redux Thunk and Redux Sage, there are other side-effect libraries for Redux. If you want to try out observables in JavaScript, you could give [Redux Observable](https://github.com/redux-observable/redux-observable) a shot. It builds up on RxJS, a generic library for reactive programming. If you are interested in another library that uses reactive programming principles, too, you can try [Redux Cycles](https://github.com/cyclejs-community/redux-cycles).
+Apart from Redux Thunk and Redux Saga, there are other side-effect libraries for Redux. If you want to try out observables in JavaScript, you could give [Redux Observable](https://github.com/redux-observable/redux-observable) a shot. It builds up on RxJS, a generic library for reactive programming. If you are interested in another library that uses reactive programming principles, too, you can try [Redux Cycles](https://github.com/cyclejs-community/redux-cycles).
 
 In conclusion, as you can see, all these libraries, Redux Saga, Redux Observable and Redux Cycles, make use of different techniques in JavaScript. You can give them a try to experiment with recent JavaScript technologies: generators or observables. The whole ecosystem around asynchronous actions is a great playground to try new things in JavaScript in the end.
 
