@@ -39,7 +39,7 @@ function reducer(state = [], action) {
 }
 ~~~~~~~~
 
-The initial state will be the same as before, but you defined it on a more fine-grained level. Later on, that will help you when you specify more than one reducer and your state object becomes more complex because it it split up into multiple reducers. Then every reducer can define its fine-grained initial state.
+The initial state will be the same as before, but you defined it on a more fine-grained level. Later on, that will help you when you specify more than one reducer and your state object becomes more complex because it is split up into multiple reducers. Then every reducer can define its fine-grained initial state.
 
 ### Nested Data Structures
 
