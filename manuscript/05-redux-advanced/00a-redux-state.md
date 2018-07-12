@@ -987,7 +987,7 @@ const VISIBILITY_FILTERS = {
 };
 ~~~~~~~~
 
-Second, can use your selector to only select the todos matching a filter. You already have all selectors in place. But you need to adjust one of them to filter the todos according to the `filterState` from the Redux store.
+Second, you can use your selector to only select the todos matching a filter. You already have all selectors in place. But you need to adjust one of them to filter the todos according to the `filterState` from the Redux store.
 
 {title="src/index.js",lang="javascript"}
 ~~~~~~~~
