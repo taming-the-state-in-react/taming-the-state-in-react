@@ -43,7 +43,7 @@ const store = createStore(
 );
 ~~~~~~~~
 
-That's it. Now every action should be visible in your browser's developer console when dispatching them. And thus your state changes become more predictable as developer without logging every action yourself.
+That's it. Now every action should be visible in your browser's developer console when dispatching them. And thus your state changes become more predictable when developing without logging every action yourself.
 
 The `applyMiddleware()` functionality takes any number of middleware: `applyMiddleware(firstMiddleware, secondMiddleware, ...);`. The action will flow through all middleware before it reaches the reducers. Sometimes, you have to make sure to apply them in the correct order. For instance, the `redux-logger` middleware must be last in the middleware chain in order to output the correct actions and states.
 
@@ -518,7 +518,7 @@ const ConnectedTodoList = connect(mapStateToProps)(TodoList);
 
 In this scenario, the whole normalized data structure gets denormalized in the selector. You will have the whole list of todos in your `TodoList` component. The `TodoItem` component wouldn't need to take care about the denormalization.
 
-As you can see, there are two essential ways on how to deal with normnalized state in your selectors or in general in the `mapStateToProps()` functions. It is up to you to find about the best suited implementation for your own use case. Perhaps you even don't need to normalize your state in the first place, because it is already flat or not very deeply nested.
+As you can see, there are two essential ways on how to deal with normalized state in your selectors or in general in the `mapStateToProps()` functions. It is up to you to find about the best suited implementation for your own use case. Perhaps you don't even need to normalize your state in the first place, because it is already flat or not very deeply nested.
 
 ### Reselect
 
@@ -987,7 +987,7 @@ const VISIBILITY_FILTERS = {
 };
 ~~~~~~~~
 
-Second, can use your selector to only select the todos matching a filter. You already have all selectors in place. But you need to adjust one of them to filter the todos according to the `filterState` from the Redux store.
+Second, you can use your selector to only select the todos matching a filter. You already have all selectors in place. But you need to adjust one of them to filter the todos according to the `filterState` from the Redux store.
 
 {title="src/index.js",lang="javascript"}
 ~~~~~~~~
