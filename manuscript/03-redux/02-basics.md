@@ -1,6 +1,6 @@
 ## Basics in Redux
 
-On the [official Redux website](http://redux.js.org) it says: *"Redux is a predictable state container for JavaScript apps."*. It can be used standalone or in connection with with libraries, like React and Angular, to manage state in JavaScript applications.
+On the [official Redux website](http://redux.js.org) it says: *"Redux is a predictable state container for JavaScript apps."*. It can be used standalone or in connection with libraries, like React and Angular, to manage state in JavaScript applications.
 
 Redux adopted a handful of constraints from the Flux architecture but not all of them. It has Actions that encapsulate information for the actual state update. It has a Store to save the state, too. However, the Store is a singleton. Thus, there are not multiple Stores like there used to be in the Flux architecture. In addition, there is no single Dispatcher. Instead, Redux uses multiple Reducers. Basically, Reducers pick up the information from Actions and "reduce" the information to a new state, along with the old state, that is stored in the Store. When state in the Store is changed, the View can act on this by subscribing to the Store.
 
