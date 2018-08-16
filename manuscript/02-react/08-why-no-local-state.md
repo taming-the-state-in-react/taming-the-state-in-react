@@ -18,7 +18,7 @@ Last but not least, another controversial statement: *You don't need React's loc
 
 I strongly disagree with the statement, too. If you want to develop applications with React, you should certainly be aware of local state in React. You should have built applications with it before you start to learn and apply sophisticated state management solutions. You need to run into local state management problems before you get the help of sophisticated state management solutions. You will always need local state management, even for large applications.
 
-These were only three controversial statements. But there are way more opinions around the topic. In the end, you should make your own experiences to get to know what makes sense to you. However, if you are transitioning from plain React to React + Redux or React + Redux, I highly recommend reading this article before continuing reading the book: [Things to learn in React before using Redux](https://www.robinwieruch.de/learn-react-before-using-redux/).
+These were only three controversial statements. But there are way more opinions around the topic. In the end, you should make your own experiences to get to know what makes sense to you. However, if you are transitioning from plain React to React + Redux or React + MobX, I highly recommend reading this article before continuing reading the book: [Things to learn in React before using Redux](https://www.robinwieruch.de/learn-react-before-using-redux/).
 
 ### The Flaw of Local State Management
 
