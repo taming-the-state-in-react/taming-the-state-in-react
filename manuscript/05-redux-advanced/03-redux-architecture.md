@@ -900,7 +900,7 @@ export const STORY_ARCHIVE = 'STORY_ARCHIVE';
 
 Last but not least, you can import the action type and dispatch the action in your root component where you had the empty function before.
 
-{title="src/reducers/archive.js",lang="javascript"}
+{title="src/index.js",lang="javascript"}
 ~~~~~~~~
 import React from 'react';
 import ReactDOM from 'react-dom';
