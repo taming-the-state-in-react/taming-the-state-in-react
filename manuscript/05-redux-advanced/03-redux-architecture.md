@@ -1472,12 +1472,6 @@ There are two missing class methods: `onChange()` and `onSubmit()`. Let's introd
 ~~~~~~~~
 ...
 
-# leanpub-start-insert
-const applyQueryState = query => () => ({
-  query
-});
-# leanpub-end-insert
-
 class SearchStories extends Component {
   constructor(props) {
     ...
@@ -1494,7 +1488,7 @@ class SearchStories extends Component {
     if (query) {
       this.props.onFetchStories(query)
 
-      this.setState(applyQueryState(''));
+      this.setState({ query: '' });
     }
 
     event.preventDefault();
@@ -1502,7 +1496,7 @@ class SearchStories extends Component {
 
   onChange(event) {
     const { value } = event.target;
-    this.setState(applyQueryState(value));
+    this.setState({ query: value });
   }
 # leanpub-end-insert
 
