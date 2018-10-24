@@ -308,7 +308,7 @@ function notificationReducer(state = {}, action) {
 function applyRemoveNotification(state, action) {
   const {
     [action.id]: notificationToRemove,
-    ...restNotifications,
+    ...restNotifications
   } = state;
   return restNotifications;
 }
