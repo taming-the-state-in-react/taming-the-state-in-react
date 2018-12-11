@@ -7,8 +7,8 @@ The official repository for [Taming the State in React](https://roadtoreact.com/
 ## Updates, Help and Support
 
 * Get book updates via [E-Mail](https://www.getrevue.co/profile/rwieruch) or [Twitter](https://twitter.com/rwieruch)
-* Get help, while learning React with the book or teach others, in the official [Slack Channel](https://slack-the-road-to-learn-react.wieruch.com/)
-* Find out how you can [Support the Book](https://www.robinwieruch.de/about/)
+* Get help, while learning with the book or teach others, in the official [Slack Channel](https://slack-the-road-to-learn-react.wieruch.com/)
+* Find out how you can [support the Book](https://www.robinwieruch.de/about/)
 
 ## Contribute
 
