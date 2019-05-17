@@ -306,4 +306,4 @@ unsubscribe();
 
 A finished application can be found [in this JS Bin](https://jsbin.com/kopohur/28/edit?html,js,console). Before you continue to read, you should experiment with the project. What you see in the project is plain JavaScript with a Redux store. You can come up with more actions and deal with them in your reducer. The application should make you aware that Redux is only a state container. The state can be altered by using actions. The reducer take care of the action. It uses the action and the old state to create a new state in the Redux store.
 
-Later you will learn about how to to connect the Redux store to your React view layer. But before doing so, let's dive into actions and reducers a bit deeper.
+Later you will learn about how to connect the Redux store to your React view layer. But before doing so, let's dive into actions and reducers a bit deeper.
