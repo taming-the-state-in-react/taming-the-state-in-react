@@ -240,7 +240,7 @@ function TodoItem({ todo, onToggleTodo }) {
         onClick={() => onToggleTodo(id)}
       >
         {completed ? "Incomplete" : "Complete"}
-    </button>
+      </button>
     </div>
   );
 }
