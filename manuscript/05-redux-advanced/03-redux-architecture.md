@@ -989,7 +989,7 @@ You can find this part of the chapter in [the GitHub repository](https://github.
 
 ### Part 9: Re-render View
 
-In this part, you will update the view layer to reflect the correct state that is used from the Redux store. When an action dispatches, the state in the Redux store gets updated. However, the component tree in React doesn't update, because no one subscribed to the Redux store yet. In the first attempt, you are going to wire up Redux and React naively and re-render the whole component tree on each updatea as you have done before in another application from this book.
+In this part, you will update the view layer to reflect the correct state that is used from the Redux store. When an action dispatches, the state in the Redux store gets updated. However, the component tree in React doesn't update, because no one subscribed to the Redux store yet. In the first attempt, you are going to wire up Redux and React naively and re-render the whole component tree on each update as you have done before in another application from this book.
 
 {title="src/index.js",lang="javascript"}
 ~~~~~~~~
