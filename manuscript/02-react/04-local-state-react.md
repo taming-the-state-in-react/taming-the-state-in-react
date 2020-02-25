@@ -5,7 +5,7 @@ The book uses React as view layer for demonstrating the local state in a web app
 So, what does local state look like in a React component?
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 import React from 'react';
 
 class Counter extends React.Component {
@@ -25,14 +25,14 @@ class Counter extends React.Component {
     );
   }
 }
-~~~~~~~~
+~~~~~~~
 
 The example shows a `Counter` component that has a `counter` property in the local state object. It is defined with a value of `0` when the component gets instantiated by its constructor. In addition, the `counter` property from the local state object is used in the render method of the component to display its current value.
 
 There is no state manipulation in place yet. Before you start to manipulate your state, you should know that you are never allowed to mutate the state directly: `this.state.counter = 1`. That would be a direct mutation. Instead, you have to use the React component API to change the state explicitly by using the `this.setState()` method. It keeps the state object immutable, because the state object isn't changed but a new modified copy of it is created.
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 import React from 'react';
 
 class Counter extends React.Component {
@@ -63,12 +63,12 @@ class Counter extends React.Component {
     ...
   }
 }
-~~~~~~~~
+~~~~~~~
 
 The class methods can be used in the `render()` method to trigger the local state changes.
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 import React from 'react';
 
 class Counter extends React.Component {
@@ -90,28 +90,28 @@ class Counter extends React.Component {
     );
   }
 }
-~~~~~~~~
+~~~~~~~
 
 Now, the button `onClick` handler should invoke the class methods to alter the state by either incrementing or decrementing the counter value. Then, the update functionality with `this.setState()` is performing a **shallow merge** of objects. What does a shallow merge mean? Imagine you had the following state in your component, two arrays with objects:
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 this.state = {
   authors: [...],
   articles: [...],
 };
-~~~~~~~~
+~~~~~~~
 
 When updating the state only partly, for instance the authors, the other part, in this case the articles, are left intact.
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 this.setState({
   authors: [
     { name: 'Robin', id: '1' }
   ]
 });
-~~~~~~~~
+~~~~~~~
 
 It only updates the `authors` array with a new array without touching the `articles` array. That's called a shallow merge. It simplifies the local state management for you so that you don't have to keep an eye on all properties at once in the local state.
 
@@ -122,7 +122,7 @@ Local state can only be used in React ES6 class components. The component become
 On the other hand, **functional stateless components** have no state, because, as the name implies, they are only functions and thus, they are stateless. They get input as props and return output as JSX. In a stateless component, state can only be passed as props from a parent component. However, the functional stateless component is unaware of the props being state in the parent component. In addition, callback functions can be passed down to the functional stateless component to have an indirect way of altering the state in the parent component again. A functional stateless component for the Counter example could look like the following:
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 import React from 'react';
 
 function CounterPresenter(props) {
@@ -138,7 +138,7 @@ function CounterPresenter(props) {
     </div>
   );
 }
-~~~~~~~~
+~~~~~~~
 
 Now only the props from the parent component would be used in this functional stateless component. The `counter` prop would be displayed and the two callback functions, `onIncrement()` and `onDecrement()` would be used for the buttons. However, the functional stateless component is not aware whether the passed properties are state, props or some other derived properties. The origin of the props doesn't need to be in the parent component after all, it could be somewhere higher up the component tree. The parent component would only pass the properties or derived properties along the way. In addition, the component is unaware of what the callback functions are doing. It doesn't know that these alter the local state of the parent component.
 
@@ -147,7 +147,7 @@ After all, the callback functions in the stateless component would make it possi
 The example shows how local state can traverse down from one component to the component tree. To make the example with the functional stateless component complete, let's quickly show what a potential parent component, that manages the local state, would look like. It is a React ES6 class component in order to be stateful.
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 import React from 'react';
 
 class CounterContainer extends React.Component {
@@ -182,7 +182,7 @@ class CounterContainer extends React.Component {
     />
   }
 }
-~~~~~~~~
+~~~~~~~
 
 It is not by accident that the suffixes in the naming of both `Counter` components are `Container` and `Presenter`. It is called the [container and presentational component pattern](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0). It is most often applied in React, but could live in other component centred libraries and frameworks, too. If you have never heard about it, I recommend reading the referenced article. It is a widely used pattern, where the container component deals with "How things work" and the presenter component deals with "How things look". In this case, the container component cares about the state while the presenter component only displays the counter value and provides a handful of click handler yet without knowing that these click handlers manipulate the state. Note that the presenter component is called presentational component in the referenced article. I shortened the name from presentational to presenter component for the sake of convenience.
 
@@ -215,7 +215,7 @@ There are two ways to use forms in React. You can use the ref attribute or local
 The following code snippet is a quick demonstration on how form state can be used by using the ref attribute. Afterward, the code snippet will get refactored to use the local state which is the best practice anyway.
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 import React from 'react';
 
 class Search extends React.Component {
@@ -249,14 +249,14 @@ class Search extends React.Component {
     );
   }
 }
-~~~~~~~~
+~~~~~~~
 
 The value from the input node is retrieved by using the reference to the DOM node. It happens in the `onSubmit()` method. The reference is created by using the ref attribute in the `render()` method.
 
 Now let's see how to make use of local state to embrace best practices rather than using the reserved ref attribute.
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 import React from 'react';
 
 class Search extends React.Component {
@@ -303,7 +303,7 @@ class Search extends React.Component {
     );
   }
 }
-~~~~~~~~
+~~~~~~~
 
 You don't need to make use of the ref attribute anymore. You can solve the problem by using local state only. The example demonstrates it with only one input field yet it can be used with multiple input fields, too. You would only need to allocate more properties, one for each input field, in the local state.
 
@@ -316,7 +316,7 @@ However, the value lives in your local state, too. You have it in both, the nati
 Let's consider the previous example again. The input field had no value attribute assigned. By using the native value attribute and passing the local state as value, you convert an uncontrolled component to a controlled component.
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 import React from 'react';
 
 class Search extends React.Component {
@@ -340,7 +340,7 @@ class Search extends React.Component {
     );
   }
 }
-~~~~~~~~
+~~~~~~~
 
 Now the value comes from the local state as single source of truth. It cannot get out of sync with the native DOM node state. This way, you can provide an initial state for the DOM node state too. Otherwise, try to have an initial local state for the `query` in your local state, but don't provide the `value` attribute to the input field. Your state would be out of sync in the beginning, because the input field would be empty even though the local state of the React component says something else.
 

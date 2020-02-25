@@ -7,7 +7,7 @@ The obvious answer to this question would be to implement a backend application 
 While the dehydration of the state could happen any time your application is running, perhaps when the user interacts with your application, the rehydration would take place when your components mount when starting your application. The best place to do it in React would be the `componentDidMount()` lifecycle method. Take for example the `ArchiveableList` component from a previous chapter. It could retrieve all the archived unique identifiers of items on `componentDidMount()` from your backend application and rehydrate them to the local state.
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 import React from 'react';
 
 class ArchiveableList extends React.Component {
@@ -40,7 +40,7 @@ function rehydrateArchivedItems(archivedItems) {
     };
   };
 }
-~~~~~~~~
+~~~~~~~
 
 Now, every time the component initializes, the persistent archived items will be used as initial state for your component. In fact, the initial state is defined in the constructor of the component, but after the component mounted it fetches the next state from the backend application and rehydrates it as initial state.
 
@@ -55,7 +55,7 @@ You may wonder whether there is a more lightweight solution compared to a backen
 Modern browsers have access to the [local storage](https://developer.mozilla.org/en/docs/Web/API/Window/localStorage) and [session storage](https://developer.mozilla.org/en/docs/Web/API/Window/sessionStorage). Both work the same, but there is one difference in their functionalities. While the local storage keeps the data even when the browser is closed, the session storage expires once the browser closes. Both storages work the same by using key value pairs.
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 // Save data to localStorage
 localStorage.setItem('key', 'value');
 
@@ -67,7 +67,7 @@ localStorage.removeItem('key');
 
 // Remove all saved data from localStorage
 localStorage.clear();
-~~~~~~~~
+~~~~~~~
 
 In the end, you can apply them the same way as you did in the previous `ArchiveableList` component that used the request to a backend application to retrieve the data. Now the `ArchiveableList` component would use the storage instead of the backend to retrieve the state. If you are keen to explore the usage with the local storage in React, you can read more about it in this article: [How to use Local Storage in React](https://www.robinwieruch.de/local-storage-react/).
 
@@ -82,7 +82,7 @@ Next, imagine you made your first request searching popular stories about "React
 Such a fluctuant cache solution is not too difficult to implement with a local state. Bear in mind that it would work with a sophisticated state management solution, such as Redux or MobX, too. So when searching for the stories, you already have a unique identifier which you can use as a key in an object to store the search result in the local state. The unique identifier is your search term. It would be either "React" or "React Local State" considering the previous example. The value corresponding to the key would be the search result. In the example, it would be the popular stories about "React" and "React Local Storage". After all, your cache object in the local state might be similar to this:
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 this.state = {
   ...
   searchCache: {
@@ -90,7 +90,7 @@ this.state = {
     ReactLocalState: [...],
   }
 }
-~~~~~~~~
+~~~~~~~
 
 Every time your application performs a search request, the key value pair in the cache object in your local state would be filled. Before you make a new request, the cache would be checked whether the search term is already available as a key in the object. If the key is available, the request would be suppressed and the cache result would be used instead. If the key is not available, a request would be made. After the request succeeded, the search term would be saved as key and the search result would be saved as value for the key in the local state.
 

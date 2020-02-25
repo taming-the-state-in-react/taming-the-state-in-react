@@ -13,7 +13,7 @@ There are useful libraries out there to opt-in features into your Redux middlewa
 But where to apply this middleware in Redux? It is the Redux store which can be initialized with it. The `createStore()` functionality from Redux takes as third argument a so called enhancer. The redux library comes with one of these enhancers: `applyMiddleware()`.
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 import { applyMiddleware, createStore } from 'redux';
 
 const store = createStore(
@@ -21,12 +21,12 @@ const store = createStore(
   undefined,
   applyMiddleware(...)
 );
-~~~~~~~~
+~~~~~~~
 
 If you don't have an initial state for your Redux state, you can use `undefined` for it. Now, when using redux-logger, you can pass a `logger` instance to the `applyMiddleware()` function.
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 import { applyMiddleware, createStore } from 'redux';
 # leanpub-start-insert
 import { createLogger } from 'redux-logger';
@@ -41,7 +41,7 @@ const store = createStore(
   applyMiddleware(logger)
 # leanpub-end-insert
 );
-~~~~~~~~
+~~~~~~~
 
 That's it. Now every action should be visible in your browser's developer console when dispatching them. And thus your state changes become more predictable when developing without logging every action yourself.
 
@@ -73,7 +73,7 @@ If both statements are false, I would highly recommend you to stick to plain Jav
 Do you recall how you added a new todo item or how you completed a todo item in your reducers?
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 // adding todo
 const todo = Object.assign({}, action.todo, { completed: false });
 const newTodos = todos.concat(todo);
@@ -84,12 +84,12 @@ const newTodos = todos.map(todo =>
     ? Object.assign({}, todo, { completed: !todo.completed })
     : todo
   );
-~~~~~~~~
+~~~~~~~
 
 If you added more JavaScript ES6 by using the spread operator, you can keep these even more concise.
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 // adding todo
 const todo = { ...action.todo, completed: false };
 const newTodos = [ ...todos, todo ];
@@ -100,7 +100,7 @@ const newTodos = todos.map(todo =>
     ? { ...todo, completed: !todo.completed }
     : todo
   );
-~~~~~~~~
+~~~~~~~
 
 JavaScript gives you enough tools to keep your data structures immutable. There is no need to use a third-party library except for the two mentioned use cases. However, there might be a third use case where such library would help: deeply nested data structures in Redux that need to be kept immutable. It is true that it becomes more difficult to keep data structures immutable when they are nested. But, as mentioned earlier in the book, it is bad practice to have deeply nested data structures in Redux in the first place. That's where the next chapter of the book comes into play that can be used to keep your data structures flat in the Redux store.
 
@@ -114,7 +114,7 @@ A best practice in Redux is a flat state structure. You don't want to maintain a
 You should try to default to the second option. You only deal with the problem once and all subsequent parts in your application will be grateful for it. Let's run through one scenario to illustrate the normalization of data. Imagine you have the following nested data structure:
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 const todos = [
   {
     id: '0',
@@ -135,12 +135,12 @@ const todos = [
     },
   }
 ];
-~~~~~~~~
+~~~~~~~
 
 Both library creators, Dan Abramov and Michel Weststrate, did a great job: they created popular libraries for state management. The first option, as mentioned, would be to save the todos as they are in the store. The todos themselves would have the deeply nested information of the `assignedTo` object within the `todo` object. Now, if an action wanted to correct an assigned user, the reducer would have to deal with the deeply nested data structure. Let's add Andrew Clark as creator of Redux.
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 const ASSIGNED_TO_CHANGE = 'ASSIGNED_TO_CHANGE';
 
 store.dispatch({
@@ -173,12 +173,12 @@ function applyChangeAssignedTo(state, action) {
     }
   });
 }
-~~~~~~~~
+~~~~~~~
 
 This would lead to the following list of todos in your Redux store after the action has been dispatched:
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 const todos = [
   {
     id: '0',
@@ -199,14 +199,14 @@ const todos = [
     },
   }
 ];
-~~~~~~~~
+~~~~~~~
 
 As you can see from the reducer, the further you have to reach into a deeply nested data structure, the more you have to be careful to keep your data structure immutable. Each level of nested data adds more tedious work of maintaining it. Therefore, you could use a library called [normalizr](https://github.com/paularmstrong/normalizr) to flatten (normalize) your state. The library uses schema definitions to transform deeply nested data structures into dictionaries that have entities and a corresponding list of ids.
 
 What would that look like? Let's take the previous list of todo items as example. First, you would have to define schemas for your entities only once:
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 import { schema } from 'normalizr';
 
 const assignedToSchema = new schema.Entity('assignedTo');
@@ -214,12 +214,12 @@ const assignedToSchema = new schema.Entity('assignedTo');
 const todoSchema = new schema.Entity('todo', {
   assignedTo: assignedToSchema,
 });
-~~~~~~~~
+~~~~~~~
 
 Second, you can normalize your data whenever you want:
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 # leanpub-start-insert
 import { schema, normalize } from 'normalizr';
 # leanpub-end-insert
@@ -233,12 +233,12 @@ const todoSchema = new schema.Entity('todo', {
 # leanpub-start-insert
 const normalizedData = normalize(todos, [ todoSchema ]);
 # leanpub-end-insert
-~~~~~~~~
+~~~~~~~
 
 The output would be the following:
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 {
   entities: {
     assignedTo: {
@@ -268,14 +268,14 @@ The output would be the following:
   },
   result: ["0", "1"]
 }
-~~~~~~~~
+~~~~~~~
 
 The deeply nested data became a flat data structure grouped by entities. Each entity can reference another entity by its id. It is like you would keep these entities in a database. They are decoupled now. Afterward, in your Redux application, you could have one reducer that stores and deals with the `assignedTo` entities and one reducer that deals with the `todo` entities. The data structure is flat and grouped by entities and thus easier to access and to manipulate.
 
 There is another benefit in normalizing your data. When your data is not normalized, entities are often duplicated in your nested data structure. Imagine the following object with todos.
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 const todos = [
   {
     id: '0',
@@ -296,12 +296,12 @@ const todos = [
     },
   }
 ];
-~~~~~~~~
+~~~~~~~
 
 If you store such denormalized data in your Redux store, you will likely run into an major issue: Imagine you want to update the name property `Robin Wieruch` of all `assignedTo` properties. You would have to run through all todos in order to update all `assignedTo` properties with the id `55`. The problem: There is no single source of truth. You will likely forget to update an entity and run into a stale state eventually. Therefore, the best practice is to store your state normalized so that each entity is a single source of truth. There will be no duplication of entities and thus no stale state when updating the one single source of truth, because each todo will reference to the updated `assignedTo` entity:
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 {
   entities: {
     assignedTo: {
@@ -327,7 +327,7 @@ If you store such denormalized data in your Redux store, you will likely run int
   },
   result: ["0", "1"]
 }
-~~~~~~~~
+~~~~~~~
 
 In conclusion, normalizing your state has two benefits. It keeps your state flat and thus easier manageable with immutable data structures. In addition, it groups entities to single sources of truth without any duplications. When you normalize your state, you will automatically get groupings of entities that could lead to their own reducers managing them. However, you don't want to start out with normalizing your state from the beginning. First you should try to introduce Redux itself to your application. Once you experience difficulities when altering your state, because it is deeply nested, or you experience issues updating single entities, because there is no single source of truth, you would want to introduce state normalization in your Redux application.
 
@@ -342,28 +342,28 @@ In Redux, there is the concept of selectors to retrieve derived properties from 
 Selectors usually follow one syntax. The mandatory argument of a selector is the state from where it has to select from. There can be optional arguments that are in a supportive role to select the substate or the derived properties.
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 // selector
 (state) => derived properties
 // selector with optional arguments
 (state, args) => derived properties
-~~~~~~~~
+~~~~~~~
 
 Selectors are not mandatory. When thinking about all the parts in Redux, only the action(s), the reducer(s) and the Redux store are a binding requirement. Similar to action creators, selectors can be used to achieve an improved developer experience in a Redux architecture, but you don't need to use them. What does a selector look like? It is a plain function, as mentioned, that could live anywhere in your application. However, you would use it, maybe import it, when using Redux in React, in your `mapStateToProps()` function. So instead of retrieving the state explicitly:
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 function mapStateToProps(state) {
   return {
     todos: state.todoState,
   };
 }
-~~~~~~~~
+~~~~~~~
 
 You would retrieve it implicitly via a selector:
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 # leanpub-start-insert
 function getTodos(state) {
   return state.todoState;
@@ -377,7 +377,7 @@ function mapStateToProps(state) {
 # leanpub-end-insert
   };
 }
-~~~~~~~~
+~~~~~~~
 
 It is similar to the action and reducer concept. Instead of manipulating the state directly in the Redux store, you will use action(s) and reducer(s) to alter it indirectly. The same applies for selectors that don't retrieve the derived properties directly but indirectly from the global state.
 
@@ -388,17 +388,17 @@ You may wonder: Why are selectors an advantage? There are several benefits. A se
 In the previous chapter about normalization, there was one benefit left unexplained. It is about selecting normalized state from your state layer to pass it to your view layer. Personally, I would argue a normalized state structure makes it much more convenient to select a substate from it. When you recall the normalized state structure, it looked something like the following:
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 {
   entities: ...
   ids: ...
 }
-~~~~~~~~
+~~~~~~~
 
 For instance, in a real work application it would look like the following:
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 // state
 [
   { id: '0', name: 'learn redux' },
@@ -419,14 +419,14 @@ For instance, in a real work application it would look like the following:
   },
   ids: ['0', '1'],
 }
-~~~~~~~~
+~~~~~~~
 
 If you recall the Redux in React chapter, there you passed the list of todos from the `TodoList` component, because it is a connected component, down to the whole component tree. How would you solve this with the normalized state from above?
 
 Assuming that the reducer stored the state in a normalized immutable data structure, you would only pass the list of todo `ids` to your `TodoList` component. Because this component manages the list and not the entities themselves, it makes perfect sense that it only gets the list with references to the entities.
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 function TodoList({ todosAsIds }) {
   return (
     <div>
@@ -449,12 +449,12 @@ function mapStateToProps(state) {
 }
 
 const ConnectedTodoList = connect(mapStateToProps)(TodoList);
-~~~~~~~~
+~~~~~~~
 
 Now the `ConnectedTodoItem` component, that already passes the `onToggleTodo()` handler via the `mapDispatchToProps()` function to its plain `TodoItem` component, would select the todo entity matching to the incoming `todoId` property.
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 function getTodoAsEntity(state, id) {
   return state.todoState.entities[id];
 }
@@ -475,7 +475,7 @@ const ConnectedTodoItem = connect(
   mapStateToProps,
   mapDispatchToProps
 )(TodoItem);
-~~~~~~~~
+~~~~~~~
 
 The `TodoItem` component itself would stay the same. It still gets the `todo` item and the `onToggleTodo()` handler as arguments. In addition, you can see two more concepts that were explained earlier. First, the selector grows in complexity because it gets optional arguments to select derived properties from the state. Second, the `mapStateToProps()` function makes use of the incoming props from the `TodoList` component that uses the `ConnectedTodoItem` component.
 
@@ -484,7 +484,7 @@ As you can see, the normalized state requires to use more connected components. 
 There exists another way to denormalize your normalized state when using a library such as normalizr. The previous scenario allowed you to only pass the minimum of properties to the components. Each component was responsible to select its state. In the next scenario, you will denormalize your state in one component while the other components don't need to care about it. You will use the defined schema, which you have used for the initial normalization, to reverse the normalization.
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 import { denormalize, schema } from 'normalizr';
 
 const todoSchema = new schema.Entity('todos');
@@ -514,7 +514,7 @@ function mapStateToProps(state) {
 }
 
 const ConnectedTodoList = connect(mapStateToProps)(TodoList);
-~~~~~~~~
+~~~~~~~
 
 In this scenario, the whole normalized data structure gets denormalized in the selector. You will have the whole list of todos in your `TodoList` component. The `TodoItem` component wouldn't need to take care about the denormalization.
 
@@ -546,14 +546,14 @@ Now in the Todo application, you can refactor everything to use the advanced tec
 In the first part, let's use the [redux-logger](https://github.com/evgenyrodionov/redux-logger) middleware. Therefore, you have to install it on the command line:
 
 {title="Command Line: /",lang="text"}
-~~~~~~~~
+~~~~~~~
 npm install --save redux-logger
-~~~~~~~~
+~~~~~~~
 
 Next you can use it when you create your store:
 
 {title="src/index.js",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 import React from 'react';
 import ReactDOM from 'react-dom';
 # leanpub-start-insert
@@ -583,14 +583,14 @@ const store = createStore(
   applyMiddleware(logger)
 );
 # leanpub-end-insert
-~~~~~~~~
+~~~~~~~
 
 When you start your Todo application now, you should see the output of the `logger` in the developer console of your browser when dispatching actions. The Todo application with the middleware using redux-logger can be found in this [GitHub repository](https://github.com/rwieruch/taming-the-state-todo-app/tree/4.0.0).
 
 The second part of this chapter is using the JavaScript spread operators instead of the `Object.assign()` function to keep an immutable data structure. You can apply it in your reducer functions:
 
 {title="src/index.js",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 function applyAddTodo(state, action) {
 # leanpub-start-insert
   const todo = { ...action.todo, completed: false };
@@ -607,21 +607,21 @@ function applyToggleTodo(state, action) {
       : todo
   );
 }
-~~~~~~~~
+~~~~~~~
 
 The application should work the same as before, but this time with the spread operator for keeping an immutable data structure and thus an immutable state object. The source code can be found again in this [GitHub repository](https://github.com/rwieruch/taming-the-state-todo-app/tree/5.0.0).
 
 In the third part of applying the advanced techniques from the previous chapters, you will use a normalized state structure. Therefore, you can install the neat library [normalizr](https://github.com/paularmstrong/normalizr) on the command line:
 
 {title="Command Line: /",lang="text"}
-~~~~~~~~
+~~~~~~~
 npm install --save normalizr
-~~~~~~~~
+~~~~~~~
 
 Let's have a look at the initial state for the `todoReducer`. You can make up an initial state for them. For instance, what about completing all coding examples in this book by having todo items for them?
 
 {title="src/index.js",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 const todos = [
   { id: '1', name: 'Redux Standalone with advanced Actions' },
   { id: '2', name: 'Redux Standalone with advanced Reducers' },
@@ -638,12 +638,12 @@ const todos = [
 function todoReducer(state = todos, action) {
   ...
 }
-~~~~~~~~
+~~~~~~~
 
 You can use normalizr to normalize this data structure. First, you have to define a schema:
 
 {title="src/index.js",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { applyMiddleware, combineReducers, createStore } from 'redux';
@@ -659,12 +659,12 @@ import './index.css';
 
 const todoSchema = new schema.Entity('todo');
 # leanpub-end-insert
-~~~~~~~~
+~~~~~~~
 
 Second, you can use the schema to normalize your initial todos and use them as default parameter in your `todoReducer`.
 
 {title="src/index.js",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 // reducers
 
 const todos = [
@@ -682,20 +682,20 @@ function todoReducer(state = initialTodoState, action) {
 # leanpub-end-insert
   ...
 }
-~~~~~~~~
+~~~~~~~
 
 Third, your `todoReducer` needs to handle the normalized state structure. It has to deal with entities and a result (list of ids). You can output the normalized todos even though the Todo application crashes when you attempt to start it.
 
 {title="src/index.js",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 const normalizedTodos = normalize(todos, [todoSchema]);
 console.log(normalizedTodos);
-~~~~~~~~
+~~~~~~~
 
 The adjusted reducer would have the following internal functions:
 
 {title="src/index.js",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 function applyAddTodo(state, action) {
   const todo = { ...action.todo, completed: false };
   const entities = { ...state.entities, [todo.id]: todo };
@@ -710,12 +710,12 @@ function applyToggleTodo(state, action) {
   const entities = { ...state.entities, [id]: toggledTodo };
   return { ...state, entities };
 }
-~~~~~~~~
+~~~~~~~
 
 It operates on `entities` and `ids`, because these are the output from the normalization. Last but not least, when connecting Redux with React, the components need to be aware of the normalized data structure. First, the connection between store and components:
 
 {title="src/index.js",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 # leanpub-start-insert
 function mapStateToPropsList(state) {
   return {
@@ -747,12 +747,12 @@ const ConnectedTodoItem = connect(
   mapDispatchToPropsItem
 )(TodoItem);
 # leanpub-end-insert
-~~~~~~~~
+~~~~~~~
 
 Second, the `TodoList` component receives only the `todosAsIds` and the `TodoItem` receives the `todo` entity.
 
 {title="src/index.js",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 function TodoApp() {
   return <ConnectedTodoList />;
 }
@@ -775,14 +775,14 @@ function TodoList({ todosAsIds }) {
 function TodoItem({ todo, onToggleTodo }) {
   ...
 }
-~~~~~~~~
+~~~~~~~
 
 The application should work again. Start it and play around with it. You can find the source code in the [GitHub repository](https://github.com/rwieruch/taming-the-state-todo-app/tree/6.0.0). You have normalized your initial state structure and adjusted your reducer to deal with the new data structure.
 
 In the fourth and last part, you are going to use selectors for your Redux architecture. This refactoring is fairly straight forward. You have to extract the parts that operate on the state in your `mapStateToProps()` functions to selector functions. First, define the selector functions:
 
 {title="src/index.js",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 // selectors
 
 function getTodosAsIds(state) {
@@ -792,12 +792,12 @@ function getTodosAsIds(state) {
 function getTodo(state, todoId) {
   return state.todoState.entities[todoId];
 }
-~~~~~~~~
+~~~~~~~
 
 Second, you can use these functions instead of operating on the state directly in your `mapStateToProps()` functions:
 
 {title="src/index.js",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 // Connecting React and Redux
 
 function mapStateToPropsList(state) {
@@ -815,7 +815,7 @@ function mapStateToPropsItem(state, props) {
 # leanpub-end-insert
   };
 }
-~~~~~~~~
+~~~~~~~
 
 The Todo application should work with selectors now. You can find it in the [GitHub repository](https://github.com/rwieruch/taming-the-state-todo-app/tree/7.0.0) again.
 
@@ -824,7 +824,7 @@ The Todo application should work with selectors now. You can find it in the [Git
 In the Todo application, there are two pieces missing feature-wise: the ability to add a todo and to filter todos by their complete state. Let's begin with the creation of a todo item. First, there needs to be a component where you can type in a todo name and execute its creation.
 
 {title="src/index.js",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 class TodoCreate extends React.Component {
   constructor(props) {
     super(props);
@@ -863,12 +863,12 @@ class TodoCreate extends React.Component {
     );
   }
 }
-~~~~~~~~
+~~~~~~~
 
 Notice again that the component is completely unaware of Redux. It only updates its local `value` state and once the form gets submitted, it uses the local `value` state for the `onAddTodo()` callback function that's accessible in the `props` object. The component doesn't know whether the callback function updates the local state of a parent component or the Redux store. Next, you can use the connected version of this component in the `TodoApp` component.
 
 {title="src/index.js",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 function TodoApp() {
   return (
 # leanpub-start-insert
@@ -881,12 +881,12 @@ function TodoApp() {
 # leanpub-end-insert
   );
 }
-~~~~~~~~
+~~~~~~~
 
 The last step is to wire the React component to the Redux store by making it a connected component in the first place.
 
 {title="src/index.js",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 function mapDispatchToPropsCreate(dispatch) {
   return {
     onAddTodo: name => dispatch(doAddTodo(uuid(), name)),
@@ -894,19 +894,19 @@ function mapDispatchToPropsCreate(dispatch) {
 }
 
 const ConnectedTodoCreate = connect(null, mapDispatchToPropsCreate)(TodoCreate);
-~~~~~~~~
+~~~~~~~
 
 It uses the `mapDispatchToPropsCreate()` function to get access to the dispatch method of the Redux store. The `doAddTodo()` action creator takes the name of the todo item, coming from the `TodoCreate` component, and generates a unique identifier with the `uuid()` function. The `uuid()` function is a neat little helper function that comes from the [uuid](https://github.com/kelektiv/node-uuid) library. First, you have to install it:
 
 {title="Command Line: /",lang="text"}
-~~~~~~~~
+~~~~~~~
 npm install --save uuid
-~~~~~~~~
+~~~~~~~
 
 And second, you can import it to generate unique identifiers for you:
 
 {title="src/index.js",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { applyMiddleware, combineReducers, createStore } from 'redux';
@@ -917,12 +917,12 @@ import { schema, normalize } from 'normalizr';
 import uuid from 'uuid/v4';
 # leanpub-end-insert
 import './index.css';
-~~~~~~~~
+~~~~~~~
 
 You can try to create a todo item in your Todo application now. It should work. Next you want to make use of your filter functionality to filter the list of todo items by their `completed` property. First, you have to add a `Filter` component.
 
 {title="src/index.js",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 function Filter({ onSetFilter }) {
   return (
     <div>
@@ -942,12 +942,12 @@ function Filter({ onSetFilter }) {
     </div>
   );
 }
-~~~~~~~~
+~~~~~~~
 
 The `Filter` component only receives a callback function. Again it doesn't know anything about the state management that is happening above in Redux or somewhere else. The callback function is only used in different buttons to set specific filter types. You can use the connected component in the `TodoApp` component again.
 
 {title="src/index.js",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 function TodoApp() {
   return (
     <div>
@@ -959,12 +959,12 @@ function TodoApp() {
     </div>
   );
 }
-~~~~~~~~
+~~~~~~~
 
 Last but not least, you have to connect the `Filter` component to actually use it in the `TodoApp` component. It dispatched the `doSetFilter` action creator by passing the filter type from the underlying buttons in the `Filter` component.
 
 {title="src/index.js",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 function mapDispatchToPropsFilter(dispatch) {
   return {
     onSetFilter: filterType => dispatch(doSetFilter(filterType)),
@@ -972,12 +972,12 @@ function mapDispatchToPropsFilter(dispatch) {
 }
 
 const ConnectedFilter = connect(null, mapDispatchToPropsFilter)(Filter);
-~~~~~~~~
+~~~~~~~
 
 When you start your Todo application now, you will see that the `filterState` will change once you click on one of your filter buttons. But nothing happens to your displayed todos. They are not filtered and that's because in your selector you select the whole list of todos. The next step would be to adjust the selector to only select the todos in the list that are matching the filter. First, you can define filter functions that match todos according to their `completed` state.
 
 {title="src/index.js",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 // filters
 
 const VISIBILITY_FILTERS = {
@@ -985,12 +985,12 @@ const VISIBILITY_FILTERS = {
   SHOW_INCOMPLETED: item => !item.completed,
   SHOW_ALL: item => true,
 };
-~~~~~~~~
+~~~~~~~
 
 Second, you can use your selector to only select the todos matching a filter. You already have all selectors in place. But you need to adjust one of them to filter the todos according to the `filterState` from the Redux store.
 
 {title="src/index.js",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 // selectors
 
 function getTodosAsIds(state) {
@@ -1005,7 +1005,7 @@ function getTodosAsIds(state) {
 function getTodo(state, todoId) {
   return state.todoState.entities[todoId];
 }
-~~~~~~~~
+~~~~~~~
 
 Since your state is normalized, you have to map through all your `ids` to get a list of `todos`, filter them by `filterState`, and map them back to 'ids'. That's a tradeoff you are going when normalizing your data structure, because you always have to denormalize it at some point. Your filter functionality should work once you start your application again.
 

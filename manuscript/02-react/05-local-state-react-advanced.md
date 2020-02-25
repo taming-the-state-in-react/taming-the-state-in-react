@@ -11,7 +11,7 @@ In order to experience up and down lifting of local state, the following chapter
 The "Search a List"-example has three components. Two sibling components, a `Search` component and a `List` component, that are used in an overarching `SearchableList` component. First, the implementation of the `Search` component:
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 import React from 'react';
 
 class Search extends React.Component {
@@ -45,12 +45,12 @@ class Search extends React.Component {
     );
   }
 }
-~~~~~~~~
+~~~~~~~
 
 Second, the implementation of `List` component:
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 function List({ list }) {
   return (
     <ul>
@@ -58,12 +58,12 @@ function List({ list }) {
     </ul>
   );
 }
-~~~~~~~~
+~~~~~~~
 
 Third, the `SearchableList` component which uses both components, the `Search` and `List` components, and thus both components become siblings in the component tree:
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 function SearchableList({ list }) {
   return (
     <div>
@@ -72,7 +72,7 @@ function SearchableList({ list }) {
     </div>
   );
 }
-~~~~~~~~
+~~~~~~~
 
 While the `Search` component is a stateful ES6 class component, the `List` component is only a stateless functional component. The parent component that combines the `List` and `Search` components into a `SearchableList` component is a stateless functional component too.
 
@@ -81,7 +81,7 @@ However, the example doesn't work. The `Search` component knows about the `query
 In order to lift the state up, the `SearchableList` becomes a stateful component. You have to refactor it to a React ES6 class component. On the other hand, you can refactor the `Search` component to a functional stateless component, because it doesn't need to be stateful anymore. The stateful parent component takes care about its whole state. In other cases, the `Search` component might stay as a stateful ES6 class component, because it still manages some other state, but it is not the case in this example. So first, that's the adjusted `Search` component:
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 # leanpub-start-insert
 function Search({ query, onChange, children }) {
 # leanpub-end-insert
@@ -97,12 +97,12 @@ function Search({ query, onChange, children }) {
     </div>
   );
 }
-~~~~~~~~
+~~~~~~~
 
 Second, the adjusted `SearchableList` component:
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 import React from 'react';
 
 class SearchableList extends React.Component {
@@ -158,14 +158,14 @@ function byQuery(query) {
   }
 }
 # leanpub-end-insert
-~~~~~~~~
+~~~~~~~
 
 After you have lifted the state up, the parent component takes care about the local state management. Both child components don't need to take care about it. You have lifted the state up to share the local state across the child components. The list gets filtered by the search query before it reaches the `List` component. An alternative would be passing the `query` state as prop to the `List` component and the `List` component would apply the filter to the list.
 
 In the next part, let's get to the second example: the "Archive in a List"-example. It builds up on the previous example, but this time the `List` component has the extended functionality to archive an item in the list. Therefore, it needs to have a button to archive an item in the list identified by an unique `id` property of the item. First, the enhanced `List` component:
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 # leanpub-start-insert
 function List({ list, onArchive }) {
 # leanpub-end-insert
@@ -191,12 +191,12 @@ function List({ list, onArchive }) {
     </ul>
   );
 }
-~~~~~~~~
+~~~~~~~
 
 Second, the `SearchableList` component which holds the state of archived items:
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 import React from 'react';
 
 class SearchableList extends React.Component {
@@ -261,14 +261,14 @@ function byArchived(archivedItems) {
   }
 }
 # leanpub-end-insert
-~~~~~~~~
+~~~~~~~
 
 The `Search` component stays untouched. As you have seen, the previous example was extended to facilitate the archiving of items in a list. Now, the `List` component receives all the necessary properties: an `onArchive()` callback function and the list, filtered by `query` and `archivedItems`. It only shows items filtered by the query from the `Search` component and items which are not archived.
 
 You might see already the flaw. The `SearchableList` takes care about the archiving functionality. However, it doesn't need the functionality itself. It only passes all the state to the `List` component as props. It manages the state on behalf of the `List` component. No other component cares about this state. In a scaling application, it would make sense to lift the state down to the `List` component, because only the `List` component cares about it and no other component has to manage it on the `List` component's behalf. Even though the `List` component becomes a stateful component afterward, it is step in the right direction keeping the local state maintainable in the long run. First, the enhanced stateful `List` component which takes care about the state:
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 import React from 'react';
 
 # leanpub-start-insert
@@ -326,12 +326,12 @@ class List extends React.Component {
     );
   }
 }
-~~~~~~~~
+~~~~~~~
 
 Second, the `SearchableList` component which only cares about the state from the previous example but not about the archived items anymore:
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 import React from 'react';
 
 class SearchableList extends React.Component {
@@ -366,7 +366,7 @@ class SearchableList extends React.Component {
     );
   }
 }
-~~~~~~~~
+~~~~~~~
 
 That's how you can lift state down. It is used to keep the state only next to component that care about the state. Let's recap both approaches. In the first example, the "Search a List"-example, the state had to be lifted up to share the `query` property in two child components. The `Search` component had to manipulate the state by using a callback function, but also had to use the `query` to be a controlled component regarding the input field. On the other hand, the `SearchableList` component had to filter the list by using the `query` property on behalf of the `List` component. Another solution would have been to pass down the `query` property to the `List` component and let the component deal with the filtering itself. After all, the state got lifted up the component tree to share it vertically across more components.
 
@@ -381,25 +381,25 @@ In the recent chapters you have used `this.setState()` to alter the local state.
 In its first version, the `this.setState()` method takes an object to update the state. As explained in a previous chapter, the merging of the object is a shallow merge. For instance, when updating `authors` in a state object of `authors` and `articles`, the `articles` stay intact. The previous examples have already used this approach:
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 this.setState({
   ...
 });
-~~~~~~~~
+~~~~~~~
 
 In its second version, the `this.setState()` method takes a function as argument. The function has the previous state and props in the function signature to be used for the state update.
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 this.setState((prevState, props) => ({
   ...
 }));
-~~~~~~~~
+~~~~~~~
 
 So, what's the flaw in using `this.setState()` with an object? In several examples in the last chapters, the state was updated based on the previous state or props. However, `this.setState()` executes asynchronously. Thus the state or props that are used to perform the update could be stale at this point in time, because the state was updated more than once in between. It could lead to bugs in your local state management, because you would update the state based on stale properties. When using the functional approach to update the local state, the state and props are used when `this.setState()` performs asynchronously at the time of its execution. Let's revisit one of the previous examples:
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 import React from 'react';
 
 class CounterContainer extends React.Component {
@@ -434,23 +434,23 @@ class CounterContainer extends React.Component {
     />
   }
 }
-~~~~~~~~
+~~~~~~~
 
 Executing one of the class methods, `onIncrement()` or `onDecrement()`, multiple times could lead to a bug. Because both methods depend on the previous state, it could use a stale state when the asynchronous update wasn't executed in between and the method got invoked another time.
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 this.setState({ counter: this.state.counter + 1 }); // this.state: { counter: 0 }
 this.setState({ counter: this.state.counter + 1 }); // this.state: { counter: 0 }
 this.setState({ counter: this.state.counter + 1 }); // this.state: { counter: 0 }
 // updated state: { counter: 1 }
 // instead of: { counter: 3 }
-~~~~~~~~
+~~~~~~~
 
 It becomes even more error prone when multiple functions, such as `onIncrement()` and `onDecrement()`, that use `this.setState()` depend on the previous state. You can refactor the example to use the functional state updating approach:
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 import React from 'react';
 
 class CounterContainer extends React.Component {
@@ -476,12 +476,12 @@ class CounterContainer extends React.Component {
     ...
   }
 }
-~~~~~~~~
+~~~~~~~
 
 The functional approach opens up two more benefits. First, the function which is used in `this.setState()` is a pure function. There are no side-effects. The function always will return the same output (next state) when given the same input (previous state). It makes it predictable and uses the benefits of functional programming. Second, since the function is pure, it can be tested easily in an unit test and independently from the component. It gives you the opportunity to test your local state updates as business logic which is separated from the view layer. You only have to extract the function from the component.
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 import React from 'react';
 
 # leanpub-start-insert
@@ -513,7 +513,7 @@ class CounterContainer extends React.Component {
     ...
   }
 }
-~~~~~~~~
+~~~~~~~
 
 Now, you could test the pure functions as business logic separately from the view layer. After all you may wonder when to use the object and when to use the function in `this.setState()`? The recommended rules of thumb are:
 
@@ -526,7 +526,7 @@ Now, you could test the pure functions as business logic separately from the vie
 Higher-order components (HOCs) can be used for a handful of use cases. One of these use case would be to [enable an elegant way of conditional rendering](https://www.robinwieruch.de/gentle-introduction-higher-order-components/). But this book is about state management, so why not use it to manage the local state of a component? Let's revisit an adjusted example of the "Archive in a List"-example.
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 import React from 'react';
 
 class ArchiveableList extends React.Component {
@@ -582,12 +582,12 @@ function byArchived(archivedItems) {
     return !archivedItems.includes(item.id);
   };
 }
-~~~~~~~~
+~~~~~~~
 
 The `ArchiveableList` component has two purposes. On the one hand, it is a pure presenter component that shows the items in a list. On the other hand, it is stateful container component that keeps track of the archived items. Therefore, you could split this two responsibilities up into representation and logic thus into presentational and container component. It would be the same refactoring you have done before with the `CounterContainer` and `CounterPresenter` components. However, another approach could be to transfer the logic, in this case the local state management, into a higher-order component. Higher-order components are reusable and thus the local state management could become reusable for many components but not only one.
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 import React from 'react';
 
 function byArchived(archivedItems) {
@@ -632,12 +632,12 @@ function withArchive(Component) {
 
   return WithArchive;
 }
-~~~~~~~~
+~~~~~~~
 
 In return the `List` component would only display the list and receives a function in its props to archive an item.
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 function List({ list, onArchive }) {
   return (
     <ul>
@@ -659,12 +659,12 @@ function List({ list, onArchive }) {
     </ul>
   );
 }
-~~~~~~~~
+~~~~~~~
 
 Now you can compose the list facilitating component with the functionality to archive items in a list.
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 import React from 'react';
 
 function byArchived(archivedItems) { ... }
@@ -678,7 +678,7 @@ const ListWithArchive = withArchive(List);
 function App({ list }) {
   return <ListWithArchive list={list} />
 }
-~~~~~~~~
+~~~~~~~
 
 The `List` component would only display the items. The ability to archive an item in the `List` component would be opt-in with a higher-order component called `withArchive`. In addition, the HOC can be reused in other `List` components too for managing the state of archived items. After all, higher-order components are great to extract local state management from components and to reuse the local state management logic in other components.
 
@@ -699,18 +699,18 @@ How is React's context provided and consumed? Imagine you would have component A
 First, you have to create the context which gives you access to a Provider and Consumer component. When you create the context with React by using `createContext()`, you can pass it an initial value. In this case, the initial value can be null, because you may have no access to the initial value at this point in time. Otherwise, you can already give it here a proper initial value.
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 import React from 'react';
 
 const ThemeContext = React.createContext(null);
 
 export default ThemeContext;
-~~~~~~~~
+~~~~~~~
 
 Second, the A component would have to provide the context. It is a hardcoded `value` in this case, but it can be anything from component state or component props. The context value may change as well when the local state is changed due to a `setState()` call. Component A displays only component D yet makes the context available to all its other components below it. One of the leaf components will be component C that consumes the context eventually.
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 import ThemeContext from './ThemeContext';
 
 class A extends React.Component {
@@ -722,12 +722,12 @@ class A extends React.Component {
     );
   }
 }
-~~~~~~~~
+~~~~~~~
 
 Third, in your component C, somewhere below component D, you can consume the context object. Notice that component A doesn’t need to pass down anything via component D in the props so that it reaches component C.
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 import ThemeContext from './ThemeContext';
 
 class C extends React.Component {
@@ -743,7 +743,7 @@ class C extends React.Component {
     );
   }
 }
-~~~~~~~~
+~~~~~~~
 
 The component can derive its style by consuming the context. The Consumer component makes the passed context available by using a [render prop](https://reactjs.org/docs/render-props.html). As you can imagine, following this way every component that needs to be styled accordingly to the colored theme could get the necessary information from React's context API by using the Consumer component now. You only have to use the Provider component which passes the value once somewhere above them and then consume it with the Consumer component. You can read more about [React's context API in the official documentation](https://reactjs.org/docs/context.html).
 

@@ -27,11 +27,11 @@ Last but not least, you will need an installation of [node and npm](https://node
 You can verify your versions of node and npm on the command line. If you don't get any output in the terminal, you need to install node and npm first. These are only my versions during the time writing this book:
 
 {title="Command Line",lang="text"}
-~~~~~~~~
+~~~~~~~
 node --version
 *v8.9.4
 npm --version
 *v6.1.0
-~~~~~~~~
+~~~~~~~
 
 If you read the Road to learn React, you should be familiar with the setup already. The book gives you a short introduction into the npm ecosystem on the command line, too. So if you are not familiar with this, once again you can pick up the Road to learn React book.

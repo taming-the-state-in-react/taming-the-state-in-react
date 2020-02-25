@@ -43,16 +43,16 @@ The library attempts to make your actions and reducers concise. It comes with th
 The `createAction()` method is a utility for action creators. To be more specific, the method should be named: `createActionCreator()`. The only required argument for the method is an action type.
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 import { createAction } from 'redux-actions';
 
 const doAddTodo = createAction('TODO_ADD');
-~~~~~~~~
+~~~~~~~
 
 The `doAddTodo()` is an action creator. It uses the specified action type 'TODO_ADD'. When using it, you can pass a payload when needed. It becomes automatically allocated under a payload property.
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 const action = doAddTodo({ id: '0', name: 'learn redux', completed: false });
 
 // action: {
@@ -63,12 +63,12 @@ const action = doAddTodo({ id: '0', name: 'learn redux', completed: false });
 //     completed: false
 //   }
 // }
-~~~~~~~~
+~~~~~~~
 
 The `handleAction()` method is a utility for reducers. It aligns action types with reducers whereas no switch case statement is needed anymore. It takes the action type as argument and a reducer function for handling the incoming action. As third argument, it takes an initial state.
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 import { handleAction } from 'redux-actions';
 
 handleAction('TODO_ADD', applyAddTodo, {});
@@ -77,24 +77,24 @@ function applyAddTodo(state, action) {
   // ...
   // return new state
 }
-~~~~~~~~
+~~~~~~~
 
 The two methods `createAction()` and `handleAction()` have sibling methods for using, creating, and handling multiple actions too: `createActions()` and `handleActions()`. Especially when defining a reducer, it makes sense to map multiple action types to multiple handlers.
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 import { handleActions } from 'redux-actions';
 
 const reducer = handleActions({
   TODO_ADD: applyAddTodo,
   TODO_TOGGLE: applyToggleTodo,
 }, initialState);
-~~~~~~~~
+~~~~~~~
 
 As you can see, it is far more concise than defining reducers in plain JavaScript with the switch case statement.
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 function reducer(state = initialState, action) {
   switch(action.type) {
     case 'TODO_ADD' : {
@@ -106,7 +106,7 @@ function reducer(state = initialState, action) {
     default : return state;
   }
 }
-~~~~~~~~
+~~~~~~~
 
 The drawback when using the library is that it hides how Redux works with plain JavaScript. It can be difficult for newcomers to grasp what's going on when using such utility libraries from the very beginning without understanding how actions and reducers in Redux work.
 
@@ -139,7 +139,7 @@ There exist two major solutions gradually using JavaScript as a typed language: 
 What would a type checker like Flow look like when using in Redux? For instance, in a todo reducer the state could be defined by a type:
 
 {title="Code Playground",lang="javascript"}
-~~~~~~~~
+~~~~~~~
 # leanpub-start-insert
 type Todo = {
   id: string,
@@ -158,7 +158,7 @@ function todoReducer(state: Todos = [], action) {
     default : return state;
   }
 }
-~~~~~~~~
+~~~~~~~
 
 Now, whenever an action leads to a state that is not defined by its type definition, you would get an error on compile time of your application. In addition, you can use plugins for your editor or IDE to give you the early feedback that something is wrong with your action or reducer. As the previous example has shown type safety for reducers, you could apply the same for your action creators and selectors. Everything can be type checked. You can read more about [Flow on its official site](https://flow.org/).
 
