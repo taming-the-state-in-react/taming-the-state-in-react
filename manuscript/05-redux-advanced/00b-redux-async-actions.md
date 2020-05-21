@@ -166,7 +166,7 @@ It is similar to the solution without Redux Thunk. However, this time you don't 
 That are the basics of Redux Thunk. There are a few more things that are good to know about:
 
 * **getState():** A thunk function gives you the `getState()` method of the Redux store as second argument: `function (dispatch, getState)`. However, you should generally avoid it. It's best practice to pass all necessary state to the action creator instead of retrieving it in the thunk.
-* **Promises:** Thunks work great in combination with promises. You can return a promise from your thunk and use it, for instance, to wait for its completion: `store.dispatch(showNotificationWithDelay('Todo created.')).then(...)`.
+* **Promises:** Thunks work great in combination with promises. You can return a promise from your thunk and use it, for instance, to wait for its completion. For example, you could the following: `store.dispatch(showNotificationWithDelay('Todo created.')).then(...)`.
 * **Recursive Thunks:** The dispatch method in a thunk can again be used to dispatch an asynchronous action. Thus, you can apply the thunk pattern recursively.
 
 ### Hands On: Todo with Notifications

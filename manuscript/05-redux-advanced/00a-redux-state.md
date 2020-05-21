@@ -45,7 +45,7 @@ const store = createStore(
 
 That's it. Now every action should be visible in your browser's developer console when dispatching them. And thus your state changes become more predictable when developing without logging every action yourself.
 
-The `applyMiddleware()` functionality takes any number of middleware: `applyMiddleware(firstMiddleware, secondMiddleware, ...);`. The action will flow through all middleware before it reaches the reducers. Sometimes, you have to make sure to apply them in the correct order. For instance, the `redux-logger` middleware must be last in the middleware chain in order to output the correct actions and states.
+The `applyMiddleware()` functionality takes any number of middleware (argument by argument). The action will flow through all middleware before it reaches the reducers. Sometimes, you have to make sure to apply them in the correct order. For instance, the `redux-logger` middleware must be last in the middleware chain in order to output the correct actions and states.
 
 Nevertheless, that's only the redux-logger middleware. On your way to implement Redux applications, you will surely find out more about useful features that can be applied with the Redux middleware. Most of these features are already taken care of in libraries that you will find published with npm. For instance, asynchronous actions in Redux are possible by using the Redux middleware. These asynchronous actions will be explained later in this book.
 
