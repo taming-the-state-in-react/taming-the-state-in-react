@@ -1,25 +1,35 @@
 ## FAQ
 
-**Why does it use React to teach about state?** Nowadays, state management is often used in modern applications. These applications are built with solutions like React, Angular and Vue. In order to teach about state management, it makes sense to apply it in a real world context such as React. I picked React, because it has only a slim API and a good learning curve. It is only the view layer with local state management. You can learn about it in one of my other books: [the Road to learn React](https://www.robinwieruch.de/the-road-to-learn-react/). However, you don't necessarily need to apply your learnings about state management in React. You can apply these learnings in your Angular, Vue or React Native application, too.
+**How to get updates?**
 
-**What is the ratio between learning Redux and MobX?** Even though MobX becomes more of a popular alternative to Redux, the book teaches you more about Redux than MobX. However, in the future I want to extend the content and depending on the popularities adjust the chapters.
+I have two channels where I share updates about my content. You can [subscribe to updates by email](https://www.getrevue.co/profile/rwieruch) or [follow me on Twitter](https://twitter.com/rwieruch). Regardless of the channel, my objective is to only share quality content. Once you receive notification the book has changed, you can download a new version of it from my website.
 
-**How to get updates?** I have two channels where I share updates about my content. Either you can [subscribe to updates by email](https://www.getrevue.co/profile/rwieruch) or [follow me on Twitter](https://twitter.com/rwieruch). Regardless of the channel, my objective is to only share qualitative content. You will never receive any spam. Once you get the update that the book has changed, you can download the new version of it.
+**Is the learning material up-to-date?**
 
-**How to get access to the source code projects and screencasts series?** If you have bought one of the extended packages that gives you access to the source code projects, screencast series or any other addon, you should find these on your [course dashboard](https://roadtoreact.com/my-courses). If you have bought the course somewhere else than on [the official Road to React](https://roadtoreact.com) course platform, you need to create an account on the platform, go to the Admin page and reach out to me with one of the email templates. Afterward I can enroll you to the course. If you haven't bought one of the extended packages, you can reach out any time to upgrade your content to access the source code projects and screencast series.
+Programming books are usually outdated soon after their release, but since this book is self-published, I can update it as needed whenever a new version of something related to this book gets released.
 
-**How can I get help while reading the book?** The book has a [Slack Group](https://slack-the-road-to-learn-react.wieruch.com/) for people who are reading the book. You can join the channel to get help or to help others. After all, helping others can internalize your learnings, too. If there is no one out to help you, you can always reach out to me.
+**Can I get a digital copy of the book if I bought it on Amazon?**
 
-**Is there any troubleshoot area?** If you run into problems, please join the Slack Group. In addition, you could have a look into the [open issues on GitHub](https://github.com/rwieruch/taming-the-state-in-react/issues) for the book. Perhaps your problem was already mentioned and you can find the solution for it. If your problem wasn't mentioned, don't hesitate to open a new issue where you can explain your problem, maybe provide a screenshot, and some more details (e.g. book page, node version). After all, I try to ship all fixes in next editions of the book.
+If you have bought the book on Amazon, you may have seen that the book is available on my website too. Since I use Amazon as one way to monetize my often free content, I honestly thank you for your support and invite you to sign up for my courses on [my website](https://www.robinwieruch.de/). After creating an account there, write me an email about your purchase with a receipt from Amazon, so that I can unlock the content for you. With an account on my platform, you always have access to the latest version of the book.
 
-**What should I do when I cannot afford to pay for the course?** If you cannot afford the course but want to learn about the topic, you can reach out to me. It could be that you are still a student or that the course would be too expensive in your country. In addition, I want to support any cause to improve the diversity in our culture of developers. If you belong to a minority or are in an organization that supports diversity, please reach out to me.
+Also, if you have purchased a print book, make sure to take notes in the book. It was my intention to keep the printed book extra large, for the sake of giving larger code snippets enough space, but also for giving you enough space to work with it.
 
-**Can I help to improve the content?** Yes, I would love to hear your feedback. You can simply open an issue on [GitHub](https://github.com/rwieruch/taming-the-state-in-react). These can be improvements technical wise yet also about the written word. I am no native speaker that's why any help is appreciated. You can open pull requests on the GitHub page as well.
+**How can I get help while reading the book?**
 
-**How to support the project?** If you believe in the content that I create, you can [support me](https://www.robinwieruch.de/about/). Furthermore, I would be grateful if you spread the word about this book after you read it and enjoyed reading it. Furthermore, I would love to have you as my [Patron on Patreon](https://www.patreon.com/rwieruch).
+The book has a community of learners who help each other and for people who are reading along. You can join the community to get help, or to help others, as helping others may help you internalize your own understanding. Just follow the navigation to my courses on my [website](https://www.robinwieruch.de/), sign up there, and navigate to joining the community.
 
-**Is there a money back guarantee?** Yes, there is 100% money back guarantee for two months if you don't think it's a good fit. Please reach out to me to get a refund.
+**Can I help to improve the content?**
 
-**What's your motivation behind the book?** I want to teach about this topic in a consistent way. You often find material online that doesn't receive any updates or only teaches a small part of a topic. When you learn something new, people struggle to find consistent and up-to-date resources to learn from. I want to give you this consistent and up-to-date learning experience. In addition, I hope I can support minorities with my projects by giving them the content for free or by [having other impacts](https://www.robinwieruch.de/giving-back-by-learning-react/). In addition, in the recent time, I found myself fulfilled when teaching others about programming. It's a meaningful activity for me that I prefer over any other 9 to 5 job at any company. That's why I hope to pursue this path in the future.
+If you have feedback, shoot me an email and I will take your suggestions into consideration. Don't expect any replies for bug tracking or troubleshoots though, because that's what's the community for.
 
-**Is there a call to action?** Yes. I want you to take a moment to think about a person who would be a good match to learn Redux. The person could have shown the interest already, could be in the middle of learning Redux or might not yet be aware about wanting to learn Redux. Reach out to that person and share the book. It would mean a lot to me. The book is intended to be given to others.
+**What do I do if I encounter a bug?**
+
+If you encounter any bug in the code, you should find a URL to the current GitHub project at the end of each section. Feel free to open a GitHub issue there. Your help is very much appreciated!
+
+**How to support the project?**
+
+If you find my lessons useful and would like to contribute, seek my website's [about page](https://www.robinwieruch.de/about/) for information about how to offer support. It is also very helpful for my readers spread the word about how my books helped them, so others might discover ways to improve their web development skills. Contributing through any of the provided channels gives me the freedom to create in-depth courses, and to continue offering free material.
+
+**What's your motivation behind the book?**
+
+I want to teach about this topic consistently. I often find materials online that don't receive updates, or only applies to a small part of a topic. Sometimes people struggle to find consistent and up-to-date resources to learn from. I want to provide this consistent and up-to-date learning experience. Also, I hope I can support the less fortunate with my projects by giving them the content for free or by [having other impacts](https://www.robinwieruch.de/giving-back-by-learning-react/).
